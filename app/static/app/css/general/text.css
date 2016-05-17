@@ -1,0 +1,13 @@
+.errorText {
+    color: red;
+}
+
+.staticTextColor {
+    color: #ffffff;
+}
+
+.reference {
+    color: #7c9fc2;
+    cursor: pointer;
+    text-decoration: none;
+}

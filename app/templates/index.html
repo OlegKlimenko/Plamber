@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="{% static 'app/css/general/general.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'app/css/general/buttons.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'app/css/general/inputs.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'app/css/general/text.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'app/css/index.css' %}">
+    <script src="{% static 'app/js/jquery.js' %}"></script>
+    <script src="{% static 'app/js/index_validation.js' %}"></script>
+</head>
+<body>
+    <div id="header" align="center">
+        <div class="layout">
+            <img id="headerLogo" src="{% static 'app/images/logo.png' %}" width="128" height="70">
+        </div>
+    </div>
+    <div align="center">
+        <div class="layout" align="center">
+            <div class="textSection" align="left">
+                <div>
+                    <h1 id="welcomeHeader" class="staticTextColor">WELCOME!!!</h1>
+                    <h2 class="welcome staticTextColor">
+                        gdsgdsgdsgdsg dgdsgdsgdsgdsgsfgdfgfdgfd
+                        sdfgdsgdsfgdsgdsgdsgdsg dsfgdfsgfdgdfgdfgfdg
+                        dsfgdsgdsgsdgdsgdsgdsgdfgdgds gdfgdfgdfgdf
+                        dsgfdsgsdfgdsgdgdsgd sgdfgdfgdsgdgdfgdfgdfgdfg</h2>
+                </div>
+                <div id="aboutArea" class="staticTextColor" align="center">
+                    <p> О нас бла бла бла</p>
+                </div>
+            </div>
+            <div class="registerSection" align="right">
+                <div id="logInArea" class="inputArea workBackground" align="center">
+                    <form action="/" method="POST">
+                        {% csrf_token %}
+                        <div><input class="lineInput input inputColors" placeholder="Имя пользователя" type="text"
+                                    maxlength="30" name="username" required></div>
+                        <div><input class="lineInput input inputColors" placeholder="Пароль" type="password"
+                                    maxlength="16" name="passw" required></div>
+                        <div align="right">
+                            {% if invalid_authentication %}
+                            <div id="invalidAuthMsg" class="authMsg errorText">Логин или пароль введен неверно!</div>
+                            {% endif %}
+                            <a href="" class="authMsg reference">Забыли пароль ?</a>
+                            <button type="submit" id="logInButton" class="button buttonColor">Войти</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="inputArea workBackground" align="center">
+                    <div id="signInHeader"><strong>Впервые у нас?</strong> Присоединяйтесь</div>
+                    <form action="sign-in" method="POST" onsubmit="isSignInAvailable(this); return false;">
+                        {% csrf_token %}
+                        <div><input id="usernameInput" class="lineInput input inputColors"
+                                    placeholder="Имя пользователя" type="text" required pattern="^[a-zA-Z0-9_]{6,30}"
+                                    oninvalid="usernameSignInMessage(this)" oninput="checkUserNotExists()"
+                                    name="username"></div>
+                        <div id="userExists" class="errorText">Пользователь с таким <br>именем уже существует.</div>
+                        <div><input class="lineInput input inputColors" placeholder="Email" type="email"
+                                    required name="email"></div>
+                        <div><input class="lineInput input inputColors" id="firstPass" placeholder="Пароль"
+                                    type="password" required pattern="^[a-zA-Z0-9_]{6,16}"
+                                    oninvalid="passwordSignInMessage(this)" name="passw1"></div>
+                        <div ><input class="lineInput input inputColors" id="secondPass" placeholder="Повторите Пароль"
+                                     type="password" required pattern="^[a-zA-Z0-9_]{6,16}" name="passw2"
+                                     oninvalid="passwordSignInMessage(this)" oninput="checkEqualPassLines()"></div>
+                        <div id="passWrongMessage" class="errorText">Пароли должны быть одинаковые!</div>
+                        <div align="right">
+                            <button id="signInButton" class="button buttonColor">Регистрация</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

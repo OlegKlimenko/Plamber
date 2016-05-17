@@ -1,0 +1,96 @@
+#mainSpace {
+    font-size: 18px;
+}
+
+#bookImage {
+    float: left;
+    height: 400px;
+    width: 300px;
+}
+
+table {
+    margin-bottom: 6px;
+    margin-left: 340px;
+    text-align: left;
+}
+
+th {
+    height: 30px;
+    width: 130px;
+}
+
+#aboutText {
+    font: 12pt Arial;
+    height: 120px;
+    resize: none;
+    width: 565px;
+}
+
+#avgMach {
+    margin-top:30px;
+}
+
+.addBook {
+    font: 15pt Arial;
+    height: 50px;
+    margin-right: 35px;
+    width: 300px;
+}
+
+#newEstimation {
+    font-size: 18px;
+}
+
+#estimationHeader {
+    float: left;
+    font: bold 20pt Arial;
+}
+
+.estimationButton {
+    font: 15pt Arial;
+    height: 35px;
+    margin-left: 20px;
+    width: 45px;
+}
+
+.newComment {
+    font-size: 18px;
+}
+
+.userPhoto {
+    float: left;
+}
+
+#addCommentText {
+    height: 65px;
+    margin-top: 1px;
+}
+
+#buttonLabel {
+    margin-top: 10px;
+}
+
+#commentButton {
+    font: 15pt Arial;
+    height: 35px;
+    margin-left: 30px;
+    width: 150px;
+}
+
+.commentText {
+    height: 83px;
+    margin-top: 11px;
+}
+
+.spaceWidth {
+    width: 910px;
+}
+
+.margins {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.padding {
+    padding: 35px;
+}

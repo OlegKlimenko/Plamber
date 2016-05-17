@@ -1,0 +1,69 @@
+.textSection {
+    float: left;
+    margin-top: 20px;
+    margin-left: 10px;
+    width: 60%;
+}
+
+#welcomeHeader {
+    font-size: 50px;
+}
+
+.welcome {
+    font-size: 25px;
+}
+
+#aboutArea {
+    margin-top: 200px;
+}
+
+.registerSection {
+    float: right;
+    margin-top: 50px;
+    width: 35%;
+}
+
+#logInArea {
+    margin-bottom: 20px;
+}
+
+.inputArea {
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+
+.authMsg {
+    margin-right: 47px;
+}
+
+#logInButton {
+    width: 90px;
+}
+
+.button {
+    font: 12pt Arial;
+    height: 26px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-right: 38px;
+}
+
+#signInHeader {
+    margin-bottom: 15px;
+}
+
+#userExists {
+    display: none;
+}
+
+#passWrongMessage {
+    display: none;
+}
+
+#signInButton {
+    width: 150px;
+}
+
+.lineInput {
+    width: 75%;
+}

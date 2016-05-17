@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="{% static 'app/css/general/general.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'app/css/general/buttons.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'app/css/general/inputs.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'app/css/general/text.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'app/css/add_book.css' %}">
+    <script src="{% static 'app/js/jquery.js' %}"></script>
+    <script src="{% static 'app/js/add_book.js' %}"></script>
+</head>
+<body>
+    <div id="header" align="center">
+        <div class="layout">
+            <img id="headerLogo" src="{% static 'app/images/logo.png' %}" width="128" height="70">
+            <div align="right">
+                <form id="logout" action="/logout/" method="POST">
+                    {% csrf_token %}
+                </form>
+                <button class="headerButton buttonColor">Библиотека</button>
+                <a href="{% url 'index' %}"><button class="headerButton buttonColor">Мои книги</button></a>
+                <button class="headerButton buttonColor">Профиль</button>
+                <button class="headerButton buttonColor" type="submit" form="logout">Выйти</button>
+            </div>
+        </div>
+    </div>
+    <div align="center">
+        <div class="layout" align="center">
+            <div id="mainSpace" class="workBackground">
+                <form action="book-successful" method="POST" onsubmit="isBookChosen(this); return false;"
+                        enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div>
+                        <input class="lineInput input inputColors margin" placeholder="Название книги" maxlength="30"
+                               name="bookname" required>
+                    </div>
+                    <div>
+                        <input id="authorInput" class="lineInput input inputColors margin" placeholder="Автор"
+                               maxlength="30" name="author" oninput="generateAuthors()" required>
+                    </div>
+                    <div id="divAuthorsListHeader" class="margin"
+                         align="left">Вы можете выбрать автора из списка:</div>
+                    <div id="divAuthorsList" class="margin"></div>
+                    <div align="right">
+                        Категория:
+                        <select class="checkBox inputColors margin" name="category" required>
+                            {% for category in categories %}
+                            <option value="{{ category }}">{{ category }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div align="right">
+                        Язык книги:
+                        <select class="checkBox inputColors margin" name="language" required>
+                            {% for language in languages %}
+                            <option value="{{ language }}">{{ language }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div><textarea id="aboutBook" class="inputColors margin" placeholder="О книге" name="about"
+                                   required maxlength="1000"></textarea></div>
+                    <div align="left">
+                        <label id="uploadButtonLabel" class="buttonColor margin button">Загрузить книгу
+                            <input id="uploadBook" type="file" accept="application/pdf" name="bookfile">
+                        </label>
+                        <p id="missingBookWarn" class="errorText margin">Выберите книгу!</p>
+                        <p id="fileUploading" align="center">Подождите пожалуйста, файл загружается на сервер ...</p>
+                    </div>
+                    <div align="right">
+                        <button class="addBookButton buttonColor margin button" type="submit">Добавить книгу</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

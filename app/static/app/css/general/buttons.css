@@ -1,0 +1,27 @@
+/* General colors for buttons */
+.buttonColor {
+    background-color: #2c2e36;
+    border: 0px;
+    color: #ffffff;
+}
+
+.buttonColor:hover {
+    background-color: #4c505c;
+}
+
+.selectedButtonColor {
+    background-color: #1c5bed;
+    border: 0px;
+    color: #ffffff;
+}
+
+.selectedButtonColor:hover {
+    background-color: #082567;
+}
+
+.headerButton {
+    font: 15pt Arial;
+    height: 70px;
+    margin: 4px;
+    width: 150px;
+}

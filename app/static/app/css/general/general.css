@@ -1,0 +1,27 @@
+body {
+    background-color: #6c7182;
+    font-family: Geneva,Arial,Helvetica,sans-serif;
+    margin: 0px;
+}
+
+.layout {
+    position: relative;
+    width: 1000px;
+}
+
+#header {
+    background-color: #616675;
+    color: #ffffff;
+    height: 80px;
+}
+
+#headerLogo {
+    left: 0;
+    margin: 4px;
+    position: absolute;
+}
+
+.workBackground {
+    background-color: #ffffff;
+    border-radius: 2px;
+}

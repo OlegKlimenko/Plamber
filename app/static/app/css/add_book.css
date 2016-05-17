@@ -1,0 +1,67 @@
+#mainSpace {
+    font-size: 18px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    padding: 30px;
+    padding-bottom: 28px;
+    width: 490px;
+
+}
+
+.lineInput {
+    width: 95%;
+}
+
+#divAuthorsListHeader {
+    display: none;
+}
+
+#divAuthorsList {
+    display: none;
+}
+
+.checkBox {
+    height: 30px;
+    width: 70%;
+}
+
+.button {
+    font: 12pt Arial;
+    width: 150px;
+}
+
+#aboutBook {
+    height: 200px;
+    padding: 5px;
+    resize: none;
+    width: 467px;
+}
+
+.addBookButton {
+    height: 26px;
+}
+
+#uploadBook {
+    display: none;
+}
+
+#uploadButtonLabel {
+    display: inline-block;
+    padding: 4px;
+    text-align: center;
+}
+
+#missingBookWarn {
+    display: none;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+#fileUploading {
+    display: none;
+}
+
+.margin {
+    margin: 5px;
+}
+

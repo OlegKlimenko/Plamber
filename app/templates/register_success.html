@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="{% static 'app/css/general/general.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'app/css/general/text.css' %}">
+</head>
+<body>
+    <div id="header" align="center">
+        <div class="layout">
+            <img id="headerLogo" src="{% static 'app/images/logo.png' %}" width="128" height="70">
+        </div>
+    </div>
+    <div align="center">
+        <div class="layout" align="center">
+            <div class="staticTextColor">
+                <h1>Спасибо за то что присоеденились к нам!</h1>
+                <h2>Активация аккаунта прошла успешно!</h2>
+                <h2>Теперь вы можете авторизоваться и читать ваши любимые книги.</h2>
+                <h2>Перейдите по ссылке: <a class="reference" href="{% url 'index' %}">Главная страница</a></h2>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

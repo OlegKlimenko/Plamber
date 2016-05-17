@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="{% static 'app/css/general/general.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'app/css/general/buttons.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'app/css/general/inputs.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'app/css/selected_book.css' %}">
+    <script src="{% static 'app/js/jquery.js' %}"></script>
+    <script src="{% static 'app/js/selected_book.js' %}"></script>
+</head>
+<body>
+    <div id="header" align="center">
+        <div class="layout">
+            <img id="headerLogo" src="{% static 'app/images/logo.png' %}" width="128" height="70">
+            <div align="right">
+                <form id="logout" action="/logout/" method="POST">
+                    {% csrf_token %}
+                </form>
+                <button class="headerButton buttonColor">Библиотека</button>
+                <a href="{% url 'index' %}"><button class="headerButton buttonColor">Мои книги</button></a>
+                <button class="headerButton buttonColor">Профиль</button>
+                <button class="headerButton buttonColor" type="submit" form="logout">Выйти</button>
+            </div>
+        </div>
+    </div>
+    <div align="center">
+        <div class="layout" align="center">
+            <div id="mainSpace" class="workBackground margins padding spaceWidth">
+                <div id="bookImage">
+                    <img src="" width="300" height="400">
+                </div>
+                <div><h2>{{ book.book_name }}</h2></div>
+                <div align="left">
+                    <table>
+                        <tr>
+                            <th>Автор</th>
+                            <td>{{ book.id_author }}</td>
+                        </tr>
+                        <tr>
+                            <th>Категория</th>
+                            <td>{{ book.id_category }}</td>
+                        </tr>
+                        <tr>
+                            <th>Язык</th>
+                            <td>{{ book.language }}</td>
+                        </tr>
+                        <tr>
+                            <th>Про книгу</th>
+                        </tr>
+                    </table>
+                    <div align="right">
+                        <textarea id="aboutText" readonly>{{ book.description }}</textarea>
+                    </div>
+                    <div id="avgMach" align="right">
+                        <p>Средняя оценка: <b id="rating">{{ book_rating }}</b></p>
+                    </div>
+                    <input id="book_id" type="hidden" name="book_id" value="{{ book.id }}">
+                    {% if added_book %}
+                    <div id="removeBookDiv">
+                        <button class="addBook buttonColor" id="removeBook"
+                                onclick="removeBookHome('{{ csrf_token }}')">Удалить книгу</button>
+                        Сейчас книга в списке читаемых вами.
+                    </div>
+                    {% else %}
+                    <button class="addBook buttonColor" id="addBook" onclick="addBookHome('{{ csrf_token }}')">
+                        Добавить книгу</button>
+                    {% endif %}
+                </div>
+            </div>
+            <div id="newEstimation" class="workBackground margins padding spaceWidth" align="left">
+                <div align="right"><b id="estimationHeader">Оценить книгу</b>
+                    <button class="estimationButton buttonColor"
+                            onclick="changeEstimation('{{ csrf_token }}', {{ book.id }}, 1)">1</button>
+                    <button class="estimationButton buttonColor"
+                            onclick="changeEstimation('{{ csrf_token }}', {{ book.id }}, 2)">2</button>
+                    <button class="estimationButton buttonColor"
+                            onclick="changeEstimation('{{ csrf_token }}', {{ book.id }}, 3)">3</button>
+                    <button class="estimationButton buttonColor"
+                            onclick="changeEstimation('{{ csrf_token }}', {{ book.id }}, 4)">4</button>
+                    <button class="estimationButton buttonColor"
+                            onclick="changeEstimation('{{ csrf_token }}', {{ book.id }}, 5)">5</button>
+                    <button class="estimationButton buttonColor"
+                            onclick="changeEstimation('{{ csrf_token }}', {{ book.id }}, 6)">6</button>
+                    <button class="estimationButton buttonColor"
+                            onclick="changeEstimation('{{ csrf_token }}', {{ book.id }}, 7)">7</button>
+                    <button class="estimationButton buttonColor"
+                            onclick="changeEstimation('{{ csrf_token }}', {{ book.id }}, 8)">8</button>
+                    <button class="estimationButton buttonColor"
+                            onclick="changeEstimation('{{ csrf_token }}', {{ book.id }}, 9)">9</button>
+                    <button class="estimationButton buttonColor"
+                            onclick="changeEstimation('{{ csrf_token }}', {{ book.id }}, 10)">10</button>
+                </div>
+            </div>
+            <div class="newComment workBackground spaceWidth padding" align="right">
+                <img class="userPhoto" src="" width="120" height="120">
+                <textarea id="addCommentText" class="commentTextGeneral" maxlength="500"></textarea>
+                <div id="buttonLabel"><b>Оставить комментарий</b>
+                    <button id="commentButton" class="buttonColor"
+                            onclick="addComment('{{ csrf_token }}', {{ book.id }})">Отправить</button>
+                </div>
+            </div>
+            {% for comment in comments %}
+            <div class="workBackground margins padding spaceWidth" align="right">
+                <img class="userPhoto" src="" width="120" height="120">
+                <b>{{ comment.id_user }}</b>
+                <textarea class="commentText commentTextGeneral">{{ comment.text }}</textarea>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
