@@ -19,7 +19,7 @@
                 <form id="logout" action="/logout/" method="POST">
                     {% csrf_token %}
                 </form>
-                <button class="headerButton buttonColor">Библиотека</button>
+                <a href="{% url 'categories' %}"><button class="headerButton buttonColor">Библиотека</button></a>
                 <a href="{% url 'index' %}"><button class="headerButton buttonColor">Мои книги</button></a>
                 <button class="headerButton buttonColor">Профиль</button>
                 <button class="headerButton buttonColor" type="submit" form="logout">Выйти</button>
@@ -32,7 +32,7 @@
                 <div id="bookImage">
                     <img src="" width="300" height="400">
                 </div>
-                <div><h2>{{ book.book_name }}</h2></div>
+                <div id="bookName"><h2>{{ book.book_name }}</h2></div>
                 <div align="left">
                     <table>
                         <tr>

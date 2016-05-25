@@ -6,7 +6,7 @@
     <title></title>
     <link rel="stylesheet" type="text/css" href="{% static 'app/css/general/general.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'app/css/general/buttons.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'app/css/home.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'app/css/categories.css' %}">
 </head>
 <body>
     <div id="header" align="center">
@@ -16,8 +16,8 @@
                 <form id="logout" action="/logout/" method="POST">
                     {% csrf_token %}
                 </form>
-                <a href="{% url 'categories' %}"><button class="headerButton buttonColor">Библиотека</button></a>
-                <button class="headerButton selectedButtonColor">Мои книги</button>
+                <button class="headerButton selectedButtonColor">Библиотека</button>
+                <a href="{% url 'index' %}"><button class="headerButton buttonColor">Мои книги</button></a>
                 <button class="headerButton buttonColor">Профиль</button>
                 <button class="headerButton buttonColor" type="submit" form="logout">Выйти</button>
             </div>
@@ -25,19 +25,13 @@
     </div>
     <div align="center">
         <div class="layout" align="center">
-            {% for book in books %}
-            <a href="">
-                <div class="book workBackground">
-                    <div class="bookImage"><img src="" width="150" height="250"></div>
-                    {{ book.book_name }}
-                </div>
+            {% for category in categories %}
+            <a href="category/{{ category.id }}">
+                <button class="category workBackground">
+                    {{ category.category_name }}
+                </button>
             </a>
             {% endfor %}
-            <a href="{% url 'app.views.add_book_views.add_book_view' %}">
-                <div class="book workBackground">
-                    <img src="{% static 'app/images/add_book.png' %}" width="128" height="128">
-                </div>
-            </a>
         </div>
     </div>
 </body>

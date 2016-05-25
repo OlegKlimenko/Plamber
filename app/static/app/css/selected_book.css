@@ -8,6 +8,15 @@
     width: 300px;
 }
 
+#bookName {
+    float: right;
+    white-space: -moz-pre-wrap;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
+    width: 570px;
+}
+
 table {
     margin-bottom: 6px;
     margin-left: 340px;
@@ -17,6 +26,14 @@ table {
 th {
     height: 30px;
     width: 130px;
+}
+
+td {
+    max-width: 400px;
+    white-space: -moz-pre-wrap;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
 }
 
 #aboutText {
