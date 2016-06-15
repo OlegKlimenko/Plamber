@@ -52,3 +52,9 @@ class ChangeRatingForm(forms.Form):
 class AddCommentForm(forms.Form):
     book_id = forms.IntegerField()
     comment = forms.CharField(max_length=500)
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+class SortForm(forms.Form):
+    category = forms.IntegerField()
+    criterion = forms.CharField(max_length=30)

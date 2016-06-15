@@ -1,3 +1,4 @@
+// ---------------------------------------------------------------------------------------------------------------------
 /**
  * Creates Ajax request for generating author list.
  */
@@ -15,6 +16,7 @@ function generateAuthors() {
     }
 }
 
+// ---------------------------------------------------------------------------------------------------------------------
 /**
  * Inserts authors in HTML document, depending on count of authors.
  *
@@ -38,6 +40,7 @@ function insertAuthors(authors) {
     }
 }
 
+// ---------------------------------------------------------------------------------------------------------------------
 /**
  * Sets the name of selected author to HTML 'Input' field.
  *
@@ -47,6 +50,7 @@ function selectedAuthor(name) {
     $('#authorInput').val(name.text);
 }
 
+// ---------------------------------------------------------------------------------------------------------------------
 /**
  * Checks if book is chosen. Generates HTML elements depending this check.
  *

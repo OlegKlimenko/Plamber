@@ -14,10 +14,6 @@ urlpatterns = [
     url(r'is-user-exists', index_views.is_user_exists_view),
     url(r'sign-in', index_views.sign_in_view),
 
-    # Library urls
-    url(r'library', library_views.categories_view, name='categories'),
-    url(r'^category/(?P<id>\d+)/$', library_views.selected_category_view),
-
     # Add book urls.
     url(r'^add-book', add_book_views.add_book_view),
     url(r'generate-authors', add_book_views.generate_authors_view),
@@ -29,6 +25,11 @@ urlpatterns = [
     url(r'home-remove-book', selected_book_views.remove_book_from_home_view),
     url(r'change-rating', selected_book_views.change_rating_view),
     url(r'comment-add', selected_book_views.add_comment_view),
+
+    # Library urls
+    url(r'library', library_views.categories_view, name='categories'),
+    url(r'^category/(?P<category_id>\d+)/$', library_views.selected_category_view),
+    url(r'sort', library_views.sort_view),
 
     # Additional urls.
     url(r'thanks', additional_views.thanks_view),

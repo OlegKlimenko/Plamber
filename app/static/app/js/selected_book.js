@@ -1,3 +1,4 @@
+// ---------------------------------------------------------------------------------------------------------------------
 /**
  * Sends ajax request for adding book to user's own library; Generates additional HTML code.
  *
@@ -19,6 +20,7 @@ function addBookHome(csrf_token) {
     });
 }
 
+// ---------------------------------------------------------------------------------------------------------------------
 /**
  * Sends ajax request for removing book from user's own library; Generates additional HTML code.
  *
@@ -39,6 +41,7 @@ function removeBookHome(csrf_token) {
     });
 }
 
+// ---------------------------------------------------------------------------------------------------------------------
 /**
  * Changes estimation of a book.
  *
@@ -60,6 +63,7 @@ function changeEstimation(csrf_token, book_id, rating) {
     });
 }
 
+// ---------------------------------------------------------------------------------------------------------------------
 /**
  * Adds a comment to a book; Generates additional HTML code.
  *
@@ -67,7 +71,6 @@ function changeEstimation(csrf_token, book_id, rating) {
  * @param number 'book_id' The id of a book.
  */
 function addComment(csrf_token, book_id) {
-    console.log($('#addCommentText').val());
     $.ajax({
         url: 'comment-add',
         type: 'POST',

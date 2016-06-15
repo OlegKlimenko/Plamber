@@ -1,3 +1,4 @@
+// ---------------------------------------------------------------------------------------------------------------------
 /**
  * Changes standard message in username 'Input' field for signing new user.
  *
@@ -13,6 +14,7 @@ function usernameSignInMessage(input) {
     }
 }
 
+// ---------------------------------------------------------------------------------------------------------------------
 /**
  * Changes standard message in password 'Input' field for signing new user.
  *
@@ -28,6 +30,7 @@ function passwordSignInMessage(input) {
     }
 }
 
+// ---------------------------------------------------------------------------------------------------------------------
 /**
  * Checks if both of 'Input' password lines are equal.
  */
@@ -39,6 +42,7 @@ function checkEqualPassLines() {
     else document.getElementById('passWrongMessage').style.display = 'none';
 }
 
+// ---------------------------------------------------------------------------------------------------------------------
 /**
  * Sends ajax request to check if the user is already exists.
  */
@@ -60,6 +64,7 @@ function checkUserNotExists() {
     }
 }
 
+// ---------------------------------------------------------------------------------------------------------------------
 /**
  * Sends form only if both of password 'Input' lines are equals and filled.
  *

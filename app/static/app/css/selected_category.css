@@ -1,0 +1,74 @@
+.categoryName {
+    margin-left: 10px;
+}
+
+.searchArea {
+    font: 14pt Arial;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 15px;
+    width: 970px;
+}
+
+#searchInput {
+    width: 90%;
+}
+
+.booksArea {
+    float: left;
+    margin-top: 30px;
+    width: 72%;
+}
+
+.sortArea {
+    font: 14pt Arial;
+    float: right;
+    margin-top: 30px;
+    margin-right: 7px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 20px;
+    width: 25%;
+}
+
+.button {
+    font: 12pt Arial;
+    height: 26px;
+    margin-bottom: 15px;
+    width: 180px;
+}
+
+.book {
+    float: left;
+    width: 150px;
+    margin-left: 8px;
+    margin-right: 8px;
+    margin-bottom: 30px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+
+.bookImage {
+    margin-bottom: 8px;
+}
+
+.bookName {
+    font: 12pt Arial;
+    white-space: -moz-pre-wrap;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
+}
+
+.bookAuthor{
+    font: 10pt Arial;
+    margin-top: 10px;
+    white-space: -moz-pre-wrap;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
+}
+
+
