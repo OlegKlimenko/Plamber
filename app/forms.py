@@ -58,3 +58,8 @@ class AddCommentForm(forms.Form):
 class SortForm(forms.Form):
     category = forms.IntegerField()
     criterion = forms.CharField(max_length=30)
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+class SearchBookForm(forms.Form):
+    search_data = forms.CharField(max_length=255)

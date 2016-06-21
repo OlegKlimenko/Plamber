@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.template import RequestContext, loader
 
-from app.forms import SortForm
+from app.forms import SortForm, SearchBookForm
 from app.models import Category, Book, BookRating, AddedBook
 
 
@@ -169,3 +169,44 @@ def sort_by_readable(books, category):
         books.append(book)
 
     return sorted(books, key=lambda info: info['read_count'], reverse=True)
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+def find_books(request):
+    """
+    Generates list with books of data which user entered. At first it check full equality in name,
+    after tries to check if contains some part of entered data.
+
+    :param django.core.handlers.wsgi.WSGIRequest request: The request for searching.
+    :return: The list of books.
+    """
+    if request.is_ajax():
+        search_book_form = SearchBookForm(request.GET)
+
+        if search_book_form.is_valid():
+            search_data = search_book_form.cleaned_data['search_data']
+
+            books = []
+
+            filtered_books = fetch_books(search_data)
+            generate_books(books, filtered_books)
+
+            return HttpResponse(json.dumps(books), content_type='application/json')
+    else:
+        return HttpResponse(status=404)
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+def fetch_books(search_data):
+    """
+    Generates list of books, fetched by different criterion depending on 'search_data' argument.
+
+    :param str search_data: The string with data by which create search books.
+    :return: The generated list of books.
+    """
+    filtered_books = list(Book.objects.filter(book_name=search_data))
+    filtered_books += list(Book.objects.filter(book_name__icontains=search_data))
+    filtered_books += list(Book.objects.filter(id_author__author_name=search_data))
+    filtered_books += list(Book.objects.filter(id_author__author_name__icontains=search_data))
+
+    return list(set(filtered_books))

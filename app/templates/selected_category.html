@@ -32,7 +32,8 @@
             <h1 class="staticTextColor categoryName" align="left">{{ category_name }}</h1>
             <div class="workBackground searchArea" align="left">
                 Поиск
-                <input id="searchInput" class="input inputColors" placeholder="Название, автор, что угодно...">
+                <input id="searchInput" class="input inputColors" placeholder="Название, автор, что угодно..."
+                        oninput="searchBooks({{ category_number }});" maxlength="255">
             </div>
             <div>
                 <div class="booksArea">

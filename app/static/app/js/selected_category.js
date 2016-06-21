@@ -13,19 +13,7 @@ function sort(category, criterion) {
                criterion, criterion},
 
         success: function(books) {
-            $('.booksArea').empty();
-
-            for (var book = 0; book < books.length; book++) {
-                id = books[book]['id'];
-                book_name = books[book]['name'];
-                author = books[book]['author'];
-
-                $('.booksArea').append('<a href="book/' + id + '/"><div class="book workBackground">' +
-                                      '<img class="bookImage" src="" width="100" height="150">' +
-                                      '<div class="bookName">' + book_name + '</div>' +
-                                      '<div class="bookAuthor">' + author + '</div>' +
-                                      '</div></a>');
-            }
+            insertBooks(books);
         }
     });
 }
@@ -42,4 +30,52 @@ function changeBtnColor(element) {
 
     $(element).removeClass('buttonColor');
     $(element).addClass('selectedButtonColor');
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+/*
+ * Sends ajax request for search books depending in entered data in the input.
+ *
+ * @param number 'category'  The number of a category.
+ */
+function searchBooks(category) {
+    search_data = $('#searchInput').val();
+
+    if (search_data) {
+            $.ajax({
+            url: 'search-book',
+            type: 'GET',
+            data: {search_data: search_data,
+                   category: category},
+
+            success: function(books) {
+                insertBooks(books);
+            }
+        });
+    }
+
+    else sort(category, 'book_name');
+
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+/**
+ * Inserts books after ajax request.
+ *
+ * @param object[object] 'books' The list of books.
+ */
+function insertBooks(books) {
+    $('.booksArea').empty();
+
+    for (var book = 0; book < books.length; book++) {
+        id = books[book]['id'];
+        book_name = books[book]['name'];
+        author = books[book]['author'];
+
+        $('.booksArea').append('<a href="book/' + id + '/"><div class="book workBackground">' +
+                              '<img class="bookImage" src="" width="100" height="150">' +
+                              '<div class="bookName">' + book_name + '</div>' +
+                              '<div class="bookAuthor">' + author + '</div>' +
+                              '</div></a>');
+    }
 }

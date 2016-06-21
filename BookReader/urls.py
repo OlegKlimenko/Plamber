@@ -30,6 +30,7 @@ urlpatterns = [
     url(r'library', library_views.categories_view, name='categories'),
     url(r'^category/(?P<category_id>\d+)/$', library_views.selected_category_view),
     url(r'sort', library_views.sort_view),
+    url(r'search-book', library_views.find_books),
 
     # Additional urls.
     url(r'thanks', additional_views.thanks_view),
