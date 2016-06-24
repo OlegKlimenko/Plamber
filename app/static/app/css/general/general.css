@@ -1,7 +1,7 @@
 body {
     background-color: #6c7182;
     font-family: Geneva,Arial,Helvetica,sans-serif;
-    margin: 0px;
+    margin: 0;
 }
 
 .layout {
@@ -11,7 +11,7 @@ body {
 
 #header {
     background-color: #616675;
-    color: #ffffff;
+    color: #fff;
     height: 80px;
 }
 
@@ -22,6 +22,6 @@ body {
 }
 
 .workBackground {
-    background-color: #ffffff;
+    background-color: #fff;
     border-radius: 2px;
 }

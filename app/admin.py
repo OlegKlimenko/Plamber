@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.contrib import admin
+
 from app.models import Category, Author, Book, BookRating, BookComment, AddedBook, TheUser, Language
 
 

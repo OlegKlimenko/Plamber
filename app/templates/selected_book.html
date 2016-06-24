@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'app/css/general/general.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'app/css/general/buttons.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'app/css/general/inputs.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'app/css/general/text.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'app/css/selected_book.css' %}">
     <script src="{% static 'app/js/jquery.js' %}"></script>
     <script src="{% static 'app/js/selected_book.js' %}"></script>
@@ -14,7 +15,8 @@
 <body>
     <div id="header" align="center">
         <div class="layout">
-            <img id="headerLogo" src="{% static 'app/images/logo.png' %}" width="128" height="70">
+            <img id="headerLogo" src="{% static 'app/images/logo.png' %}" width="128" height="70"
+                    alt="Логотип сайта">
             <div align="right">
                 <form id="logout" action="/logout/" method="POST">
                     {% csrf_token %}
@@ -30,22 +32,22 @@
         <div class="layout" align="center">
             <div id="mainSpace" class="workBackground margins padding spaceWidth">
                 <div id="bookImage">
-                    <img src="" width="300" height="400">
+                    <img src="" width="300" height="400" alt="Изображение книги">
                 </div>
-                <div id="bookName"><h2>{{ book.book_name }}</h2></div>
+                <div id="bookName" class="wordWrap"><h2>{{ book.book_name }}</h2></div>
                 <div align="left">
                     <table>
                         <tr>
                             <th>Автор</th>
-                            <td>{{ book.id_author }}</td>
+                            <td class="wordWrap">{{ book.id_author }}</td>
                         </tr>
                         <tr>
                             <th>Категория</th>
-                            <td>{{ book.id_category }}</td>
+                            <td class="wordWrap">{{ book.id_category }}</td>
                         </tr>
                         <tr>
                             <th>Язык</th>
-                            <td>{{ book.language }}</td>
+                            <td class="wordWrap">{{ book.language }}</td>
                         </tr>
                         <tr>
                             <th>Про книгу</th>
@@ -95,7 +97,7 @@
                 </div>
             </div>
             <div class="newComment workBackground spaceWidth padding" align="right">
-                <img class="userPhoto" src="" width="120" height="120">
+                <img class="userPhoto" src="" width="120" height="120" alt="Фото пользователя">
                 <textarea id="addCommentText" class="commentTextGeneral" maxlength="500"></textarea>
                 <div id="buttonLabel"><b>Оставить комментарий</b>
                     <button id="commentButton" class="buttonColor"
@@ -104,7 +106,7 @@
             </div>
             {% for comment in comments %}
             <div class="workBackground margins padding spaceWidth" align="right">
-                <img class="userPhoto" src="" width="120" height="120">
+                <img class="userPhoto" src="" width="120" height="120" alt="Фото пользователя комментария">
                 <b>{{ comment.id_user }}</b>
                 <textarea class="commentText commentTextGeneral">{{ comment.text }}</textarea>
             </div>

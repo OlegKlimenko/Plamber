@@ -2,9 +2,9 @@
 
 import json
 from django.http import HttpResponse
+from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import redirect
 from django.template import RequestContext, loader
-from django.core.exceptions import ObjectDoesNotExist
 
 from app.forms import GenerateAuthorsForm, AddBookForm
 from app.models import Author, Book, Category, Language, TheUser

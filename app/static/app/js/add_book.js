@@ -20,7 +20,7 @@ function generateAuthors() {
 /**
  * Inserts authors in HTML document, depending on count of authors.
  *
- * @param object 'authors' The list of authors.
+ * @param {Object} authors The list of authors.
  */
 function insertAuthors(authors) {
     if (authors.length > 0) {
@@ -44,7 +44,7 @@ function insertAuthors(authors) {
 /**
  * Sets the name of selected author to HTML 'Input' field.
  *
- * @param object 'name' The name of selected author.
+ * @param {Object} name The name of selected author.
  */
 function selectedAuthor(name) {
     $('#authorInput').val(name.text);
@@ -54,7 +54,7 @@ function selectedAuthor(name) {
 /**
  * Checks if book is chosen. Generates HTML elements depending this check.
  *
- * @param object 'event'
+ * @param {Object} event
  */
 function isBookChosen(event) {
     if ($('#uploadBook').val()) {

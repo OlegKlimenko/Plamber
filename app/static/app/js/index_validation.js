@@ -2,7 +2,7 @@
 /**
  * Changes standard message in username 'Input' field for signing new user.
  *
- * @param object 'input'
+ * @param {Object} input
  */
 function usernameSignInMessage(input) {
     if (input.validity.patternMismatch) {
@@ -18,7 +18,7 @@ function usernameSignInMessage(input) {
 /**
  * Changes standard message in password 'Input' field for signing new user.
  *
- * @param object 'input'
+ * @param {Object} input
  */
 function passwordSignInMessage(input) {
     if (input.validity.patternMismatch) {
@@ -35,8 +35,8 @@ function passwordSignInMessage(input) {
  * Checks if both of 'Input' password lines are equal.
  */
 function checkEqualPassLines() {
-    firstInputValue = document.getElementById('firstPass').value;
-    secondInputValue = document.getElementById('secondPass').value;
+    var firstInputValue = document.getElementById('firstPass').value;
+    var secondInputValue = document.getElementById('secondPass').value;
 
     if (firstInputValue !== secondInputValue) document.getElementById('passWrongMessage').style.display = 'block';
     else document.getElementById('passWrongMessage').style.display = 'none';
@@ -68,11 +68,11 @@ function checkUserNotExists() {
 /**
  * Sends form only if both of password 'Input' lines are equals and filled.
  *
- * @param object 'event'
+ * @param {Object} event
  */
 function isSignInAvailable(event) {
-    isUserExists = document.getElementById('userExists').style.display;
-    isLinesEqual = document.getElementById('passWrongMessage').style.display;
+    var isUserExists = document.getElementById('userExists').style.display;
+    var isLinesEqual = document.getElementById('passWrongMessage').style.display;
 
     if (isUserExists === 'none' && isLinesEqual === 'none') event.submit();
 }

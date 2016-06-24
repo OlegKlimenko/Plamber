@@ -6,12 +6,14 @@
     <title></title>
     <link rel="stylesheet" type="text/css" href="{% static 'app/css/general/general.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'app/css/general/buttons.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'app/css/general/text.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'app/css/home.css' %}">
 </head>
 <body>
     <div id="header" align="center">
         <div class="layout">
-            <img id="headerLogo" src="{% static 'app/images/logo.png' %}" width="128" height="70">
+            <img id="headerLogo" src="{% static 'app/images/logo.png' %}" width="128" height="70"
+                    alt="Логотип сайта">
             <div align="right">
                 <form id="logout" action="/logout/" method="POST">
                     {% csrf_token %}
@@ -27,15 +29,16 @@
         <div class="layout" align="center">
             {% for book in books %}
             <a href="">
-                <div class="book workBackground">
-                    <div class="bookImage"><img src="" width="150" height="250"></div>
+                <div class="wordWrap book workBackground">
+                    <div class="bookImage"><img src="" width="150" height="250" alt="Фото книги"></div>
                     {{ book.book_name }}
                 </div>
             </a>
             {% endfor %}
             <a href="{% url 'app.views.add_book_views.add_book_view' %}">
-                <div class="book workBackground">
-                    <img src="{% static 'app/images/add_book.png' %}" width="128" height="128">
+                <div class="wordWrap book workBackground">
+                    <img src="{% static 'app/images/add_book.png' %}" width="128" height="128"
+                         alt="Значок добавления книги">
                 </div>
             </a>
         </div>

@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
 import json
-from django.http import HttpResponse
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist
+from django.http import HttpResponse
 from django.template import RequestContext, loader
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
-from django.core.exceptions import ObjectDoesNotExist
 
 from app.forms import LogInForm, IsUserExistsForm, SignInForm
 from app.models import AddedBook, TheUser

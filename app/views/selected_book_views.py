@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
 import json
+from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Avg
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.template import RequestContext, loader
-from django.core.exceptions import ObjectDoesNotExist
 
 from app.forms import BookHomeForm, AddCommentForm, ChangeRatingForm
 from app.models import AddedBook, Book, BookRating, BookComment, TheUser

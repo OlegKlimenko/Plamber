@@ -1,7 +1,6 @@
 .textSection {
     float: left;
-    margin-top: 20px;
-    margin-left: 10px;
+    margin: 20px 10px 0;
     width: 60%;
 }
 
@@ -28,8 +27,7 @@
 }
 
 .inputArea {
-    padding-top: 25px;
-    padding-bottom: 25px;
+    padding: 25px 0;
 }
 
 .authMsg {
@@ -43,9 +41,7 @@
 .button {
     font: 12pt Arial;
     height: 26px;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    margin-right: 38px;
+    margin: 5px 38px 5px 0;
 }
 
 #signInHeader {

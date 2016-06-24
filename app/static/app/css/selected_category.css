@@ -4,9 +4,7 @@
 
 .searchArea {
     font: 14pt Arial;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    padding-left: 15px;
+    padding: 10px 0 10px 15px;
     width: 970px;
 }
 
@@ -23,11 +21,8 @@
 .sortArea {
     font: 14pt Arial;
     float: right;
-    margin-top: 30px;
-    margin-right: 7px;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-bottom: 20px;
+    margin: 30px 7px 0 0;
+    padding: 0 10px 20px 10px;
     width: 25%;
 }
 
@@ -41,13 +36,8 @@
 .book {
     float: left;
     width: 150px;
-    margin-left: 8px;
-    margin-right: 8px;
-    margin-bottom: 30px;
-    padding-left: 5px;
-    padding-right: 5px;
-    padding-top: 25px;
-    padding-bottom: 25px;
+    margin: 0 8px 30px 8px;
+    padding: 25px 5px 25px 5px;
 }
 
 .bookImage {
@@ -56,17 +46,9 @@
 
 .bookName {
     font: 12pt Arial;
-    white-space: -moz-pre-wrap;
-    white-space: -pre-wrap;
-    white-space: -o-pre-wrap;
-    word-wrap: break-word;
 }
 
 .bookAuthor{
     font: 10pt Arial;
     margin-top: 10px;
-    white-space: -moz-pre-wrap;
-    white-space: -pre-wrap;
-    white-space: -o-pre-wrap;
-    word-wrap: break-word;
 }

@@ -2,8 +2,8 @@
 /**
  * Sends ajax request for sorting depending on selected category.
  *
- * @param string 'criterion' The criterion by which we want to do sorting.
- * @param number 'category'  The number of a category.
+ * @param {string} criterion The criterion by which we want to do sorting.
+ * @param {number} category  The number of a category.
  */
 function sort(category, criterion) {
     $.ajax({
@@ -36,10 +36,10 @@ function changeBtnColor(element) {
 /*
  * Sends ajax request for search books depending in entered data in the input.
  *
- * @param number 'category'  The number of a category.
+ * @param {number} category The number of a category.
  */
 function searchBooks(category) {
-    search_data = $('#searchInput').val();
+    var search_data = $('#searchInput').val();
 
     if (search_data) {
             $.ajax({
@@ -62,18 +62,18 @@ function searchBooks(category) {
 /**
  * Inserts books after ajax request.
  *
- * @param object[object] 'books' The list of books.
+ * @param {Object<Object>} books The list of books.
  */
 function insertBooks(books) {
     $('.booksArea').empty();
 
     for (var book = 0; book < books.length; book++) {
-        id = books[book]['id'];
-        book_name = books[book]['name'];
-        author = books[book]['author'];
+        var id = books[book]['id'];
+        var book_name = books[book]['name'];
+        var author = books[book]['author'];
 
         $('.booksArea').append('<a href="book/' + id + '/"><div class="book workBackground">' +
-                              '<img class="bookImage" src="" width="100" height="150">' +
+                              '<img class="bookImage" src="" width="100" height="150" alt="Изображение книги">' +
                               '<div class="bookName">' + book_name + '</div>' +
                               '<div class="bookAuthor">' + author + '</div>' +
                               '</div></a>');

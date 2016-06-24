@@ -1,21 +1,15 @@
 .category {
-    border: 0px;
+    border: 0;
     float: left;
     font: 14pt Arial;
     height: 75px;
-    margin-top: 30px;
-    margin-left: 10px;
-    margin-right: 10px;
+    margin: 30px 10px 0 10px;
     outline: none;
-    white-space: -moz-pre-wrap;
-    white-space: -pre-wrap;
-    white-space: -o-pre-wrap;
-    word-wrap: break-word;
     width: 230px;
 }
 
 .category:hover {
     background-color: #1c5bed;
-    color: #ffffff;
+    color: #fff;
 }
 

@@ -6,12 +6,14 @@
     <title></title>
     <link rel="stylesheet" type="text/css" href="{% static 'app/css/general/general.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'app/css/general/buttons.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'app/css/general/text.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'app/css/categories.css' %}">
 </head>
 <body>
     <div id="header" align="center">
         <div class="layout">
-            <img id="headerLogo" src="{% static 'app/images/logo.png' %}" width="128" height="70">
+            <img id="headerLogo" src="{% static 'app/images/logo.png' %}" width="128" height="70"
+                    alt="Логотип сайта">
             <div align="right">
                 <form id="logout" action="/logout/" method="POST">
                     {% csrf_token %}
@@ -27,7 +29,7 @@
         <div class="layout" align="center">
             {% for category in categories %}
             <a href="category/{{ category.id }}">
-                <button class="category workBackground">
+                <button class="wordWrap category workBackground">
                     {{ category.category_name }}
                 </button>
             </a>
