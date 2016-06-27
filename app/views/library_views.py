@@ -184,7 +184,7 @@ def find_books(request):
         search_book_form = SearchBookForm(request.GET)
 
         if search_book_form.is_valid():
-            search_data = search_book_form.cleaned_data['search_data']
+            search_data = search_book_form.cleaned_data['searchedData']
 
             books = []
 

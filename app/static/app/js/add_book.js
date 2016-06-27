@@ -11,8 +11,8 @@ function insertAuthors(authors) {
         $("#divAuthorsList").empty();
 
         for (var author = 0; author < authors.length; author++) {
-            $("#divAuthorsList").append('<div align="left">' +
-                                        '<a class="reference" onclick="selectedAuthor(this)">' +
+            $("#divAuthorsList").append("<div align='left'>" +
+                                        "<a class='reference' onclick='selectedAuthor(this)'>" +
                                         authors[author] + "</a></div>");
         }
     }
@@ -27,11 +27,11 @@ function insertAuthors(authors) {
  * Creates Ajax request for generating author list.
  */
 function generateAuthors() {
-    if ($("#authorInput").val() !== '') {
+    if ($("#authorInput").val() !== "") {
         $.ajax({
             url: "generate-authors",
             type: "GET",
-            data: {author_part: $("#authorInput").val()},
+            data: {authorPart: $("#authorInput").val()},
 
             success: function(authors) {
                 insertAuthors(authors);

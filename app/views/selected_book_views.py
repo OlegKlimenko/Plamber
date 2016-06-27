@@ -70,7 +70,7 @@ def add_book_to_home_view(request):
 
         if book_form.is_valid():
             AddedBook.objects.create(id_user=TheUser.objects.get(id_user=request.user),
-                                     id_book=Book.objects.get(id=book_form.cleaned_data['book_id']))
+                                     id_book=Book.objects.get(id=book_form.cleaned_data['bookId']))
             return HttpResponse(json.dumps(True), content_type='application/json')
     else:
         return HttpResponse(status=404)
@@ -89,7 +89,7 @@ def remove_book_from_home_view(request):
 
         if book_form.is_valid():
             AddedBook.objects.get(id_user=TheUser.objects.get(id_user=request.user),
-                                  id_book=Book.objects.get(id=book_form.cleaned_data['book_id'])).delete()
+                                  id_book=Book.objects.get(id=book_form.cleaned_data['bookId'])).delete()
             return HttpResponse(json.dumps(True), content_type='application/json')
     else:
         return HttpResponse(status=404)
@@ -110,7 +110,7 @@ def change_rating_view(request):
             change_rating(request, rating_form)
 
             avg_book_rating = BookRating.objects.filter(
-                id_book=Book.objects.get(id=rating_form.cleaned_data['book_id'])).aggregate(Avg('rating'))
+                id_book=Book.objects.get(id=rating_form.cleaned_data['bookId'])).aggregate(Avg('rating'))
 
             return HttpResponse(json.dumps(avg_book_rating['rating__avg']), content_type='application/json')
     else:
@@ -127,13 +127,13 @@ def change_rating(request, rating_form):
     """
     try:
         book_rating = BookRating.objects.get(id_user=TheUser.objects.get(id_user=request.user),
-                                             id_book=Book.objects.get(id=rating_form.cleaned_data['book_id']))
+                                             id_book=Book.objects.get(id=rating_form.cleaned_data['bookId']))
         book_rating.rating = rating_form.cleaned_data['rating']
         book_rating.save()
 
     except ObjectDoesNotExist:
         BookRating.objects.create(id_user=TheUser.objects.get(id_user=request.user),
-                                  id_book=Book.objects.get(id=rating_form.cleaned_data['book_id']),
+                                  id_book=Book.objects.get(id=rating_form.cleaned_data['bookId']),
                                   rating=rating_form.cleaned_data['rating'])
 
 
@@ -150,7 +150,7 @@ def add_comment_view(request):
 
         if comment_form.is_valid():
             BookComment.objects.create(id_user=TheUser.objects.get(id_user=request.user),
-                                       id_book=Book.objects.get(id=comment_form.cleaned_data['book_id']),
+                                       id_book=Book.objects.get(id=comment_form.cleaned_data['bookId']),
                                        text=comment_form.cleaned_data['comment'])
             return HttpResponse(json.dumps(request.user.username), content_type='application/json')
     else:

@@ -24,7 +24,7 @@ class LogInForm(forms.Form):
 
 # ----------------------------------------------------------------------------------------------------------------------
 class GenerateAuthorsForm(forms.Form):
-    author_part = forms.CharField(max_length=70)
+    authorPart = forms.CharField(max_length=70)
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -39,18 +39,18 @@ class AddBookForm(forms.Form):
 
 # ----------------------------------------------------------------------------------------------------------------------
 class BookHomeForm(forms.Form):
-    book_id = forms.IntegerField()
+    bookId = forms.IntegerField()
 
 
 # ----------------------------------------------------------------------------------------------------------------------
 class ChangeRatingForm(forms.Form):
-    book_id = forms.IntegerField()
+    bookId = forms.IntegerField()
     rating = forms.IntegerField()
 
 
 # ----------------------------------------------------------------------------------------------------------------------
 class AddCommentForm(forms.Form):
-    book_id = forms.IntegerField()
+    bookId = forms.IntegerField()
     comment = forms.CharField(max_length=500)
 
 
@@ -62,4 +62,4 @@ class SortForm(forms.Form):
 
 # ----------------------------------------------------------------------------------------------------------------------
 class SearchBookForm(forms.Form):
-    search_data = forms.CharField(max_length=255)
+    searchedData = forms.CharField(max_length=255)

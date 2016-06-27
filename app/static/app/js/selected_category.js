@@ -1,16 +1,38 @@
 // ---------------------------------------------------------------------------------------------------------------------
 /**
+ * Inserts books after ajax request.
+ *
+ * @param {Object<Object>} books The list of books.
+ */
+function insertBooks(books) {
+    $(".booksArea").empty();
+
+    for (var book = 0; book < books.length; book++) {
+        var id = books[book]["id"];
+        var bookName = books[book]["name"];
+        var author = books[book]["author"];
+
+        $(".booksArea").append("<a href='book/" + id + "/'><div class='book workBackground'>" +
+                              "<img class='bookImage' src='' width='100' height='150' alt='Изображение книги'>" +
+                              "<div class='bookName'>" + bookName + "</div>" +
+                              "<div class='bookAuthor'>" + author + "</div>" +
+                              "</div></a>");
+    }
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+/**
  * Sends ajax request for sorting depending on selected category.
  *
- * @param {string} criterion The criterion by which we want to do sorting.
- * @param {number} category  The number of a category.
+ * @param {string} sortCriterion The criterion by which we want to do sorting.
+ * @param {number} sortCategory  The number of a category.
  */
-function sort(category, criterion) {
+function sort(sortCategory, sortCriterion) {
     $.ajax({
         url: "sort",
         type: "GET",
-        data: {category: category,
-               criterion: criterion},
+        data: {category: sortCategory,
+               criterion: sortCriterion},
 
         success: function(books) {
             insertBooks(books);
@@ -33,42 +55,20 @@ function changeBtnColor(element) {
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-/**
- * Inserts books after ajax request.
- *
- * @param {Object<Object>} books The list of books.
- */
-function insertBooks(books) {
-    $('.booksArea').empty();
-
-    for (var book = 0; book < books.length; book++) {
-        var id = books[book]["id"];
-        var book_name = books[book]["name"];
-        var author = books[book]["author"];
-
-        $(".booksArea").append('<a href="book/' + id + '/"><div class="book workBackground">' +
-                              '<img class="bookImage" src="" width="100" height="150" alt="Изображение книги">' +
-                              '<div class="bookName">' + book_name + '</div>' +
-                              '<div class="bookAuthor">' + author + '</div>' +
-                              '</div></a>');
-    }
-}
-
-// ---------------------------------------------------------------------------------------------------------------------
 /*
  * Sends ajax request for search books depending in entered data in the input.
  *
- * @param {number} category The number of a category.
+ * @param {number} searchCategory The number of a category.
  */
-function searchBooks(category) {
-    var search_data = $("#searchInput").val();
+function searchBooks(searchCategory) {
+    var searchData = $("#searchInput").val();
 
-    if (search_data) {
+    if (searchData) {
             $.ajax({
             url: "search-book",
             type: "GET",
-            data: {search_data: search_data,
-                   category: category},
+            data: {searchedData: searchData,
+                   category: searchCategory},
 
             success: function(books) {
                 insertBooks(books);
