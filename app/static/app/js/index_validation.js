@@ -6,11 +6,11 @@
  */
 function usernameSignInMessage(input) {
     if (input.validity.patternMismatch) {
-        input.setCustomValidity('Имя пользователя должно содержать только\n' +
-                                'латинские буквы, цифры, знаки подчеркивания\n' +
-                                'и быть длиной не менее 6 и не более 30 символов');
+        input.setCustomValidity("Имя пользователя должно содержать только\n" +
+                                "латинские буквы, цифры, знаки подчеркивания\n" +
+                                "и быть длиной не менее 6 и не более 30 символов");
     } else {
-        input.setCustomValidity('');
+        input.setCustomValidity("");
     }
 }
 
@@ -22,11 +22,11 @@ function usernameSignInMessage(input) {
  */
 function passwordSignInMessage(input) {
     if (input.validity.patternMismatch) {
-        input.setCustomValidity('Пароль должен содержать только\n' +
-                                'латинские буквы, цифры, знаки подчеркивания\n' +
-                                'и быть длиной не менее 6 и не более 16 символов');
+        input.setCustomValidity("Пароль должен содержать только\n" +
+                                "латинские буквы, цифры, знаки подчеркивания\n" +
+                                "и быть длиной не менее 6 и не более 16 символов");
     } else {
-        input.setCustomValidity('');
+        input.setCustomValidity("");
     }
 }
 
@@ -35,11 +35,15 @@ function passwordSignInMessage(input) {
  * Checks if both of 'Input' password lines are equal.
  */
 function checkEqualPassLines() {
-    var firstInputValue = document.getElementById('firstPass').value;
-    var secondInputValue = document.getElementById('secondPass').value;
+    var firstInputValue = document.getElementById("firstPass").value;
+    var secondInputValue = document.getElementById("secondPass").value;
 
-    if (firstInputValue !== secondInputValue) document.getElementById('passWrongMessage').style.display = 'block';
-    else document.getElementById('passWrongMessage').style.display = 'none';
+    if (firstInputValue !== secondInputValue) {
+        document.getElementById("passWrongMessage").style.display = "block";
+    }
+    else {
+        document.getElementById("passWrongMessage").style.display = "none";
+    }
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -48,17 +52,19 @@ function checkEqualPassLines() {
  */
 function checkUserNotExists() {
     // Send request only if 'Input' is not empty.
-    if ($('#usernameInput').val()) {
+    if ($("#usernameInput").val()) {
         $.ajax({
-            url: 'is-user-exists',
-            type: 'GET',
-            data: {username: $('#usernameInput').val()},
+            url: "is-user-exists",
+            type: "GET",
+            data: {username: $("#usernameInput").val()},
 
             success: function(json) {
                 if (json) {
-                    document.getElementById('userExists').style.display = 'block';
+                    document.getElementById("userExists").style.display = "block";
                 }
-                else document.getElementById('userExists').style.display = 'none';
+                else {
+                    document.getElementById("userExists").style.display = "none";
+                }
             }
         });
     }
@@ -71,8 +77,10 @@ function checkUserNotExists() {
  * @param {Object} event
  */
 function isSignInAvailable(event) {
-    var isUserExists = document.getElementById('userExists').style.display;
-    var isLinesEqual = document.getElementById('passWrongMessage').style.display;
+    var isUserExists = document.getElementById("userExists").style.display;
+    var isLinesEqual = document.getElementById("passWrongMessage").style.display;
 
-    if (isUserExists === 'none' && isLinesEqual === 'none') event.submit();
+    if (isUserExists === "none" && isLinesEqual === "none") {
+        event.submit();
+    }
 }

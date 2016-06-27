@@ -6,16 +6,16 @@
  */
 function addBookHome(csrf_token) {
     $.ajax({
-        url: 'home-add-book',
-        type: 'POST',
-        data: {book_id: $('#book_id').val(),
+        url: "home-add-book",
+        type: "POST",
+        data: {book_id: $("#book_id").val(),
                csrfmiddlewaretoken: csrf_token},
 
         success: function(json) {
-            $('#addBook').css('display', 'none');
-            $('#avgMach').after('<div id="removeBookDiv">' + '<button class="addBook buttonColor" id="removeBook">' +
-                                'Удалить книгу</button>Сейчас книга в списке читаемых вами.</div>');
-            $('#removeBook').attr('onClick', 'removeBookHome(' + '"' + csrf_token + '")');
+            $("#addBook").css("display", "none");
+            $("#avgMach").after('<div id="removeBookDiv">' + '<button class="addBook buttonColor" id="removeBook">' +
+                                "Удалить книгу</button>Сейчас книга в списке читаемых вами.</div>");
+            $("#removeBook").attr("onClick", 'removeBookHome(' + '"' + csrf_token + '")');
         }
     });
 }
@@ -28,15 +28,15 @@ function addBookHome(csrf_token) {
  */
 function removeBookHome(csrf_token) {
     $.ajax({
-        url: 'home-remove-book',
-        type: 'POST',
-        data: {book_id: $('#book_id').val(),
+        url: "home-remove-book",
+        type: "POST",
+        data: {book_id: $("#book_id").val(),
                csrfmiddlewaretoken: csrf_token},
 
         success: function(json) {
-            $('#removeBookDiv').css('display', 'none');
-            $('#avgMach').after('<button class="addBook buttonColor" id="addBook">Добавить книгу</button>');
-            $('#addBook').attr('onClick', 'addBookHome(' + '"' + csrf_token + '")');
+            $("#removeBookDiv").css("display", "none");
+            $("#avgMach").after('<button class="addBook buttonColor" id="addBook">Добавить книгу</button>');
+            $("#addBook").attr("onClick", 'addBookHome(' + '"' + csrf_token + '")');
         }
     });
 }
@@ -51,14 +51,14 @@ function removeBookHome(csrf_token) {
  */
 function changeEstimation(csrf_token, book_id, rating) {
     $.ajax({
-        url: 'change-rating',
-        type: 'POST',
+        url: "change-rating",
+        type: "POST",
         data: {book_id: book_id,
                rating: rating,
                csrfmiddlewaretoken: csrf_token},
 
         success: function(json) {
-            $('#rating').text(json);
+            $("#rating").text(json);
         }
     });
 }
@@ -72,14 +72,14 @@ function changeEstimation(csrf_token, book_id, rating) {
  */
 function addComment(csrf_token, book_id) {
     $.ajax({
-        url: 'comment-add',
-        type: 'POST',
+        url: "comment-add",
+        type: "POST",
         data: {book_id: book_id,
-               comment: $('#addCommentText').val(),
+               comment: $("#addCommentText").val(),
                csrfmiddlewaretoken: csrf_token},
 
         success: function(username) {
-            $('.newComment').after('<div class="comment workBackground margins padding spaceWidth" align="right">' +
+            $(".newComment").after('<div class="comment workBackground margins padding spaceWidth" align="right">' +
                                    '<img class="userPhoto" src="" width="120" height="120" alt="Фото пользователя">' +
                                    '<b>' + username + '</b><textarea class="commentText commentTextGeneral">' +
                                    $('#addCommentText').val() + '</textarea></div>');
