@@ -34,7 +34,7 @@ function sort(sortCategory, sortCriterion) {
         data: {category: sortCategory,
                criterion: sortCriterion},
 
-        success: function(books) {
+        success: function result(books) {
             insertBooks(books);
         }
     });
@@ -67,15 +67,15 @@ function searchBooks(searchCategory) {
             $.ajax({
             url: "search-book",
             type: "GET",
-            data: {searchedData: searchData,
+            data: {data: searchData,
                    category: searchCategory},
 
-            success: function(books) {
+            success: function result(books) {
                 insertBooks(books);
             }
         });
     }
     else {
-        sort(category, "book_name");
+        sort(searchCategory, "book_name");
     }
 }

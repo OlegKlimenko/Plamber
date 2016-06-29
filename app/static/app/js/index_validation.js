@@ -58,7 +58,7 @@ function checkUserNotExists() {
             type: "GET",
             data: {username: $("#usernameInput").val()},
 
-            success: function(json) {
+            success: function result(json) {
                 if (json) {
                     document.getElementById("userExists").style.display = "block";
                 }

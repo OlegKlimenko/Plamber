@@ -31,9 +31,9 @@ function generateAuthors() {
         $.ajax({
             url: "generate-authors",
             type: "GET",
-            data: {authorPart: $("#authorInput").val()},
+            data: {part: $("#authorInput").val()},
 
-            success: function(authors) {
+            success: function result(authors) {
                 insertAuthors(authors);
             }
         });

@@ -7,6 +7,9 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 # ----------------------------------------------------------------------------------------------------------------------
 class TheUser(models.Model):
+    """
+    Class for user objects in database.
+    """
     id_user = models.OneToOneField(User)
     user_photo = models.ImageField(null=True, blank=True)
 
@@ -17,6 +20,9 @@ class TheUser(models.Model):
 
 # ----------------------------------------------------------------------------------------------------------------------
 class Category(models.Model):
+    """
+    Class for category objects in database.
+    """
     category_name = models.CharField(max_length=30)
 
     # ------------------------------------------------------------------------------------------------------------------
@@ -26,6 +32,9 @@ class Category(models.Model):
 
 # ----------------------------------------------------------------------------------------------------------------------
 class Author(models.Model):
+    """
+    Class for author objects in database.
+    """
     author_name = models.CharField(max_length=30)
 
     # ------------------------------------------------------------------------------------------------------------------
@@ -35,6 +44,9 @@ class Author(models.Model):
 
 # ----------------------------------------------------------------------------------------------------------------------
 class Language(models.Model):
+    """
+    Class for language objects in database.
+    """
     language = models.CharField(max_length=30)
 
     # ------------------------------------------------------------------------------------------------------------------
@@ -44,6 +56,9 @@ class Language(models.Model):
 
 # ----------------------------------------------------------------------------------------------------------------------
 class Book(models.Model):
+    """
+    Class for book objects in database.
+    """
     book_name = models.CharField(max_length=30)
     id_author = models.ForeignKey(Author)
     id_category = models.ForeignKey(Category)
@@ -60,6 +75,9 @@ class Book(models.Model):
 
 # ----------------------------------------------------------------------------------------------------------------------
 class BookRating(models.Model):
+    """
+    Class for book rating objects in database.
+    """
     id_user = models.ForeignKey(TheUser)
     id_book = models.ForeignKey(Book)
     rating = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)])
@@ -67,6 +85,9 @@ class BookRating(models.Model):
 
 # ----------------------------------------------------------------------------------------------------------------------
 class BookComment(models.Model):
+    """
+    Class for book comment objects in database.
+    """
     id_user = models.ForeignKey(TheUser)
     id_book = models.ForeignKey(Book)
     text = models.CharField(max_length=500)
@@ -74,6 +95,9 @@ class BookComment(models.Model):
 
 # ----------------------------------------------------------------------------------------------------------------------
 class AddedBook(models.Model):
+    """
+    Class for added book objects in database.
+    """
     id_user = models.ForeignKey(TheUser)
     id_book = models.ForeignKey(Book)
     last_page = models.PositiveIntegerField(default=1)

@@ -43,7 +43,7 @@ def generate_authors_view(request):
 
         if authors_form.is_valid():
             list_of_authors = Author.objects.filter(
-                author_name__icontains=authors_form.cleaned_data['authorPart'])[:10]
+                author_name__icontains=authors_form.cleaned_data['part'])[:10]
             list_of_authors = list(list_of_authors.values_list('author_name', flat=True))
 
             return HttpResponse(json.dumps(list_of_authors), content_type='application/json')

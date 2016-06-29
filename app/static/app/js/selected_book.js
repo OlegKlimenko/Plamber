@@ -8,10 +8,10 @@ function addBookHome(csrfToken) {
     $.ajax({
         url: "home-add-book",
         type: "POST",
-        data: {bookId: $("#book_id").val(),
+        data: {book: $("#book_id").val(),
                csrfmiddlewaretoken: csrfToken},
 
-        success: function(json) {
+        success: function result(json) {
             $("#addBook").css("display", "none");
             $("#avgMach").after("<div id='removeBookDiv'>" + "<button class='addBook buttonColor' id='removeBook'>" +
                                 "Удалить книгу</button>Сейчас книга в списке читаемых вами.</div>");
@@ -30,10 +30,10 @@ function removeBookHome(csrfToken) {
     $.ajax({
         url: "home-remove-book",
         type: "POST",
-        data: {bookId: $("#book_id").val(),
+        data: {book: $("#book_id").val(),
                csrfmiddlewaretoken: csrfToken},
 
-        success: function(json) {
+        success: function result(json) {
             $("#removeBookDiv").css("display", "none");
             $("#avgMach").after("<button class='addBook buttonColor' id='addBook'>Добавить книгу</button>");
             $("#addBook").attr("onClick", "addBookHome(" + "'" + csrfToken + "')");
@@ -53,11 +53,11 @@ function changeEstimation(csrfToken, idBook, newRating) {
     $.ajax({
         url: "change-rating",
         type: "POST",
-        data: {bookId: idBook,
+        data: {book: idBook,
                rating: newRating,
                csrfmiddlewaretoken: csrfToken},
 
-        success: function(json) {
+        success: function result(json) {
             $("#rating").text(json);
         }
     });
@@ -74,11 +74,11 @@ function addComment(csrfToken, idBook) {
     $.ajax({
         url: "comment-add",
         type: "POST",
-        data: {bookId: idBook,
+        data: {book: idBook,
                comment: $("#addCommentText").val(),
                csrfmiddlewaretoken: csrfToken},
 
-        success: function(username) {
+        success: function result(username) {
             $(".newComment").after("<div class='comment workBackground margins padding spaceWidth' align='right'>" +
                                    "<img class='userPhoto' src='' width='120' height='120' alt='Фото пользователя'>" +
                                    "<b>" + username + "</b><textarea class='commentText commentTextGeneral'>" +
