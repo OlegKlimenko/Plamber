@@ -64,8 +64,8 @@ class Book(models.Model):
     id_category = models.ForeignKey(Category)
     description = models.CharField(max_length=1000, null=True, blank=True)
     language = models.ForeignKey(Language)
-    photo = models.ImageField(null=True, blank=True, upload_to='book_media')
-    book_file = models.FileField(upload_to='book_media')
+    photo = models.ImageField(null=True, blank=True, upload_to='media')
+    book_file = models.FileField(upload_to='media')
     who_added = models.ForeignKey(TheUser)
 
     # ------------------------------------------------------------------------------------------------------------------

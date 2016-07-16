@@ -93,3 +93,12 @@ class SearchBookForm(forms.Form):
     Class for form in searching books.
     """
     data = forms.CharField(max_length=255)
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+class SetCurrentPageForm(forms.Form):
+    """
+    Class for changing readed page information form.
+    """
+    page = forms.IntegerField()
+    book = forms.CharField(max_length=500)

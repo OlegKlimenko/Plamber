@@ -41,7 +41,7 @@ function sort(sortCategory, sortCriterion) {
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-/*
+/**
  * Changes classes on buttons for change their colors.
  */
 function changeBtnColor(element) {
@@ -55,7 +55,7 @@ function changeBtnColor(element) {
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-/*
+/**
  * Sends ajax request for search books depending in entered data in the input.
  *
  * @param {number} searchCategory The number of a category.

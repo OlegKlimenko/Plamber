@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 
 from django.conf.urls import include, url
+from django.conf.urls.static import static
+from django.conf import settings
 from django.contrib import admin
 
-from app.views import index_views, additional_views, add_book_views, selected_book_views, library_views
+from app.views import (index_views, additional_views, add_book_views, selected_book_views, library_views,
+                       read_book_views)
 
 
 urlpatterns = [
@@ -13,6 +16,10 @@ urlpatterns = [
     url(r'^$', index_views.index_view, name='index'),
     url(r'is-user-exists', index_views.is_user_exists_view),
     url(r'sign-in', index_views.sign_in_view),
+
+    # Read book urls.
+    url(r'read-book/(?P<book_id>\d+)/$', read_book_views.open_book_view),
+    url(r'set-current-page', read_book_views.set_current_page_view),
 
     # Add book urls.
     url(r'^add-book', add_book_views.add_book_view),
@@ -35,4 +42,5 @@ urlpatterns = [
     # Additional urls.
     url(r'thanks', additional_views.thanks_view),
     url(r'logout', additional_views.user_logout_view)
-]
+
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

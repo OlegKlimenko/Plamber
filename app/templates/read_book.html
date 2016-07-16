@@ -6,8 +6,10 @@
     <title></title>
     <link rel="stylesheet" type="text/css" href="{% static 'app/css/general/general.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'app/css/general/buttons.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'app/css/general/text.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'app/css/home.css' %}">
+    <script src="{% static 'app/js/third_party/jquery.js' %}"></script>
+    <script src="{% static 'app/js/helper/special.js' %}"></script>
+    <script src="{% static 'app/js/third_party/pdf_js/pdf.js' %}"></script>
+    <script src="{% static 'app/js/read_book.js' %}"></script>
 </head>
 <body>
     <div id="header" align="center">
@@ -19,29 +21,19 @@
                     {% csrf_token %}
                 </form>
                 <a href="{% url 'categories' %}"><button class="headerButton buttonColor">Библиотека</button></a>
-                <button class="headerButton selectedButtonColor">Мои книги</button>
+                <a href="{% url 'index' %}"><button class="headerButton buttonColor">Мои книги</button></a>
                 <button class="headerButton buttonColor">Профиль</button>
                 <button class="headerButton buttonColor" type="submit" form="logout">Выйти</button>
             </div>
         </div>
     </div>
-    <div align="center">
-        <div class="layout" align="center">
-            {% for book in books %}
-            <a href="read-book/{{ book.id }}/">
-                <div class="wordWrap book workBackground">
-                    <div class="bookImage"><img src="" width="150" height="250" alt="Фото книги"></div>
-                    {{ book.book_name }}
-                </div>
-            </a>
-            {% endfor %}
-            <a href="{% url 'app.views.add_book_views.add_book_view' %}">
-                <div class="wordWrap book workBackground">
-                    <img src="{% static 'app/images/add_book.png' %}" width="128" height="128"
-                         alt="Значок добавления книги">
-                </div>
-            </a>
-        </div>
+    <div>
+        <div id="book_name">{{ book_name }}</div>
+        <div id="book_url">{{ book_url.url }}</div>
+        <div id="current_page">{{ book_page }}</div>
+        <button id="prev" class="buttonColor">Предыдущая</button>
+        <button id="next" class="buttonColor">Следущая</button>
     </div>
+    <canvas id="the-canvas" style="border: 1px solid black;" height="633" width="489"></canvas>
 </body>
 </html>
