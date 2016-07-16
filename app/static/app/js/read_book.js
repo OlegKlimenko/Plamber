@@ -6,6 +6,31 @@ var PAGE_NUM_PENDING = null;
 
 // ---------------------------------------------------------------------------------------------------------------------
 /**
+ * Renders the page of the PDF document.
+ *
+ * @param {Object} pdf        The instance of the pdf document.
+ * @param {number} pageNumber The number of a page which we need to render.
+ */
+function renderPage(pdf, pageNumber) {
+    pdf.getPage(pageNumber).then(function (page) {
+        var viewPort = page.getViewport(SCALE);
+
+        var canvas = document.getElementById("the-canvas");
+        var context = canvas.getContext("2d");
+        canvas.height = viewPort.height;
+        canvas.width = viewPort.width;
+
+        var renderContext = {
+            canvasContext: context,
+            viewport: viewPort
+        };
+
+        page.render(renderContext);
+    });
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+/**
  * If another page rendering in progress, waits until the rendering is
  * finised. Otherwise, executes rendering immediately.
  *
@@ -31,34 +56,9 @@ function setCurrentPage(pageNum) {
         type: "POST",
         data: {page: pageNum,
                book: $("#book_name").text(),
-               csrfmiddlewaretoken: getCookie('csrftoken')},
+               csrfmiddlewaretoken: getCookie("csrftoken")},
 
         success: function result(json) {}
-    });
-}
-
-// ---------------------------------------------------------------------------------------------------------------------
-/**
- * Renders the page of the PDF document.
- *
- * @param {Object} pdf        The instance of the pdf document.
- * @param {number} pageNumber The number of a page which we need to render.
- */
-function renderPage(pdf, pageNumber) {
-    pdf.getPage(pageNumber).then(function (page) {
-        var viewport = page.getViewport(SCALE);
-
-        var canvas = document.getElementById("the-canvas");
-        var context = canvas.getContext("2d");
-        canvas.height = viewport.height;
-        canvas.width = viewport.width;
-
-        var renderContext = {
-            canvasContext: context,
-            viewport: viewport
-        };
-
-        page.render(renderContext);
     });
 }
 
@@ -67,7 +67,7 @@ function renderPage(pdf, pageNumber) {
  * Flips to the previous page of the PDF document and reset data to information of current page.
  */
 function prevPage() {
-    var pageNum = $("#current_page").text()
+    var pageNum = $("#current_page").text();
 
     if (pageNum <= 1) {
         return;
