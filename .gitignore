@@ -1,6 +1,4 @@
 .idea
 app/migrations
-app/__pycache__
-BookReader/__pycache__
-app/views/__pycache__
+*__pycache__*
 Bookreader/media

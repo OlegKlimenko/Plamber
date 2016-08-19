@@ -102,3 +102,12 @@ class SetCurrentPageForm(forms.Form):
     """
     page = forms.IntegerField()
     book = forms.CharField(max_length=500)
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+class AddBookImageForm(forms.Form):
+    """
+    Class for adding image to a book form.
+    """
+    book = forms.CharField(max_length=255)
+    image = forms.FileField()

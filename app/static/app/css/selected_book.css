@@ -6,7 +6,18 @@
     float: left;
     height: 400px;
     width: 300px;
+    border: 1px solid black;
 }
+
+#book_image {
+    display: none;
+}
+
+#book_url {
+    display: none;
+}
+
+
 
 #bookName {
     float: right;
@@ -43,7 +54,7 @@ td {
     font: 15pt Arial;
     height: 50px;
     margin-right: 35px;
-    width: 300px;
+    width: 302px;
 }
 
 #newEstimation {

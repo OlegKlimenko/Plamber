@@ -7,7 +7,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.template import RequestContext, loader
 
-from app.forms import BookHomeForm, AddCommentForm, ChangeRatingForm
+from app.forms import BookHomeForm, AddCommentForm, ChangeRatingForm, AddBookImageForm
 from app.models import AddedBook, Book, BookRating, BookComment, TheUser
 
 
@@ -153,5 +153,25 @@ def add_comment_view(request):
                                        id_book=Book.objects.get(id=comment_form.cleaned_data['book']),
                                        text=comment_form.cleaned_data['comment'])
             return HttpResponse(json.dumps(request.user.username), content_type='application/json')
+    else:
+        return HttpResponse(status=404)
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+def store_book_image_view(request):
+    """
+    Stores the image of a book.
+
+    :param django.core.handlers.wsgi.WSGIRequest request: The request for store the image of a book.
+    :return: Response with successfully added image to a book.
+    """
+    if request.method == "POST":
+        image_form = AddBookImageForm(request.POST, request.FILES)
+
+        print(image_form)
+
+        if image_form.is_valid():
+            print('yeah!!!')
+
     else:
         return HttpResponse(status=404)

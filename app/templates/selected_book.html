@@ -10,6 +10,8 @@
     <link rel="stylesheet" type="text/css" href="{% static 'app/css/general/text.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'app/css/selected_book.css' %}">
     <script src="{% static 'app/js/third_party/jquery.js' %}"></script>
+    <script src="{% static 'app/js/third_party/pdf_js/pdf.js' %}"></script>
+    <script src="{% static 'app/js/helper/special.js' %}"></script>
     <script src="{% static 'app/js/selected_book.js' %}"></script>
 </head>
 <body>
@@ -32,7 +34,15 @@
         <div class="layout" align="center">
             <div id="mainSpace" class="workBackground margins padding spaceWidth">
                 <div id="bookImage">
-                    <img src="" width="300" height="400" alt="Изображение книги">
+                    <form id="store_img" action="store-book-image" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input id="book_name" type="hidden" name="book" value="{{ book.book_name }}" required>
+                        <input id="book_file" type="image" name="image">
+                        <button type="submit">sdfsdfsdfsdf</button>
+                    </form>
+                    <img id="theBookImage" src="" width="300" height="400">
+                    <canvas id="book_image" width="300" height="400"></canvas>
+                    <div id="book_url">{{ book.book_file.url }}</div>
                 </div>
                 <div id="bookName" class="wordWrap"><h2>{{ book.book_name }}</h2></div>
                 <div align="left">
