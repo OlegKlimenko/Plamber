@@ -1,11 +1,32 @@
+body {
+    no-repeat center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    color: #fff;
+    font-family: 'Comfortaa', cursive;
+}
+
+h1 {
+    font-size: 60px;
+}
+
+h2 {
+    font-family: Open Sans;
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+.welcomeDiv {
+    float: left;
+    width: 400px;
+}
+
 .textSection {
     float: left;
     margin: 20px 10px 0;
     width: 60%;
-}
-
-#welcomeHeader {
-    font-size: 50px;
 }
 
 .welcome {

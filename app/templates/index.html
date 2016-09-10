@@ -11,17 +11,37 @@
     <link rel="stylesheet" type="text/css" href="{% static 'app/css/index.css' %}">
     <script src="{% static 'app/js/third_party/jquery.js' %}"></script>
     <script src="{% static 'app/js/index_validation.js' %}"></script>
+    <link href="https://fonts.googleapis.com/css?family=Comfortaa&subset=cyrillic,cyrillic-ext,latin-ext" rel="stylesheet">
+    <style>
+        body {
+            background-image: url(static/app/images/background.jpg);
+        }
+    </style>
 </head>
 <body>
     <div id="header" align="center">
         <div class="layout">
-            <img id="headerLogo" src="{% static 'app/images/logo.png' %}" width="128" height="70"
+            <img id="headerLogo" src="{% static 'app/images/logo.png' %}" width="140" height="80"
                     alt="Логотип сайта">
+            <div align="right">
+                <button class="headerButton headerButtonColor">Новости</button>
+                <button class="headerButton headerButtonColor">О проекте</button>
+            </div>
         </div>
     </div>
     <div align="center">
         <div class="layout" align="center">
-            <div class="textSection" align="left">
+            <div class="welcomeDiv" align="left">
+                <h1 id="welcomeHeader">Читайте книги онлайн!</h1>
+                <h2>
+                    вапрдвадплова ывлоарывоар!Ёвдлыаоыаывалд
+                    дваоывдлоаывдлаоыд жвалдаывладоывдлаывоа
+                    лываываолываоывдаоывадлоывадыв лдываылвоаывд
+                    длвыоалывоаывдаовы ывдлаоывдалоыадоывадыалы</h2>
+                <button class="enterButton">Вoйти</button>
+                <button class="registerButton">Зарегистрироваться</button>
+            </div>
+            <!--<div class="textSection" align="left">
                 <div>
                     <h1 id="welcomeHeader" class="staticTextColor">WELCOME!!!</h1>
                     <h2 class="welcome staticTextColor">
@@ -74,7 +94,7 @@
                         </div>
                     </form>
                 </div>
-            </div>
+            </div>-->
         </div>
     </div>
 </body>

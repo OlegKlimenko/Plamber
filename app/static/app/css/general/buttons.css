@@ -19,9 +19,59 @@
     background-color: #082567;
 }
 
+.headerButtonColor {
+    background-color: #2e3438;
+    border: 0;
+    outline: none;
+    color: #fff;
+}
+
+.headerButtonColor:hover {
+    background-color: #31a445;
+    cursor: pointer;
+}
+
 .headerButton {
-    font: 15pt Arial;
-    height: 70px;
-    margin: 4px;
-    width: 150px;
+    font: 15pt 'Comfortaa', cursive;
+    height: 80px;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.enterButton {
+    background-color: Transparent;
+    border: solid 2px #fff;
+    border-radius: 2px;
+    color: #fff;
+    font: 15pt 'Comfortaa', cursive;
+    height: 50px;
+    outline: none;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.enterButton:hover {
+    background-color: #fff;
+    border: solid 2px #fff;
+    border-radius: 2px;
+    color: #2e3438;
+}
+
+.registerButton {
+    background-color: #31a445;
+    border: solid 2px #31a445;
+    border-radius: 2px;
+    color: #fff;
+    font: 15pt 'Comfortaa', cursive;
+    height: 50px;
+    margin-left: 20px;
+    outline: none;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.registerButton:hover {
+    background-color: Transparent;
+    border: solid 2px #31a445;
+    color: #31a445;
 }
