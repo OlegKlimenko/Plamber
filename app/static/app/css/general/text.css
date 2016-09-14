@@ -12,6 +12,16 @@
     color: #31a445;
 }
 
+.activeReference {
+    font-family: 'Comfortaa', cursive;
+    color: #31a445;
+    text-decoration: none;
+}
+
+.activeReference:hover {
+    color: #9aa6ad;
+}
+
 .wordWrap {
     white-space: -moz-pre-wrap;
     white-space: -pre-wrap;
