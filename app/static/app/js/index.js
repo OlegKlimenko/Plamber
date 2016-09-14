@@ -1,5 +1,37 @@
 // ---------------------------------------------------------------------------------------------------------------------
 /**
+ * Displays sub page for log in.
+ */
+function logInPageShow() {
+    $("#logInSubPage").css("display", "block");
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+/**
+ * Hides sub page for log in.
+ */
+function logInPageHide() {
+    $("#logInSubPage").css("display", "none");
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+/**
+ * Displays sub page for registration new user.
+ */
+function registerPageShow() {
+    $("#registerSubPage").css("display", "block");
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+/**
+ * Hides sub page for registration new user.
+ */
+function registerPageHide() {
+    $("#registerSubPage").css("display", "none");
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+/**
  * Changes standard message in username 'Input' field for signing new user.
  *
  * @param {Object} input

@@ -1,11 +1,11 @@
 body {
+    background-size: cover;
+    color: #fff;
+    font-family: 'Comfortaa', cursive;
     no-repeat center center;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
-    background-size: cover;
-    color: #fff;
-    font-family: 'Comfortaa', cursive;
 }
 
 h1 {
@@ -23,50 +23,53 @@ h2 {
     width: 400px;
 }
 
-.textSection {
-    float: left;
-    margin: 20px 10px 0;
-    width: 60%;
+.subPage {
+    background-color: #000;
+    height: 100%;
+    left: 0;
+    opacity: 0.95;
+    position: fixed;
+    top: 0;
+    width: 100%;
 }
 
-.welcome {
-    font-size: 25px;
+.subPageMargin {
+    margin-top: 100px;
 }
 
-#aboutArea {
-    margin-top: 200px;
-}
-
-.registerSection {
-    float: right;
-    margin-top: 50px;
-    width: 35%;
-}
-
-#logInArea {
+.indexInputWidth {
     margin-bottom: 20px;
-}
-
-.inputArea {
-    padding: 25px 0;
+    width: 500px;
 }
 
 .authMsg {
-    margin-right: 47px;
+    margin-right: 10px;
 }
 
-#logInButton {
-    width: 90px;
+.errorMsg {
+    margin-bottom: 20px;
 }
 
-.button {
-    font: 12pt Arial;
-    height: 26px;
-    margin: 5px 38px 5px 0;
+.closeBtn {
+    color: #fff;
+    background: Transparent;
+    border: none;
+    font: 14pt 'Comfortaa', bold;
+    margin-bottom: 20px;
+    outline: none;
 }
 
-#signInHeader {
-    margin-bottom: 15px;
+.closeBtn:hover {
+    color: #31a445;
+    cursor: pointer;
+}
+
+#logInSubPage {
+    display: none;
+}
+
+#registerSubPage {
+    display: none;
 }
 
 #userExists {
@@ -77,10 +80,9 @@ h2 {
     display: none;
 }
 
-#signInButton {
-    width: 150px;
-}
-
-.lineInput {
-    width: 75%;
+.heading {
+    font-size: 25pt;
+    margin-bottom: 20px;
+    opacity: 0.5;
+    color: #9aa6ad;
 }

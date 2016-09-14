@@ -19,11 +19,13 @@
     background-color: #082567;
 }
 
+/* NEW CSS attributes */
+
 .headerButtonColor {
     background-color: #2e3438;
     border: 0;
-    outline: none;
     color: #fff;
+    outline: none;
 }
 
 .headerButtonColor:hover {
@@ -75,3 +77,5 @@
     border: solid 2px #31a445;
     color: #31a445;
 }
+
+/* NEW CSS attributes */

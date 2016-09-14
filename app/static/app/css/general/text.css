@@ -3,9 +3,13 @@
 }
 
 .reference {
-    color: #7c9fc2;
+    color: #9aa6ad;
     cursor: pointer;
     text-decoration: none;
+}
+
+.reference:hover {
+    color: #31a445;
 }
 
 .wordWrap {
