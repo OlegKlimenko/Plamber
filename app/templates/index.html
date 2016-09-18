@@ -22,7 +22,11 @@
     {% endif %}
     <style>
         body {
-            background-image: url(static/app/images/background.jpg);
+            background: url(static/app/images/background.jpg) no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
         }
     </style>
 </head>
@@ -34,7 +38,6 @@
             <img id="headerLogo" src="{% static 'app/images/logo.png' %}" width="140" height="80"
                     alt="Логотип сайта">
             <div align="right">
-                <button class="headerButton headerButtonColor">Новости</button>
                 <button class="headerButton headerButtonColor">О проекте</button>
             </div>
         </div>

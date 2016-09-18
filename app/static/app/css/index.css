@@ -1,11 +1,6 @@
 body {
-    background-size: cover;
     color: #fff;
     font-family: 'Comfortaa', cursive;
-    no-repeat center center;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
 }
 
 h1 {
