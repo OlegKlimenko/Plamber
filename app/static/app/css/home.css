@@ -1,11 +1,80 @@
+body {
+    background-color: #fff;
+}
+
+.myBooksHeader {
+    color: #9aa6ad;
+    font: 35pt 'Comfortaa', cursive;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.addBook {
+    border-radius: 2px;
+    font: 20pt 'Comfortaa', cursive;
+    height: 40px;
+    width: 40px;
+    outline: none;
+    cursor: pointer;
+}
+
+.addBookLibrary {
+    background-color: #31a445;
+    border: solid 2px #31a445;
+    color: #fff;
+}
+
+a:hover .addBookLibrary {
+    background-color: #2e3438;
+    border-color: #2e3438;
+}
+
+.addBookComputer {
+    background-color: #2e3438;
+    border: solid 2px #2e3438;
+    color: #31a445;
+    margin-left: 10px;
+}
+
+a:hover .addBookComputer {
+    background-color: #9aa6ad;
+    border: solid 2px #9aa6ad;
+    color: #fff;
+}
+
+.aText {
+    color: #31a445;
+    font: 14pt 'Comfortaa', cursive;
+    text-decoration: none;
+}
+
+.aText:hover {
+    color: #2e3438;
+}
+
+hr {
+    width: 215px;
+    border-color: #31a445;
+}
+
 .book {
+    color: #31a445;
+    border: 1px solid black;
+    border-radius: 1px;
     float: left;
+    font-family: Open Sans;
     height: 350px;
-    margin: 30px 10px 0 10px;
-    width: 230px;
+    margin: 0 10px 20px 10px;
+    padding: 5px;
+    text-align: left;
+    width: 220px;
 }
 
-.bookImage {
-    margin-top: 35px;
+.book:hover {
+    background-color: #9aa6ad;
+    color: #fff;
 }
 
+.book:hover hr {
+    border-color: #fff;
+}

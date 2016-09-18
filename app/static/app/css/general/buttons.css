@@ -33,6 +33,19 @@
     cursor: pointer;
 }
 
+.headerSelectedButtonColor {
+    background-color: #2e3438;
+    border: 0;
+    color: #9aa6ad;
+    outline: none;
+}
+
+.headerSelectedButtonColor:hover {
+    background-color: #31a445;
+    color: #fff;
+    cursor: pointer;
+}
+
 .headerButton {
     font: 15pt 'Comfortaa', cursive;
     height: 80px;

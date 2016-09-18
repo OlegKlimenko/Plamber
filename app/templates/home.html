@@ -8,39 +8,54 @@
     <link rel="stylesheet" type="text/css" href="{% static 'app/css/general/buttons.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'app/css/general/text.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'app/css/home.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Comfortaa&subset=cyrillic,cyrillic-ext,latin-ext">
 </head>
 <body>
+    <!--Header Area-->
     <div id="header" align="center">
         <div class="layout">
-            <img id="headerLogo" src="{% static 'app/images/logo.png' %}" width="128" height="70"
+            <img id="headerLogo" src="{% static 'app/images/logo.png' %}" width="140" height="80"
                     alt="Логотип сайта">
             <div align="right">
                 <form id="logout" action="/logout/" method="POST">
                     {% csrf_token %}
                 </form>
-                <a href="{% url 'categories' %}"><button class="headerButton buttonColor">Библиотека</button></a>
-                <button class="headerButton selectedButtonColor">Мои книги</button>
-                <button class="headerButton buttonColor">Профиль</button>
-                <button class="headerButton buttonColor" type="submit" form="logout">Выйти</button>
+                <a href="{% url 'categories' %}"><button class="headerButton headerButtonColor">Библиотека</button></a>
+                <button class="headerButton headerSelectedButtonColor">Мои книги</button>
+                <button class="headerButton headerButtonColor">Профиль</button>
+                <button class="headerButton headerButtonColor">О проекте</button>
+                <button class="headerButton headerButtonColor" type="submit" form="logout">Bыйти</button>
             </div>
         </div>
     </div>
+
+    <!--Main info area-->
     <div align="center">
         <div class="layout" align="center">
+
+            <!--Header part of main area-->
+            <div class="myBooksHeader" align="left">
+                <b>Мои книги</b>
+                <div align="right">
+                    <a class="aText" href="{% url 'categories' %}">
+                        <button class="addBookLibrary addBook">+</button> Из библиотеки
+                    </a>
+                    <a class="aText" href="{% url 'app.views.add_book_views.add_book_view' %}">
+                        <button class="addBookComputer addBook">+</button> С компьютера
+                    </a>
+                </div>
+            </div>
+
+            <!--Books-->
             {% for book in books %}
             <a href="read-book/{{ book.id }}/">
-                <div class="wordWrap book workBackground">
-                    <div class="bookImage"><img src="" width="150" height="250" alt="Фото книги"></div>
-                    {{ book.book_name }}
+                <div class="book wordWrap">
+                    <b>{{ book.book_name }}</b>
+                    <hr align="center" noshade size="1">
+                    {{ book.id_author }}
                 </div>
             </a>
             {% endfor %}
-            <a href="{% url 'app.views.add_book_views.add_book_view' %}">
-                <div class="wordWrap book workBackground">
-                    <img src="{% static 'app/images/add_book.png' %}" width="128" height="128"
-                         alt="Значок добавления книги">
-                </div>
-            </a>
         </div>
     </div>
 </body>
