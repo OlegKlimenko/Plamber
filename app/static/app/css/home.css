@@ -43,18 +43,38 @@ a:hover .addBookComputer {
 }
 
 .aText {
-    color: #31a445;
     font: 14pt 'Comfortaa', cursive;
     text-decoration: none;
 }
 
-.aText:hover {
+.aLibraryColor {
+    color: #31a445;
+}
+
+.aLibraryColor:hover {
     color: #2e3438;
 }
 
+.aComputerColor {
+    color: #2e3438;
+}
+
+.aComputerColor:hover {
+    color: #9aa6ad;
+}
+
 hr {
-    width: 215px;
     border-color: #31a445;
+    margin-bottom: 2px;
+    width: 218px;
+}
+
+.bookInfoPusher {
+    height: 215px;
+}
+
+.bookInfo {
+    height: 65px;
 }
 
 .book {

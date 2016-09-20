@@ -37,10 +37,10 @@
             <div class="myBooksHeader" align="left">
                 <b>Мои книги</b>
                 <div align="right">
-                    <a class="aText" href="{% url 'categories' %}">
+                    <a class="aText aLibraryColor" href="{% url 'categories' %}">
                         <button class="addBookLibrary addBook">+</button> Из библиотеки
                     </a>
-                    <a class="aText" href="{% url 'app.views.add_book_views.add_book_view' %}">
+                    <a class="aText aComputerColor" href="{% url 'app.views.add_book_views.add_book_view' %}">
                         <button class="addBookComputer addBook">+</button> С компьютера
                     </a>
                 </div>
@@ -50,9 +50,12 @@
             {% for book in books %}
             <a href="read-book/{{ book.id }}/">
                 <div class="book wordWrap">
-                    <b>{{ book.book_name }}</b>
-                    <hr align="center" noshade size="1">
-                    {{ book.id_author }}
+                    <div class="bookInfoPusher"></div>
+                    <div class="bookInfo">
+                        <hr align="center" noshade size="1">
+                        <div><b>{{ book.book_name }}</b></div>
+                        {{ book.id_author }}
+                    </div>
                 </div>
             </a>
             {% endfor %}
