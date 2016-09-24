@@ -9,57 +9,101 @@
     <link rel="stylesheet" type="text/css" href="{% static 'app/css/general/inputs.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'app/css/general/text.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'app/css/selected_category.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Comfortaa&subset=cyrillic,cyrillic-ext,latin-ext">
     <script src="{% static 'app/js/third_party/jquery.js' %}"></script>
     <script src="{% static 'app/js/selected_category.js' %}"></script>
 </head>
 <body>
+    <!--Header Area-->
     <div id="header" align="center">
         <div class="layout">
-            <img id="headerLogo" src="{% static 'app/images/logo.png' %}" width="128" height="70"
+            <img id="headerLogo" src="{% static 'app/images/logo.png' %}" width="140" height="80"
                     alt="Логотип сайта">
             <div align="right">
                 <form id="logout" action="/logout/" method="POST">
                     {% csrf_token %}
                 </form>
-                <a href="{% url 'categories' %}"><button class="headerButton buttonColor">Библиотека</button></a>
-                <a href="{% url 'index' %}"><button class="headerButton buttonColor">Мои книги</button></a>
-                <button class="headerButton buttonColor">Профиль</button>
-                <button class="headerButton buttonColor" type="submit" form="logout">Выйти</button>
+                <a href="{% url 'categories' %}"><button class="headerButton headerSelectedButtonColor">Библиотека</button></a>
+                <a href="{% url 'index' %}"><button class="headerButton headerButtonColor">Мои книги</button></a>
+                <button class="headerButton headerButtonColor">Профиль</button>
+                <button class="headerButton headerButtonColor">О проекте</button>
+                <button class="headerButton headerButtonColor" type="submit" form="logout">Bыйти</button>
             </div>
         </div>
     </div>
+
+    <!--Main info Area-->
     <div align="center">
         <div class="layout" align="center">
-            <h1 class="staticTextColor categoryName" align="left">{{ category_name }}</h1>
-            <div class="workBackground searchArea" align="left">
-                Поиск
-                <input id="searchInput" class="input inputColors" placeholder="Название, автор, что угодно..."
-                        oninput="searchBooks({{ category_number }});" maxlength="255">
+
+            <!--Header part of main area-->
+            <div align="left">
+                <div class="categoryName"><b>{{ category_name }}</b></div>
+                <div>
+                    <span id="searchHeader">Поиск</span>
+                    <input id="searchInput" class="input inputColors" placeholder="Название, автор, что угодно..."
+                            oninput="searchBooks({{ category_number }});" maxlength="255">
+                </div>
             </div>
-            <div>
-                <div class="booksArea">
-                    {% for book in books %}
-                    <a href="book/{{ book.id }}/"><div class="book workBackground">
-                        <img class="bookImage" src="" width="100" height="150" alt="Изображение книги">
-                        <div class="bookName wordWrap">{{ book.book_name }}</div>
-                        <div class="bookAuthor wordWrap">{{ book.id_author }}</div>
-                    </div></a>
-                    {% endfor %}
-                </div>
-                <div class="sortArea workBackground">
-                    <h4>Сортировать по</h4>
-                    <button class="button selectedButtonColor"
-                            onclick="sort({{ category_number }}, 'book_name'); changeBtnColor(this);">Алфавиту</button>
-                    <button class="button buttonColor"
-                            onclick="sort({{ category_number }}, 'author'); changeBtnColor(this);">Автору</button>
-                    <button class="button buttonColor"
-                            onclick="sort({{ category_number }}, 'estimation'); changeBtnColor(this);">Оценкам</button>
-                    <button class="button buttonColor"
-                            onclick="sort({{ category_number }}, 'most_readable'); changeBtnColor(this);">
-                        Самым читаемым</button>
-                </div>
+
+            <!--Sort part of main area-->
+            <div class="sortArea" align="left">
+                <span id="sortHeader">Сортировать по</span>
+                <button class="button selectedButtonColor"
+                        onclick="sort({{ category_number }}, 'book_name'); changeBtnColor(this);">Алфавиту</button>
+                <button class="button buttonColor"
+                        onclick="sort({{ category_number }}, 'author'); changeBtnColor(this);">Автору</button>
+                <button class="button buttonColor"
+                        onclick="sort({{ category_number }}, 'estimation'); changeBtnColor(this);">Оценкам</button>
+                <button class="button buttonColor"
+                        onclick="sort({{ category_number }}, 'most_readable'); changeBtnColor(this);">Самым читаемым</button>
+            </div>
+
+            <!--Area with books list-->
+            <div class="booksArea">
+                {% for book in books %}
+                <a href="book/{{ book.id }}/">
+                    <div class="wordWrap book" align="left">
+                        <div><b>{{ book.book_name }}</b></div>
+                        <div>{{ book.id_author }}</div>
+                    </div>
+                </a>
+                {% endfor %}
             </div>
         </div>
     </div>
+    <!--<div align="center">-->
+        <!--<div class="layout" align="center">-->
+            <!--<h1 class="staticTextColor categoryName" align="left">{{ category_name }}</h1>-->
+            <!--<div class="workBackground searchArea" align="left">-->
+                <!--Поиск-->
+                <!--<input id="searchInput" class="input inputColors" placeholder="Название, автор, что угодно..."-->
+                        <!--oninput="searchBooks({{ category_number }});" maxlength="255">-->
+            <!--</div>-->
+            <!--<div>-->
+                <!--<div class="booksArea">-->
+                    <!--{% for book in books %}-->
+                    <!--<a href="book/{{ book.id }}/"><div class="book workBackground">-->
+                        <!--<img class="bookImage" src="" width="100" height="150" alt="Изображение книги">-->
+                        <!--<div class="bookName wordWrap">{{ book.book_name }}</div>-->
+                        <!--<div class="bookAuthor wordWrap">{{ book.id_author }}</div>-->
+                    <!--</div></a>-->
+                    <!--{% endfor %}-->
+                <!--</div>-->
+                <!--<div class="sortArea workBackground">-->
+                    <!--<h4>Сортировать по</h4>-->
+                    <!--<button class="button selectedButtonColor"-->
+                            <!--onclick="sort({{ category_number }}, 'book_name'); changeBtnColor(this);">Алфавиту</button>-->
+                    <!--<button class="button buttonColor"-->
+                            <!--onclick="sort({{ category_number }}, 'author'); changeBtnColor(this);">Автору</button>-->
+                    <!--<button class="button buttonColor"-->
+                            <!--onclick="sort({{ category_number }}, 'estimation'); changeBtnColor(this);">Оценкам</button>-->
+                    <!--<button class="button buttonColor"-->
+                            <!--onclick="sort({{ category_number }}, 'most_readable'); changeBtnColor(this);">-->
+                        <!--Самым читаемым</button>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
 </body>
 </html>
