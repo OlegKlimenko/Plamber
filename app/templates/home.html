@@ -47,18 +47,22 @@
             </div>
 
             <!--Books-->
-            {% for book in books %}
-            <a href="read-book/{{ book.id }}/">
-                <div class="book wordWrap">
-                    <div class="bookInfoPusher"></div>
-                    <div class="bookInfo">
-                        <hr align="center" noshade size="1">
-                        <div><b>{{ book.book_name }}</b></div>
-                        {{ book.id_author }}
+            {% if books %}
+                {% for book in books %}
+                <a href="read-book/{{ book.id }}/">
+                    <div class="book wordWrap">
+                        <div class="bookInfoPusher"></div>
+                        <div class="bookInfo">
+                            <hr align="center" noshade size="1">
+                            <div><b>{{ book.book_name }}</b></div>
+                            {{ book.id_author }}
+                        </div>
                     </div>
-                </div>
-            </a>
-            {% endfor %}
+                </a>
+                {% endfor %}
+            {% else %}
+                <h1>У вас нет книг! Добавьте! =)</h1>
+            {% endif %}
         </div>
     </div>
 </body>

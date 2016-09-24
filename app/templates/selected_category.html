@@ -60,50 +60,22 @@
             </div>
 
             <!--Area with books list-->
-            <div class="booksArea">
-                {% for book in books %}
-                <a href="book/{{ book.id }}/">
-                    <div class="wordWrap book" align="left">
-                        <div><b>{{ book.book_name }}</b></div>
-                        <div>{{ book.id_author }}</div>
-                    </div>
-                </a>
-                {% endfor %}
+            <div class="booksArea" align="left">
+                {% if books %}
+                    {% for book in books %}
+                    <a href="book/{{ book.id }}/">
+                        <div class="wordWrap book" align="left">
+                            <div><b>{{ book.book_name }}</b></div>
+                            <div>{{ book.id_author }}</div>
+                        </div>
+                    </a>
+                    {% endfor %}
+                {% else %}
+                    <h1>В этой категории пока нет книг =((</h1>
+                    <h2>Что бы добавить, нажмите здесь:  <a href="/add-book" class="activeReference">Добавить книгу</a></h2>
+                {% endif %}
             </div>
         </div>
     </div>
-    <!--<div align="center">-->
-        <!--<div class="layout" align="center">-->
-            <!--<h1 class="staticTextColor categoryName" align="left">{{ category_name }}</h1>-->
-            <!--<div class="workBackground searchArea" align="left">-->
-                <!--Поиск-->
-                <!--<input id="searchInput" class="input inputColors" placeholder="Название, автор, что угодно..."-->
-                        <!--oninput="searchBooks({{ category_number }});" maxlength="255">-->
-            <!--</div>-->
-            <!--<div>-->
-                <!--<div class="booksArea">-->
-                    <!--{% for book in books %}-->
-                    <!--<a href="book/{{ book.id }}/"><div class="book workBackground">-->
-                        <!--<img class="bookImage" src="" width="100" height="150" alt="Изображение книги">-->
-                        <!--<div class="bookName wordWrap">{{ book.book_name }}</div>-->
-                        <!--<div class="bookAuthor wordWrap">{{ book.id_author }}</div>-->
-                    <!--</div></a>-->
-                    <!--{% endfor %}-->
-                <!--</div>-->
-                <!--<div class="sortArea workBackground">-->
-                    <!--<h4>Сортировать по</h4>-->
-                    <!--<button class="button selectedButtonColor"-->
-                            <!--onclick="sort({{ category_number }}, 'book_name'); changeBtnColor(this);">Алфавиту</button>-->
-                    <!--<button class="button buttonColor"-->
-                            <!--onclick="sort({{ category_number }}, 'author'); changeBtnColor(this);">Автору</button>-->
-                    <!--<button class="button buttonColor"-->
-                            <!--onclick="sort({{ category_number }}, 'estimation'); changeBtnColor(this);">Оценкам</button>-->
-                    <!--<button class="button buttonColor"-->
-                            <!--onclick="sort({{ category_number }}, 'most_readable'); changeBtnColor(this);">-->
-                        <!--Самым читаемым</button>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-    <!--</div>-->
 </body>
 </html>

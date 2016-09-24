@@ -98,3 +98,8 @@ hr {
 .book:hover hr {
     border-color: #fff;
 }
+
+h1 {
+    color: #2e3438;
+    font-family: 'Comfortaa', cursive;
+}
