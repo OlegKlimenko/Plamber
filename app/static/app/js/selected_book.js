@@ -1,22 +1,21 @@
 // ---------------------------------------------------------------------------------------------------------------------
-function storeBookImage() {
-    $.ajax({
-        url: "store-book-image",
-        type: "POST",
-        data: {book: $("book_name").val(),
-//               image: $("#book_file"),
-               csrfmiddlewaretoken: getCookie("csrftoken")},
-
-//        contentType: false,
-//        cache: false,
-//        processData:false,
-
-
-        success: function(json) {
-            console.log("YEAH!!!");
-        }
-    });
-}
+//function storeBookImage() {
+//    $.ajax({
+//        url: "store-book-image",
+//        type: "POST",
+//        data: {book: $("book_name").val(),
+//              image: $("#book_file"),
+//               csrfmiddlewaretoken: getCookie("csrftoken")},
+//
+//        contentType: false,        cache: false,
+//       processData:false,
+//
+//
+//        success: function(json) {
+//            console.log("YEAH!!!");
+//        }
+//    });
+//}
 
 // ---------------------------------------------------------------------------------------------------------------------
 /**
@@ -27,7 +26,7 @@ function fetchData() {
     var dataURL = canvas.toDataURL();
 
     $("#theBookImage").attr("src", dataURL);
-    $("#book_file").attr("src", "http://files.porsche.com/filestore/image/multimedia/none/991-2nd-c2s-modelimage-sideshot/model/e4c9e332-5539-11e5-8c32-0019999cd470;s3/porsche-model.png");
+//    $("#book_file").attr("src", "http://files.porsche.com/filestore/image/multimedia/none/991-2nd-c2s-modelimage-sideshot/model/e4c9e332-5539-11e5-8c32-0019999cd470;s3/porsche-model.png");
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -100,9 +99,10 @@ function addBookHome(csrfToken) {
                csrfmiddlewaretoken: csrfToken},
 
         success: function result(json) {
-            $("#addBook").css("display", "none");
-            $("#avgMach").after("<div id='removeBookDiv'>" + "<button class='addBook buttonColor' id='removeBook'>" +
-                                "Удалить книгу</button>Сейчас книга в списке читаемых вами.</div>");
+            $("#addBookDiv").remove();
+            $("#leftSide").append("<div id='removeBookDiv'><button class='addBook' id='removeBook'>" +
+                                  "Удалить книгу</button>" +
+                                  "<div class='wordWrap addBookText'>Сейчас книга в списке читаемых вами.</div></div>");
             $("#removeBook").attr("onClick", "removeBookHome(" + "'" + csrfToken + "')");
         }
     });
@@ -122,8 +122,9 @@ function removeBookHome(csrfToken) {
                csrfmiddlewaretoken: csrfToken},
 
         success: function result(json) {
-            $("#removeBookDiv").css("display", "none");
-            $("#avgMach").after("<button class='addBook buttonColor' id='addBook'>Добавить книгу</button>");
+            $("#removeBookDiv").remove();
+            $("#leftSide").append("<div id='addBookDiv'><button class='addBook' " +
+                                  "id='addBook'>Добавить книгу</button></div>");
             $("#addBook").attr("onClick", "addBookHome(" + "'" + csrfToken + "')");
         }
     });
@@ -167,10 +168,13 @@ function addComment(csrfToken, idBook) {
                csrfmiddlewaretoken: csrfToken},
 
         success: function result(username) {
-            $(".newComment").after("<div class='comment workBackground margins padding spaceWidth' align='right'>" +
-                                   "<img class='userPhoto' src='' width='120' height='120' alt='Фото пользователя'>" +
-                                   "<b>" + username + "</b><textarea class='commentText commentTextGeneral'>" +
-                                   $("#addCommentText").val() + "</textarea></div>");
+            $("#commentsHeader").after("<hr class='hr'>" +
+                                   "<div class='comment' align='left'>" +
+                                   "<div class='userPhoto'>" +
+                                   "<img src='' width='120' height='120'>" +
+                                   "<div class='wordWrap userName'><b>" + username + "</b></div></div>" +
+                                   "<div class='commentText wordWrap'>" + $("#addCommentText").val() + "</div></div>");
+
             $("#addCommentText").val("");
             $("html, body").animate({scrollBottom: $(document).height()});
         }

@@ -1,12 +1,18 @@
-#mainSpace {
-    font-size: 18px;
+.mainSpace {
+    margin-top: 40px;
 }
 
-#bookImage {
+#leftSide {
     float: left;
-    height: 400px;
-    width: 300px;
+}
+
+#rightSize {
+    float: left;
+}
+
+#theBookImage {
     border: 1px solid black;
+    object-fit: cover;
 }
 
 #book_image {
@@ -17,64 +23,127 @@
     display: none;
 }
 
-
-
 #bookName {
-    float: right;
-    width: 570px;
+    color: #31a445;
+    font-family: Open Sans;
+    text-align: center;
 }
 
 table {
-    margin-bottom: 6px;
-    margin-left: 340px;
+    margin-left: 300px;
     text-align: left;
 }
 
 th {
+    color: #9aa6ad;
+    font-family: 'Comfortaa', cursive;
     height: 30px;
-    width: 130px;
+    width: 120px;
 }
 
 td {
-    max-width: 400px;
+    color: #2e3438;
+    font-family: Open Sans;
+}
+
+#aboutBook {
+    font-size: 20px;
+    color: #31a445;
 }
 
 #aboutText {
-    font: 12pt Arial;
-    height: 120px;
-    resize: none;
-    width: 565px;
+    color: #2e3438;
+    font-family: Open Sans;
+    margin-left: 280px;
+    min-height: 400px;
+    text-align: left;
+    width: 700px;
 }
 
 #avgMach {
-    margin-top:30px;
+    color: #9aa6ad;
+    font: 15pt 'Comfortaa', cursive;
+    margin-top: 20px;
+}
+
+#rating {
+    color: #31a445;
 }
 
 .addBook {
-    font: 15pt Arial;
+    border-radius: 2px;
+    color: #fff;
+    cursor: pointer;
+    font: 15pt 'Comfortaa', cursive;
     height: 50px;
-    margin-right: 35px;
-    width: 302px;
+    margin-top: 30px;
+    outline: none;
+    width: 252px;
 }
 
-#newEstimation {
-    font-size: 18px;
+#addBook {
+    background-color: #31a445;
+    border: solid 2px #31a445;
 }
 
-#estimationHeader {
+#addBook:hover {
+    background-color: Transparent;
+    border: solid 2px #31a445;
+    color: #31a445;
+}
+
+#removeBook {
+    background-color: #9aa6ad;
+    border: solid 2px #9aa6ad;
+}
+
+#removeBook:hover {
+    background-color: Transparent;
+    border: solid 2px #9aa6ad;
+    color: #9aa6ad;
+}
+
+.addBookText {
+    color: #2e3438;
+    font-family: 'Comfortaa', cursive;
+    max-width: 242px;
+}
+
+#estimationArea {
+    font-family: 'Comfortaa', cursive;
+    margin-top: 20px;
+}
+
+.estimate {
+    background-color: #2e3438;
+    border-radius: 2px;
+    color: #fff;
+    cursor: pointer;
     float: left;
-    font: bold 20pt Arial;
+    margin-right: 3px;
+    text-align: center;
+    width: 22px;
 }
 
-.estimationButton {
-    font: 15pt Arial;
-    height: 35px;
-    margin-left: 20px;
-    width: 45px;
+.estimate:hover {
+    background-color: #31a445;
+}
+
+hr {
+    border: 1px solid #31a445;
 }
 
 .newComment {
-    font-size: 18px;
+    margin-top: 20px;
+    margin-bottom: 160px;
+}
+
+#newCommentHeader {
+    font: 18px 'Comfortaa', cursive;
+}
+
+#newCommentBody {
+    margin-top: 20px;
 }
 
 .userPhoto {
@@ -82,34 +151,64 @@ td {
 }
 
 #addCommentText {
-    height: 65px;
-    margin-top: 1px;
+    border: 2px solid #9aa6ad;
+    border-radius: 2px;
+    color: #2e3438;
+    font: 12pt Open Sans;
+    float: right;
+    height: 70px;
+    outline: none;
+    resize: none;
+    width: 860px;
 }
 
-#buttonLabel {
-    margin-top: 10px;
+#addCommentText:focus {
+    border: 2px solid #31a445;
 }
 
 #commentButton {
-    font: 15pt Arial;
-    height: 35px;
-    margin-left: 30px;
-    width: 150px;
+    background-color: #2e3438;
+    border: 2px solid #2e3438;
+    border-radius: 2px;
+    color: #31a445;
+    cursor: pointer;
+    font: 12pt 'Comfortaa', cursive;
+    float: right;
+    height: 30px;
+    margin-top: 10px;
+    outline: none;
+    width: 120px;
+}
+
+#commentButton:hover {
+    background-color: Transparent;
+    color: #2e3438;
+}
+
+#commentsHeader {
+    color: #31a445;
+    font: 24px 'Comfortaa', cursive;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.hr {
+    border: 1px solid #9aa6ad;
+}
+
+.comment {
+    color: 2e3438;
+    font: 10pt Open Sans;
+    min-height: 170px;
 }
 
 .commentText {
-    height: 83px;
-    margin-top: 11px;
+    color: #2e3438;
+    font: 14px Open Sans;
+    float: right;
+    width: 860px;
 }
 
-.spaceWidth {
-    width: 910px;
-}
-
-.margins {
-    margin: 30px 0;
-}
-
-.padding {
-    padding: 35px;
+.userName {
+    width: 130px;
 }

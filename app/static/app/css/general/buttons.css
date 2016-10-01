@@ -58,6 +58,7 @@
     border: solid 2px #fff;
     border-radius: 2px;
     color: #fff;
+    cursor: pointer;
     font: 15pt 'Comfortaa', cursive;
     height: 50px;
     outline: none;
@@ -77,6 +78,7 @@
     border: solid 2px #31a445;
     border-radius: 2px;
     color: #fff;
+    cursor: pointer;
     font: 15pt 'Comfortaa', cursive;
     height: 50px;
     margin-left: 20px;
