@@ -11,7 +11,7 @@ class TheUser(models.Model):
     Class for user objects in database.
     """
     id_user = models.OneToOneField(User)
-    user_photo = models.ImageField(null=True, blank=True)
+    user_photo = models.ImageField(blank=True)
 
     # ------------------------------------------------------------------------------------------------------------------
     def __str__(self):
@@ -64,7 +64,7 @@ class Book(models.Model):
     id_category = models.ForeignKey(Category)
     description = models.CharField(max_length=1000, blank=True)
     language = models.ForeignKey(Language)
-    photo = models.ImageField(null=True, blank=True, upload_to='media')
+    photo = models.ImageField(blank=True, upload_to='media')
     book_file = models.FileField(upload_to='media')
     who_added = models.ForeignKey(TheUser)
 
