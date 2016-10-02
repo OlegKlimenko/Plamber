@@ -62,7 +62,7 @@ class Book(models.Model):
     book_name = models.CharField(max_length=30)
     id_author = models.ForeignKey(Author)
     id_category = models.ForeignKey(Category)
-    description = models.CharField(max_length=1000, null=True, blank=True)
+    description = models.CharField(max_length=1000, blank=True)
     language = models.ForeignKey(Language)
     photo = models.ImageField(null=True, blank=True, upload_to='media')
     book_file = models.FileField(upload_to='media')
