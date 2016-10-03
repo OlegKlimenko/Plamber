@@ -9,116 +9,113 @@
     <link rel="stylesheet" type="text/css" href="{% static 'app/css/general/inputs.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'app/css/general/text.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'app/css/selected_book.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Comfortaa&subset=cyrillic,cyrillic-ext,latin-ext">
     <script src="{% static 'app/js/third_party/jquery.js' %}"></script>
     <script src="{% static 'app/js/third_party/pdf_js/pdf.js' %}"></script>
     <script src="{% static 'app/js/helper/special.js' %}"></script>
     <script src="{% static 'app/js/selected_book.js' %}"></script>
 </head>
 <body>
+    <!--Header Area-->
     <div id="header" align="center">
         <div class="layout">
-            <img id="headerLogo" src="{% static 'app/images/logo.png' %}" width="128" height="70"
-                    alt="Логотип сайта">
+            <img id="headerLogo" src="{% static 'app/images/logo.png' %}" width="140" height="80" alt="Логотип сайта">
             <div align="right">
                 <form id="logout" action="/logout/" method="POST">
                     {% csrf_token %}
                 </form>
-                <a href="{% url 'categories' %}"><button class="headerButton buttonColor">Библиотека</button></a>
-                <a href="{% url 'index' %}"><button class="headerButton buttonColor">Мои книги</button></a>
-                <button class="headerButton buttonColor">Профиль</button>
-                <button class="headerButton buttonColor" type="submit" form="logout">Выйти</button>
+                <a href="{% url 'categories' %}"><button class="headerButton headerSelectedButtonColor">Библиотека</button></a>
+                <a href="{% url 'index' %}"><button class="headerButton headerButtonColor">Мои книги</button></a>
+                <button class="headerButton headerButtonColor">Профиль</button>
+                <button class="headerButton headerButtonColor">О проекте</button>
+                <button class="headerButton headerButtonColor" type="submit" form="logout">Bыйти</button>
             </div>
         </div>
     </div>
+
+    <!--Main info area-->
     <div align="center">
         <div class="layout" align="center">
-            <div id="mainSpace" class="workBackground margins padding spaceWidth">
-                <div id="bookImage">
-                    <form id="store_img" action="store-book-image" method="POST" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        <input id="book_name" type="hidden" name="book" value="{{ book.book_name }}" required>
-                        <input id="book_file" type="image" name="image">
-                        <button type="submit">sdfsdfsdfsdf</button>
-                    </form>
-                    <img id="theBookImage" src="" width="300" height="400">
-                    <canvas id="book_image" width="300" height="400"></canvas>
-                    <div id="book_url">{{ book.book_file.url }}</div>
-                </div>
-                <div id="bookName" class="wordWrap"><h2>{{ book.book_name }}</h2></div>
-                <div align="left">
-                    <table>
-                        <tr>
-                            <th>Автор</th>
-                            <td class="wordWrap">{{ book.id_author }}</td>
-                        </tr>
-                        <tr>
-                            <th>Категория</th>
-                            <td class="wordWrap">{{ book.id_category }}</td>
-                        </tr>
-                        <tr>
-                            <th>Язык</th>
-                            <td class="wordWrap">{{ book.language }}</td>
-                        </tr>
-                        <tr>
-                            <th>Про книгу</th>
-                        </tr>
-                    </table>
-                    <div align="right">
-                        <textarea id="aboutText" readonly>{{ book.description }}</textarea>
+
+            <!--Area with info about book-->
+            <div class="mainSpace">
+
+                <div id="leftSide">
+                    <!--The book image-->
+                    <div align="left">
+                        <img id="theBookImage" src="" width="250" height="350">
+                        <canvas id="book_image"></canvas>
+                        <div id="book_url">{{ book.book_file.url }}</div>
                     </div>
-                    <div id="avgMach" align="right">
-                        <p>Средняя оценка: <b id="rating">{{ book_rating }}</b></p>
+
+                    <div id="avgMach" align="left">
+                        Рейтинг книги: <b id="rating">{{ book_rating }}</b>
                     </div>
+
+                    <!--Estimation Area-->
+                    <div id="estimationArea" align="left">
+                        <div><b>Оценить книгу</b></div>
+                        {% for estimation in estimation_count %}
+                        <div class="estimate"
+                             onclick="changeEstimation({{ book.id }}, {{ estimation }})">{{ estimation }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <!--The button for adding book-->
                     <input id="book_id" type="hidden" name="book_id" value="{{ book.id }}">
                     {% if added_book %}
                     <div id="removeBookDiv">
-                        <button class="addBook buttonColor" id="removeBook"
-                                onclick="removeBookHome('{{ csrf_token }}')">Удалить книгу</button>
-                        Сейчас книга в списке читаемых вами.
+                        <button class="addBook" id="removeBook"
+                                onclick="removeBookHome()">Удалить книгу</button>
+                        <div class="wordWrap addBookText">Сейчас книга в списке читаемых вами.</div>
                     </div>
                     {% else %}
-                    <button class="addBook buttonColor" id="addBook" onclick="addBookHome('{{ csrf_token }}')">
-                        Добавить книгу</button>
+                    <div id="addBookDiv">
+                        <button class="addBook" id="addBook"
+                                onclick="addBookHome()">Добавить книгу</button>
+                    </div>
                     {% endif %}
                 </div>
-            </div>
-            <div id="newEstimation" class="workBackground margins padding spaceWidth" align="left">
-                <div align="right"><b id="estimationHeader">Оценить книгу</b>
-                    <button class="estimationButton buttonColor"
-                            onclick="changeEstimation('{{ csrf_token }}', {{ book.id }}, 1)">1</button>
-                    <button class="estimationButton buttonColor"
-                            onclick="changeEstimation('{{ csrf_token }}', {{ book.id }}, 2)">2</button>
-                    <button class="estimationButton buttonColor"
-                            onclick="changeEstimation('{{ csrf_token }}', {{ book.id }}, 3)">3</button>
-                    <button class="estimationButton buttonColor"
-                            onclick="changeEstimation('{{ csrf_token }}', {{ book.id }}, 4)">4</button>
-                    <button class="estimationButton buttonColor"
-                            onclick="changeEstimation('{{ csrf_token }}', {{ book.id }}, 5)">5</button>
-                    <button class="estimationButton buttonColor"
-                            onclick="changeEstimation('{{ csrf_token }}', {{ book.id }}, 6)">6</button>
-                    <button class="estimationButton buttonColor"
-                            onclick="changeEstimation('{{ csrf_token }}', {{ book.id }}, 7)">7</button>
-                    <button class="estimationButton buttonColor"
-                            onclick="changeEstimation('{{ csrf_token }}', {{ book.id }}, 8)">8</button>
-                    <button class="estimationButton buttonColor"
-                            onclick="changeEstimation('{{ csrf_token }}', {{ book.id }}, 9)">9</button>
-                    <button class="estimationButton buttonColor"
-                            onclick="changeEstimation('{{ csrf_token }}', {{ book.id }}, 10)">10</button>
+
+                <div id="rightSide">
+                    <div id="bookName" class="wordWrap"><h2>{{ book.book_name }}</h2></div>
+                    <div align="left">
+                        <table>
+                            <tr><th>Автор</th><td class="wordWrap">{{ book.id_author }}</td></tr>
+                            <tr><th>Категория</th><td class="wordWrap">{{ book.id_category }}</td></tr>
+                            <tr><th>Язык</th><td class="wordWrap">{{ book.language }}</td></tr>
+                            <tr><th id="aboutBook">Про книгу</th></tr>
+                        </table>
+                    </div>
+                    <div align="right" id="aboutText" class="wordWrap">
+                        {{ book.description }}
+                    </div>
                 </div>
             </div>
-            <div class="newComment workBackground spaceWidth padding" align="right">
-                <img class="userPhoto" src="" width="120" height="120" alt="Фото пользователя">
-                <textarea id="addCommentText" class="commentTextGeneral" maxlength="500"></textarea>
-                <div id="buttonLabel"><b>Оставить комментарий</b>
-                    <button id="commentButton" class="buttonColor"
-                            onclick="addComment('{{ csrf_token }}', {{ book.id }})">Отправить</button>
+
+            <!--Area for adding comment-->
+            <hr>
+            <div class="newComment" align="left">
+                <div id="newCommentHeader">Оставить комментарий</div>
+                <div id="newCommentBody">
+                    <img class="userPhoto" src="" width="120" height="120">
+                    <textarea id="addCommentText" maxlength="500" placeholder="Введите текст..."></textarea>
+                    <button id="commentButton" onclick="addComment({{ book.id }})">Отправить</button>
                 </div>
             </div>
+
+            <hr>
+            <div id="commentsHeader" align="left"><b>Комментарии</b></div>
+
+            <!--Area with existing comments-->
             {% for comment in comments %}
-            <div class="workBackground margins padding spaceWidth" align="right">
-                <img class="userPhoto" src="" width="120" height="120" alt="Фото пользователя комментария">
-                <b>{{ comment.id_user }}</b>
-                <textarea class="commentText commentTextGeneral">{{ comment.text }}</textarea>
+            <hr class="hr">
+            <div class="comment" align="left">
+                <div class="userPhoto">
+                    <img src="" width="120" height="120">
+                    <div class="wordWrap userName"><b>{{ comment.id_user }}</b></div>
+                </div>
+                <div class="commentText wordWrap">{{ comment.text }}</div>
             </div>
             {% endfor %}
         </div>

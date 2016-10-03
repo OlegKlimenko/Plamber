@@ -2,14 +2,24 @@
     color: red;
 }
 
-.staticTextColor {
-    color: #fff;
-}
-
 .reference {
-    color: #7c9fc2;
+    color: #9aa6ad;
     cursor: pointer;
     text-decoration: none;
+}
+
+.reference:hover {
+    color: #31a445;
+}
+
+.activeReference {
+    font-family: 'Comfortaa', cursive;
+    color: #31a445;
+    text-decoration: none;
+}
+
+.activeReference:hover {
+    color: #9aa6ad;
 }
 
 .wordWrap {

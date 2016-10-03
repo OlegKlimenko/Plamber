@@ -1,17 +1,15 @@
 .inputColors {
     border-radius: 2px;
-    border: 2px solid #7c9fc2;
-    font: 12pt Arial;
+    border: 2px solid #9aa6ad;
+    font: 14pt 'Comfortaa', cursive;
+    outline: none;
+}
+
+.inputColors:focus {
+    border: 2px solid #31a445;
 }
 
 .input {
-    height: 24px;
-    margin: 5px;
-    padding: 2px 5px 2px 5px;
-}
-
-.commentTextGeneral {
-    font: 12pt Arial;
-    resize: none;
-    width: 749px;
+    height: 50px;
+    padding: 2px 5px 2px 15px;
 }

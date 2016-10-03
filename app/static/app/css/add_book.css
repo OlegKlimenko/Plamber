@@ -1,41 +1,55 @@
+h1 {
+    font: 35pt 'Comfortaa', cursive;
+    color: #31a445;
+    margin-top: 20px;
+}
+
 #mainSpace {
-    font-size: 18px;
-    margin: 30px 30px;
-    padding: 30px;
-    width: 490px;
+    margin-top: 20px;
+    width: 550px;
 }
 
 .lineInput {
     width: 95%;
+    margin-bottom: 20px;
 }
 
 #divAuthorsListHeader {
     display: none;
+    font: 15pt 'Comfortaa', cursive;
+    margin-bottom: 10px;
 }
 
 #divAuthorsList {
     display: none;
+    font: 12pt Open Sans;
+    margin-bottom: 20px;
+}
+
+.inputHeader {
+    font: 18pt 'Comfortaa', cursive;
 }
 
 .checkBox {
-    height: 30px;
-    width: 70%;
+    color: #9aa6ad;
+    font: 14pt 'Comfortaa', cursive;
+    height: 57px;
+    margin-bottom: 20px;
+    margin-left: 10px;
+    padding: 2px 5px 2px 15px;
+    width: 71%;
 }
 
-.button {
-    font: 12pt Arial;
-    width: 150px;
+.checkElement {
+    color: #9aa6ad;
 }
 
 #aboutBook {
     height: 200px;
-    padding: 5px;
+    margin-bottom: 20px;
+    padding: 15px;
     resize: none;
-    width: 467px;
-}
-
-.addBookButton {
-    height: 26px;
+    width: 512px;
 }
 
 #uploadBook {
@@ -48,15 +62,47 @@
     text-align: center;
 }
 
+.uploadButton {
+    border: solid 2px #31a445;
+    border-radius: 2px;
+    color: #31a445;
+    cursor: pointer;
+    font: 15pt 'Comfortaa', cursive;
+    margin-left: 5px;
+}
+
+.uploadButton:hover {
+    border: solid 2px #2e3438;
+    color: #2e3438;
+}
+
 #missingBookWarn {
     display: none;
-    margin: 0 0 10;
+    font: 16pt 'Comfortaa', cursive;
+    margin-left: 5px;
 }
 
 #fileUploading {
+    color: #31a445;
     display: none;
+    font: 16pt 'Comfortaa', cursive;
 }
 
-.margin {
-    margin: 5px;
+.addBookButton {
+    background-color: #31a445;
+    border: solid 2px #31a445;
+    border-radius: 2px;
+    color: #fff;
+    cursor: pointer;
+    font: 15pt 'Comfortaa', cursive;
+    height: 50px;
+    margin-bottom: 30px;
+    outline: none;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.addBookButton:hover {
+    background-color: #fff;
+    color: #31a445;
 }

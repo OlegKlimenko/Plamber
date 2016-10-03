@@ -1,6 +1,6 @@
 // Constants
 var PDF_DOCUMENT;
-var SCALE = 0.8;
+var SCALE = 1.5;
 var PAGE_RENDERING = false;
 var PAGE_NUM_PENDING = null;
 

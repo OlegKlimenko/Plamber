@@ -7,8 +7,8 @@ from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.template import RequestContext, loader
 
-from app.forms import BookHomeForm, AddCommentForm, ChangeRatingForm, AddBookImageForm
-from app.models import AddedBook, Book, BookRating, BookComment, TheUser
+from ..forms import BookHomeForm, AddCommentForm, ChangeRatingForm
+from ..models import AddedBook, Book, BookRating, BookComment, TheUser
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -26,7 +26,8 @@ def selected_book_view(request, book_id):
         context = RequestContext(request, {'book': rel_objects['book'],
                                            'added_book': rel_objects['added_book'],
                                            'comments': rel_objects['comments'],
-                                           'book_rating': rel_objects['avg_book_rating']['rating__avg']})
+                                           'book_rating': rel_objects['avg_book_rating']['rating__avg'],
+                                           'estimation_count': range(1, 11)})
         return HttpResponse(template.render(context))
     else:
         return redirect('index')
@@ -165,13 +166,14 @@ def store_book_image_view(request):
     :param django.core.handlers.wsgi.WSGIRequest request: The request for store the image of a book.
     :return: Response with successfully added image to a book.
     """
-    if request.method == "POST":
-        image_form = AddBookImageForm(request.POST, request.FILES)
-
-        print(image_form)
-
-        if image_form.is_valid():
-            print('yeah!!!')
-
-    else:
-        return HttpResponse(status=404)
+    pass
+    # if request.method == "POST":
+    #     image_form = AddBookImageForm(request.POST, request.FILES)
+    #
+    #     print(image_form)
+    #
+    #     if image_form.is_valid():
+    #         print('yeah!!!')
+    #
+    # else:
+    #     return HttpResponse(status=404)

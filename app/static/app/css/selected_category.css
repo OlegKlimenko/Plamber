@@ -1,54 +1,89 @@
 .categoryName {
-    margin-left: 10px;
+    color: #31a445;
+    font: 27pt 'Comfortaa', cursive;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
-.searchArea {
-    font: 14pt Arial;
-    padding: 10px 0 10px 15px;
-    width: 970px;
+#searchHeader {
+    color: #9aa6ad;
+    font: 20pt 'Comfortaa', cursive;
+    margin-right: 20px;
 }
 
 #searchInput {
-    width: 90%;
+    width: 884px;
+}
+
+.sortArea {
+    color: #2e3438;
+    font: 18pt 'Comfortaa', cursive;
+    margin-top: 20px;
+}
+
+#sortHeader {
+    margin-right: 17px;
 }
 
 .booksArea {
     float: left;
-    margin-top: 30px;
-    width: 72%;
-}
-
-.sortArea {
-    font: 14pt Arial;
-    float: right;
-    margin: 30px 7px 0 0;
-    padding: 0 10px 20px 10px;
-    width: 25%;
+    margin-top: 20px;
 }
 
 .button {
-    font: 12pt Arial;
-    height: 26px;
-    margin-bottom: 15px;
-    width: 180px;
+    border-radius: 2px;
+    cursor: pointer;
+    font: 12pt 'Comfortaa', cursive;
+    height: 50px;
+    margin-left: 10px;
+    outline: none;
+    width: 181px;
+}
+
+.buttonColor {
+    background-color: #2e3438;
+    color: #fff;
+}
+
+.buttonColor:hover {
+    background-color: #fff;
+    border: 2px solid #2e3438;
+    color: #2e3438;
+}
+
+.selectedButtonColor {
+    background-color: #31a445;
+    color: #fff;
+}
+
+.selectedButtonColor:hover {
+    background-color: #fff;
+    border: 2px solid #31a445;
+    color: #31a445;
 }
 
 .book {
+    border: 1px solid black;
+    color: #31a445;
     float: left;
+    font: 11pt Open Sans;
+    height: 230px;
+    margin: 0 10px 10px 0;
+    padding: 4px;
     width: 150px;
-    margin: 0 8px 30px 8px;
-    padding: 25px 5px 25px 5px;
 }
 
-.bookImage {
-    margin-bottom: 8px;
+.book:hover {
+    background-color: #2e3438;
+    color: #fff;
 }
 
-.bookName {
-    font: 12pt Arial;
+h1 {
+    color: #2e3438;
+    font-family: 'Comfortaa', cursive;
 }
 
-.bookAuthor{
-    font: 10pt Arial;
-    margin-top: 10px;
+h2 {
+    color: #2e3438;
+    font-family: 'Comfortaa', cursive;
 }

@@ -1,15 +1,24 @@
+h1 {
+    font: 35pt 'Comfortaa', cursive;
+    margin-top: 20px;
+}
+
 .category {
+    background-color: #9aa6ad;
     border: 0;
+    border-radius: 2px;
+    color: #fff;
+    cursor: pointer;
     float: left;
-    font: 14pt Arial;
-    height: 75px;
-    margin: 30px 10px 0 10px;
+    font: 15pt 'Comfortaa', cursive;
+    height: 130px;
+    margin: 0px 10px 20px 10px;
     outline: none;
-    width: 230px;
+    text-decoration: none;
+    width: 225px;
 }
 
 .category:hover {
-    background-color: #1c5bed;
-    color: #fff;
+    background-color: #2e3438;
+    color: #31a445;
 }
-

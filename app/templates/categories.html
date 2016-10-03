@@ -8,30 +8,36 @@
     <link rel="stylesheet" type="text/css" href="{% static 'app/css/general/buttons.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'app/css/general/text.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'app/css/categories.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Comfortaa&subset=cyrillic,cyrillic-ext,latin-ext">
 </head>
 <body>
+    <!--Header Area-->
     <div id="header" align="center">
         <div class="layout">
-            <img id="headerLogo" src="{% static 'app/images/logo.png' %}" width="128" height="70"
+            <img id="headerLogo" src="{% static 'app/images/logo.png' %}" width="140" height="80"
                     alt="Логотип сайта">
             <div align="right">
                 <form id="logout" action="/logout/" method="POST">
                     {% csrf_token %}
                 </form>
-                <button class="headerButton selectedButtonColor">Библиотека</button>
-                <a href="{% url 'index' %}"><button class="headerButton buttonColor">Мои книги</button></a>
-                <button class="headerButton buttonColor">Профиль</button>
-                <button class="headerButton buttonColor" type="submit" form="logout">Выйти</button>
+                <button class="headerButton headerSelectedButtonColor">Библиотека</button>
+                <a href="{% url 'index' %}"><button class="headerButton headerButtonColor">Мои книги</button></a>
+                <button class="headerButton headerButtonColor">Профиль</button>
+                <button class="headerButton headerButtonColor">О проекте</button>
+                <button class="headerButton headerButtonColor" type="submit" form="logout">Bыйти</button>
             </div>
         </div>
     </div>
+
+    <!--Main info area-->
     <div align="center">
         <div class="layout" align="center">
+            <div align="left">
+                <h1><b>Категории</b></h1>
+            </div>
             {% for category in categories %}
             <a href="category/{{ category.id }}">
-                <button class="wordWrap category workBackground">
-                    {{ category.category_name }}
-                </button>
+                <button class="wordWrap category">{{ category.category_name }}</button>
             </a>
             {% endfor %}
         </div>

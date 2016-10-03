@@ -8,8 +8,8 @@ from django.http import HttpResponse
 from django.template import RequestContext, loader
 from django.shortcuts import render, redirect
 
-from app.forms import LogInForm, IsUserExistsForm, SignInForm
-from app.models import AddedBook, TheUser
+from ..forms import LogInForm, IsUserExistsForm, SignInForm
+from ..models import AddedBook, TheUser
 
 
 # ----------------------------------------------------------------------------------------------------------------------

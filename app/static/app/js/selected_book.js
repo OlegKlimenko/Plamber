@@ -1,24 +1,4 @@
 // ---------------------------------------------------------------------------------------------------------------------
-function storeBookImage() {
-    $.ajax({
-        url: "store-book-image",
-        type: "POST",
-        data: {book: $("book_name").val(),
-//               image: $("#book_file"),
-               csrfmiddlewaretoken: getCookie("csrftoken")},
-
-//        contentType: false,
-//        cache: false,
-//        processData:false,
-
-
-        success: function(json) {
-            console.log("YEAH!!!");
-        }
-    });
-}
-
-// ---------------------------------------------------------------------------------------------------------------------
 /**
  * Fetches image from canvas and set it to image.
  */
@@ -26,9 +6,7 @@ function fetchData() {
     var canvas = document.getElementById("book_image");
     var dataURL = canvas.toDataURL();
 
-    $("#theBookImage").attr("src", dataURL);
-    $("#book_file").attr("src", "http://files.porsche.com/filestore/image/multimedia/none/991-2nd-c2s-modelimage-sideshot/model/e4c9e332-5539-11e5-8c32-0019999cd470;s3/porsche-model.png");
-}
+    $("#theBookImage").attr("src", dataURL);}
 
 // ---------------------------------------------------------------------------------------------------------------------
 /**
@@ -56,7 +34,6 @@ function renderPage(pdf, pageNumber) {
         var task = page.render(renderContext);
         task.promise.then(function() {
             fetchData();
-//            storeBookImage();
         });
     });
 }
@@ -89,21 +66,20 @@ $(document).ready(function() {
 // ---------------------------------------------------------------------------------------------------------------------
 /**
  * Sends ajax request for adding book to user's own library; Generates additional HTML code.
- *
- * @param {string} csrfToken The special django token for avoid csrf attacks.
  */
-function addBookHome(csrfToken) {
+function addBookHome() {
     $.ajax({
         url: "home-add-book",
         type: "POST",
         data: {book: $("#book_id").val(),
-               csrfmiddlewaretoken: csrfToken},
+               csrfmiddlewaretoken: getCookie("csrftoken")},
 
         success: function result(json) {
-            $("#addBook").css("display", "none");
-            $("#avgMach").after("<div id='removeBookDiv'>" + "<button class='addBook buttonColor' id='removeBook'>" +
-                                "Удалить книгу</button>Сейчас книга в списке читаемых вами.</div>");
-            $("#removeBook").attr("onClick", "removeBookHome(" + "'" + csrfToken + "')");
+            $("#addBookDiv").remove();
+            $("#leftSide").append("<div id='removeBookDiv'><button class='addBook' id='removeBook'>" +
+                                  "Удалить книгу</button>" +
+                                  "<div class='wordWrap addBookText'>Сейчас книга в списке читаемых вами.</div></div>");
+            $("#removeBook").attr("onClick", "removeBookHome()");
         }
     });
 }
@@ -111,20 +87,19 @@ function addBookHome(csrfToken) {
 // ---------------------------------------------------------------------------------------------------------------------
 /**
  * Sends ajax request for removing book from user's own library; Generates additional HTML code.
- *
- * @param {string} csrfToken The special django token for avoid csrf attacks.
  */
 function removeBookHome(csrfToken) {
     $.ajax({
         url: "home-remove-book",
         type: "POST",
         data: {book: $("#book_id").val(),
-               csrfmiddlewaretoken: csrfToken},
+               csrfmiddlewaretoken: getCookie("csrftoken")},
 
         success: function result(json) {
-            $("#removeBookDiv").css("display", "none");
-            $("#avgMach").after("<button class='addBook buttonColor' id='addBook'>Добавить книгу</button>");
-            $("#addBook").attr("onClick", "addBookHome(" + "'" + csrfToken + "')");
+            $("#removeBookDiv").remove();
+            $("#leftSide").append("<div id='addBookDiv'><button class='addBook' " +
+                                  "id='addBook'>Добавить книгу</button></div>");
+            $("#addBook").attr("onClick", "addBookHome()");
         }
     });
 }
@@ -133,17 +108,16 @@ function removeBookHome(csrfToken) {
 /**
  * Changes estimation of a book.
  *
- * @param {string} csrfToken The special django token for avoid csrf attacks.
  * @param {number} idBook The id of a book.
  * @param {number} newRating The rating which we reset.
  */
-function changeEstimation(csrfToken, idBook, newRating) {
+function changeEstimation(idBook, newRating) {
     $.ajax({
         url: "change-rating",
         type: "POST",
         data: {book: idBook,
                rating: newRating,
-               csrfmiddlewaretoken: csrfToken},
+               csrfmiddlewaretoken: getCookie("csrftoken")},
 
         success: function result(json) {
             $("#rating").text(json);
@@ -155,22 +129,24 @@ function changeEstimation(csrfToken, idBook, newRating) {
 /**
  * Adds a comment to a book; Generates additional HTML code.
  *
- * @param {string} csrfToken The special django token for avoid csrf attacks.
  * @param {number} idBook The id of a book.
  */
-function addComment(csrfToken, idBook) {
+function addComment(idBook) {
     $.ajax({
         url: "comment-add",
         type: "POST",
         data: {book: idBook,
                comment: $("#addCommentText").val(),
-               csrfmiddlewaretoken: csrfToken},
+               csrfmiddlewaretoken: getCookie("csrftoken")},
 
         success: function result(username) {
-            $(".newComment").after("<div class='comment workBackground margins padding spaceWidth' align='right'>" +
-                                   "<img class='userPhoto' src='' width='120' height='120' alt='Фото пользователя'>" +
-                                   "<b>" + username + "</b><textarea class='commentText commentTextGeneral'>" +
-                                   $("#addCommentText").val() + "</textarea></div>");
+            $("#commentsHeader").after("<hr class='hr'>" +
+                                   "<div class='comment' align='left'>" +
+                                   "<div class='userPhoto'>" +
+                                   "<img src='' width='120' height='120'>" +
+                                   "<div class='wordWrap userName'><b>" + username + "</b></div></div>" +
+                                   "<div class='commentText wordWrap'>" + $("#addCommentText").val() + "</div></div>");
+
             $("#addCommentText").val("");
             $("html, body").animate({scrollBottom: $(document).height()});
         }
