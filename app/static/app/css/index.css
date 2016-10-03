@@ -22,7 +22,7 @@ h2 {
     background-color: #000;
     height: 100%;
     left: 0;
-    opacity: 0.95;
+    opacity: .95;
     position: fixed;
     top: 0;
     width: 100%;
@@ -78,6 +78,6 @@ h2 {
 .heading {
     font-size: 25pt;
     margin-bottom: 20px;
-    opacity: 0.5;
+    opacity: .5;
     color: #9aa6ad;
 }
