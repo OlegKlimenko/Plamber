@@ -57,7 +57,7 @@
                         <div><b>Оценить книгу</b></div>
                         {% for estimation in estimation_count %}
                         <div class="estimate"
-                             onclick="changeEstimation('{{ csrf_token }}', {{ book.id }}, {{ estimation }})">{{ estimation }}</div>
+                             onclick="changeEstimation({{ book.id }}, {{ estimation }})">{{ estimation }}</div>
                         {% endfor %}
                     </div>
 
@@ -66,13 +66,13 @@
                     {% if added_book %}
                     <div id="removeBookDiv">
                         <button class="addBook" id="removeBook"
-                                onclick="removeBookHome('{{ csrf_token }}')">Удалить книгу</button>
+                                onclick="removeBookHome()">Удалить книгу</button>
                         <div class="wordWrap addBookText">Сейчас книга в списке читаемых вами.</div>
                     </div>
                     {% else %}
                     <div id="addBookDiv">
                         <button class="addBook" id="addBook"
-                                onclick="addBookHome('{{ csrf_token }}')">Добавить книгу</button>
+                                onclick="addBookHome()">Добавить книгу</button>
                     </div>
                     {% endif %}
                 </div>
@@ -100,7 +100,7 @@
                 <div id="newCommentBody">
                     <img class="userPhoto" src="" width="120" height="120">
                     <textarea id="addCommentText" maxlength="500" placeholder="Введите текст..."></textarea>
-                    <button id="commentButton" onclick="addComment('{{ csrf_token }}', {{ book.id }})">Отправить</button>
+                    <button id="commentButton" onclick="addComment({{ book.id }})">Отправить</button>
                 </div>
             </div>
 
