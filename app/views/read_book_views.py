@@ -4,8 +4,8 @@ import json
 from django.http import HttpResponse
 from django.template import RequestContext, loader
 
-from app.forms import SetCurrentPageForm
-from app.models import Book, AddedBook, TheUser
+from ..forms import SetCurrentPageForm
+from ..models import Book, AddedBook, TheUser
 
 
 # ----------------------------------------------------------------------------------------------------------------------

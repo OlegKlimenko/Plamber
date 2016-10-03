@@ -6,8 +6,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import redirect
 from django.template import RequestContext, loader
 
-from app.forms import GenerateAuthorsForm, AddBookForm
-from app.models import Author, Book, Category, Language, TheUser
+from ..forms import GenerateAuthorsForm, AddBookForm
+from ..models import Author, Book, Category, Language, TheUser
 
 
 # ----------------------------------------------------------------------------------------------------------------------

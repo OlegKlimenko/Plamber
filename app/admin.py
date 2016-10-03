@@ -2,7 +2,7 @@
 
 from django.contrib import admin
 
-from app.models import Category, Author, Book, BookRating, BookComment, AddedBook, TheUser, Language
+from .models import Category, Author, Book, BookRating, BookComment, AddedBook, TheUser, Language
 
 
 # ----------------------------------------------------------------------------------------------------------------------

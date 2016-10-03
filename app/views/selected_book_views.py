@@ -7,8 +7,8 @@ from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.template import RequestContext, loader
 
-from app.forms import BookHomeForm, AddCommentForm, ChangeRatingForm, AddBookImageForm
-from app.models import AddedBook, Book, BookRating, BookComment, TheUser
+from ..forms import BookHomeForm, AddCommentForm, ChangeRatingForm
+from ..models import AddedBook, Book, BookRating, BookComment, TheUser
 
 
 # ----------------------------------------------------------------------------------------------------------------------
