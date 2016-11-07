@@ -6,7 +6,8 @@ function fetchData() {
     var canvas = document.getElementById("book_image");
     var dataURL = canvas.toDataURL();
 
-    $("#theBookImage").attr("src", dataURL);}
+    $("#theBookImage").attr("src", dataURL);
+}
 
 // ---------------------------------------------------------------------------------------------------------------------
 /**

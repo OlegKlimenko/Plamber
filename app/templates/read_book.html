@@ -6,34 +6,49 @@
     <title></title>
     <link rel="stylesheet" href="{% static 'app/css/general/general.css' %}">
     <link rel="stylesheet" href="{% static 'app/css/general/buttons.css' %}">
+    <link rel="stylesheet" href="{% static 'app/css/general/inputs.css' %}">
+    <link rel="stylesheet" href="{% static 'app/css/read_book.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Comfortaa&subset=cyrillic,cyrillic-ext,latin-ext">
     <script src="{% static 'app/js/third_party/jquery.js' %}"></script>
     <script src="{% static 'app/js/third_party/pdf_js/pdf.js' %}"></script>
     <script src="{% static 'app/js/helper/special.js' %}"></script>
     <script src="{% static 'app/js/read_book.js' %}"></script>
 </head>
 <body>
-    <div id="header" align="center">
+    <!--Header Area-->
+    <div id="header" align="center" class="headerReadBook">
         <div class="layout">
-            <img id="headerLogo" src="{% static 'app/images/logo.png' %}" width="128" height="70"
+            <img id="headerLogo" src="{% static 'app/images/logo.png' %}" width="140" height="80"
                     alt="Логотип сайта">
             <div align="right">
                 <form id="logout" action="/logout/" method="POST">
                     {% csrf_token %}
                 </form>
-                <a href="{% url 'categories' %}"><button class="headerButton buttonColor">Библиотека</button></a>
-                <a href="{% url 'index' %}"><button class="headerButton buttonColor">Мои книги</button></a>
-                <button class="headerButton buttonColor">Профиль</button>
-                <button class="headerButton buttonColor" type="submit" form="logout">Выйти</button>
+                <a href="{% url 'categories' %}"><button class="headerButton headerButtonColor">Библиотека</button></a>
+                <a href="{% url 'index' %}"><button class="headerButton headerSelectedButtonColor">Мои книги</button></a>
+                <button class="headerButton headerButtonColor">Профиль</button>
+                <button class="headerButton headerButtonColor">О проекте</button>
+                <button class="headerButton headerButtonColor" type="submit" form="logout">Bыйти</button>
             </div>
         </div>
     </div>
+
     <div>
-        <div id="book_name">{{ book_name }}</div>
         <div id="book_url">{{ book_url.url }}</div>
-        <div id="current_page">{{ book_page }}</div>
-        <button id="prev" class="buttonColor">Предыдущая</button>
-        <button id="next" class="buttonColor">Следущая</button>
+        <div id="bookName">{{ book_name }}</div>
+        <div id="currentPage">{{ book_page }}</div>
     </div>
-    <canvas id="the-canvas" style="border: 1px solid black;" height="633" width="489"></canvas>
+
+    <!--Main info area-->
+    <div align="center">
+        <div class="layout" id="mainArea">
+            <div id="spacePusher"></div>
+            <div id="pageNavBar">
+                <div><button id="prevPage" class="pageNavButton" onclick="prevPage();">⬆</button></div>
+                <div><input id="pageNumber" class="input inputColors"></div>
+                <div><button id="nextPage" class="pageNavButton" onclick="nextPage();">⬇</button></div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
