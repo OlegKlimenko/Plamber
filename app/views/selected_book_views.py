@@ -9,6 +9,7 @@ from django.template import RequestContext, loader
 
 from ..forms import BookHomeForm, AddCommentForm, ChangeRatingForm
 from ..models import AddedBook, Book, BookRating, BookComment, TheUser
+from ..utils import html_escape
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -150,30 +151,13 @@ def add_comment_view(request):
         comment_form = AddCommentForm(request.POST)
 
         if comment_form.is_valid():
-            BookComment.objects.create(id_user=TheUser.objects.get(id_user=request.user),
-                                       id_book=Book.objects.get(id=comment_form.cleaned_data['book']),
-                                       text=comment_form.cleaned_data['comment'])
-            return HttpResponse(json.dumps(request.user.username), content_type='application/json')
+            response_data = dict()
+            comment = BookComment.objects.create(id_user=TheUser.objects.get(id_user=request.user),
+                                                 id_book=Book.objects.get(id=comment_form.cleaned_data['book']),
+                                                 text=comment_form.cleaned_data['comment'])
+
+            response_data['text'] = html_escape(comment.text)
+            response_data['username'] = request.user.username
+            return HttpResponse(json.dumps(response_data), content_type='application/json')
     else:
         return HttpResponse(status=404)
-
-
-# ----------------------------------------------------------------------------------------------------------------------
-def store_book_image_view(request):
-    """
-    Stores the image of a book.
-
-    :param django.core.handlers.wsgi.WSGIRequest request: The request for store the image of a book.
-    :return: Response with successfully added image to a book.
-    """
-    pass
-    # if request.method == "POST":
-    #     image_form = AddBookImageForm(request.POST, request.FILES)
-    #
-    #     print(image_form)
-    #
-    #     if image_form.is_valid():
-    #         print('yeah!!!')
-    #
-    # else:
-    #     return HttpResponse(status=404)

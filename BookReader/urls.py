@@ -32,7 +32,6 @@ urlpatterns = [
     url(r'home-remove-book', selected_book_views.remove_book_from_home_view),
     url(r'change-rating', selected_book_views.change_rating_view),
     url(r'comment-add', selected_book_views.add_comment_view),
-    url(r'store-book-image', selected_book_views.store_book_image_view),
 
     # Library urls
     url(r'library', library_views.categories_view, name='categories'),

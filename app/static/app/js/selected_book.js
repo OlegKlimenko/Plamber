@@ -140,13 +140,14 @@ function addComment(idBook) {
                comment: $("#addCommentText").val(),
                csrfmiddlewaretoken: getCookie("csrftoken")},
 
-        success: function result(username) {
+        success: function result(response) {
             $("#commentsHeader").after("<hr class='hr'>" +
-                                   "<div class='comment' align='left'>" +
-                                   "<div class='userPhoto'>" +
-                                   "<img src='' width='120' height='120'>" +
-                                   "<div class='wordWrap userName'><b>" + username + "</b></div></div>" +
-                                   "<div class='commentText wordWrap'>" + $("#addCommentText").val() + "</div></div>");
+                                       "<div class='comment' align='left'>" +
+                                       "<div class='userPhoto'>" +
+                                       "<img src='' width='120' height='120'>" +
+                                       "<div class='wordWrap userName'><b>" + response['username'] +
+                                       "</b></div></div>" +
+                                       "<div class='commentText wordWrap'>" + response['text'] + "</div></div>");
 
             $("#addCommentText").val("");
             $("html, body").animate({scrollBottom: $(document).height()});
