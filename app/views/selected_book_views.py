@@ -2,6 +2,7 @@
 
 import json
 from django.core.exceptions import ObjectDoesNotExist
+from django.db import transaction
 from django.db.models import Avg
 from django.http import HttpResponse
 from django.shortcuts import redirect
@@ -51,10 +52,7 @@ def get_related_objects(request, book_id):
     except ObjectDoesNotExist:
         added_book = None
 
-    try:
-        comments = BookComment.objects.filter(id_book=Book.objects.get(id=book_id)).order_by('-id')
-    except ObjectDoesNotExist:
-        comments = None
+    comments = BookComment.objects.filter(id_book=Book.objects.get(id=book_id)).order_by('-id')
 
     return {'book': book, 'avg_book_rating': avg_book_rating, 'added_book': added_book, 'comments': comments}
 
@@ -109,12 +107,13 @@ def change_rating_view(request):
         rating_form = ChangeRatingForm(request.POST)
 
         if rating_form.is_valid():
-            change_rating(request, rating_form)
+            with transaction.atomic():
+                change_rating(request, rating_form)
 
-            avg_book_rating = BookRating.objects.filter(
-                id_book=Book.objects.get(id=rating_form.cleaned_data['book'])).aggregate(Avg('rating'))
+                avg_book_rating = BookRating.objects.filter(
+                    id_book=Book.objects.get(id=rating_form.cleaned_data['book'])).aggregate(Avg('rating'))
 
-            return HttpResponse(json.dumps(avg_book_rating['rating__avg']), content_type='application/json')
+                return HttpResponse(json.dumps(avg_book_rating['rating__avg']), content_type='application/json')
     else:
         return HttpResponse(status=404)
 

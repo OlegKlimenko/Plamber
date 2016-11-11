@@ -4,6 +4,7 @@ import json
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
+from django.db import transaction
 from django.http import HttpResponse
 from django.template import RequestContext, loader
 from django.shortcuts import render, redirect
@@ -106,10 +107,11 @@ def sign_in_view(request):
         sign_in_form = SignInForm(request.POST)
 
         if sign_in_form.is_valid():
-            user = User.objects.create_user(
-                username=sign_in_form.cleaned_data['username'],
-                email=sign_in_form.cleaned_data['email'],
-                password=sign_in_form.cleaned_data['passw1'])
-            TheUser.objects.create(id_user=user)
+            with transaction.atomic():
+                user = User.objects.create_user(
+                    username=sign_in_form.cleaned_data['username'],
+                    email=sign_in_form.cleaned_data['email'],
+                    password=sign_in_form.cleaned_data['passw1'])
+                TheUser.objects.create(id_user=user)
 
-            return redirect('/thanks/')
+                return redirect('/thanks/')

@@ -94,7 +94,6 @@ def sort_by_book_name(books, category):
     :param app.models.Category category: The category.
     """
     filtered_books = Book.objects.filter(id_category=category).order_by('book_name')
-
     generate_books(books, filtered_books)
 
 
@@ -107,7 +106,6 @@ def sort_by_author(books, category):
     :param app.models.Category category: The category.
     """
     filtered_books = Book.objects.filter(id_category=category).order_by('id_author__author_name')
-
     generate_books(books, filtered_books)
 
 

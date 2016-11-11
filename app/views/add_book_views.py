@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import json
+from django.db import transaction
 from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import redirect
@@ -63,16 +64,17 @@ def add_book_successful_view(request):
         book_form = AddBookForm(request.POST, request.FILES)
 
         if book_form.is_valid():
-            rel_objects = get_related_objects(request.user.id, book_form)
+            with transaction.atomic():
+                rel_objects = get_related_objects(request.user.id, book_form)
 
-            book = Book.objects.create(book_name=book_form.cleaned_data['bookname'],
-                                       id_author=rel_objects['author'],
-                                       id_category=rel_objects['category'],
-                                       description=book_form.cleaned_data['about'],
-                                       language=rel_objects['lang'],
-                                       book_file=book_form.cleaned_data['bookfile'],
-                                       who_added=rel_objects['user'])
-            return redirect('book/{0}/'.format(book.id))
+                book = Book.objects.create(book_name=book_form.cleaned_data['bookname'],
+                                           id_author=rel_objects['author'],
+                                           id_category=rel_objects['category'],
+                                           description=book_form.cleaned_data['about'],
+                                           language=rel_objects['lang'],
+                                           book_file=book_form.cleaned_data['bookfile'],
+                                           who_added=rel_objects['user'])
+                return redirect('book/{0}/'.format(book.id))
     else:
         return HttpResponse(status=404)
 
