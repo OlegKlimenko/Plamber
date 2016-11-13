@@ -19,16 +19,16 @@
     <!--Header Area-->
     <div id="header" align="center">
         <div class="layout">
-            <img id="headerLogo" src="{% static 'app/images/logo.png' %}" width="140" height="80" alt="Логотип сайта">
+            <img id="header-logo" src="{% static 'app/images/logo.png' %}" width="140" height="80" alt="Логотип сайта">
             <div align="right">
                 <form id="logout" action="/logout/" method="POST">
                     {% csrf_token %}
                 </form>
-                <a href="{% url 'categories' %}"><button class="headerButton headerSelectedButtonColor">Библиотека</button></a>
-                <a href="{% url 'index' %}"><button class="headerButton headerButtonColor">Мои книги</button></a>
-                <button class="headerButton headerButtonColor">Профиль</button>
-                <button class="headerButton headerButtonColor">О проекте</button>
-                <button class="headerButton headerButtonColor" type="submit" form="logout">Bыйти</button>
+                <a href="{% url 'categories' %}"><button class="header-button header-selected-button-color">Библиотека</button></a>
+                <a href="{% url 'index' %}"><button class="header-button header-button-color">Мои книги</button></a>
+                <button class="header-button header-button-color">Профиль</button>
+                <button class="header-button header-button-color">О проекте</button>
+                <button class="header-button header-button-color" type="submit" form="logout">Bыйти</button>
             </div>
         </div>
     </div>
@@ -38,22 +38,22 @@
         <div class="layout" align="center">
 
             <!--Area with info about book-->
-            <div class="mainSpace">
+            <div class="main-space">
 
-                <div id="leftSide">
+                <div id="left-side">
                     <!--The book image-->
                     <div align="left">
-                        <img id="theBookImage" src="" width="250" height="350">
-                        <canvas id="book_image"></canvas>
-                        <div id="book_url">{{ book.book_file.url }}</div>
+                        <img id="the-book-image" src="" width="250" height="350">
+                        <canvas id="book-image"></canvas>
+                        <div id="book-url">{{ book.book_file.url }}</div>
                     </div>
 
-                    <div id="avgMach" align="left">
+                    <div id="avg-mach" align="left">
                         Рейтинг книги: <b id="rating">{{ book_rating }}</b>
                     </div>
 
                     <!--Estimation Area-->
-                    <div id="estimationArea" align="left">
+                    <div id="estimation-area" align="left">
                         <div><b>Оценить книгу</b></div>
                         {% for estimation in estimation_count %}
                         <div class="estimate"
@@ -62,32 +62,32 @@
                     </div>
 
                     <!--The button for adding book-->
-                    <input id="book_id" type="hidden" name="book_id" value="{{ book.id }}">
+                    <input id="book-id" type="hidden" name="book_id" value="{{ book.id }}">
                     {% if added_book %}
-                    <div id="removeBookDiv">
-                        <button class="addBook" id="removeBook"
+                    <div id="remove-book-div">
+                        <button class="add-book" id="remove-book"
                                 onclick="removeBookHome()">Удалить книгу</button>
-                        <div class="wordWrap addBookText">Сейчас книга в списке читаемых вами.</div>
+                        <div class="word-wrap add-book-text">Сейчас книга в списке читаемых вами.</div>
                     </div>
                     {% else %}
-                    <div id="addBookDiv">
-                        <button class="addBook" id="addBook"
+                    <div id="add-book-div">
+                        <button class="add-book" id="add-book"
                                 onclick="addBookHome()">Добавить книгу</button>
                     </div>
                     {% endif %}
                 </div>
 
-                <div id="rightSide">
-                    <div id="bookName" class="wordWrap"><h2>{{ book.book_name }}</h2></div>
+                <div>
+                    <div id="book-name" class="word-wrap"><h2>{{ book.book_name }}</h2></div>
                     <div align="left">
                         <table>
-                            <tr><th>Автор</th><td class="wordWrap">{{ book.id_author }}</td></tr>
-                            <tr><th>Категория</th><td class="wordWrap">{{ book.id_category }}</td></tr>
-                            <tr><th>Язык</th><td class="wordWrap">{{ book.language }}</td></tr>
-                            <tr><th id="aboutBook">Про книгу</th></tr>
+                            <tr><th>Автор</th><td class="word-wrap">{{ book.id_author }}</td></tr>
+                            <tr><th>Категория</th><td class="word-wrap">{{ book.id_category }}</td></tr>
+                            <tr><th>Язык</th><td class="word-wrap">{{ book.language }}</td></tr>
+                            <tr><th id="about-book">Про книгу</th></tr>
                         </table>
                     </div>
-                    <div align="right" id="aboutText" class="wordWrap">
+                    <div align="right" id="about-text" class="word-wrap">
                         {{ book.description }}
                     </div>
                 </div>
@@ -95,27 +95,27 @@
 
             <!--Area for adding comment-->
             <hr>
-            <div class="newComment" align="left">
-                <div id="newCommentHeader">Оставить комментарий</div>
-                <div id="newCommentBody">
-                    <img class="userPhoto" src="" width="120" height="120">
-                    <textarea id="addCommentText" maxlength="500" placeholder="Введите текст..."></textarea>
-                    <button id="commentButton" onclick="addComment({{ book.id }})">Отправить</button>
+            <div class="new-comment" align="left">
+                <div id="new-comment-header">Оставить комментарий</div>
+                <div id="new-comment-body">
+                    <img class="user-photo" src="" width="120" height="120">
+                    <textarea id="add-comment-text" maxlength="500" placeholder="Введите текст..."></textarea>
+                    <button id="comment-button" onclick="addComment({{ book.id }})">Отправить</button>
                 </div>
             </div>
 
             <hr>
-            <div id="commentsHeader" align="left"><b>Комментарии</b></div>
+            <div id="comments-header" align="left"><b>Комментарии</b></div>
 
             <!--Area with existing comments-->
             {% for comment in comments %}
             <hr class="hr">
             <div class="comment" align="left">
-                <div class="userPhoto">
+                <div class="user-photo">
                     <img src="" width="120" height="120">
-                    <div class="wordWrap userName"><b>{{ comment.id_user }}</b></div>
+                    <div class="word-wrap user-name"><b>{{ comment.id_user }}</b></div>
                 </div>
-                <div class="commentText wordWrap">{{ comment.text }}</div>
+                <div class="comment-text word-wrap">{{ comment.text }}</div>
             </div>
             {% endfor %}
         </div>

@@ -17,17 +17,17 @@
     <!--Header Area-->
     <div id="header" align="center">
         <div class="layout">
-            <img id="headerLogo" src="{% static 'app/images/logo.png' %}" width="140" height="80"
+            <img id="header-logo" src="{% static 'app/images/logo.png' %}" width="140" height="80"
                     alt="Логотип сайта">
             <div align="right">
                 <form id="logout" action="/logout/" method="POST">
                     {% csrf_token %}
                 </form>
-                <a href="{% url 'categories' %}"><button class="headerButton headerButtonColor">Библиотека</button></a>
-                <a href="{% url 'index' %}"><button class="headerButton headerButtonColor">Мои книги</button></a>
-                <button class="headerButton headerButtonColor">Профиль</button>
-                <button class="headerButton headerButtonColor">О проекте</button>
-                <button class="headerButton headerButtonColor" type="submit" form="logout">Bыйти</button>
+                <a href="{% url 'categories' %}"><button class="header-button header-button-color">Библиотека</button></a>
+                <a href="{% url 'index' %}"><button class="header-button header-button-color">Мои книги</button></a>
+                <button class="header-button header-button-color">Профиль</button>
+                <button class="header-button header-button-color">О проекте</button>
+                <button class="header-button header-button-color" type="submit" form="logout">Bыйти</button>
             </div>
         </div>
     </div>
@@ -35,7 +35,7 @@
     <!--Main info area-->
     <div align="center">
         <div class="layout">
-            <div id="mainSpace" align="right">
+            <div id="main-space" align="right">
                 <div align="left">
                     <h1><b>Добавить книгу</b></h1>
                 </div>
@@ -43,42 +43,42 @@
                         enctype="multipart/form-data">
                     {% csrf_token %}
                     <div>
-                        <input class="lineInput input inputColors" placeholder="Название книги" maxlength="30"
+                        <input class="line-input input input-colors" placeholder="Название книги" maxlength="30"
                                name="bookname" required>
                     </div>
                     <div>
-                        <input id="authorInput" class="lineInput input inputColors" placeholder="Автор"
+                        <input id="author-input" class="line-input input input-colors" placeholder="Автор"
                                maxlength="30" name="author" oninput="generateAuthors()" required>
                     </div>
-                    <div id="divAuthorsListHeader" align="left">Bы можете выбрать автора из списка:</div>
-                    <div id="divAuthorsList"></div>
-                    <div class="inputHeader" align="right">
+                    <div id="div-authors-list-header" align="left">Bы можете выбрать автора из списка:</div>
+                    <div id="div-authors-list"></div>
+                    <div class="input-header" align="right">
                         Категория
-                        <select class="checkBox inputColors" name="category" required>
+                        <select class="check-box input-colors" name="category" required>
                             {% for category in categories %}
-                            <option class="checkElement" value="{{ category }}">{{ category }}</option>
+                            <option class="check-element" value="{{ category }}">{{ category }}</option>
                             {% endfor %}
                         </select>
                     </div>
-                    <div class="inputHeader" align="right">
+                    <div class="input-header" align="right">
                         Язык книги
-                        <select class="checkBox inputColors" name="language" required>
+                        <select class="check-box input-colors" name="language" required>
                             {% for language in languages %}
-                            <option class="checkElement" value="{{ language }}">{{ language }}</option>
+                            <option class="check-element" value="{{ language }}">{{ language }}</option>
                             {% endfor %}
                         </select>
                     </div>
-                    <div><textarea id="aboutBook" class="inputColors" placeholder="О книге" name="about"
+                    <div><textarea id="about-book" class="input-colors" placeholder="О книге" name="about"
                                    required maxlength="1000"></textarea></div>
                     <div align="left">
-                        <label id="uploadButtonLabel" class="uploadButton">Загрузить книгу
-                            <input id="uploadBook" type="file" accept="application/pdf" name="bookfile">
+                        <label id="upload-button-label" class="upload-button">Загрузить книгу
+                            <input id="upload-book" type="file" accept="application/pdf" name="bookfile">
                         </label>
-                        <p id="missingBookWarn" class="errorText"><b>Bыберите книгу!</b></p>
-                        <p id="fileUploading" align="center">Подождите пожалуйста, файл загружается на сервер ...</p>
+                        <p id="missing-book-warn" class="error-text"><b>Bыберите книгу!</b></p>
+                        <p id="file-uploading" align="center">Подождите пожалуйста, файл загружается на сервер ...</p>
                     </div>
                     <div align="right">
-                        <button class="addBookButton" type="submit">Добавить книгу</button>
+                        <button class="add-book-button" type="submit">Добавить книгу</button>
                     </div>
                 </form>
             </div>

@@ -6,19 +6,19 @@
  */
 function insertAuthors(authors) {
     if (authors.length > 0) {
-        $("#divAuthorsList").css("display", "block");
-        $("#divAuthorsListHeader").css("display", "block");
-        $("#divAuthorsList").empty();
+        $("#div-authors-list").css("display", "block");
+        $("#div-authors-list-header").css("display", "block");
+        $("#div-authors-list").empty();
 
         for (var author = 0; author < authors.length; author++) {
-            $("#divAuthorsList").append("<div align='left'>" +
-                                        "<a class='reference' onclick='selectedAuthor(this)'>" +
-                                        authors[author] + "</a></div>");
+            $("#div-authors-list").append("<div align='left'>" +
+                                          "<a class='reference' onclick='selectedAuthor(this)'>" +
+                                          authors[author] + "</a></div>");
         }
     }
     else {
-        $("#divAuthorsListHeader").css("display", "none");
-        $("#divAuthorsList").empty();
+        $("#div-authors-list-header").css("display", "none");
+        $("#div-authors-list").empty();
     }
 }
 
@@ -27,11 +27,11 @@ function insertAuthors(authors) {
  * Creates Ajax request for generating author list.
  */
 function generateAuthors() {
-    if ($("#authorInput").val() !== "") {
+    if ($("#author-input").val() !== "") {
         $.ajax({
             url: "generate-authors",
             type: "GET",
-            data: {part: $("#authorInput").val()},
+            data: {part: $("#author-input").val()},
 
             success: function result(authors) {
                 insertAuthors(authors);
@@ -47,7 +47,7 @@ function generateAuthors() {
  * @param {Object} name The name of selected author.
  */
 function selectedAuthor(name) {
-    $("#authorInput").val(name.text);
+    $("#author-input").val(name.text);
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -57,12 +57,12 @@ function selectedAuthor(name) {
  * @param {Object} event
  */
 function isBookChosen(event) {
-    if ($("#uploadBook").val()) {
-        $("#missingBookWarn").css("display", "none");
-        $("#fileUploading").css("display", "block");
+    if ($("#upload-book").val()) {
+        $("#missing-book-warn").css("display", "none");
+        $("#file-uploading").css("display", "block");
         event.submit();
     }
     else {
-        $("#missingBookWarn").css("display", "block");
+        $("#missing-book-warn").css("display", "block");
     }
 }

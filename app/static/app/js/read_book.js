@@ -101,13 +101,13 @@ function renderPages(pageNum) {
  * @param {number} pageNum The number of a page.
  */
 function setCurrentPage(pageNum) {
-    $('#pageNumber').val(pageNum);
+    $('#page-number').val(pageNum);
 
     $.ajax({
         url: "set-current-page",
         type: "POST",
         data: {page: pageNum,
-               book: $("#bookName").text(),
+               book: $("#book-name").text(),
                csrfmiddlewaretoken: getCookie("csrftoken")},
 
         success: function result(json) {}
@@ -130,7 +130,7 @@ function setOffset(pageNum) {
  * Sets the prev page values.
  */
 function prevPage() {
-    var prevPageValue = parseInt($('#pageNumber').val()) - 1;
+    var prevPageValue = parseInt($('#page-number').val()) - 1;
 
     if (prevPageValue > 1) {
         setCurrentPage(prevPageValue);
@@ -143,7 +143,7 @@ function prevPage() {
  * Sets the next page values.
  */
 function nextPage() {
-    var nextPageValue = parseInt($('#pageNumber').val()) + 1;
+    var nextPageValue = parseInt($('#page-number').val()) + 1;
 
     if (nextPageValue < PDF_DOCUMENT.numPages) {
         setCurrentPage(nextPageValue);
@@ -158,7 +158,7 @@ function nextPage() {
  * @param {number} pageNum The number of a page.
  */
 function loadPage(pageNum) {
-    $('#pageNumber').val(pageNum);
+    $('#page-number').val(pageNum);
 
     if (pageNum != 1) {
         setOffset(pageNum);
@@ -191,8 +191,8 @@ $(document).scroll(function() {
  * Sets settings for open PDF document; opens document and generates starting point elements.
  */
 $(document).ready(function() {
-    var url = $("#book_url").text();
-    var pageNum = $('#currentPage').text();
+    var url = $("#book-url").text();
+    var pageNum = $('#current-page').text();
 
     PDFJS.workerSrc = "/static/app/js/third_party/pdf_js/pdf.worker.js";
 
@@ -200,7 +200,7 @@ $(document).ready(function() {
         PDF_DOCUMENT = pdf;
 
         for (var currentPage = 1; currentPage < pdf.numPages + 1; currentPage++) {
-            $('#mainArea').append('<canvas class="thePage" id="page' + currentPage + '" height="1250" width="800">');
+            $('#main-area').append('<canvas class="the-page" id="page' + currentPage + '" height="1250" width="800">');
         }
         loadPage(pageNum);
     });

@@ -4,33 +4,33 @@ h1 {
     margin-top: 20px;
 }
 
-#mainSpace {
+#main-space {
     margin-top: 20px;
     width: 550px;
 }
 
-.lineInput {
-    width: 95%;
+.line-input {
+    width: 97%;
     margin-bottom: 20px;
 }
 
-#divAuthorsListHeader {
+#div-authors-list-header {
     display: none;
     font: 15pt 'Comfortaa', cursive;
     margin-bottom: 10px;
 }
 
-#divAuthorsList {
+#div-authors-list {
     display: none;
     font: 12pt Open Sans;
     margin-bottom: 20px;
 }
 
-.inputHeader {
+.input-header {
     font: 18pt 'Comfortaa', cursive;
 }
 
-.checkBox {
+.check-box {
     color: #9aa6ad;
     font: 14pt 'Comfortaa', cursive;
     height: 57px;
@@ -40,11 +40,11 @@ h1 {
     width: 71%;
 }
 
-.checkElement {
+.check-element {
     color: #9aa6ad;
 }
 
-#aboutBook {
+#about-book {
     height: 200px;
     margin-bottom: 20px;
     padding: 15px;
@@ -52,17 +52,17 @@ h1 {
     width: 512px;
 }
 
-#uploadBook {
+#upload-book {
     display: none;
 }
 
-#uploadButtonLabel {
+#upload-button-label {
     display: inline-block;
     padding: 4px;
     text-align: center;
 }
 
-.uploadButton {
+.upload-button {
     border: solid 2px #31a445;
     border-radius: 2px;
     color: #31a445;
@@ -71,24 +71,24 @@ h1 {
     margin-left: 5px;
 }
 
-.uploadButton:hover {
+.upload-button:hover {
     border: solid 2px #2e3438;
     color: #2e3438;
 }
 
-#missingBookWarn {
+#missing-book-warn {
     display: none;
     font: 16pt 'Comfortaa', cursive;
     margin-left: 5px;
 }
 
-#fileUploading {
+#file-uploading {
     color: #31a445;
     display: none;
     font: 16pt 'Comfortaa', cursive;
 }
 
-.addBookButton {
+.add-book-button {
     background-color: #31a445;
     border: solid 2px #31a445;
     border-radius: 2px;
@@ -102,7 +102,7 @@ h1 {
     padding-right: 20px;
 }
 
-.addBookButton:hover {
+.add-book-button:hover {
     background-color: #fff;
     color: #31a445;
 }

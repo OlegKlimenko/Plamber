@@ -1,4 +1,4 @@
-.errorText {
+.error-text {
     color: red;
 }
 
@@ -12,17 +12,17 @@
     color: #31a445;
 }
 
-.activeReference {
+.active-reference {
     font-family: 'Comfortaa', cursive;
     color: #31a445;
     text-decoration: none;
 }
 
-.activeReference:hover {
+.active-reference:hover {
     color: #9aa6ad;
 }
 
-.wordWrap {
+.word-wrap {
     white-space: -moz-pre-wrap;
     white-space: -pre-wrap;
     white-space: -o-pre-wrap;

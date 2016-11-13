@@ -5,17 +5,17 @@
  * @param {Object<Object>} books The list of books.
  */
 function insertBooks(books) {
-    $(".booksArea").empty();
+    $(".books-area").empty();
 
     for (var book = 0; book < books.length; book++) {
         var id = books[book]["id"];
         var bookName = books[book]["name"];
         var author = books[book]["author"];
 
-        $(".booksArea").append("<a href='book/" + id + "/'><div class='book wordWrap' align='left'>" +
-                               "<div><b>" + bookName + "</b></div>" +
-                               "<div>" + author + "</div>" +
-                               "</div></a>");
+        $(".books-area").append("<a href='book/" + id + "/'><div class='book word-wrap' align='left'>" +
+                                "<div><b>" + bookName + "</b></div>" +
+                                "<div>" + author + "</div>" +
+                                "</div></a>");
     }
 }
 
@@ -44,13 +44,13 @@ function sort(sortCategory, sortCriterion) {
  * Changes classes on buttons for change their colors.
  */
 function changeBtnColor(element) {
-    if ($(".button").hasClass("selectedButtonColor")) {
-        $(".button").removeClass("selectedButtonColor");
-        $(".button").addClass("buttonColor");
+    if ($(".button").hasClass("selected-button-color")) {
+        $(".button").removeClass("selected-button-color");
+        $(".button").addClass("button-color");
     }
 
-    $(element).removeClass("buttonColor");
-    $(element).addClass("selectedButtonColor");
+    $(element).removeClass("button-color");
+    $(element).addClass("selected-button-color");
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -60,10 +60,10 @@ function changeBtnColor(element) {
  * @param {number} searchCategory The number of a category.
  */
 function searchBooks(searchCategory) {
-    var searchData = $("#searchInput").val();
+    var searchData = $("#search-input").val();
 
     if (searchData) {
-            $.ajax({
+        $.ajax({
             url: "search-book",
             type: "GET",
             data: {data: searchData,

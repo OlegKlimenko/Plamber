@@ -16,37 +16,37 @@
 </head>
 <body>
     <!--Header Area-->
-    <div id="header" align="center" class="headerReadBook">
+    <div id="header" align="center" class="header-read-book">
         <div class="layout">
-            <img id="headerLogo" src="{% static 'app/images/logo.png' %}" width="140" height="80"
+            <img id="header-logo" src="{% static 'app/images/logo.png' %}" width="140" height="80"
                     alt="Логотип сайта">
             <div align="right">
                 <form id="logout" action="/logout/" method="POST">
                     {% csrf_token %}
                 </form>
-                <a href="{% url 'categories' %}"><button class="headerButton headerButtonColor">Библиотека</button></a>
-                <a href="{% url 'index' %}"><button class="headerButton headerSelectedButtonColor">Мои книги</button></a>
-                <button class="headerButton headerButtonColor">Профиль</button>
-                <button class="headerButton headerButtonColor">О проекте</button>
-                <button class="headerButton headerButtonColor" type="submit" form="logout">Bыйти</button>
+                <a href="{% url 'categories' %}"><button class="header-button header-button-color">Библиотека</button></a>
+                <a href="{% url 'index' %}"><button class="header-button header-selected-button-color">Мои книги</button></a>
+                <button class="header-button header-button-color">Профиль</button>
+                <button class="header-button header-button-color">О проекте</button>
+                <button class="header-button header-button-color" type="submit" form="logout">Bыйти</button>
             </div>
         </div>
     </div>
 
     <div>
-        <div id="book_url">{{ book_url.url }}</div>
-        <div id="bookName">{{ book_name }}</div>
-        <div id="currentPage">{{ book_page }}</div>
+        <div id="book-url">{{ book_url.url }}</div>
+        <div id="book-name">{{ book_name }}</div>
+        <div id="current-page">{{ book_page }}</div>
     </div>
 
     <!--Main info area-->
     <div align="center">
-        <div class="layout" id="mainArea">
-            <div id="spacePusher"></div>
-            <div id="pageNavBar">
-                <div><button id="prevPage" class="pageNavButton" onclick="prevPage();">⬆</button></div>
-                <div><input id="pageNumber" class="input inputColors"></div>
-                <div><button id="nextPage" class="pageNavButton" onclick="nextPage();">⬇</button></div>
+        <div class="layout" id="main-area">
+            <div id="space-pusher"></div>
+            <div id="page-nav-bar">
+                <div><button class="page-nav-button" onclick="prevPage();">⬆</button></div>
+                <div><input id="page-number" class="input input-colors"></div>
+                <div><button class="page-nav-button" onclick="nextPage();">⬇</button></div>
             </div>
         </div>
     </div>

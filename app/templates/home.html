@@ -14,17 +14,17 @@
     <!--Header Area-->
     <div id="header" align="center">
         <div class="layout">
-            <img id="headerLogo" src="{% static 'app/images/logo.png' %}" width="140" height="80"
+            <img id="header-logo" src="{% static 'app/images/logo.png' %}" width="140" height="80"
                     alt="Логотип сайта">
             <div align="right">
                 <form id="logout" action="/logout/" method="POST">
                     {% csrf_token %}
                 </form>
-                <a href="{% url 'categories' %}"><button class="headerButton headerButtonColor">Библиотека</button></a>
-                <button class="headerButton headerSelectedButtonColor">Мои книги</button>
-                <button class="headerButton headerButtonColor">Профиль</button>
-                <button class="headerButton headerButtonColor">О проекте</button>
-                <button class="headerButton headerButtonColor" type="submit" form="logout">Bыйти</button>
+                <a href="{% url 'categories' %}"><button class="header-button header-button-color">Библиотека</button></a>
+                <button class="header-button header-selected-button-color">Мои книги</button>
+                <button class="header-button header-button-color">Профиль</button>
+                <button class="header-button header-button-color">О проекте</button>
+                <button class="header-button header-button-color" type="submit" form="logout">Bыйти</button>
             </div>
         </div>
     </div>
@@ -34,14 +34,14 @@
         <div class="layout" align="center">
 
             <!--Header part of main area-->
-            <div class="myBooksHeader" align="left">
+            <div class="my-books-header" align="left">
                 <b>Мои книги</b>
                 <div align="right">
-                    <a class="aText aLibraryColor" href="{% url 'categories' %}">
-                        <button class="addBookLibrary addBook">+</button> Из библиотеки
+                    <a class="a-text a-library-color" href="{% url 'categories' %}">
+                        <button class="add-book-library add-book">+</button> Из библиотеки
                     </a>
-                    <a class="aText aComputerColor" href="{% url 'app.views.add_book_views.add_book_view' %}">
-                        <button class="addBookComputer addBook">+</button> С компьютера
+                    <a class="a-text a-computer-color" href="{% url 'app.views.add_book_views.add_book_view' %}">
+                        <button class="add-book-computer add-book">+</button> С компьютера
                     </a>
                 </div>
             </div>
@@ -50,9 +50,9 @@
             {% if books %}
                 {% for book in books %}
                 <a href="read-book/{{ book.id }}/">
-                    <div class="book wordWrap">
-                        <div class="bookInfoPusher"></div>
-                        <div class="bookInfo">
+                    <div class="book word-wrap">
+                        <div class="book-info-pusher"></div>
+                        <div class="book-info">
                             <hr align="center" noshade size="1">
                             <div><b>{{ book.book_name }}</b></div>
                             {{ book.id_author }}

@@ -3,10 +3,10 @@
  * Fetches image from canvas and set it to image.
  */
 function fetchData() {
-    var canvas = document.getElementById("book_image");
+    var canvas = document.getElementById("book-image");
     var dataURL = canvas.toDataURL();
 
-    $("#theBookImage").attr("src", dataURL);
+    $("#the-book-image").attr("src", dataURL);
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -21,7 +21,7 @@ function renderPage(pdf, pageNumber) {
         var scale = 1.5;
         var viewPort = page.getViewport(scale);
 
-        var canvas = document.getElementById("book_image");
+        var canvas = document.getElementById("book-image");
         var context = canvas.getContext("2d");
 
         canvas.height = viewPort.height;
@@ -44,7 +44,7 @@ function renderPage(pdf, pageNumber) {
  * Loads the image of a book.
  */
 function loadImage() {
-    var url = $("#book_url").text();
+    var url = $("#book-url").text();
     PDFJS.workerSrc = "/static/app/js/third_party/pdf_js/pdf.worker.js";
 
     PDFJS.getDocument(url).then(function (pdf) {
@@ -57,7 +57,7 @@ function loadImage() {
  * Checks if image of the book is setted on the page. If no, it loads from book, and stores in database with book.
  */
 $(document).ready(function() {
-    var src = $("#theBookImage").attr("src");
+    var src = $("#the-book-image").attr("src");
     if (src) {}
     else {
         loadImage();
@@ -72,15 +72,16 @@ function addBookHome() {
     $.ajax({
         url: "home-add-book",
         type: "POST",
-        data: {book: $("#book_id").val(),
+        data: {book: $("#book-id").val(),
                csrfmiddlewaretoken: getCookie("csrftoken")},
 
         success: function result(json) {
-            $("#addBookDiv").remove();
-            $("#leftSide").append("<div id='removeBookDiv'><button class='addBook' id='removeBook'>" +
-                                  "Удалить книгу</button>" +
-                                  "<div class='wordWrap addBookText'>Сейчас книга в списке читаемых вами.</div></div>");
-            $("#removeBook").attr("onClick", "removeBookHome()");
+            $("#add-book-div").remove();
+            $("#left-side").append("<div id='remove-book-div'><button class='add-book' id='remove-book'>" +
+                                   "Удалить книгу</button>" +
+                                   "<div class='word-wrap add-book-text'>" +
+                                   "Сейчас книга в списке читаемых вами.</div></div>");
+            $("#remove-book").attr("onClick", "removeBookHome()");
         }
     });
 }
@@ -93,14 +94,14 @@ function removeBookHome(csrfToken) {
     $.ajax({
         url: "home-remove-book",
         type: "POST",
-        data: {book: $("#book_id").val(),
+        data: {book: $("#book-id").val(),
                csrfmiddlewaretoken: getCookie("csrftoken")},
 
         success: function result(json) {
-            $("#removeBookDiv").remove();
-            $("#leftSide").append("<div id='addBookDiv'><button class='addBook' " +
-                                  "id='addBook'>Добавить книгу</button></div>");
-            $("#addBook").attr("onClick", "addBookHome()");
+            $("#remove-book-div").remove();
+            $("#left-side").append("<div id='add-book-div'><button class='add-book' " +
+                                   "id='add-book'>Добавить книгу</button></div>");
+            $("#add-book").attr("onClick", "addBookHome()");
         }
     });
 }
@@ -137,19 +138,19 @@ function addComment(idBook) {
         url: "comment-add",
         type: "POST",
         data: {book: idBook,
-               comment: $("#addCommentText").val(),
+               comment: $("#add-comment-text").val(),
                csrfmiddlewaretoken: getCookie("csrftoken")},
 
         success: function result(response) {
-            $("#commentsHeader").after("<hr class='hr'>" +
-                                       "<div class='comment' align='left'>" +
-                                       "<div class='userPhoto'>" +
-                                       "<img src='' width='120' height='120'>" +
-                                       "<div class='wordWrap userName'><b>" + response['username'] +
-                                       "</b></div></div>" +
-                                       "<div class='commentText wordWrap'>" + response['text'] + "</div></div>");
+            $("#comments-header").after("<hr class='hr'>" +
+                                        "<div class='comment' align='left'>" +
+                                        "<div class='user-photo'>" +
+                                        "<img src='' width='120' height='120'>" +
+                                        "<div class='word-wrap user-name'><b>" + response['username'] +
+                                        "</b></div></div>" +
+                                        "<div class='comment-text word-wrap'>" + response['text'] + "</div></div>");
 
-            $("#addCommentText").val("");
+            $("#add-comment-text").val("");
             $("html, body").animate({scrollBottom: $(document).height()});
         }
     });

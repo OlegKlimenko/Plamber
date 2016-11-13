@@ -16,7 +16,7 @@
     {% if invalid_authentication %}
     <script>
         $(document).ready(function() {
-            $("#logInSubPage").css("display", "block");
+            $("#log-in-sub-page").css("display", "block");
         });
     </script>
     {% endif %}
@@ -35,9 +35,9 @@
     <!--Header Area-->
     <div id="header" align="center">
         <div class="layout">
-            <img id="headerLogo" src="{% static 'app/images/logo.png' %}" width="140" height="80">
+            <img id="header-logo" src="{% static 'app/images/logo.png' %}" width="140" height="80">
             <div align="right">
-                <button class="headerButton headerButtonColor">О проекте</button>
+                <button class="header-button header-button-color">О проекте</button>
             </div>
         </div>
     </div>
@@ -45,62 +45,62 @@
     <!--Main info area-->
     <div align="center">
         <div class="layout" align="center">
-            <div class="welcomeDiv" align="left">
+            <div class="welcome-div" align="left">
                 <h1>Читайте книги онлайн!</h1>
                 <h2>
                     вапрдвадплова ывлоарывоар!Ёвдлыаоыаывалд
                     дваоывдлоаывдлаоыд жвалдаывладоывдлаывоа
                     лываываолываоывдаоывадлоывадыв лдываылвоаывд
                     длвыоалывоаывдаовы ывдлаоывдалоыадоывадыалы</h2>
-                <button class="enterButton" onclick="logInPageShow()">Вoйти</button>
-                <button class="registerButton" onclick="registerPageShow()">Зарегистрироваться</button>
+                <button class="enter-button" onclick="logInPageShow()">Вoйти</button>
+                <button class="register-button" onclick="registerPageShow()">Зарегистрироваться</button>
             </div>
         </div>
     </div>
 
     <!--LogIn dialog area-->
-    <div id="logInSubPage" class="subPage" align="center">
-        <div class="layout subPageMargin" align="right">
-            <button class="closeBtn" onclick="logInPageHide()">X</button>
+    <div id="log-in-sub-page" class="sub-page" align="center">
+        <div class="layout sub-page-margin" align="right">
+            <button class="close-btn" onclick="logInPageHide()">X</button>
             <div class="heading"><b>Bход</b></div>
             <form action="/" method="POST">
                 {% csrf_token %}
-                <div><input class="input inputColors indexInputWidth" placeholder="Имя пользователя"
+                <div><input class="input input-colors index-input-width" placeholder="Имя пользователя"
                             type="text" maxlength="30" name="username" required></div>
-                <div><input class="input inputColors indexInputWidth" placeholder="Пароль" type="password"
+                <div><input class="input input-colors index-input-width" placeholder="Пароль" type="password"
                             maxlength="16" name="passw" required></div>
                 <div align="right">
                     {% if invalid_authentication %}
-                    <div id="invalidAuthMsg" class="errorMsg errorText"><b>Логин или пароль введен неверно!</b></div>
+                    <div class="error-msg error-text"><b>Логин или пароль введен неверно!</b></div>
                     {% endif %}
-                    <a href="" class="authMsg reference">Забыли пароль ?</a>
-                    <button type="submit" class="registerButton">Bойти</button>
+                    <a href="" class="auth-msg reference">Забыли пароль ?</a>
+                    <button type="submit" class="register-button">Bойти</button>
                 </div>
             </form>
         </div>
     </div>
 
     <!--Registraton dialog area-->
-    <div id="registerSubPage" class="subPage" align="center">
-        <div class="layout subPageMargin" align="right">
-            <button class="closeBtn" onclick="registerPageHide()">X</button>
+    <div id="register-sub-page" class="sub-page" align="center">
+        <div class="layout sub-page-margin" align="right">
+            <button class="close-btn" onclick="registerPageHide()">X</button>
             <div class="heading"><b>Регистрация</b></div>
             <form action="sign-in" method="POST" onsubmit="isSignInAvailable(this); return false;">
                 {% csrf_token %}
-                <div><input id="usernameInput" class="input inputColors indexInputWidth" placeholder="Имя пользователя"
+                <div><input id="username-input" class="input input-colors index-input-width" placeholder="Имя пользователя"
                             type="text" required pattern="^[a-zA-Z0-9_]{6,30}" oninvalid="usernameSignInMessage(this)"
                             oninput="checkUserNotExists()" name="username"></div>
-                <div id="userExists" class="errorMsg errorText"><b>Пользователь с таким именем уже существует.</b></div>
-                <div><input class="input inputColors indexInputWidth" placeholder="Email" type="email" required
+                <div id="user-exists" class="error-msg error-text"><b>Пользователь с таким именем уже существует.</b></div>
+                <div><input class="input input-colors index-input-width" placeholder="Email" type="email" required
                             name="email"></div>
-                <div><input class="input inputColors indexInputWidth" id="firstPass" placeholder="Пароль"
+                <div><input class="input input-colors index-input-width" id="first-pass" placeholder="Пароль"
                             type="password" pattern="^[a-zA-Z0-9_]{6,16}" oninvalid="passwordSignInMessage(this)"
                             name="passw1" required></div>
-                <div ><input class="input inputColors indexInputWidth" id="secondPass" placeholder="Повторите Пароль"
+                <div ><input class="input input-colors index-input-width" id="second-pass" placeholder="Повторите Пароль"
                              type="password" required pattern="^[a-zA-Z0-9_]{6,16}" name="passw2"
                              oninvalid="passwordSignInMessage(this)" oninput="checkEqualPassLines()"></div>
-                <div id="passWrongMessage" class=" errorMsg errorText"><b>Пароли должны быть одинаковые!</b></div>
-                <div align="right"><button id="signInButton" class="registerButton">Присоединиться</button></div>
+                <div id="pass-wrong-message" class=" error-msg error-text"><b>Пароли должны быть одинаковые!</b></div>
+                <div align="right"><button class="register-button">Присоединиться</button></div>
             </form>
         </div>
     </div>

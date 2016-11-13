@@ -1,11 +1,11 @@
-.inputColors {
+.input-colors {
     border-radius: 2px;
     border: 2px solid #9aa6ad;
     font: 14pt 'Comfortaa', cursive;
     outline: none;
 }
 
-.inputColors:focus {
+.input-colors:focus {
     border: 2px solid #31a445;
 }
 

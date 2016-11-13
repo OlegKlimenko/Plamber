@@ -17,17 +17,17 @@
     <!--Header Area-->
     <div id="header" align="center">
         <div class="layout">
-            <img id="headerLogo" src="{% static 'app/images/logo.png' %}" width="140" height="80"
+            <img id="header-logo" src="{% static 'app/images/logo.png' %}" width="140" height="80"
                     alt="Логотип сайта">
             <div align="right">
                 <form id="logout" action="/logout/" method="POST">
                     {% csrf_token %}
                 </form>
-                <a href="{% url 'categories' %}"><button class="headerButton headerSelectedButtonColor">Библиотека</button></a>
-                <a href="{% url 'index' %}"><button class="headerButton headerButtonColor">Мои книги</button></a>
-                <button class="headerButton headerButtonColor">Профиль</button>
-                <button class="headerButton headerButtonColor">О проекте</button>
-                <button class="headerButton headerButtonColor" type="submit" form="logout">Bыйти</button>
+                <a href="{% url 'categories' %}"><button class="header-button header-selected-button-color">Библиотека</button></a>
+                <a href="{% url 'index' %}"><button class="header-button header-button-color">Мои книги</button></a>
+                <button class="header-button header-button-color">Профиль</button>
+                <button class="header-button header-button-color">О проекте</button>
+                <button class="header-button header-button-color" type="submit" form="logout">Bыйти</button>
             </div>
         </div>
     </div>
@@ -38,33 +38,33 @@
 
             <!--Header part of main area-->
             <div align="left">
-                <div class="categoryName"><b>{{ category_name }}</b></div>
+                <div class="category-name"><b>{{ category_name }}</b></div>
                 <div>
-                    <span id="searchHeader">Поиск</span>
-                    <input id="searchInput" class="input inputColors" placeholder="Название, автор, что угодно..."
+                    <span id="search-header">Поиск</span>
+                    <input id="search-input" class="input input-colors" placeholder="Название, автор, что угодно..."
                             oninput="searchBooks({{ category_number }});" maxlength="255">
                 </div>
             </div>
 
             <!--Sort part of main area-->
-            <div class="sortArea" align="left">
-                <span id="sortHeader">Сортировать по</span>
-                <button class="button selectedButtonColor"
+            <div class="sort-area" align="left">
+                <span id="sort-header">Сортировать по</span>
+                <button class="button selected-button-color"
                         onclick="sort({{ category_number }}, 'book_name'); changeBtnColor(this);">Алфавиту</button>
-                <button class="button buttonColor"
+                <button class="button button-color"
                         onclick="sort({{ category_number }}, 'author'); changeBtnColor(this);">Автору</button>
-                <button class="button buttonColor"
+                <button class="button button-color"
                         onclick="sort({{ category_number }}, 'estimation'); changeBtnColor(this);">Оценкам</button>
-                <button class="button buttonColor"
+                <button class="button button-color"
                         onclick="sort({{ category_number }}, 'most_readable'); changeBtnColor(this);">Самым читаемым</button>
             </div>
 
             <!--Area with books list-->
-            <div class="booksArea" align="left">
+            <div class="books-area" align="left">
                 {% if books %}
                     {% for book in books %}
                     <a href="book/{{ book.id }}/">
-                        <div class="wordWrap book" align="left">
+                        <div class="word-wrap book" align="left">
                             <div><b>{{ book.book_name }}</b></div>
                             <div>{{ book.id_author }}</div>
                         </div>
@@ -72,7 +72,7 @@
                     {% endfor %}
                 {% else %}
                     <h1>В этой категории пока нет книг =((</h1>
-                    <h2>Что бы добавить, нажмите здесь:  <a href="/add-book" class="activeReference">Добавить книгу</a></h2>
+                    <h2>Что бы добавить, нажмите здесь:  <a href="/add-book" class="active-reference">Добавить книгу</a></h2>
                 {% endif %}
             </div>
         </div>

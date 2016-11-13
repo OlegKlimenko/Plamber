@@ -2,14 +2,14 @@ body {
     background-color: #fff;
 }
 
-.myBooksHeader {
+.my-books-header {
     color: #9aa6ad;
     font: 35pt 'Comfortaa', cursive;
     margin-top: 20px;
     margin-bottom: 20px;
 }
 
-.addBook {
+.add-book {
     border-radius: 2px;
     font: 20pt 'Comfortaa', cursive;
     height: 40px;
@@ -18,48 +18,48 @@ body {
     cursor: pointer;
 }
 
-.addBookLibrary {
+.add-book-library {
     background-color: #31a445;
     border: solid 2px #31a445;
     color: #fff;
 }
 
-a:hover .addBookLibrary {
+a:hover .add-book-library {
     background-color: #2e3438;
     border-color: #2e3438;
 }
 
-.addBookComputer {
+.add-book-computer {
     background-color: #2e3438;
     border: solid 2px #2e3438;
     color: #31a445;
     margin-left: 10px;
 }
 
-a:hover .addBookComputer {
+a:hover .add-book-computer {
     background-color: #9aa6ad;
     border: solid 2px #9aa6ad;
     color: #fff;
 }
 
-.aText {
+.a-text {
     font: 14pt 'Comfortaa', cursive;
     text-decoration: none;
 }
 
-.aLibraryColor {
+.a-library-color {
     color: #31a445;
 }
 
-.aLibraryColor:hover {
+.a-library-color:hover {
     color: #2e3438;
 }
 
-.aComputerColor {
+.a-computer-color {
     color: #2e3438;
 }
 
-.aComputerColor:hover {
+.a-computer-color:hover {
     color: #9aa6ad;
 }
 
@@ -69,11 +69,11 @@ hr {
     width: 218px;
 }
 
-.bookInfoPusher {
+.book-info-pusher {
     height: 215px;
 }
 
-.bookInfo {
+.book-info {
     height: 65px;
 }
 

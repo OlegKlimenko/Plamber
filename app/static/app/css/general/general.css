@@ -13,12 +13,7 @@ body {
     min-width: 1040px;
 }
 
-#headerLogo {
+#header-logo {
     left: 0;
     position: absolute;
-}
-
-.workBackground {
-    background-color: #fff;
-    border-radius: 2px;
 }

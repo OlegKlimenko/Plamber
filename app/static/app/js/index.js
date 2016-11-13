@@ -3,7 +3,7 @@
  * Displays sub page for log in.
  */
 function logInPageShow() {
-    $("#logInSubPage").css("display", "block");
+    $("#log-in-sub-page").css("display", "block");
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -11,7 +11,7 @@ function logInPageShow() {
  * Hides sub page for log in.
  */
 function logInPageHide() {
-    $("#logInSubPage").css("display", "none");
+    $("#log-in-sub-page").css("display", "none");
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -19,7 +19,7 @@ function logInPageHide() {
  * Displays sub page for registration new user.
  */
 function registerPageShow() {
-    $("#registerSubPage").css("display", "block");
+    $("#register-sub-page").css("display", "block");
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -27,7 +27,7 @@ function registerPageShow() {
  * Hides sub page for registration new user.
  */
 function registerPageHide() {
-    $("#registerSubPage").css("display", "none");
+    $("#register-sub-page").css("display", "none");
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -67,14 +67,14 @@ function passwordSignInMessage(input) {
  * Checks if both of 'Input' password lines are equal.
  */
 function checkEqualPassLines() {
-    var firstInputValue = document.getElementById("firstPass").value;
-    var secondInputValue = document.getElementById("secondPass").value;
+    var firstInputValue = document.getElementById("first-pass").value;
+    var secondInputValue = document.getElementById("second-pass").value;
 
     if (firstInputValue !== secondInputValue) {
-        document.getElementById("passWrongMessage").style.display = "block";
+        document.getElementById("pass-wrong-message").style.display = "block";
     }
     else {
-        document.getElementById("passWrongMessage").style.display = "none";
+        document.getElementById("pass-wrong-message").style.display = "none";
     }
 }
 
@@ -84,18 +84,18 @@ function checkEqualPassLines() {
  */
 function checkUserNotExists() {
     // Send request only if 'Input' is not empty.
-    if ($("#usernameInput").val()) {
+    if ($("#username-input").val()) {
         $.ajax({
             url: "is-user-exists",
             type: "GET",
-            data: {username: $("#usernameInput").val()},
+            data: {username: $("#username-input").val()},
 
             success: function result(json) {
                 if (json) {
-                    document.getElementById("userExists").style.display = "block";
+                    document.getElementById("user-exists").style.display = "block";
                 }
                 else {
-                    document.getElementById("userExists").style.display = "none";
+                    document.getElementById("user-exists").style.display = "none";
                 }
             }
         });
@@ -109,8 +109,8 @@ function checkUserNotExists() {
  * @param {Object} event
  */
 function isSignInAvailable(event) {
-    var isUserExists = document.getElementById("userExists").style.display;
-    var isLinesEqual = document.getElementById("passWrongMessage").style.display;
+    var isUserExists = document.getElementById("user-exists").style.display;
+    var isLinesEqual = document.getElementById("pass-wrong-message").style.display;
 
     if (isUserExists === "none" && isLinesEqual === "none") {
         event.submit();

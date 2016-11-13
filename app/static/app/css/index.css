@@ -13,12 +13,52 @@ h2 {
     margin-bottom: 30px;
 }
 
-.welcomeDiv {
+.welcome-div {
     float: left;
     width: 400px;
 }
 
-.subPage {
+.enter-button {
+    background-color: Transparent;
+    border: solid 2px #fff;
+    border-radius: 2px;
+    color: #fff;
+    cursor: pointer;
+    font: 15pt 'Comfortaa', cursive;
+    height: 50px;
+    outline: none;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.enter-button:hover {
+    background-color: #fff;
+    border: solid 2px #fff;
+    border-radius: 2px;
+    color: #2e3438;
+}
+
+.register-button {
+    background-color: #31a445;
+    border: solid 2px #31a445;
+    border-radius: 2px;
+    color: #fff;
+    cursor: pointer;
+    font: 15pt 'Comfortaa', cursive;
+    height: 50px;
+    margin-left: 20px;
+    outline: none;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.register-button:hover {
+    background-color: Transparent;
+    border: solid 2px #31a445;
+    color: #31a445;
+}
+
+.sub-page {
     background-color: #000;
     height: 100%;
     left: 0;
@@ -28,24 +68,24 @@ h2 {
     width: 100%;
 }
 
-.subPageMargin {
+.sub-page-margin {
     margin-top: 100px;
 }
 
-.indexInputWidth {
+.index-input-width {
     margin-bottom: 20px;
     width: 500px;
 }
 
-.authMsg {
+.auth-msg {
     margin-right: 10px;
 }
 
-.errorMsg {
+.error-msg {
     margin-bottom: 20px;
 }
 
-.closeBtn {
+.close-btn {
     color: #fff;
     background: Transparent;
     border: none;
@@ -54,24 +94,24 @@ h2 {
     outline: none;
 }
 
-.closeBtn:hover {
+.close-btn:hover {
     color: #31a445;
     cursor: pointer;
 }
 
-#logInSubPage {
+#log-in-sub-page {
     display: none;
 }
 
-#registerSubPage {
+#register-sub-page {
     display: none;
 }
 
-#userExists {
+#user-exists {
     display: none;
 }
 
-#passWrongMessage {
+#pass-wrong-message {
     display: none;
 }
 

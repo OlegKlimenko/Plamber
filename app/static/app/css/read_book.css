@@ -1,32 +1,32 @@
-.headerReadBook {
+.header-read-book {
     position: fixed;
     top: 0;
     width: 100%;
     z-index: 9999;
 }
 
-#book_url {
+#book-url {
     display: none;
 }
 
-#bookName {
+#book-name {
     display: none;
 }
 
-#currentPage {
+#current-page {
     display: none;
 }
 
-#spacePusher {
+#space-pusher {
     height: 130px;
     width: 100%;
 }
 
-.thePage {
+.the-page {
     border: 1px solid black;
 }
 
-#pageNavBar {
+#page-nav-bar {
     background-color: #2e3438;
     border-radius: 2px;
     height: 200px;
@@ -36,11 +36,11 @@
     width: 100px;
 }
 
-#pageNavBar:hover {
+#page-nav-bar:hover {
     opacity: 1;
 }
 
-.pageNavButton {
+.page-nav-button {
     background-color: #31a445;
     border: solid 2px #31a445;
     border-radius: 2px;
@@ -52,12 +52,12 @@
     width: 50px;
 }
 
-.pageNavButton:hover {
+.page-nav-button:hover {
     background-color: #9aa6ad;
     border: solid 2px #9aa6ad;
 }
 
-#pageNumber {
+#page-number {
     text-align: center;
     margin-bottom: 10px;
     margin-top: 10px;

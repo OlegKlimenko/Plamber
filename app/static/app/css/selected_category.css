@@ -1,31 +1,31 @@
-.categoryName {
+.category-name {
     color: #31a445;
     font: 27pt 'Comfortaa', cursive;
     margin-top: 20px;
     margin-bottom: 20px;
 }
 
-#searchHeader {
+#search-header {
     color: #9aa6ad;
     font: 20pt 'Comfortaa', cursive;
     margin-right: 20px;
 }
 
-#searchInput {
+#search-input {
     width: 884px;
 }
 
-.sortArea {
+.sort-area {
     color: #2e3438;
     font: 18pt 'Comfortaa', cursive;
     margin-top: 20px;
 }
 
-#sortHeader {
+#sort-header {
     margin-right: 17px;
 }
 
-.booksArea {
+.books-area {
     float: left;
     margin-top: 20px;
 }
@@ -40,25 +40,25 @@
     width: 181px;
 }
 
-.buttonColor {
+.button-color {
     background-color: #2e3438;
+    border: 2px solid #2e3438;
     color: #fff;
 }
 
-.buttonColor:hover {
+.button-color:hover {
     background-color: #fff;
-    border: 2px solid #2e3438;
     color: #2e3438;
 }
 
-.selectedButtonColor {
+.selected-button-color {
     background-color: #31a445;
+    border: 2px solid #31a445;
     color: #fff;
 }
 
-.selectedButtonColor:hover {
+.selected-button-color:hover {
     background-color: #fff;
-    border: 2px solid #31a445;
     color: #31a445;
 }
 
