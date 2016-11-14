@@ -10,7 +10,7 @@ from app.views import (index_views, additional_views, add_book_views, selected_b
 
 
 urlpatterns = [
-    url(r'^admin', include(admin.site.urls)),
+    url(r'^not/an/admin/url', include(admin.site.urls)),
 
     # Index urls.
     url(r'^$', index_views.index_view, name='index'),
