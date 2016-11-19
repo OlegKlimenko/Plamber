@@ -81,7 +81,7 @@ DATABASES = {
         'ENGINE': 'mysql.connector.django',
         'NAME': 'proj_schema',
         'USER': 'root',
-        'PASSWORD': '12345',
+        'PASSWORD': 'startproject',
         'HOST': 'localhost',
         'PORT': '3306'
     }
