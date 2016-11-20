@@ -39,11 +39,7 @@ def home_view(request):
     :param django.core.handlers.wsgi.WSGIRequest request: The request on index page.
     :return: The 'Home page'.
     """
-    books = []
-    added_books = AddedBook.objects.filter(id_user=TheUser.objects.get(id_user=request.user))
-
-    for added_book in added_books:
-        books.append(added_book.id_book)
+    books = AddedBook.get_user_added_books(request.user)
 
     template = loader.get_template('home.html')
     context = RequestContext(request, {'books': books})
@@ -64,7 +60,6 @@ def login_view(request):
         user = authenticate(username=log_in_form.cleaned_data['username'],
                             password=log_in_form.cleaned_data['passw'])
 
-        # If user not authenticated returns None.
         if user:
             login(request, user)
             return redirect('index')
@@ -108,10 +103,9 @@ def sign_in_view(request):
 
         if sign_in_form.is_valid():
             with transaction.atomic():
-                user = User.objects.create_user(
-                    username=sign_in_form.cleaned_data['username'],
-                    email=sign_in_form.cleaned_data['email'],
-                    password=sign_in_form.cleaned_data['passw1'])
+                user = User.objects.create_user(username=sign_in_form.cleaned_data['username'],
+                                                email=sign_in_form.cleaned_data['email'],
+                                                password=sign_in_form.cleaned_data['passw1'])
                 TheUser.objects.create(id_user=user)
 
                 return redirect('/thanks/')

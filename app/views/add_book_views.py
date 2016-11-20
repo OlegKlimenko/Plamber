@@ -3,12 +3,11 @@
 import json
 from django.db import transaction
 from django.http import HttpResponse
-from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import redirect
 from django.template import RequestContext, loader
 
 from ..forms import GenerateAuthorsForm, AddBookForm
-from ..models import Author, Book, Category, Language, TheUser
+from ..models import Author, Book, Category, Language
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -43,10 +42,7 @@ def generate_authors_view(request):
         authors_form = GenerateAuthorsForm(request.GET)
 
         if authors_form.is_valid():
-            list_of_authors = Author.objects.filter(
-                author_name__icontains=authors_form.cleaned_data['part'])[:10]
-            list_of_authors = list(list_of_authors.values_list('author_name', flat=True))
-
+            list_of_authors = Author.get_authors_list(authors_form.cleaned_data['part'])
             return HttpResponse(json.dumps(list_of_authors), content_type='application/json')
     else:
         return HttpResponse(status=404)
@@ -65,7 +61,7 @@ def add_book_successful_view(request):
 
         if book_form.is_valid():
             with transaction.atomic():
-                rel_objects = get_related_objects(request.user.id, book_form)
+                rel_objects = Book.get_related_objects_for_create(request.user.id, book_form)
 
                 book = Book.objects.create(book_name=book_form.cleaned_data['bookname'],
                                            id_author=rel_objects['author'],
@@ -77,25 +73,3 @@ def add_book_successful_view(request):
                 return redirect('book/{0}/'.format(book.id))
     else:
         return HttpResponse(status=404)
-
-
-# ----------------------------------------------------------------------------------------------------------------------
-def get_related_objects(user_id, book_form):
-    """
-    Selects objects related to book instance; creates author object if needed.
-
-    :param int user_id: The id of user.
-    :param app.forms.AddBookForm book_form: The form with received data.
-    :return: A dict of objects related to book.
-    """
-    try:
-        author = Author.objects.get(author_name__iexact=book_form.cleaned_data['author'])
-    except ObjectDoesNotExist:
-        author = Author.objects.create(author_name=book_form.cleaned_data['author'])
-
-    # --- @ todo method for getting image in book object
-    category = Category.objects.get(category_name=book_form.cleaned_data['category'])
-    lang = Language.objects.get(language=book_form.cleaned_data['language'])
-    user = TheUser.objects.get(id_user=user_id)
-
-    return {'author': author, 'category': category, 'lang': lang, 'user': user}

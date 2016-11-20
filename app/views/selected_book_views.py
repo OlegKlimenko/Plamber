@@ -19,10 +19,11 @@ def selected_book_view(request, book_id):
     Returns a page with selected book.
 
     :param django.core.handlers.wsgi.WSGIRequest request: The request for selecting book.
+    :param int book_id: The identifier of a book.
     :return: A HTML page with selected book.
     """
     if request.user.is_authenticated():
-        rel_objects = get_related_objects(request, book_id)
+        rel_objects = Book.get_related_objects_selected_book(request.user, book_id)
 
         template = loader.get_template('selected_book.html')
         context = RequestContext(request, {'book': rel_objects['book'],
@@ -33,28 +34,6 @@ def selected_book_view(request, book_id):
         return HttpResponse(template.render(context))
     else:
         return redirect('index')
-
-
-# ----------------------------------------------------------------------------------------------------------------------
-def get_related_objects(request, book_id):
-    """
-    Returns the related objects of selected book
-
-    :param django.core.handlers.wsgi.WSGIRequest request: The request for selecting book.
-    :param int book_id: The ID of selected book.
-    :return: Related objects.
-    """
-    book = Book.objects.get(id=book_id)
-    avg_book_rating = BookRating.objects.filter(id_book=book).aggregate(Avg('rating'))
-
-    try:
-        added_book = AddedBook.objects.get(id_user=TheUser.objects.get(id_user=request.user), id_book=book)
-    except ObjectDoesNotExist:
-        added_book = None
-
-    comments = BookComment.objects.filter(id_book=Book.objects.get(id=book_id)).order_by('-id')
-
-    return {'book': book, 'avg_book_rating': avg_book_rating, 'added_book': added_book, 'comments': comments}
 
 
 # ----------------------------------------------------------------------------------------------------------------------

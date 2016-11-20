@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 
 import json
-from django.db.models import Avg, Count
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.template import RequestContext, loader
 
 from ..forms import SortForm, SearchBookForm
-from ..models import Category, Book, BookRating, AddedBook
+from ..models import Category, Book
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -65,109 +64,17 @@ def sort_view(request):
         sort_form = SortForm(request.GET)
 
         if sort_form.is_valid():
+            criterion_dict = {'book_name': Book.sort_by_book_name,
+                              'author': Book.sort_by_author,
+                              'estimation': Book.sort_by_estimation,
+                              'most_readable': Book.sort_by_readable}
+
             category = Category.objects.get(id=sort_form.cleaned_data['category'])
-            books = []
 
-            if sort_form.cleaned_data['criterion'] == 'book_name':
-                sort_by_book_name(books, category)
-
-            elif sort_form.cleaned_data['criterion'] == 'author':
-                sort_by_author(books, category)
-
-            elif sort_form.cleaned_data['criterion'] == 'estimation':
-                books = sort_by_estimation(books, category)
-
-            elif sort_form.cleaned_data['criterion'] == 'most_readable':
-                books = sort_by_readable(books, category)
-
+            books = criterion_dict[sort_form.cleaned_data['criterion']](category)
             return HttpResponse(json.dumps(books), content_type='application/json')
     else:
         return HttpResponse(status=404)
-
-
-# ----------------------------------------------------------------------------------------------------------------------
-def sort_by_book_name(books, category):
-    """
-    Sorts books by book name.
-
-    :param list books: The final list with books.
-    :param app.models.Category category: The category.
-    """
-    filtered_books = Book.objects.filter(id_category=category).order_by('book_name')
-    generate_books(books, filtered_books)
-
-
-# ----------------------------------------------------------------------------------------------------------------------
-def sort_by_author(books, category):
-    """
-    Sorts books by author.
-
-    :param list books: The final list with books.
-    :param app.models.Category category: The category.
-    """
-    filtered_books = Book.objects.filter(id_category=category).order_by('id_author__author_name')
-    generate_books(books, filtered_books)
-
-
-# ----------------------------------------------------------------------------------------------------------------------
-def generate_books(books, filtered_books):
-    """
-    Generates list with books for specific data and special criterion.
-
-    :param list books: The final list with books.
-    :param list filtered_books: The list of books after fetching them from database.
-    :return:
-    """
-    for item in filtered_books:
-        book = {'id': item.id, 'name': item.book_name, 'author': item.id_author.author_name}
-        books.append(book)
-
-
-# ----------------------------------------------------------------------------------------------------------------------
-def sort_by_estimation(books, category):
-    """
-    Sorts books by average count of estimation of each book. Uses aggregate function.
-
-    :param list books: The final list with books.
-    :param app.models.Category category: The category.
-
-    :return: The list with sorted books.
-    """
-    filtered_books = Book.objects.filter(id_category=category)
-
-    for item in filtered_books:
-        book_rating = BookRating.objects.filter(id_book=item).aggregate(Avg('rating'))
-        book = {'id': item.id,
-                'name': item.book_name,
-                'author': item.id_author.author_name,
-                'rating': book_rating['rating__avg']}
-        books.append(book)
-
-    return sorted(books, key=lambda info: (info['rating'] is not None, info['rating']), reverse=True)
-
-
-# ----------------------------------------------------------------------------------------------------------------------
-def sort_by_readable(books, category):
-    """
-
-    Sorts books by most readable criterion. Uses aggregate 'count' function.
-
-    :param list books: The final list with books.
-    :param app.models.Category category: The category.
-
-    :return: The list with sorted books.
-    """
-    filtered_books = Book.objects.filter(id_category=category)
-
-    for item in filtered_books:
-        book_read_count = AddedBook.objects.filter(id_book=item).aggregate(Count('id_user'))
-        book = {'id': item.id,
-                'name': item.book_name,
-                'author': item.id_author.author_name,
-                'read_count': book_read_count['id_user__count']}
-        books.append(book)
-
-    return sorted(books, key=lambda info: info['read_count'], reverse=True)
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -185,27 +92,9 @@ def find_books(request):
         if search_book_form.is_valid():
             search_data = search_book_form.cleaned_data['data']
 
-            books = []
-
-            filtered_books = fetch_books(search_data)
-            generate_books(books, filtered_books)
+            filtered_books = Book.fetch_books(search_data)
+            books = Book.generate_books(filtered_books)
 
             return HttpResponse(json.dumps(books), content_type='application/json')
     else:
         return HttpResponse(status=404)
-
-
-# ----------------------------------------------------------------------------------------------------------------------
-def fetch_books(search_data):
-    """
-    Generates list of books, fetched by different criterion depending on 'search_data' argument.
-
-    :param str search_data: The string with data by which create search books.
-    :return: The generated list of books.
-    """
-    filtered_books = list(Book.objects.filter(book_name=search_data))
-    filtered_books += list(Book.objects.filter(book_name__icontains=search_data))
-    filtered_books += list(Book.objects.filter(id_author__author_name=search_data))
-    filtered_books += list(Book.objects.filter(id_author__author_name__icontains=search_data))
-
-    return list(set(filtered_books))
