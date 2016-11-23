@@ -22,7 +22,7 @@ urlpatterns = [
     url(r'set-current-page', read_book_views.set_current_page_view),
 
     # Add book urls.
-    url(r'^add-book', add_book_views.add_book_view),
+    url(r'^add-book', add_book_views.add_book_view, name='add_book'),
     url(r'generate-authors', add_book_views.generate_authors_view),
     url(r'book-successful', add_book_views.add_book_successful_view),
 
