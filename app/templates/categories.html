@@ -17,7 +17,7 @@
             <img id="header-logo" src="{% static 'app/images/logo.png' %}" width="140" height="80"
                     alt="Логотип сайта">
             <div align="right">
-                <form id="logout" action="/logout/" method="POST">
+                <form id="logout" action="{% url 'logout' %}" method="POST">
                     {% csrf_token %}
                 </form>
                 <button class="header-button header-selected-button-color">Библиотека</button>
@@ -36,9 +36,9 @@
                 <h1><b>Категории</b></h1>
             </div>
             {% for category in categories %}
-            <a href="category/{{ category.id }}">
-                <button class="word-wrap category">{{ category.category_name }}</button>
-            </a>
+                <a href="{% url 'category' category.id %}">
+                    <button class="word-wrap category">{{ category.category_name }}</button>
+                </a>
             {% endfor %}
         </div>
     </div>

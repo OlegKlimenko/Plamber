@@ -18,16 +18,16 @@ urlpatterns = [
     url(r'sign-in', index_views.sign_in_view),
 
     # Read book urls.
-    url(r'read-book/(?P<book_id>\d+)/$', read_book_views.open_book_view),
+    url(r'read-book/(?P<book_id>\d+)/$', read_book_views.open_book_view, name='read_book'),
     url(r'set-current-page', read_book_views.set_current_page_view),
 
     # Add book urls.
     url(r'^add-book', add_book_views.add_book_view, name='add_book'),
     url(r'generate-authors', add_book_views.generate_authors_view),
-    url(r'book-successful', add_book_views.add_book_successful_view),
+    url(r'book-successful', add_book_views.add_book_successful_view, name='book_successful'),
 
     # Selected book urls.
-    url(r'book/(?P<book_id>\d+)/$', selected_book_views.selected_book_view),
+    url(r'book/(?P<book_id>\d+)/$', selected_book_views.selected_book_view, name='book'),
     url(r'home-add-book', selected_book_views.add_book_to_home_view),
     url(r'home-remove-book', selected_book_views.remove_book_from_home_view),
     url(r'change-rating', selected_book_views.change_rating_view),
@@ -35,12 +35,12 @@ urlpatterns = [
 
     # Library urls
     url(r'library', library_views.categories_view, name='categories'),
-    url(r'^category/(?P<category_id>\d+)/$', library_views.selected_category_view),
+    url(r'^category/(?P<category_id>\d+)/$', library_views.selected_category_view, name='category'),
     url(r'sort', library_views.sort_view),
     url(r'search-book', library_views.find_books),
 
     # Additional urls.
-    url(r'thanks', additional_views.thanks_view),
-    url(r'logout', additional_views.user_logout_view)
+    url(r'thanks', additional_views.thanks_view, name='thanks'),
+    url(r'logout', additional_views.user_logout_view, name='logout')
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

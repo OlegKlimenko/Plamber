@@ -20,7 +20,7 @@
             <img id="header-logo" src="{% static 'app/images/logo.png' %}" width="140" height="80"
                     alt="Логотип сайта">
             <div align="right">
-                <form id="logout" action="/logout/" method="POST">
+                <form id="logout" action="{% url 'logout' %}" method="POST">
                     {% csrf_token %}
                 </form>
                 <a href="{% url 'categories' %}"><button class="header-button header-selected-button-color">Библиотека</button></a>
@@ -63,7 +63,7 @@
             <div class="books-area" align="left">
                 {% if books %}
                     {% for book in books %}
-                    <a href="book/{{ book.id }}/">
+                    <a href="{% url 'book' book.id %}">
                         <div class="word-wrap book" align="left">
                             <div><b>{{ book.book_name }}</b></div>
                             <div>{{ book.id_author }}</div>
@@ -72,7 +72,7 @@
                     {% endfor %}
                 {% else %}
                     <h1>В этой категории пока нет книг =((</h1>
-                    <h2>Что бы добавить, нажмите здесь:  <a href="/add-book" class="active-reference">Добавить книгу</a></h2>
+                    <h2>Что бы добавить, нажмите здесь:  <a href="{% url 'add_book' %}" class="active-reference">Добавить книгу</a></h2>
                 {% endif %}
             </div>
         </div>

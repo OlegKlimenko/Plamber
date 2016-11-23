@@ -20,7 +20,7 @@
             <img id="header-logo" src="{% static 'app/images/logo.png' %}" width="140" height="80"
                     alt="Логотип сайта">
             <div align="right">
-                <form id="logout" action="/logout/" method="POST">
+                <form id="logout" action="{% url 'logout' %}" method="POST">
                     {% csrf_token %}
                 </form>
                 <a href="{% url 'categories' %}"><button class="header-button header-button-color">Библиотека</button></a>
@@ -39,7 +39,7 @@
                 <div align="left">
                     <h1><b>Добавить книгу</b></h1>
                 </div>
-                <form action="book-successful" method="POST" onsubmit="isBookChosen(this); return false;"
+                <form action="{% url 'book_successful' %}" method="POST" onsubmit="isBookChosen(this); return false;"
                         enctype="multipart/form-data">
                     {% csrf_token %}
                     <div>

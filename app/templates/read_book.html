@@ -21,7 +21,7 @@
             <img id="header-logo" src="{% static 'app/images/logo.png' %}" width="140" height="80"
                     alt="Логотип сайта">
             <div align="right">
-                <form id="logout" action="/logout/" method="POST">
+                <form id="logout" action="{% url 'logout' %}" method="POST">
                     {% csrf_token %}
                 </form>
                 <a href="{% url 'categories' %}"><button class="header-button header-button-color">Библиотека</button></a>
