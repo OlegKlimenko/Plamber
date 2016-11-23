@@ -2,8 +2,7 @@
 
 import json
 from django.http import HttpResponse
-from django.shortcuts import redirect
-from django.template import RequestContext, loader
+from django.shortcuts import redirect, render
 
 from ..forms import SortForm, SearchBookForm
 from ..models import Category, Book
@@ -21,9 +20,8 @@ def categories_view(request):
         if request.user.is_authenticated():
             categories = Category.objects.all().order_by('category_name')
 
-            template = loader.get_template('categories.html')
-            context = RequestContext(request, {'categories': categories})
-            return HttpResponse(template.render(context))
+            return render(request, 'categories.html', {'categories': categories})
+
         else:
             return redirect('index')
 
@@ -42,11 +40,8 @@ def selected_category_view(request, category_id):
             category = Category.objects.get(id=category_id)
             books = Book.objects.filter(id_category=category).order_by('book_name')
 
-            template = loader.get_template('selected_category.html')
-            context = RequestContext(request, {'category_name': category.category_name,
-                                               'category_number': category.id,
-                                               'books': books})
-            return HttpResponse(template.render(context))
+            context = {'category_name': category.category_name, 'category_number': category.id, 'books': books}
+            return render(request, 'selected_category.html', context)
 
         else:
             return redirect('index')

@@ -3,8 +3,7 @@ import json
 
 from django.db import transaction
 from django.http import HttpResponse
-from django.shortcuts import redirect
-from django.template import RequestContext, loader
+from django.shortcuts import redirect, render
 
 from ..forms import SetCurrentPageForm
 from ..models import Book, AddedBook, TheUser
@@ -24,12 +23,8 @@ def open_book_view(request, book_id):
         user = TheUser.objects.get(id_user=request.user)
         added_book = AddedBook.objects.get(id_book=book, id_user=user)
 
-        template = loader.get_template('read_book.html')
-        context = RequestContext(request, {'book_name': book.book_name,
-                                           'book_url': book.book_file,
-                                           'book_page': added_book.last_page})
-
-        return HttpResponse(template.render(context))
+        context = {'book_name': book.book_name, 'book_url': book.book_file, 'book_page': added_book.last_page}
+        return render(request, 'read_book.html', context)
     else:
         return redirect('index')
 

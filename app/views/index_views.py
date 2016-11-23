@@ -6,7 +6,6 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 from django.http import HttpResponse
-from django.template import RequestContext, loader
 from django.shortcuts import render, redirect
 
 from ..forms import LogInForm, IsUserExistsForm, SignInForm
@@ -41,9 +40,7 @@ def home_view(request):
     """
     books = AddedBook.get_user_added_books(request.user)
 
-    template = loader.get_template('home.html')
-    context = RequestContext(request, {'books': books})
-    return HttpResponse(template.render(context))
+    return render(request, 'home.html', {'books': books})
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -64,9 +61,7 @@ def login_view(request):
             login(request, user)
             return redirect('index')
         else:
-            template = loader.get_template('index.html')
-            context = RequestContext(request, {'invalid_authentication': True})
-            return HttpResponse(template.render(context))
+            return render(request, 'index.html', {'invalid_authentication': True})
 
 
 # ----------------------------------------------------------------------------------------------------------------------

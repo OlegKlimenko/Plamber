@@ -5,8 +5,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 from django.db.models import Avg
 from django.http import HttpResponse
-from django.shortcuts import redirect
-from django.template import RequestContext, loader
+from django.shortcuts import redirect, render
 
 from ..forms import BookHomeForm, AddCommentForm, ChangeRatingForm
 from ..models import AddedBook, Book, BookRating, BookComment, TheUser
@@ -25,13 +24,13 @@ def selected_book_view(request, book_id):
     if request.user.is_authenticated():
         rel_objects = Book.get_related_objects_selected_book(request.user, book_id)
 
-        template = loader.get_template('selected_book.html')
-        context = RequestContext(request, {'book': rel_objects['book'],
-                                           'added_book': rel_objects['added_book'],
-                                           'comments': rel_objects['comments'],
-                                           'book_rating': rel_objects['avg_book_rating']['rating__avg'],
-                                           'estimation_count': range(1, 11)})
-        return HttpResponse(template.render(context))
+        context = {'book': rel_objects['book'],
+                   'added_book': rel_objects['added_book'],
+                   'comments': rel_objects['comments'],
+                   'book_rating': rel_objects['avg_book_rating']['rating__avg'],
+                   'estimation_count': range(1, 11)}
+
+        return render(request, 'selected_book.html', context)
     else:
         return redirect('index')
 

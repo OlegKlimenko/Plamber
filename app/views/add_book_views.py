@@ -3,8 +3,7 @@
 import json
 from django.db import transaction
 from django.http import HttpResponse
-from django.shortcuts import redirect
-from django.template import RequestContext, loader
+from django.shortcuts import redirect, render
 
 from ..forms import GenerateAuthorsForm, AddBookForm
 from ..models import Author, Book, Category, Language
@@ -23,9 +22,7 @@ def add_book_view(request):
             categories = Category.objects.all()
             languages = Language.objects.all()
 
-            template = loader.get_template('add_book.html')
-            context = RequestContext(request, {'categories': categories, 'languages': languages})
-            return HttpResponse(template.render(context))
+            return render(request, 'add_book.html', {'categories': categories, 'languages': languages})
         else:
             return redirect('index')
 
