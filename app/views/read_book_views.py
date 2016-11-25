@@ -23,7 +23,7 @@ def open_book(request, book_id):
         user = TheUser.objects.get(id_user=request.user)
         added_book = AddedBook.objects.get(id_book=book, id_user=user)
 
-        context = {'book_name': book.book_name, 'book_url': book.book_file, 'book_page': added_book.last_page}
+        context = {'book': book, 'book_page': added_book.last_page}
         return render(request, 'read_book.html', context)
     else:
         return redirect('index')

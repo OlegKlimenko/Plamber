@@ -39,11 +39,11 @@
 
             <!--Header part of main area-->
             <div align="left">
-                <div class="category-name"><b>{{ category_name }}</b></div>
+                <div class="category-name"><b>{{ category.category_name }}</b></div>
                 <div>
                     <span id="search-header">Поиск</span>
                     <input id="search-input" class="input input-colors" placeholder="Название, автор, что угодно..."
-                            oninput="searchBooks({{ category_number }});" maxlength="255">
+                            oninput="searchBooks({{ category.id }});" maxlength="255">
                 </div>
             </div>
 
