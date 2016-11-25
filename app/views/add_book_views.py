@@ -10,7 +10,7 @@ from ..models import Author, Book, Category, Language
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-def add_book_view(request):
+def add_book(request):
     """
     Returns a page for adding book.
 
@@ -28,7 +28,7 @@ def add_book_view(request):
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-def generate_authors_view(request):
+def generate_authors(request):
     """
     Returns a list of authors.
 
@@ -46,7 +46,7 @@ def generate_authors_view(request):
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-def add_book_successful_view(request):
+def add_book_successful(request):
     """
     Creates new book object.
 

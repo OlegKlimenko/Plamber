@@ -13,7 +13,7 @@ from ..models import AddedBook, TheUser
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-def index_view(request):
+def index(request):
     """
     Checks, if request method GET, returns index page. If POST, and all checks are passed, returns home page.
 
@@ -22,16 +22,16 @@ def index_view(request):
     """
     if request.method == 'GET':
         if request.user.is_authenticated():
-            return home_view(request)
+            return home(request)
         else:
             return render(request, 'index.html')
 
     elif request.method == 'POST':
-        return login_view(request)
+        return user_login(request)
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-def home_view(request):
+def home(request):
     """
     Returns the 'Home page'.
 
@@ -44,7 +44,7 @@ def home_view(request):
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-def login_view(request):
+def user_login(request):
     """
     Checks if user is authenticated.
 
@@ -65,7 +65,7 @@ def login_view(request):
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-def is_user_exists_view(request):
+def is_user_exists(request):
     """
     Checks if user is exists. If exists return True, else False.
 
@@ -86,7 +86,7 @@ def is_user_exists_view(request):
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-def sign_in_view(request):
+def sign_in(request):
     """
     Creates a new user and returns page with registration status.
 

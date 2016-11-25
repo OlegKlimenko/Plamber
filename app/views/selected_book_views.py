@@ -13,7 +13,7 @@ from ..utils import html_escape
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-def selected_book_view(request, book_id):
+def selected_book(request, book_id):
     """
     Returns a page with selected book.
 
@@ -36,7 +36,7 @@ def selected_book_view(request, book_id):
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-def add_book_to_home_view(request):
+def add_book_to_home(request):
     """
     Adds book to list of user's added books.
 
@@ -55,7 +55,7 @@ def add_book_to_home_view(request):
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-def remove_book_from_home_view(request):
+def remove_book_from_home(request):
     """
     Removes book from list of user's added books.
 
@@ -74,7 +74,7 @@ def remove_book_from_home_view(request):
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-def change_rating_view(request):
+def change_rating(request):
     """
     Sets new rating to a book.
 
@@ -86,7 +86,7 @@ def change_rating_view(request):
 
         if rating_form.is_valid():
             with transaction.atomic():
-                change_rating(request, rating_form)
+                set_rating(request, rating_form)
 
                 avg_book_rating = BookRating.objects.filter(
                     id_book=Book.objects.get(id=rating_form.cleaned_data['book'])).aggregate(Avg('rating'))
@@ -97,7 +97,7 @@ def change_rating_view(request):
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-def change_rating(request, rating_form):
+def set_rating(request, rating_form):
     """
     Changes rating of a book.
 
@@ -117,7 +117,7 @@ def change_rating(request, rating_form):
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-def add_comment_view(request):
+def add_comment(request):
     """
     Adds a comment.
 

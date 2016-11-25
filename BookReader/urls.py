@@ -13,34 +13,34 @@ urlpatterns = [
     url(r'^not/an/admin/url/', include(admin.site.urls)),
 
     # Index urls.
-    url(r'^$', index_views.index_view, name='index'),
-    url(r'is-user-exists', index_views.is_user_exists_view),
-    url(r'sign-in', index_views.sign_in_view),
+    url(r'^$', index_views.index, name='index'),
+    url(r'is-user-exists', index_views.is_user_exists),
+    url(r'sign-in', index_views.sign_in),
 
     # Read book urls.
-    url(r'read-book/(?P<book_id>\d+)/$', read_book_views.open_book_view, name='read_book'),
-    url(r'set-current-page', read_book_views.set_current_page_view),
+    url(r'read-book/(?P<book_id>\d+)/$', read_book_views.open_book, name='read_book'),
+    url(r'set-current-page', read_book_views.set_current_page),
 
     # Add book urls.
-    url(r'^add-book', add_book_views.add_book_view, name='add_book'),
-    url(r'generate-authors', add_book_views.generate_authors_view),
-    url(r'book-successful', add_book_views.add_book_successful_view, name='book_successful'),
+    url(r'^add-book', add_book_views.add_book, name='add_book'),
+    url(r'generate-authors', add_book_views.generate_authors),
+    url(r'book-successful', add_book_views.add_book_successful, name='book_successful'),
 
     # Selected book urls.
-    url(r'book/(?P<book_id>\d+)/$', selected_book_views.selected_book_view, name='book'),
-    url(r'home-add-book', selected_book_views.add_book_to_home_view),
-    url(r'home-remove-book', selected_book_views.remove_book_from_home_view),
-    url(r'change-rating', selected_book_views.change_rating_view),
-    url(r'comment-add', selected_book_views.add_comment_view),
+    url(r'book/(?P<book_id>\d+)/$', selected_book_views.selected_book, name='book'),
+    url(r'home-add-book', selected_book_views.add_book_to_home),
+    url(r'home-remove-book', selected_book_views.remove_book_from_home),
+    url(r'change-rating', selected_book_views.change_rating),
+    url(r'comment-add', selected_book_views.add_comment),
 
     # Library urls
-    url(r'library', library_views.categories_view, name='categories'),
-    url(r'^category/(?P<category_id>\d+)/$', library_views.selected_category_view, name='category'),
-    url(r'sort', library_views.sort_view),
+    url(r'library', library_views.all_categories, name='categories'),
+    url(r'^category/(?P<category_id>\d+)/$', library_views.selected_category, name='category'),
+    url(r'sort', library_views.sort),
     url(r'search-book', library_views.find_books),
 
     # Additional urls.
-    url(r'thanks', additional_views.thanks_view, name='thanks'),
-    url(r'logout', additional_views.user_logout_view, name='logout')
+    url(r'thanks', additional_views.thanks, name='thanks'),
+    url(r'logout', additional_views.user_logout, name='logout')
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -9,7 +9,7 @@ from ..models import Category, Book
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-def categories_view(request):
+def all_categories(request):
     """
     Returns page with book categories.
 
@@ -27,7 +27,7 @@ def categories_view(request):
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-def selected_category_view(request, category_id):
+def selected_category(request, category_id):
     """
     Returns page with selected category.
 
@@ -48,7 +48,7 @@ def selected_category_view(request, category_id):
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-def sort_view(request):
+def sort(request):
     """
     Returns data sorted data depending on criterion.
 

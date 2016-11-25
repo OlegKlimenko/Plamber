@@ -10,7 +10,7 @@ from ..models import Book, AddedBook, TheUser
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-def open_book_view(request, book_id):
+def open_book(request, book_id):
     """
     Returns a page for reading book.
 
@@ -30,7 +30,7 @@ def open_book_view(request, book_id):
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-def set_current_page_view(request):
+def set_current_page(request):
     """
     Changes current readed page for book of user.
 

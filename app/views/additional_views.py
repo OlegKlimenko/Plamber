@@ -6,7 +6,7 @@ from django.shortcuts import redirect
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-def thanks_view(request):
+def thanks(request):
     """
     Returns a page with success registration message.
 
@@ -17,7 +17,7 @@ def thanks_view(request):
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-def user_logout_view(request):
+def user_logout(request):
     """
     Closes session, returns index page.
 
