@@ -208,10 +208,9 @@ class Book(models.Model):
         :param list filtered_books: The list of books after fetching them from database.
         :return list[dict[str, str]]: list of books with data.
         """
-        books = []
-        for item in filtered_books:
-            book = {'id': item.id, 'name': item.book_name, 'author': item.id_author.author_name}
-            books.append(book)
+        books = [
+            {'id': item.id, 'name': item.book_name, 'author': item.id_author.author_name} for item in filtered_books
+        ]
 
         return books
 
@@ -270,10 +269,7 @@ class AddedBook(models.Model):
         :param app.models.TheUser user: The user instance.
         :return list[app.models.Book]:
         """
-        book_ids = []
         added_books = AddedBook.objects.filter(id_user=TheUser.objects.get(id_user=user))
-
-        for added_book in added_books:
-            book_ids.append(added_book.id_book)
+        book_ids = [added_book.id_book for added_book in added_books]
 
         return book_ids
