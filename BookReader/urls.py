@@ -15,7 +15,7 @@ urlpatterns = [
     # Index urls.
     url(r'^$', index_views.index, name='index'),
     url(r'is-user-exists', index_views.is_user_exists),
-    url(r'sign-in', index_views.sign_in),
+    url(r'sign-in', index_views.sign_in, name='sign_in'),
 
     # Read book urls.
     url(r'read-book/(?P<book_id>\d+)/$', read_book_views.open_book, name='read_book'),

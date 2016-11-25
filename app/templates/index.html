@@ -23,7 +23,7 @@
     {% endif %}
     <style>
         body {
-            background: url(static/app/images/background.jpg) no-repeat center center fixed;
+            background: url({% static '/app/images/background.jpg' %}) no-repeat center center fixed;
             -webkit-background-size: cover;
             -moz-background-size: cover;
             -o-background-size: cover;
@@ -86,7 +86,7 @@
         <div class="layout sub-page-margin" align="right">
             <button class="close-btn" onclick="registerPageHide()">X</button>
             <div class="heading"><b>Регистрация</b></div>
-            <form action="sign-in" method="POST" onsubmit="isSignInAvailable(this); return false;">
+            <form action="{% url 'sign_in' %}" method="POST" onsubmit="isSignInAvailable(this); return false;">
                 {% csrf_token %}
                 <div><input id="username-input" class="input input-colors index-input-width" placeholder="Имя пользователя"
                             type="text" required pattern="^[a-zA-Z0-9_]{6,30}" oninvalid="usernameSignInMessage(this)"
