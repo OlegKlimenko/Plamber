@@ -27,7 +27,7 @@
                 </form>
                 <a href="{% url 'categories' %}"><button class="header-button header-selected-button-color">Библиотека</button></a>
                 <a href="{% url 'index' %}"><button class="header-button header-button-color">Мои книги</button></a>
-                <button class="header-button header-button-color">Профиль</button>
+                <a href="{% url 'profile' request.user.id %}"><button class="header-button header-button-color">Профиль</button></a>
                 <button class="header-button header-button-color">О проекте</button>
                 <button class="header-button header-button-color" type="submit" form="logout">Bыйти</button>
             </div>

@@ -6,14 +6,11 @@
     <title></title>
     <link rel="stylesheet" href="{% static 'app/css/general/general.css' %}">
     <link rel="stylesheet" href="{% static 'app/css/general/buttons.css' %}">
-    <link rel="stylesheet" href="{% static 'app/css/general/inputs.css' %}">
-    <link rel="stylesheet" href="{% static 'app/css/read_book.css' %}">
+    <link rel="stylesheet" href="{% static 'app/css/profile.css' %}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Comfortaa&subset=cyrillic,cyrillic-ext,latin-ext">
 
     <script src="{% static 'app/js/third_party/jquery.js' %}"></script>
-    <script src="{% static 'app/js/third_party/pdf_js/pdf.js' %}"></script>
     <script src="{% static 'app/js/helper/special.js' %}"></script>
-    <script src="{% static 'app/js/read_book.js' %}"></script>
 </head>
 <body>
     <!--Header Area-->
@@ -26,29 +23,24 @@
                     {% csrf_token %}
                 </form>
                 <a href="{% url 'categories' %}"><button class="header-button header-button-color">Библиотека</button></a>
-                <a href="{% url 'index' %}"><button class="header-button header-selected-button-color">Мои книги</button></a>
-                <a href="{% url 'profile' request.user.id %}"><button class="header-button header-button-color">Профиль</button></a>
+                <a href="{% url 'index' %}"><button class="header-button header-button-color">Мои книги</button></a>
+                <button class="header-button header-selected-button-color">Профиль</button>
                 <button class="header-button header-button-color">О проекте</button>
                 <button class="header-button header-button-color" type="submit" form="logout">Bыйти</button>
             </div>
         </div>
     </div>
 
-    <div>
-        <div id="book-url">{{ book.book_file.url }}</div>
-        <div id="book-name">{{ book.book_name }}</div>
-        <div id="current-page">{{ book_page }}</div>
-    </div>
-
     <!--Main info area-->
     <div align="center">
-        <div class="layout" id="main-area">
-            <div id="space-pusher"></div>
-            <div id="page-nav-bar">
-                <div><button class="page-nav-button" onclick="prevPage();">⬆</button></div>
-                <div><input id="page-number" class="input input-colors"></div>
-                <div><button class="page-nav-button" onclick="nextPage();">⬇</button></div>
+        <div class="layout" align="left">
+            <div id="main-area">
+                <div>
+                    <img src="{{ profile_user.user_photo.url }}" width="250" height="250">
+                    <div>{{ profile_user }}</div>
+                </div>
             </div>
+            <hr>
         </div>
     </div>
 </body>
