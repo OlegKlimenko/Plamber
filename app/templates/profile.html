@@ -6,6 +6,7 @@
     <title></title>
     <link rel="stylesheet" href="{% static 'app/css/general/general.css' %}">
     <link rel="stylesheet" href="{% static 'app/css/general/buttons.css' %}">
+    <link rel="stylesheet" href="{% static 'app/css/general/text.css' %}">
     <link rel="stylesheet" href="{% static 'app/css/profile.css' %}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Comfortaa&subset=cyrillic,cyrillic-ext,latin-ext">
 
@@ -36,11 +37,52 @@
         <div class="layout" align="left">
             <div id="main-area">
                 <div>
-                    <img src="{{ profile_user.user_photo.url }}" width="250" height="250">
-                    <div>{{ profile_user }}</div>
+                    {% if profile_user.user_photo %}
+                        <img class="profile-image" src="{{ profile_user.user_photo.url }}" width="250" height="250">
+                    {% else %}
+                        <img class="profile-image" src="" width="250" height="250">
+                    {% endif %}
+                    <div><span id="username">{{ profile_user }}</span></div>
                 </div>
             </div>
-            <hr>
+
+            <div>
+                <hr>
+                <h1 id="read-books-header">Читаемые книги</h1>
+                <hr>
+                <table id="book-list">
+                    <colgroup>
+                        <col width="50%">
+                        <col width="45%">
+                        <col width="5%">
+                    </colgroup>
+                    <thead>
+                        <tr align="left">
+                            <th>Название книги</th>
+                            <th>Автор</th>
+                            <th>Cтраница</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for book in added_books %}
+                            <tr class="book-line">
+                                <td class="word-wrap">
+                                    <a href="{% url 'book' book.id_book.id %}"
+                                       class="reference">{{ book.id_book.book_name }}</a>
+                                </td>
+                                <td class="word-wrap">
+                                    <a href="{% url 'book' book.id_book.id %}"
+                                       class="reference">{{ book.id_book.id_author }}</a>
+                                </td>
+                                <td class="page-number">
+                                    <a href="{% url 'book' book.id_book.id %}"
+                                       class="reference">{{ book.last_page }}</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </body>

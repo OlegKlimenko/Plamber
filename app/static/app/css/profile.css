@@ -1,4 +1,43 @@
+body {
+    font-family: 'Comfortaa', cursive;
+}
+
 #main-area {
     display: inline-block;
     margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+.profile-image {
+    object-fit: contain;
+    object-position: 0 0;
+}
+
+#username {
+    color: #2e3438;
+}
+
+hr {
+    border: 1px solid #31a445;
+}
+
+#read-books-header {
+    color: #2e3438;
+}
+
+table {
+    color: #2e3438;
+    border: none;
+}
+
+#book-list {
+    width: 100%;
+}
+
+.book-line:hover {
+    color: #31a445;
+}
+
+.page-number {
+    text-align: center;
 }
