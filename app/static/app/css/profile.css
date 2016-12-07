@@ -41,3 +41,75 @@ table {
 .page-number {
     text-align: center;
 }
+
+.remove-book-button {
+    background-color: #9aa6ad;
+    border: solid 2px #9aa6ad;
+    border-radius: 2px;
+    color: #fff;
+    cursor: pointer;
+    outline: none;
+}
+
+.remove-book-button:hover {
+    background-color: #2e3438;
+    border: solid 2px #2e3438;
+}
+
+#remove-book-sub {
+    background-color: #fff;
+    border: 1px solid black;
+    border-radius: 2px;
+    color: #2e3438;
+    display: none;
+    font-family: 'Comfortaa', cursive;
+    left: 50%;
+    margin-left: -200px;
+    margin-top: -100px;
+    min-height: 150px;
+    position: fixed;
+    padding: 20px;
+    top: 50%;
+    width: 400px;
+}
+
+#book-name {
+    color: #31a445;
+    font-size: 16px;
+}
+
+#accept-buttons {
+    margin-top: 20px;
+}
+
+.button {
+    border-radius: 2px;
+    color: #fff;
+    cursor: pointer;
+    font: 15pt 'Comfortaa', cursive;
+    height: 50px;
+    outline: none;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+#no-button {
+    background-color: #31a445;
+    border: solid 2px #31a445;
+}
+
+#no-button:hover {
+    background-color: #2e3438;
+    border: solid 2px #2e3438;
+}
+
+#yes-button {
+    background-color: #9aa6ad;
+    border: solid 2px #9aa6ad;
+    margin-left: 5px;
+}
+
+#yes-button:hover {
+    background-color: #2e3438;
+    border: solid 2px #2e3438;
+}

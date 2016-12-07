@@ -25,7 +25,7 @@ def profile(request, profile_id):
             context = {'profile_user': profile_user, 'added_books': added_books}
 
             if request.user.username == profile_user.id_user.username:
-                print('yeah!!')
+                context['owner'] = True
 
             else:
                 print('nooo')

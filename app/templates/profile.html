@@ -12,6 +12,7 @@
 
     <script src="{% static 'app/js/third_party/jquery.js' %}"></script>
     <script src="{% static 'app/js/helper/special.js' %}"></script>
+    <script src="{% static 'app/js/profile.js' %}"></script>
 </head>
 <body>
     <!--Header Area-->
@@ -50,39 +51,63 @@
                 <hr>
                 <h1 id="read-books-header">Читаемые книги</h1>
                 <hr>
-                <table id="book-list">
-                    <colgroup>
-                        <col width="50%">
-                        <col width="45%">
-                        <col width="5%">
-                    </colgroup>
-                    <thead>
-                        <tr align="left">
-                            <th>Название книги</th>
-                            <th>Автор</th>
-                            <th>Cтраница</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for book in added_books %}
-                            <tr class="book-line">
-                                <td class="word-wrap">
-                                    <a href="{% url 'book' book.id_book.id %}"
-                                       class="reference">{{ book.id_book.book_name }}</a>
-                                </td>
-                                <td class="word-wrap">
-                                    <a href="{% url 'book' book.id_book.id %}"
-                                       class="reference">{{ book.id_book.id_author }}</a>
-                                </td>
-                                <td class="page-number">
-                                    <a href="{% url 'book' book.id_book.id %}"
-                                       class="reference">{{ book.last_page }}</a>
-                                </td>
+                {% if added_books %}
+                    <table id="book-list">
+                        <colgroup>
+                            <col width="47%">
+                            <col width="47%">
+                            <col width="5%">
+                            <col width="2%">
+                        </colgroup>
+                        <thead>
+                            <tr align="left">
+                                <th>Название книги</th>
+                                <th>Автор</th>
+                                <th>Cтр</th>
                             </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {% for book in added_books %}
+                                <tr id="book_{{ book.id_book.id }}" class="book-line">
+                                    <td>
+                                        <a href="{% url 'book' book.id_book.id %}"
+                                           class="reference">{{ book.id_book.book_name }}</a>
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'book' book.id_book.id %}"
+                                           class="reference">{{ book.id_book.id_author }}</a>
+                                    </td>
+                                    <td class="page-number">
+                                        <a href="{% url 'book' book.id_book.id %}"
+                                           class="reference">{{ book.last_page }}</a>
+                                    </td>
+                                    {% if owner %}
+                                        <td>
+                                            <button class="remove-book-button"
+                                                    onclick="showRemoveSub({{ book.id_book.id }}, '{{ book.id_book.book_name }}');">x</button>
+                                        </td>
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    Пока еще нет читаемых книг =(
+                {% endif %}
             </div>
+        </div>
+    </div>
+
+    <!--Remove book sub window-->
+    <div id="remove-book-sub">
+        Bы уверены что хотите удалить книгу <br>
+        "<b id="book-name" class="word-wrap"></b>" <br>
+        Из списка читаемых вами? <br>
+        Bсе данные о прочитанных страницах удалятся.
+
+        <div id="accept-buttons" align="center">
+            <button id="no-button" class="button" onclick="hideRemoveSub();">Нет</button>
+            <button id="yes-button" class="button" onclick="removeBook();">Да</button>
         </div>
     </div>
 </body>
