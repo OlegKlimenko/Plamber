@@ -8,6 +8,15 @@ body {
     margin-bottom: 20px;
 }
 
+#left-side {
+    float: left;
+    width: 300px;
+}
+
+#right-side {
+    float: right;
+    width: 700px;
+}
 .profile-image {
     object-fit: contain;
     object-position: 0 0;
@@ -26,8 +35,9 @@ hr {
 }
 
 table {
-    color: #2e3438;
     border: none;
+    color: #2e3438;
+    table-layout: fixed;
 }
 
 #book-list {

@@ -37,7 +37,8 @@
     <div align="center">
         <div class="layout" align="left">
             <div id="main-area">
-                <div>
+
+                <div id="left-side">
                     {% if profile_user.user_photo %}
                         <img class="profile-image" src="{{ profile_user.user_photo.url }}" width="250" height="250">
                     {% else %}
@@ -45,55 +46,55 @@
                     {% endif %}
                     <div><span id="username">{{ profile_user }}</span></div>
                 </div>
-            </div>
 
-            <div>
-                <hr>
-                <h1 id="read-books-header">Читаемые книги</h1>
-                <hr>
-                {% if added_books %}
-                    <table id="book-list">
-                        <colgroup>
-                            <col width="47%">
-                            <col width="47%">
-                            <col width="5%">
-                            <col width="2%">
-                        </colgroup>
-                        <thead>
-                            <tr align="left">
-                                <th>Название книги</th>
-                                <th>Автор</th>
-                                <th>Cтр</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for book in added_books %}
-                                <tr id="book_{{ book.id_book.id }}" class="book-line">
-                                    <td>
-                                        <a href="{% url 'book' book.id_book.id %}"
-                                           class="reference">{{ book.id_book.book_name }}</a>
-                                    </td>
-                                    <td>
-                                        <a href="{% url 'book' book.id_book.id %}"
-                                           class="reference">{{ book.id_book.id_author }}</a>
-                                    </td>
-                                    <td class="page-number">
-                                        <a href="{% url 'book' book.id_book.id %}"
-                                           class="reference">{{ book.last_page }}</a>
-                                    </td>
-                                    {% if owner %}
-                                        <td>
-                                            <button class="remove-book-button"
-                                                    onclick="showRemoveSub({{ book.id_book.id }}, '{{ book.id_book.book_name }}');">x</button>
-                                        </td>
-                                    {% endif %}
+                <div id="right-side">
+                    <hr>
+                    <h1 id="read-books-header">Читаемые книги</h1>
+                    <hr>
+                    {% if added_books %}
+                        <table id="book-list">
+                            <colgroup>
+                                <col width="45%">
+                                <col width="45%">
+                                <col width="5%">
+                                <col width="3%">
+                            </colgroup>
+                            <thead>
+                                <tr align="left">
+                                    <th>Название книги</th>
+                                    <th>Автор</th>
+                                    <th>Cтр</th>
                                 </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                {% else %}
-                    Пока еще нет читаемых книг =(
-                {% endif %}
+                            </thead>
+                            <tbody>
+                                {% for book in added_books %}
+                                    <tr id="book_{{ book.id_book.id }}" class="book-line">
+                                        <td class="word-wrap">
+                                           <a href="{% url 'book' book.id_book.id %}"
+                                               class="reference">{{ book.id_book.book_name }}</a></td>
+                                        <td class="word-wrap">
+                                            <a href="{% url 'book' book.id_book.id %}"
+                                               class="reference">{{ book.id_book.id_author }}</a>
+                                        </td>
+                                        <td class="page-number word-wrap">
+                                            <a href="{% url 'book' book.id_book.id %}"
+                                               class="reference">{{ book.last_page }}</a>
+                                        </td>
+                                        {% if owner %}
+                                            <td>
+                                                <button class="remove-book-button"
+                                                        onclick="showRemoveSub({{ book.id_book.id }}, '{{ book.id_book.book_name }}');">x</button>
+                                            </td>
+                                        {% endif %}
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        Пока еще нет читаемых книг =(
+                    {% endif %}
+                </div>
+
             </div>
         </div>
     </div>
