@@ -38,15 +38,24 @@
         <div class="layout" align="left">
             <div id="main-area">
 
+                <!--User info area-->
                 <div id="left-side">
                     {% if profile_user.user_photo %}
-                        <img class="profile-image" src="{{ profile_user.user_photo.url }}" width="250" height="250">
+                        <img class="profile-image" src="{{ profile_user.user_photo.url }}" width="250">
                     {% else %}
-                        <img class="profile-image" src="" width="250" height="250">
+                        <img class="profile-image" src="" width="250">
                     {% endif %}
                     <div><span id="username">{{ profile_user }}</span></div>
+
+                    <hr>
+                    <button class="button manage-button">Поменять аватар</button>
+                    <div id="change-avatar"></div>
+
+                    <button class="button manage-button">Сменить пароль</button>
+                    <div id="change-password"></div>
                 </div>
 
+                <!--Book list area-->
                 <div id="right-side">
                     <hr>
                     <h1 id="read-books-header">Читаемые книги</h1>
@@ -107,8 +116,8 @@
         Bсе данные о прочитанных страницах удалятся.
 
         <div id="accept-buttons" align="center">
-            <button id="no-button" class="button" onclick="hideRemoveSub();">Нет</button>
-            <button id="yes-button" class="button" onclick="removeBook();">Да</button>
+            <button id="no-button" class="button active-button" onclick="hideRemoveSub();">Нет</button>
+            <button id="yes-button" class="button active-button" onclick="removeBook();">Да</button>
         </div>
     </div>
 </body>

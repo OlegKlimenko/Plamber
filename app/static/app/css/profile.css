@@ -10,11 +10,12 @@ body {
 
 #left-side {
     float: left;
-    width: 300px;
+    width: 255px;
 }
 
 #right-side {
     float: right;
+    padding-left: 45px;
     width: 700px;
 }
 .profile-image {
@@ -96,9 +97,25 @@ table {
     border-radius: 2px;
     color: #fff;
     cursor: pointer;
-    font: 15pt 'Comfortaa', cursive;
     height: 50px;
     outline: none;
+}
+
+.manage-button {
+    background-color: #2e3438;
+    border: solid 2px #2e3438;
+    font: 13pt 'Comfortaa', cursive;
+    margin-top: 10px;
+    width: 250px;
+}
+
+.manage-button:hover {
+    background-color: #31a445;
+    border: solid 2px #31a445;
+}
+
+.active-button {
+    font: 15pt 'Comfortaa', cursive;
     padding-left: 20px;
     padding-right: 20px;
 }
