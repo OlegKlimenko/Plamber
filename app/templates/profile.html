@@ -72,6 +72,12 @@
                                    placeholder="Новый пароль" type="password" maxlength="16">
                             <input id="new-password-two" class="input input-colors password-inputs"
                                    placeholder="Повторите пароль" type="password" maxlength="16">
+                            <div>
+                                <div id="eye-div">Показать пароли</div>
+                                <img class="eye-img" src="{% static 'app/images/eye_selected.png' %}" width="48" height="48"
+                                     onmousedown="showPasswords('{% static 'app/images/eye.png' %}');"
+                                     onmouseup="hidePasswords('{% static 'app/images/eye_selected.png' %}');">
+                            </div>
                             <button class="upload-button change-button" onclick="changePassword()">Поменять</button>
                         </div>
                     {% endif %}
