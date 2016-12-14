@@ -111,3 +111,11 @@ class AddBookImageForm(forms.Form):
     """
     book = forms.CharField(max_length=255)
     image = forms.FileField()
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+class UploadAvatarForm(forms.Form):
+    """
+    Form for uploading user's avatar.
+    """
+    avatar = forms.FileField()

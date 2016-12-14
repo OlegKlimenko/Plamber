@@ -41,18 +41,31 @@
                 <!--User info area-->
                 <div id="left-side">
                     {% if profile_user.user_photo %}
-                        <img class="profile-image" src="{{ profile_user.user_photo.url }}" width="250">
+                        <img id="profile-image" src="{{ profile_user.user_photo.url }}" width="250">
                     {% else %}
-                        <img class="profile-image" src="" width="250">
+                        <img id="profile-image" src="" height="250" width="250">
                     {% endif %}
                     <div><span id="username">{{ profile_user }}</span></div>
 
-                    <hr>
-                    <button class="button manage-button">Поменять аватар</button>
-                    <div id="change-avatar"></div>
+                    {% if owner %}
+                        <hr>
+                        <span id="status-message"></span>
 
-                    <button class="button manage-button">Сменить пароль</button>
-                    <div id="change-password"></div>
+                        <!--Change avatar sub area-->
+                        <button class="button manage-button" onclick="showChangeAvatarArea();">Поменять аватар</button>
+                        <div id="change-avatar">
+                            <label id="upload-label" class="upload-button select-button">Bыбрать книгу
+                                <input id="upload" name="user_avatar" type="file"
+                                       accept="image/jpeg, image/png, image/gif, image/bmp">
+                            </label>
+                            <button class="upload-button change-button" onclick="changeAvatar();">Поменять</button>
+                            <hr>
+                        </div>
+
+                        <!--Change password sub area-->
+                        <button class="button manage-button">Сменить пароль</button>
+                        <div id="change-password"></div>
+                    {% endif %}
                 </div>
 
                 <!--Book list area-->

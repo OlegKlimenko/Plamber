@@ -41,3 +41,56 @@ function removeBook() {
         }
     });
 }
+
+// ---------------------------------------------------------------------------------------------------------------------
+/**
+ * Shows sub area for changing user's avatar.
+ */
+function showChangeAvatarArea() {
+    $('#change-avatar').css('display', 'block');
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+/**
+ * Hides sub area for changing user's avatar.
+ */
+function hideChangeAvatarArea() {
+    $('#change-avatar').css('display', 'none');
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+/**
+ * Sends ajax request for changing avatar.
+ */
+function changeAvatar() {
+    var avatar = $('input[name="user_avatar"]');
+    var form_data = new FormData();
+
+    if (!avatar.val()) {
+        $('#status-message').text('Bыберите фото!');
+    }
+    else {
+        form_data.append('avatar', avatar.prop('files')[0]);
+        form_data.append('csrfmiddlewaretoken', getCookie("csrftoken"));
+
+        $.ajax({
+            url: '/upload-avatar/',
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: form_data,
+
+            success: function(response) {
+                $('#status-message').text(response['message']);
+                $('#profile-image').attr('src', response['avatar_url']);
+            },
+
+            error: function(response) {
+                $('#status-message').text('Не удалось загрузить фото. Попробуйте еще раз.');
+            }
+        });
+
+        hideChangeAvatarArea();
+    }
+}

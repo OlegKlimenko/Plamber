@@ -41,6 +41,7 @@ urlpatterns = [
 
     # Profile urls.
     url(r'profile/(?P<profile_id>\d+)/$', profile_views.profile, name='profile'),
+    url(r'upload-avatar', profile_views.upload_avatar, name='upload_avatar'),
 
     # Additional urls.
     url(r'thanks', additional_views.thanks, name='thanks'),

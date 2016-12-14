@@ -1,7 +1,11 @@
+import json
+
+from django.contrib.auth.models import User
+from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import redirect, render, get_object_or_404
 
-from django.contrib.auth.models import User
+from app.forms import UploadAvatarForm
 from app.models import TheUser, AddedBook
 
 
@@ -14,7 +18,6 @@ def profile(request, profile_id):
     :param int profile_id: The id profile we want to look.
     :return: HTML page.
     """
-
     if request.method == 'GET':
         if request.user.is_authenticated():
             user = get_object_or_404(User, id=profile_id)
@@ -34,5 +37,34 @@ def profile(request, profile_id):
 
         else:
             return redirect('index')
+    else:
+        return HttpResponse(status=404)
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+def upload_avatar(request):
+    """
+    Sets new user's avatar.
+
+    :param django.core.handlers.wsgi.WSGIRequest request: The request for upload avatar.
+    :return: JSON response
+    """
+    if request.is_ajax():
+        upload_avatar_form = UploadAvatarForm(request.POST, request.FILES)
+
+        if upload_avatar_form.is_valid():
+            with transaction.atomic():
+                user = get_object_or_404(User, id=request.user.id)
+                profile_user = get_object_or_404(TheUser, id_user=user)
+
+                profile_user.user_photo = upload_avatar_form.cleaned_data['avatar']
+                profile_user.save()
+
+                response_data = {
+                    'message': 'Аватар успешно изменен',
+                    'avatar_url': profile_user.user_photo.url
+                }
+
+                return HttpResponse(json.dumps(response_data), content_type='application/json')
     else:
         return HttpResponse(status=404)

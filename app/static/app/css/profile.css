@@ -18,10 +18,6 @@ body {
     padding-left: 45px;
     width: 700px;
 }
-.profile-image {
-    object-fit: contain;
-    object-position: 0 0;
-}
 
 #username {
     color: #2e3438;
@@ -101,19 +97,6 @@ table {
     outline: none;
 }
 
-.manage-button {
-    background-color: #2e3438;
-    border: solid 2px #2e3438;
-    font: 13pt 'Comfortaa', cursive;
-    margin-top: 10px;
-    width: 250px;
-}
-
-.manage-button:hover {
-    background-color: #31a445;
-    border: solid 2px #31a445;
-}
-
 .active-button {
     font: 15pt 'Comfortaa', cursive;
     padding-left: 20px;
@@ -139,4 +122,66 @@ table {
 #yes-button:hover {
     background-color: #2e3438;
     border: solid 2px #2e3438;
+}
+
+.manage-button {
+    background-color: #2e3438;
+    border: solid 2px #2e3438;
+    font: 13pt 'Comfortaa', cursive;
+    margin-top: 10px;
+    width: 250px;
+}
+
+.manage-button:hover {
+    background-color: #31a445;
+    border: solid 2px #31a445;
+}
+
+#change-avatar {
+    display: none;
+}
+
+#status-message {
+    color: #31a445;
+}
+
+#upload {
+    display: none;
+}
+
+#upload-label {
+    display: inline-block;
+    text-align: center;
+}
+
+.upload-button {
+    border-radius: 2px;
+    cursor: pointer;
+    font: 14pt 'Comfortaa', cursive;
+    margin-top: 10px;
+    padding: 5px;
+}
+
+.select-button {
+    background-color: #fff;
+    border: solid 2px #31a445;
+    color: #31a445;
+    width: 150px;
+}
+
+.select-button:hover {
+    border: solid 2px #2e3438;
+    color: #2e3438;
+}
+
+.change-button {
+    background-color: #31a445;
+    border: solid 2px #31a445;
+    color: #fff;
+    width: 164px;
+}
+
+.change-button:hover {
+    background-color: #9aa6ad;
+    border: solid 2px #9aa6ad;
 }
