@@ -196,3 +196,12 @@ table {
     width: 226px;
 }
 
+.eye-img {
+    cursor: pointer;
+}
+
+#eye-div {
+    color: #9aa6ad;
+    margin-top: 10px;
+}
+

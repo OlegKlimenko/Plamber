@@ -167,3 +167,25 @@ function changePassword() {
         });
     }
 }
+
+// ---------------------------------------------------------------------------------------------------------------------
+/**
+ * Shows the inputs passwords when mouse down.
+ */
+function showPasswords(src) {
+    $('.eye-img').attr('src', src);
+    $('#prev-password').attr('type', 'text');
+    $('#new-password-one').attr('type', 'text');
+    $('#new-password-two').attr('type', 'text');
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+/**
+ * Hides the inputs passwords when mouse up.
+ */
+function hidePasswords(src) {
+    $('.eye-img').attr('src', src);
+    $('#prev-password').attr('type', 'password');
+    $('#new-password-one').attr('type', 'password');
+    $('#new-password-two').attr('type', 'password');
+}
