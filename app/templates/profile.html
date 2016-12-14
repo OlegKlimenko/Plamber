@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="{% static 'app/css/general/general.css' %}">
+    <link rel="stylesheet" href="{% static 'app/css/general/buttons.css' %}">
+    <link rel="stylesheet" href="{% static 'app/css/general/inputs.css' %}">
+    <link rel="stylesheet" href="{% static 'app/css/general/text.css' %}">
+    <link rel="stylesheet" href="{% static 'app/css/profile.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Comfortaa&subset=cyrillic,cyrillic-ext,latin-ext">
+
+    <script src="{% static 'app/js/third_party/jquery.js' %}"></script>
+    <script src="{% static 'app/js/helper/special.js' %}"></script>
+    <script src="{% static 'app/js/profile.js' %}"></script>
+</head>
+<body>
+    <!--Header Area-->
+    <div id="header" align="center" class="header-read-book">
+        <div class="layout">
+            <img id="header-logo" src="{% static 'app/images/logo.png' %}" width="140" height="80"
+                    alt="Логотип сайта">
+            <div align="right">
+                <form id="logout" action="{% url 'logout' %}" method="POST">
+                    {% csrf_token %}
+                </form>
+                <a href="{% url 'categories' %}"><button class="header-button header-button-color">Библиотека</button></a>
+                <a href="{% url 'index' %}"><button class="header-button header-button-color">Мои книги</button></a>
+                <button class="header-button header-selected-button-color">Профиль</button>
+                <button class="header-button header-button-color">О проекте</button>
+                <button class="header-button header-button-color" type="submit" form="logout">Bыйти</button>
+            </div>
+        </div>
+    </div>
+
+    <!--Main info area-->
+    <div align="center">
+        <div class="layout" align="left">
+            <div id="main-area">
+
+                <!--User info area-->
+                <div id="left-side">
+                    {% if profile_user.user_photo %}
+                        <img id="profile-image" src="{{ profile_user.user_photo.url }}" width="250">
+                    {% else %}
+                        <img id="profile-image" src="" height="250" width="250">
+                    {% endif %}
+                    <div><span id="username">{{ profile_user }}</span></div>
+
+                    {% if owner %}
+                        <hr>
+                        <span id="status-message"></span>
+
+                        <!--Change avatar sub area-->
+                        <button class="button manage-button" onclick="showChangeAvatarArea();">Поменять аватар</button>
+                        <div id="change-avatar">
+                            <label id="upload-label" class="upload-button select-button">Bыбрать фото
+                                <input id="upload" name="user_avatar" type="file"
+                                       accept="image/jpeg, image/png, image/gif, image/bmp">
+                            </label>
+                            <button class="upload-button change-button" onclick="changeAvatar();">Поменять</button>
+                            <hr>
+                        </div>
+
+                        <!--Change password sub area-->
+                        <button class="button manage-button" onclick="showChangePasswordArea()">Сменить пароль</button>
+                        <div id="change-password">
+                            <input id="prev-password" class="input input-colors password-inputs"
+                                   placeholder="Старый пароль" type="password" maxlength="16">
+                            <input id="new-password-one" class="input input-colors password-inputs"
+                                   placeholder="Новый пароль" type="password" maxlength="16">
+                            <input id="new-password-two" class="input input-colors password-inputs"
+                                   placeholder="Повторите пароль" type="password" maxlength="16">
+                            <button class="upload-button change-button" onclick="changePassword()">Поменять</button>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!--Book list area-->
+                <div id="right-side">
+                    <hr>
+                    <h1 id="read-books-header">Читаемые книги</h1>
+                    <hr>
+                    {% if added_books %}
+                        <table id="book-list">
+                            <colgroup>
+                                <col width="45%">
+                                <col width="45%">
+                                <col width="5%">
+                                <col width="3%">
+                            </colgroup>
+                            <thead>
+                                <tr align="left">
+                                    <th>Название книги</th>
+                                    <th>Автор</th>
+                                    <th>Cтр</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for book in added_books %}
+                                    <tr id="book_{{ book.id_book.id }}" class="book-line">
+                                        <td class="word-wrap">
+                                           <a href="{% url 'book' book.id_book.id %}"
+                                               class="reference">{{ book.id_book.book_name }}</a></td>
+                                        <td class="word-wrap">
+                                            <a href="{% url 'book' book.id_book.id %}"
+                                               class="reference">{{ book.id_book.id_author }}</a>
+                                        </td>
+                                        <td class="page-number word-wrap">
+                                            <a href="{% url 'book' book.id_book.id %}"
+                                               class="reference">{{ book.last_page }}</a>
+                                        </td>
+                                        {% if owner %}
+                                            <td>
+                                                <button class="remove-book-button"
+                                                        onclick="showRemoveSub({{ book.id_book.id }}, '{{ book.id_book.book_name }}');">x</button>
+                                            </td>
+                                        {% endif %}
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        Пока еще нет читаемых книг =(
+                    {% endif %}
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!--Remove book sub window-->
+    <div id="remove-book-sub">
+        Bы уверены что хотите удалить книгу <br>
+        "<b id="book-name" class="word-wrap"></b>" <br>
+        Из списка читаемых вами? <br>
+        Bсе данные о прочитанных страницах удалятся.
+
+        <div id="accept-buttons" align="center">
+            <button id="no-button" class="button active-button" onclick="hideRemoveSub();">Нет</button>
+            <button id="yes-button" class="button active-button" onclick="removeBook();">Да</button>
+        </div>
+    </div>
+</body>
+</html>

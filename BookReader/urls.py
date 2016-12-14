@@ -6,7 +6,7 @@ from django.conf import settings
 from django.contrib import admin
 
 from app.views import (index_views, additional_views, add_book_views, selected_book_views, library_views,
-                       read_book_views)
+                       read_book_views, profile_views)
 
 
 urlpatterns = [
@@ -33,11 +33,16 @@ urlpatterns = [
     url(r'change-rating', selected_book_views.change_rating),
     url(r'comment-add', selected_book_views.add_comment),
 
-    # Library urls
+    # Library urls.
     url(r'library', library_views.all_categories, name='categories'),
     url(r'^category/(?P<category_id>\d+)/$', library_views.selected_category, name='category'),
     url(r'sort', library_views.sort),
     url(r'search-book', library_views.find_books),
+
+    # Profile urls.
+    url(r'profile/(?P<profile_id>\d+)/$', profile_views.profile, name='profile'),
+    url(r'upload-avatar', profile_views.upload_avatar, name='upload_avatar'),
+    url(r'change-password', profile_views.change_password, name='change_password'),
 
     # Additional urls.
     url(r'thanks', additional_views.thanks, name='thanks'),
