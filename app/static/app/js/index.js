@@ -116,3 +116,25 @@ function isSignInAvailable(event) {
         event.submit();
     }
 }
+
+// ---------------------------------------------------------------------------------------------------------------------
+/**
+ * Shows the inputs passwords when mouse down.
+ */
+function showPasswords(src) {
+    $('.eye-img').attr('src', src);
+    $('input[name="passw"]').attr('type', 'text');
+    $('input[name="passw1"]').attr('type', 'text');
+    $('input[name="passw2"]').attr('type', 'text');
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+/**
+ * Hides the inputs passwords when mouse up.
+ */
+function hidePasswords(src) {
+    $('.eye-img').attr('src', src);
+    $('input[name="passw"]').attr('type', 'password');
+    $('input[name="passw1"]').attr('type', 'password');
+    $('input[name="passw2"]').attr('type', 'password');
+}

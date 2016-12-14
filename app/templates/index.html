@@ -64,12 +64,18 @@
         <div class="layout sub-page-margin" align="right">
             <button class="close-btn" onclick="logInPageHide()">X</button>
             <div class="heading"><b>Bход</b></div>
+
             <form action="/" method="POST">
                 {% csrf_token %}
                 <div><input class="input input-colors index-input-width" placeholder="Имя пользователя"
                             type="text" maxlength="30" name="username" required></div>
-                <div><input class="input input-colors index-input-width" placeholder="Пароль" type="password"
-                            maxlength="16" name="passw" required></div>
+                <div>
+                    <img class="eye-img" src="{% static 'app/images/eye_primary.png' %}" width="48" height="48"
+                         onmousedown="showPasswords('{% static 'app/images/eye_selected.png' %}');"
+                         onmouseup="hidePasswords('{% static 'app/images/eye_primary.png' %}');">
+                    <input class="input input-colors index-input-width" placeholder="Пароль" type="password"
+                            maxlength="16" name="passw" required>
+                </div>
                 <div align="right">
                     {% if invalid_authentication %}
                     <div class="error-msg error-text"><b>Логин или пароль введен неверно!</b></div>
@@ -94,9 +100,14 @@
                 <div id="user-exists" class="error-msg error-text"><b>Пользователь с таким именем уже существует.</b></div>
                 <div><input class="input input-colors index-input-width" placeholder="Email" type="email" required
                             name="email"></div>
-                <div><input class="input input-colors index-input-width" id="first-pass" placeholder="Пароль"
+                <div>
+                    <img class="eye-img" src="{% static 'app/images/eye_primary.png' %}" width="48" height="48"
+                         onmousedown="showPasswords('{% static 'app/images/eye_selected.png' %}');"
+                         onmouseup="hidePasswords('{% static 'app/images/eye_primary.png' %}');">
+                    <input class="input input-colors index-input-width" id="first-pass" placeholder="Пароль"
                             type="password" pattern="^[a-zA-Z0-9_]{6,16}" oninvalid="passwordSignInMessage(this)"
-                            name="passw1" required></div>
+                            name="passw1" required>
+                </div>
                 <div ><input class="input input-colors index-input-width" id="second-pass" placeholder="Повторите Пароль"
                              type="password" required pattern="^[a-zA-Z0-9_]{6,16}" name="passw2"
                              oninvalid="passwordSignInMessage(this)" oninput="checkEqualPassLines()"></div>

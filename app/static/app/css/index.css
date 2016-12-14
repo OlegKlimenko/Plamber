@@ -121,3 +121,10 @@ h2 {
     opacity: .5;
     color: #9aa6ad;
 }
+
+.eye-img {
+    cursor: pointer;
+    vertical-align: bottom;
+    margin-right: 10px;
+    margin-bottom: 25px;
+}
