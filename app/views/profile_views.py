@@ -5,7 +5,7 @@ from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import redirect, render, get_object_or_404
 
-from app.forms import UploadAvatarForm
+from app.forms import UploadAvatarForm, ChangePasswordForm
 from app.models import TheUser, AddedBook
 
 
@@ -61,10 +61,38 @@ def upload_avatar(request):
                 profile_user.save()
 
                 response_data = {
-                    'message': 'Аватар успешно изменен',
+                    'message': 'Аватар успешно изменен!',
                     'avatar_url': profile_user.user_photo.url
                 }
 
                 return HttpResponse(json.dumps(response_data), content_type='application/json')
     else:
         return HttpResponse(status=404)
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+def change_password(request):
+    """
+    Sets the new password for user.
+
+    :param django.core.handlers.wsgi.WSGIRequest request: The request for changing password.
+    :return: JSON response
+    """
+    if request.is_ajax():
+        change_password_form = ChangePasswordForm(request.POST)
+
+        if change_password_form.is_valid():
+            with transaction.atomic():
+
+                if request.user.check_password(change_password_form.cleaned_data['prev_password']):
+                    request.user.set_password(change_password_form.cleaned_data['new_password'])
+                    request.user.save()
+
+                    return HttpResponse(json.dumps('Пароль успешно изменен!'), content_type='application/json')
+
+                else:
+                    return HttpResponse(json.dumps('Старый пароль не совпадает. Проверьте на наличие ошибок.'),
+                                        content_type='application/json')
+    else:
+        return HttpResponse(status=404)
+

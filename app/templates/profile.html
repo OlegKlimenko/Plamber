@@ -6,6 +6,7 @@
     <title></title>
     <link rel="stylesheet" href="{% static 'app/css/general/general.css' %}">
     <link rel="stylesheet" href="{% static 'app/css/general/buttons.css' %}">
+    <link rel="stylesheet" href="{% static 'app/css/general/inputs.css' %}">
     <link rel="stylesheet" href="{% static 'app/css/general/text.css' %}">
     <link rel="stylesheet" href="{% static 'app/css/profile.css' %}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Comfortaa&subset=cyrillic,cyrillic-ext,latin-ext">
@@ -63,8 +64,16 @@
                         </div>
 
                         <!--Change password sub area-->
-                        <button class="button manage-button">Сменить пароль</button>
-                        <div id="change-password"></div>
+                        <button class="button manage-button" onclick="showChangePasswordArea()">Сменить пароль</button>
+                        <div id="change-password">
+                            <input id="prev-password" class="input input-colors password-inputs"
+                                   placeholder="Старый пароль" type="password" maxlength="16">
+                            <input id="new-password-one" class="input input-colors password-inputs"
+                                   placeholder="Новый пароль" type="password" maxlength="16">
+                            <input id="new-password-two" class="input input-colors password-inputs"
+                                   placeholder="Повторите пароль" type="password" maxlength="16">
+                            <button class="upload-button change-button" onclick="changePassword()">Поменять</button>
+                        </div>
                     {% endif %}
                 </div>
 

@@ -94,3 +94,76 @@ function changeAvatar() {
         hideChangeAvatarArea();
     }
 }
+
+// ---------------------------------------------------------------------------------------------------------------------
+/**
+ * Shows the area for changing password.
+ */
+function showChangePasswordArea() {
+    $('#change-password').css('display', 'block');
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+/**
+ * Hides the area for changing password.
+ */
+function hideChangePasswordArea() {
+    $('#change-avatar').css('display', 'block');
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+/**
+ * Validates the password inputs before sending.
+ */
+function validatePasswordInputs() {
+    var re = new RegExp('^[a-zA-Z0-9_]{6,16}$');
+
+    var prev_password = $('#prev-password');
+    var new_password_one = $('#new-password-one');
+    var new_password_two = $('#new-password-two');
+
+    if (!prev_password.val() || !new_password_one.val() || !new_password_two.val()) {
+        $('#status-message').text('Заполните пожалуйста все поля для ввода.');
+        return false;
+    }
+    else if (!re.test(prev_password.val()) || !re.test(new_password_one.val()) || !re.test(new_password_two.val())) {
+        $('#status-message').text(
+            'Формат пароля(лей) не верный. Пароль должен содержать только ' +
+            'латинские буквы, цифры, знаки подчеркивания ' +
+            'и быть длиной не менее 6 и не более 16 символов.'
+        );
+        return false;
+    }
+    else if (new_password_one.val() != new_password_two.val()) {
+        $('#status-message').text('Последние два поля должны совпадать.')
+    }
+    else {
+        return true;
+    }
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+/**
+ * Sends ajax request for changing user's password.
+ */
+function changePassword() {
+    if (validatePasswordInputs()) {
+        $.ajax({
+            url: 'change-password',
+            type: 'POST',
+            data: {
+                'prev_password': $('#prev-password').val(),
+                'new_password': $('#new-password-one').val(),
+                'csrfmiddlewaretoken': getCookie("csrftoken")
+            },
+
+            success: function(response) {
+                $('#status-message').text(response);
+            },
+
+            error: function(response) {
+                $('#status-message').text('Не удалось поменять пароль. Попробуйте снова.')
+            }
+        });
+    }
+}

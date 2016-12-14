@@ -127,7 +127,7 @@ table {
 .manage-button {
     background-color: #2e3438;
     border: solid 2px #2e3438;
-    font: 13pt 'Comfortaa', cursive;
+    font: 15pt 'Comfortaa', cursive;
     margin-top: 10px;
     width: 250px;
 }
@@ -138,6 +138,10 @@ table {
 }
 
 #change-avatar {
+    display: none;
+}
+
+#change-password {
     display: none;
 }
 
@@ -159,6 +163,7 @@ table {
     cursor: pointer;
     font: 14pt 'Comfortaa', cursive;
     margin-top: 10px;
+    outline: none;
     padding: 5px;
 }
 
@@ -185,3 +190,9 @@ table {
     background-color: #9aa6ad;
     border: solid 2px #9aa6ad;
 }
+
+.password-inputs {
+    margin-top: 10px;
+    width: 226px;
+}
+

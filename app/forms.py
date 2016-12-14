@@ -119,3 +119,13 @@ class UploadAvatarForm(forms.Form):
     Form for uploading user's avatar.
     """
     avatar = forms.FileField()
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+class ChangePasswordForm(forms.Form):
+    """
+    Form for changing user's password.
+    """
+    prev_password = forms.CharField(max_length=16)
+    new_password = forms.CharField(max_length=16)
+
