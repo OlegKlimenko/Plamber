@@ -154,10 +154,11 @@ hr {
     color: #2e3438;
     font: 12pt Open Sans;
     float: right;
-    height: 70px;
+    height: 60px;
     outline: none;
+    padding: 10px;
     resize: none;
-    width: 860px;
+    width: 840px;
 }
 
 #add-comment-text:focus {
