@@ -99,7 +99,11 @@
             <div class="new-comment" align="left">
                 <div id="new-comment-header">Оставить комментарий</div>
                 <div id="new-comment-body">
-                    <img class="user-photo" src="" width="120" height="120">
+                    {% if user.user_photo %}
+                        <img class="user-photo" src="{{ user.user_photo.url }}" width="120" height="120">
+                    {% else %}
+                        <img class="user-photo" src="" width="120" height="120">
+                    {% endif %}
                     <textarea id="add-comment-text" maxlength="500" placeholder="Введите текст..."></textarea>
                     <button id="comment-button" onclick="addComment({{ book.id }})">Отправить</button>
                 </div>

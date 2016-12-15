@@ -145,7 +145,7 @@ function addComment(idBook) {
             $("#comments-header").after("<hr class='hr'>" +
                                         "<div class='comment' align='left'>" +
                                         "<div class='user-photo'>" +
-                                        "<img src='' width='120' height='120'>" +
+                                        "<img src='" + response['user_photo'] + "' width='120' height='120'>" +
                                         "<div class='word-wrap user-name'><b>" + response['username'] +
                                         "</b></div></div>" +
                                         "<div class='comment-text word-wrap'>" + response['text'] + "</div></div>");

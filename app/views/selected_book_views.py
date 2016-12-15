@@ -23,12 +23,14 @@ def selected_book(request, book_id):
     """
     if request.user.is_authenticated():
         rel_objects = Book.get_related_objects_selected_book(request.user, book_id)
+        user = TheUser.objects.get(id_user=request.user)
 
         context = {'book': rel_objects['book'],
                    'added_book': rel_objects['added_book'],
                    'comments': rel_objects['comments'],
                    'book_rating': rel_objects['avg_book_rating']['rating__avg'],
-                   'estimation_count': range(1, 11)}
+                   'estimation_count': range(1, 11),
+                   'user': user}
 
         return render(request, 'selected_book.html', context)
     else:
@@ -128,13 +130,18 @@ def add_comment(request):
         comment_form = AddCommentForm(request.POST)
 
         if comment_form.is_valid():
-            response_data = dict()
             comment = BookComment.objects.create(id_user=TheUser.objects.get(id_user=request.user),
                                                  id_book=Book.objects.get(id=comment_form.cleaned_data['book']),
                                                  text=comment_form.cleaned_data['comment'])
 
-            response_data['text'] = html_escape(comment.text)
-            response_data['username'] = request.user.username
+            user = TheUser.objects.get(id_user=request.user)
+            user_photo = user.user_photo.url if user.user_photo else ''
+
+            response_data = {
+                'text': html_escape(comment.text),
+                'username': request.user.username,
+                'user_photo': user_photo
+            }
             return HttpResponse(json.dumps(response_data), content_type='application/json')
     else:
         return HttpResponse(status=404)
