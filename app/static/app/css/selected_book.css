@@ -144,6 +144,8 @@ hr {
 
 .user-photo {
     float: left;
+    object-fit: contain;
+    object-position: 0 0;
 }
 
 #add-comment-text {
@@ -196,6 +198,11 @@ hr {
     color: #2e3438;
     font: 10pt Open Sans;
     min-height: 170px;
+}
+
+.comment-photo {
+    object-fit: contain;
+    object-position: 0 0;
 }
 
 .comment-text {
