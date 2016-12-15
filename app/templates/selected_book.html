@@ -117,7 +117,11 @@
             <hr class="hr">
             <div class="comment" align="left">
                 <div class="user-photo">
-                    <img src="" width="120" height="120">
+                    {% if comment.id_user.user_photo %}
+                        <img class="comment-photo" src="{{ comment.id_user.user_photo.url }}" width="120" height="120">
+                    {% else %}
+                        <img class="comment-photo" src="" width="120" height="120">
+                    {% endif %}
                     <div class="word-wrap user-name"><b>{{ comment.id_user }}</b></div>
                 </div>
                 <div class="comment-text word-wrap">{{ comment.text }}</div>
