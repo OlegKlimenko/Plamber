@@ -40,7 +40,7 @@ def selected_category(request, category_id):
             category = Category.objects.get(id=category_id)
             books = Book.objects.filter(id_category=category).order_by('book_name')
 
-            context = {'category': category, 'books': books}
+            context = {'category': category, 'books': books, 'category_number': category_id}
             return render(request, 'selected_category.html', context)
 
         else:
