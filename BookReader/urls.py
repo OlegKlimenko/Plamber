@@ -44,6 +44,9 @@ urlpatterns = [
     url(r'upload-avatar', profile_views.upload_avatar, name='upload_avatar'),
     url(r'change-password', profile_views.change_password, name='change_password'),
 
+    # About project urls.
+    url(r'about', about_project_views.about, name='about'),
+
     # Additional urls.
     url(r'thanks', additional_views.thanks, name='thanks'),
     url(r'logout', additional_views.user_logout, name='logout')
