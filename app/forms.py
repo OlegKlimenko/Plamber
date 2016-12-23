@@ -128,4 +128,3 @@ class ChangePasswordForm(forms.Form):
     """
     prev_password = forms.CharField(max_length=16)
     new_password = forms.CharField(max_length=16)
-

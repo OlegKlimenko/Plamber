@@ -6,7 +6,7 @@ from django.conf import settings
 from django.contrib import admin
 
 from app.views import (index_views, additional_views, add_book_views, selected_book_views, library_views,
-                       read_book_views, profile_views)
+                       read_book_views, profile_views, about_project_views)
 
 
 urlpatterns = [
@@ -46,6 +46,7 @@ urlpatterns = [
 
     # About project urls.
     url(r'about', about_project_views.about, name='about'),
+    url(r'send-message', about_project_views.send_message, name='send_message'),
 
     # Additional urls.
     url(r'thanks', additional_views.thanks, name='thanks'),
