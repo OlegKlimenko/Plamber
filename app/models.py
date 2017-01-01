@@ -273,3 +273,16 @@ class AddedBook(models.Model):
         book_ids = [added_book.id_book for added_book in added_books]
 
         return book_ids
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+class Post(models.Model):
+    """
+    Class for posts in blog about project.
+    """
+    heading = models.CharField(max_length=140)
+    user = models.ForeignKey(TheUser)
+    posted_date = models.DateField(auto_now=True)
+    text = models.TextField()
+
+

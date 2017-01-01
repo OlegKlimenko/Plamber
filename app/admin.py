@@ -2,7 +2,7 @@
 
 from django.contrib import admin
 
-from .models import Category, Author, Book, BookRating, BookComment, AddedBook, TheUser, Language
+from .models import Category, Author, Book, BookRating, BookComment, AddedBook, TheUser, Language, Post
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -10,7 +10,7 @@ class TheUserAdmin(admin.ModelAdmin):
     """
     Class for pretty representation data of users in admin panel.
     """
-    list_display = ("id", "get_username", "get_email")
+    list_display = ('id', 'get_username', 'get_email')
 
     # ------------------------------------------------------------------------------------------------------------------
     @staticmethod
@@ -28,7 +28,7 @@ class CategoryAdmin(admin.ModelAdmin):
     """
     Class for pretty representation data of categories in admin panel.
     """
-    list_display = ("category_name",)
+    list_display = ('category_name',)
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -36,7 +36,7 @@ class AuthorAdmin(admin.ModelAdmin):
     """
     Class for pretty representation data of authors in admin panel.
     """
-    list_display = ("author_name",)
+    list_display = ('author_name',)
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -44,7 +44,7 @@ class LanguageAdmin(admin.ModelAdmin):
     """
     Class for pretty representation data of languages in admin panel.
     """
-    list_display = ("language",)
+    list_display = ('language',)
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -52,7 +52,7 @@ class BookAdmin(admin.ModelAdmin):
     """
     Class for pretty representation data of books in admin panel.
     """
-    list_display = ("book_name", "get_author", "get_category", "get_language")
+    list_display = ('book_name', 'get_author', 'get_category', 'get_language')
 
     # ------------------------------------------------------------------------------------------------------------------
     @staticmethod
@@ -91,7 +91,7 @@ class BookRatingAdmin(BookGeneral):
     """
     Class for pretty representation data of book rating in admin panel.
     """
-    list_display = ("get_user", "get_book", "rating")
+    list_display = ('get_user', 'get_book', 'rating')
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -99,7 +99,7 @@ class BookCommentAdmin(BookGeneral):
     """
     Class for pretty representation data of book comments in admin panel.
     """
-    list_display = ("get_user", "get_book", "text")
+    list_display = ('get_user', 'get_book', 'text')
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -107,7 +107,15 @@ class AddedBookAdmin(BookGeneral):
     """
     Class for pretty representation data of added books in admin panel.
     """
-    list_display = ("get_user", "get_book", "last_page")
+    list_display = ('get_user', 'get_book', 'last_page')
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+class PostAdmin(admin.ModelAdmin):
+    """
+    Class for pretty representation data of project blog posts in admin panel.
+    """
+    list_display = ('heading', 'user', 'posted_date')
 
 
 admin.site.register(TheUser, TheUserAdmin)
@@ -118,3 +126,4 @@ admin.site.register(Book, BookAdmin)
 admin.site.register(BookRating, BookRatingAdmin)
 admin.site.register(BookComment, BookCommentAdmin)
 admin.site.register(AddedBook, AddedBookAdmin)
+admin.site.register(Post, PostAdmin)
