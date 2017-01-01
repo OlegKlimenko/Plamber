@@ -5,11 +5,11 @@ body {
 }
 
 h1 {
-    color: #31a445;
+    color: #2e3438;
 }
 
 .hr-style {
-    border: 1px solid #31a445;
+    border: 1px solid #2e3438;
 }
 
 #message-text {
@@ -42,4 +42,22 @@ h1 {
 #send-message:hover {
     background-color: Transparent;
     color: #31a445;
+}
+
+.post-block {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.post-heading-block {
+    margin-bottom: 20px;
+}
+
+.post-heading {
+    color: #31a445;
+    margin: 0;
+}
+
+.post-heading-meta {
+    color: #9aa6ad;
 }

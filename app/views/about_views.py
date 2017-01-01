@@ -3,6 +3,8 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 
+from app.models import Post
+
 
 # ----------------------------------------------------------------------------------------------------------------------
 def about(request):
@@ -13,7 +15,9 @@ def about(request):
     :return: The about project main page.
     """
     if request.method == 'GET':
-        return render(request, 'about.html', {})
+        posts = Post.objects.all()
+        return render(request, 'about.html', {'posts': posts})
+
     else:
         return HttpResponse(status=404)
 
@@ -44,4 +48,3 @@ def send_message(request):
 #             print(traceback.print_exc())
 #     else:
 #         return HttpResponse(status=404)
-
