@@ -6,7 +6,7 @@ from django.conf import settings
 from django.contrib import admin
 
 from app.views import (index_views, additional_views, add_book_views, selected_book_views, library_views,
-                       read_book_views, profile_views, about_project_views)
+                       read_book_views, profile_views, about_views)
 
 
 urlpatterns = [
@@ -45,8 +45,8 @@ urlpatterns = [
     url(r'change-password', profile_views.change_password, name='change_password'),
 
     # About project urls.
-    url(r'about', about_project_views.about, name='about'),
-    url(r'send-message', about_project_views.send_message, name='send_message'),
+    url(r'about', about_views.about, name='about'),
+    url(r'send-message', about_views.send_message, name='send_message'),
 
     # Additional urls.
     url(r'thanks', additional_views.thanks, name='thanks'),
