@@ -107,7 +107,7 @@ function setCurrentPage(pageNum) {
         url: "set-current-page",
         type: "POST",
         data: {page: pageNum,
-               book: $("#book-name").text(),
+               book: $("#book-id").text(),
                csrfmiddlewaretoken: getCookie("csrftoken")},
 
         success: function result(json) {}

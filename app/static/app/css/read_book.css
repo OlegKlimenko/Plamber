@@ -5,15 +5,7 @@
     z-index: 9999;
 }
 
-#book-url {
-    display: none;
-}
-
-#book-name {
-    display: none;
-}
-
-#current-page {
+.book-meta {
     display: none;
 }
 

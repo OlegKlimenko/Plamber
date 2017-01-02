@@ -35,9 +35,10 @@
     </div>
 
     <div>
-        <div id="book-url">{{ book.book_file.url }}</div>
-        <div id="book-name">{{ book.book_name }}</div>
-        <div id="current-page">{{ book_page }}</div>
+        <div id="book-url" class="book-meta">{{ book.book_file.url }}</div>
+        <div id="book-name" class="book-meta">{{ book.book_name }}</div>
+        <div id="book-id" class="book-meta">{{ book.id }}</div>
+        <div id="current-page" class="book-meta">{{ book_page }}</div>
     </div>
 
     <!--Main info area-->

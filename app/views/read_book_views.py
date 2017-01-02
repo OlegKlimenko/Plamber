@@ -41,7 +41,7 @@ def set_current_page(request):
 
         if pages_form.is_valid():
             with transaction.atomic():
-                book = Book.objects.get(book_name=pages_form.cleaned_data['book'])
+                book = Book.objects.get(id=pages_form.cleaned_data['book'])
                 user = TheUser.objects.get(id_user=request.user)
 
                 added_book = AddedBook.objects.get(id_book=book, id_user=user)
