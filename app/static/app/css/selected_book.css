@@ -21,7 +21,7 @@
 
 #book-name {
     color: #31a445;
-    font-family: Open Sans;
+    font-family: 'Lucida Grande', Arial, sans-serif;
     text-align: center;
 }
 
@@ -39,7 +39,7 @@ th {
 
 td {
     color: #2e3438;
-    font-family: Open Sans;
+    font-family: 'Lucida Grande', Arial, sans-serif;
 }
 
 #about-book {
@@ -49,7 +49,7 @@ td {
 
 #about-text {
     color: #2e3438;
-    font-family: Open Sans;
+    font-family: 'Lucida Grande', Arial, sans-serif;
     margin-left: 280px;
     min-height: 400px;
     text-align: left;
@@ -152,7 +152,7 @@ hr {
     border: 2px solid #9aa6ad;
     border-radius: 2px;
     color: #2e3438;
-    font: 12pt Open Sans;
+    font: 12pt 'Lucida Grande', Arial, sans-serif;
     float: right;
     height: 60px;
     outline: none;
@@ -197,7 +197,7 @@ hr {
 
 .comment {
     color: #2e3438;
-    font: 10pt Open Sans;
+    font: 10pt 'Lucida Grande', Arial, sans-serif;
     min-height: 170px;
 }
 
@@ -208,7 +208,7 @@ hr {
 
 .comment-text {
     color: #2e3438;
-    font: 14px Open Sans;
+    font: 14px 'Lucida Grande', Arial, sans-serif;
     float: right;
     width: 860px;
 }

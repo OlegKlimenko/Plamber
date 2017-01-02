@@ -41,8 +41,8 @@
         <div class="layout">
 
             <!-- About project area -->
-            <div>
-                <h1>Мы бла бла ла дылваодылаоывдлаоывалд</h1>
+            <h1>Мы бла бла ла дылваодылаоывдлаоывалд</h1>
+            <div class="paragraph">
                 <p>slkdfjsldkfjsdlfkjsdlkfjsdfksjdfksd<br>
                 lsjfdkslkjfsdlkfjsdlkfjsdlfkjsdfksdjfksdf<br>
                 sdfklsjflksjflksdjfklsjfskldjfslkdjfsldfj
@@ -88,7 +88,9 @@
                             <i>{{ post.posted_date }}</i> - <strong>{{ post.user }}</strong>
                         </span>
                     </div>
-                    {{ post.text }}
+                    <div class="paragraph">
+                        {{ post.text }}
+                    </div>
                 </div>
             {% endfor %}
         </div>

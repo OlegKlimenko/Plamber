@@ -8,6 +8,10 @@ h1 {
     color: #2e3438;
 }
 
+.paragraph {
+    font-family: 'Lucida Grande', Arial, sans-serif
+}
+
 .hr-style {
     border: 1px solid #2e3438;
 }
