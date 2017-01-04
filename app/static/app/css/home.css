@@ -64,7 +64,6 @@ a:hover .add-book-computer {
 }
 
 .book {
-    color: #31a445;
     border: 1px solid black;
     border-radius: 1px;
     float: left;
@@ -81,7 +80,7 @@ a:hover .add-book-computer {
 }
 
 .book:hover {
-    background-color: #9aa6ad;
+    background-color: #31a445;
     color: #fff;
 }
 
