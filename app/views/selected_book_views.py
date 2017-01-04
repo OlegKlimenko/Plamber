@@ -1,13 +1,16 @@
 # -*- coding: utf-8 -*-
 
 import json
+from binascii import a2b_base64
+
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.files.base import ContentFile
 from django.db import transaction
 from django.db.models import Avg
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
-from ..forms import BookHomeForm, AddCommentForm, ChangeRatingForm
+from ..forms import BookHomeForm, AddCommentForm, ChangeRatingForm, StoreBookImageForm
 from ..models import AddedBook, Book, BookRating, BookComment, TheUser
 from ..utils import html_escape
 
@@ -35,6 +38,31 @@ def selected_book(request, book_id):
         return render(request, 'selected_book.html', context)
     else:
         return redirect('index')
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+def store_image(request):
+    """
+    Stores the book image to database.
+
+    :param django.core.handlers.wsgi.WSGIRequest request:
+    :return: The status of adding book.
+    """
+    if request.is_ajax():
+        image_form = StoreBookImageForm(request.POST)
+
+        if image_form.is_valid():
+            with transaction.atomic():
+                book = Book.objects.get(id=image_form.cleaned_data['id'])
+
+                data = image_form.cleaned_data['image'].split(',')[1]
+                bin_data = a2b_base64(data)
+
+                book.photo.save('book_{}.png'.format(image_form.cleaned_data['id']), ContentFile(bin_data))
+
+                return HttpResponse(json.dumps(True), content_type='application/json')
+    else:
+        return HttpResponse(status=404)
 
 
 # ----------------------------------------------------------------------------------------------------------------------

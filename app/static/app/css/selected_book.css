@@ -11,11 +11,7 @@
     object-fit: cover;
 }
 
-#book-image {
-    display: none;
-}
-
-#book-url {
+.book-meta {
     display: none;
 }
 

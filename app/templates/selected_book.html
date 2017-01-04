@@ -44,9 +44,11 @@
                 <div id="left-side">
                     <!--The book image-->
                     <div align="left">
-                        <img id="the-book-image" src="" width="250" height="350">
-                        <canvas id="book-image"></canvas>
-                        <div id="book-url">{{ book.book_file.url }}</div>
+                        <img id="the-book-image" src="{% if book.photo %}{{ book.photo.url }}{% endif %}"
+                             width="250" height="350">
+                        <canvas id="book-image" class="book-meta"></canvas>
+                        <div id="book-url" class="book-meta">{{ book.book_file.url }}</div>
+                        <input id="upload-image" type="file">
                     </div>
 
                     <div id="avg-mach" align="left">

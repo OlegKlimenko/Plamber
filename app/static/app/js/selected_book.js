@@ -1,3 +1,5 @@
+var BOOK_IMAGE;
+
 // ---------------------------------------------------------------------------------------------------------------------
 /**
  * Fetches image from canvas and set it to image.
@@ -7,6 +9,7 @@ function fetchData() {
     var dataURL = canvas.toDataURL();
 
     $("#the-book-image").attr("src", dataURL);
+    BOOK_IMAGE = dataURL;
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -35,6 +38,7 @@ function renderPage(pdf, pageNumber) {
         var task = page.render(renderContext);
         task.promise.then(function() {
             fetchData();
+            storeImage();
         });
     });
 }
@@ -49,6 +53,24 @@ function loadImage() {
 
     PDFJS.getDocument(url).then(function (pdf) {
         renderPage(pdf, 1)
+    });
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+/**
+ * Stores the image of a book to database.
+ */
+function storeImage() {
+    $.ajax({
+        url: "store-book-image",
+        type: "POST",
+        data: {
+            id: $("#book-id").val(),
+            image: BOOK_IMAGE,
+            csrfmiddlewaretoken: getCookie("csrftoken")
+        },
+
+        success: function result(json) {}
     });
 }
 

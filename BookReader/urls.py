@@ -28,6 +28,7 @@ urlpatterns = [
 
     # Selected book urls.
     url(r'book/(?P<book_id>\d+)/$', selected_book_views.selected_book, name='book'),
+    url(r'store-book-image', selected_book_views.store_image, name='store_image'),
     url(r'home-add-book', selected_book_views.add_book_to_home),
     url(r'home-remove-book', selected_book_views.remove_book_from_home),
     url(r'change-rating', selected_book_views.change_rating),

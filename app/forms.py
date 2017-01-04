@@ -53,6 +53,15 @@ class AddBookForm(forms.Form):
 
 
 # ----------------------------------------------------------------------------------------------------------------------
+class StoreBookImageForm(forms.Form):
+    """
+    Class for storing book image.
+    """
+    id = forms.IntegerField()
+    image = forms.CharField()
+
+
+# ----------------------------------------------------------------------------------------------------------------------
 class BookHomeForm(forms.Form):
     """
     Class for form adding and removing book from own library.
