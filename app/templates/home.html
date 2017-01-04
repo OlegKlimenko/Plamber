@@ -49,16 +49,16 @@
             <!--Books-->
             {% if books %}
                 {% for book in books %}
-                <a href="{% url 'read_book' book.id %}">
-                    <div class="book word-wrap">
-                        <div class="book-info-pusher"></div>
-                        <div class="book-info">
-                            <hr align="center" noshade size="1">
-                            <div><b>{{ book.book_name }}</b></div>
-                            {{ book.id_author }}
+                    <a href="{% url 'read_book' book.id %}">
+                        <div class="book word-wrap">
+                            <img width="220" height="300" src="{{ book.photo.url }}">
+                            <div class="book-info">
+                                <b>{{ book.book_name }}</b>
+                                <hr>
+                                {{ book.id_author }}
+                            </div>
                         </div>
-                    </div>
-                </a>
+                    </a>
                 {% endfor %}
             {% else %}
                 <h1>У вас нет книг! Добавьте! =)</h1>

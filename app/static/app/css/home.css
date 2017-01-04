@@ -63,31 +63,21 @@ a:hover .add-book-computer {
     color: #9aa6ad;
 }
 
-hr {
-    border-color: #31a445;
-    margin-bottom: 2px;
-    width: 218px;
-}
-
-.book-info-pusher {
-    height: 215px;
-}
-
-.book-info {
-    height: 65px;
-}
-
 .book {
     color: #31a445;
     border: 1px solid black;
     border-radius: 1px;
     float: left;
     font-family: 'Lucida Grande', Arial, sans-serif;
-    height: 350px;
+    height: 300px;
     margin: 0 10px 20px 10px;
     padding: 5px;
     text-align: left;
     width: 220px;
+}
+
+.book-info {
+    display: none;
 }
 
 .book:hover {
@@ -97,6 +87,14 @@ hr {
 
 .book:hover hr {
     border-color: #fff;
+}
+
+.book:hover img {
+    display: none;
+}
+
+.book:hover .book-info {
+    display: block;
 }
 
 h1 {
