@@ -30,9 +30,6 @@ def profile(request, profile_id):
             if request.user.username == profile_user.id_user.username:
                 context['owner'] = True
 
-            else:
-                print('nooo')
-
             return render(request, 'profile.html', context)
 
         else:
