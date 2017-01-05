@@ -64,12 +64,15 @@
             <div class="books-area" align="left">
                 {% if books %}
                     {% for book in books %}
-                    <a href="{% url 'book' book.id %}">
-                        <div class="word-wrap book" align="left">
-                            <div><b>{{ book.book_name }}</b></div>
-                            <div>{{ book.id_author }}</div>
-                        </div>
-                    </a>
+                        <a href="{% url 'book' book.id %}">
+                            <div class="word-wrap book" align="left">
+                                <img width="150" height="205" src="{{ book.photo.url }}">
+                                <div class="book-info">
+                                    <b>{{ book.book_name }}</b><br>
+                                    <i>{{ book.id_author }}</i>
+                                </div>
+                            </div>
+                        </a>
                     {% endfor %}
                 {% else %}
                     <h1>В этой категории пока нет книг =((</h1>

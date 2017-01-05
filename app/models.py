@@ -171,6 +171,7 @@ class Book(models.Model):
             book = {'id': item.id,
                     'name': item.book_name,
                     'author': item.id_author.author_name,
+                    'url': item.photo.url,
                     'rating': book_rating['rating__avg']}
             books.append(book)
 
@@ -194,6 +195,7 @@ class Book(models.Model):
             book = {'id': item.id,
                     'name': item.book_name,
                     'author': item.id_author.author_name,
+                    'url': item.photo.url,
                     'read_count': book_read_count['id_user__count']}
             books.append(book)
 
@@ -209,7 +211,10 @@ class Book(models.Model):
         :return list[dict[str, str]]: list of books with data.
         """
         books = [
-            {'id': item.id, 'name': item.book_name, 'author': item.id_author.author_name} for item in filtered_books
+            {'id': item.id,
+             'name': item.book_name,
+             'author': item.id_author.author_name,
+             'url': item.photo.url} for item in filtered_books
         ]
 
         return books

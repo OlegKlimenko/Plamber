@@ -64,18 +64,29 @@
 
 .book {
     border: 1px solid black;
-    color: #31a445;
     float: left;
     font: 11pt 'Lucida Grande', Arial, sans-serif;
-    height: 230px;
+    height: 205px;
     margin: 0 10px 10px 0;
     padding: 4px;
     width: 150px;
 }
 
+.book-info {
+    display: none;
+}
+
 .book:hover {
     background-color: #2e3438;
     color: #fff;
+}
+
+.book:hover img {
+    display: none;
+}
+
+.book:hover .book-info {
+    display: block;
 }
 
 h1 {

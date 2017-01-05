@@ -11,10 +11,11 @@ function insertBooks(books) {
         var id = books[book]["id"];
         var bookName = books[book]["name"];
         var author = books[book]["author"];
+        var url = books[book]["url"];
 
         $(".books-area").append("<a href='book/" + id + "/'><div class='book word-wrap' align='left'>" +
-                                "<div><b>" + bookName + "</b></div>" +
-                                "<div>" + author + "</div>" +
+                                "<img width='150' height='205' src='" + url + "'>" +
+                                "<div class='book-info'><b>" + bookName + "</b><br><i>" + author + "</i></div>" +
                                 "</div></a>");
     }
 }
