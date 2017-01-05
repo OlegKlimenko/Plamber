@@ -82,8 +82,7 @@ function changeAvatar() {
             data: form_data,
 
             success: function(response) {
-                $('#status-message').text(response['message']);
-                $('#profile-image').attr('src', response['avatar_url']);
+                window.location.reload(true);
             },
 
             error: function(response) {

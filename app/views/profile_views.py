@@ -58,11 +58,7 @@ def upload_avatar(request):
                                              upload_avatar_form.cleaned_data['avatar'])
                 profile_user.save()
 
-                response_data = {
-                    'message': 'Аватар успешно изменен!',
-                    'avatar_url': profile_user.user_photo.url
-                }
-
+                response_data = {'message': 'Аватар успешно изменен!'}
                 return HttpResponse(json.dumps(response_data), content_type='application/json')
     else:
         return HttpResponse(status=404)
