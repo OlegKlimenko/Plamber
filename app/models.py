@@ -276,7 +276,7 @@ class AddedBook(models.Model):
         :param app.models.TheUser user: The user instance.
         :return list[app.models.Book]:
         """
-        added_books = AddedBook.objects.filter(id_user=TheUser.objects.get(id_user=user))
+        added_books = AddedBook.objects.filter(id_user=TheUser.objects.get(id_user=user)).order_by('-id')
         book_ids = [added_book.id_book for added_book in added_books]
 
         return book_ids
@@ -291,5 +291,3 @@ class Post(models.Model):
     user = models.ForeignKey(TheUser)
     posted_date = models.DateField(auto_now=True)
     text = models.TextField()
-
-
