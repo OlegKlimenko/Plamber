@@ -54,7 +54,8 @@ def upload_avatar(request):
                 user = get_object_or_404(User, id=request.user.id)
                 profile_user = get_object_or_404(TheUser, id_user=user)
 
-                profile_user.user_photo = upload_avatar_form.cleaned_data['avatar']
+                profile_user.user_photo.save('user_{}.png'.format(profile_user.id),
+                                             upload_avatar_form.cleaned_data['avatar'])
                 profile_user.save()
 
                 response_data = {
