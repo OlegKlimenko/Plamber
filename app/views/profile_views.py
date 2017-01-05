@@ -93,4 +93,3 @@ def change_password(request):
                                         content_type='application/json')
     else:
         return HttpResponse(status=404)
-

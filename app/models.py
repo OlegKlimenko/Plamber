@@ -6,6 +6,8 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.validators import MaxValueValidator, MinValueValidator
 
+from .storage import OverwriteStorage
+
 
 # ----------------------------------------------------------------------------------------------------------------------
 class TheUser(models.Model):
@@ -13,7 +15,7 @@ class TheUser(models.Model):
     Class for user objects in database.
     """
     id_user = models.OneToOneField(User)
-    user_photo = models.ImageField(blank=True, upload_to='user')
+    user_photo = models.ImageField(blank=True, upload_to='user', storage=OverwriteStorage())
 
     # ------------------------------------------------------------------------------------------------------------------
     def __str__(self):
