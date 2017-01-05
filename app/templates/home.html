@@ -51,7 +51,7 @@
                 {% for book in books %}
                     <a href="{% url 'read_book' book.id %}">
                         <div class="book word-wrap">
-                            <img width="220" height="300" src="{{ book.photo.url }}">
+                            <img width="220" height="300" src="{% if book.photo %}{{ book.photo.url }}{% endif %}">
                             <div class="book-info">
                                 <b>{{ book.book_name }}</b><br>
                                 <i>{{ book.id_author }}</i>
