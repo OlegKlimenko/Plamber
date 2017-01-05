@@ -21,7 +21,10 @@ def open_book(request, book_id):
     if request.user.is_authenticated():
         book = Book.objects.get(id=book_id)
         user = TheUser.objects.get(id_user=request.user)
+
         added_book = AddedBook.objects.get(id_book=book, id_user=user)
+        added_book.last_read = added_book.last_read.now()
+        added_book.save()
 
         context = {'book': book, 'book_page': added_book.last_page}
         return render(request, 'read_book.html', context)
