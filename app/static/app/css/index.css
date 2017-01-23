@@ -1,55 +1,36 @@
-body {
+.container-margin {
+    margin-top: 50px;
+}
+
+.header-color {
     color: #fff;
-    font-family: 'Comfortaa', cursive;
 }
 
-h1 {
-    font-size: 60px;
-}
-
-h2 {
+.header-font {
     font-family: 'Lucida Grande', Arial, sans-serif;
-    font-size: 18px;
-    margin-bottom: 30px;
 }
 
-.welcome-div {
-    float: left;
-    width: 400px;
+.margin-header {
+    margin-bottom: 20px;
+    margin-top: 10px;
 }
 
 .enter-button {
     background-color: Transparent;
     border: solid 2px #fff;
-    border-radius: 2px;
     color: #fff;
-    cursor: pointer;
-    font: 15pt 'Comfortaa', cursive;
-    height: 50px;
-    outline: none;
-    padding-left: 20px;
-    padding-right: 20px;
 }
 
 .enter-button:hover {
     background-color: #fff;
     border: solid 2px #fff;
-    border-radius: 2px;
     color: #2e3438;
 }
 
 .register-button {
     background-color: #31a445;
     border: solid 2px #31a445;
-    border-radius: 2px;
     color: #fff;
-    cursor: pointer;
-    font: 15pt 'Comfortaa', cursive;
-    height: 50px;
-    margin-left: 20px;
-    outline: none;
-    padding-left: 20px;
-    padding-right: 20px;
 }
 
 .register-button:hover {
@@ -58,45 +39,16 @@ h2 {
     color: #31a445;
 }
 
-.sub-page {
-    background-color: #000;
-    height: 100%;
-    left: 0;
-    opacity: .95;
-    position: fixed;
-    top: 0;
-    width: 100%;
-}
-
-.sub-page-margin {
-    margin-top: 30px;
-}
-
-.index-input-width {
-    margin-bottom: 20px;
-    width: 500px;
-}
-
-.auth-msg {
-    margin-right: 10px;
+.margin {
+    margin-bottom: 10px;
 }
 
 .error-msg {
     margin-bottom: 20px;
 }
 
-.close-btn {
-    color: #fff;
-    background: Transparent;
-    border: none;
-    font: 14pt 'Comfortaa', bold;
-    margin-bottom: 20px;
-    outline: none;
-}
-
-.close-btn:hover {
-    color: #31a445;
-    cursor: pointer;
+.auth-msg {
+    margin-right: 5px;
 }
 
 #log-in-sub-page {
@@ -113,18 +65,4 @@ h2 {
 
 #pass-wrong-message {
     display: none;
-}
-
-.heading {
-    font-size: 25pt;
-    margin-bottom: 20px;
-    opacity: .5;
-    color: #9aa6ad;
-}
-
-.eye-img {
-    cursor: pointer;
-    margin-right: 10px;
-    margin-bottom: 25px;
-    vertical-align: bottom;
 }

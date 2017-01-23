@@ -3,7 +3,9 @@
  * Displays sub page for log in.
  */
 function logInPageShow() {
+    fitLogin();
     $("#log-in-sub-page").css("display", "block");
+    $("#main").css("display", "none");
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -11,7 +13,9 @@ function logInPageShow() {
  * Hides sub page for log in.
  */
 function logInPageHide() {
+    fitMain();
     $("#log-in-sub-page").css("display", "none");
+    $("#main").css("display", "block");
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -19,7 +23,9 @@ function logInPageHide() {
  * Displays sub page for registration new user.
  */
 function registerPageShow() {
+    fitRegister();
     $("#register-sub-page").css("display", "block");
+    $("#main").css("display", "none");
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -27,7 +33,9 @@ function registerPageShow() {
  * Hides sub page for registration new user.
  */
 function registerPageHide() {
+    fitMain();
     $("#register-sub-page").css("display", "none");
+    $("#main").css("display", "block");
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -119,22 +127,34 @@ function isSignInAvailable(event) {
 
 // ---------------------------------------------------------------------------------------------------------------------
 /**
- * Shows the inputs passwords when mouse down.
+ * Creates artificial margin for fitting up the background image at main sub page.
  */
-function showPasswords(src) {
-    $('.eye-img').attr('src', src);
-    $('input[name="passw"]').attr('type', 'text');
-    $('input[name="passw1"]').attr('type', 'text');
-    $('input[name="passw2"]').attr('type', 'text');
+function fitMain() {
+    $("#main").css("margin-bottom", $(window).height() - $("#main").height() + 6);
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
 /**
- * Hides the inputs passwords when mouse up.
+ * Creates artificial margin for fitting up the background image at login sub page.
  */
-function hidePasswords(src) {
-    $('.eye-img').attr('src', src);
-    $('input[name="passw"]').attr('type', 'password');
-    $('input[name="passw1"]').attr('type', 'password');
-    $('input[name="passw2"]').attr('type', 'password');
+function fitLogin() {
+    $("#log-in-sub-page").css("margin-bottom", $(window).height() - $("#log-in-sub-page").height() + 6);
 }
+
+// ---------------------------------------------------------------------------------------------------------------------
+/**
+ * Creates artificial margin for fitting up the background image at register sub page.
+ */
+function fitRegister() {
+    $("#register-sub-page").css("margin-bottom", $(window).height() - $("#register-sub-page").height() + 6);
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+/**
+ * Fits up the background image which depends on resize event.
+ */
+window.addEventListener("resize", function() {
+    if ($("#main").css("display") == "block") fitMain();
+    else if ($("#log-in-sub-page").css("display") == "block") fitLogin();
+    else fitRegister();
+});
