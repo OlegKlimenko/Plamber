@@ -3,24 +3,30 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title></title>
-    <link rel="stylesheet" href="{% static 'app/css/general/general.css' %}">
     <link rel="stylesheet" href="{% static 'app/css/general/buttons.css' %}">
     <link rel="stylesheet" href="{% static 'app/css/general/inputs.css' %}">
     <link rel="stylesheet" href="{% static 'app/css/general/text.css' %}">
     <link rel="stylesheet" href="{% static 'app/css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'app/css/third_party/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'app/css/third_party/bootstrap-theme.css' %}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Comfortaa&subset=cyrillic,cyrillic-ext,latin-ext">
 
     <script src="{% static 'app/js/third_party/jquery.js' %}"></script>
+    <script src="{% static 'app/js/third_party/bootstrap.min.js' %}"></script>
     <script src="{% static 'app/js/index.js' %}"></script>
 
     {% if invalid_authentication %}
-    <script>
-        $(document).ready(function() {
-            $("#log-in-sub-page").css("display", "block");
-        });
-    </script>
+        <script>
+            $(document).ready(function() {
+                $("#log-in-sub-page").css("display", "block");
+                $("#main").css("display", "none");
+            });
+        </script>
     {% endif %}
+
     <style>
         body {
             background: url({% static '/app/images/background.jpg' %}) no-repeat center center fixed;
@@ -34,88 +40,119 @@
 <body>
 
     <!--Header Area-->
-    <div id="header" align="center">
-        <div class="layout">
-            <img id="header-logo" src="{% static 'app/images/logo.png' %}" width="140" height="80">
-            <div align="right">
-                <a href="{% url 'about' %}"><button class="header-button header-button-color">О проекте</button></a>
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbarCollapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">LOGO</a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="{% url 'about' %}">О проекте</a></li>
+                </ul>
             </div>
         </div>
-    </div>
+    </nav>
 
     <!--Main info area-->
-    <div align="center">
-        <div class="layout" align="center">
-            <div class="welcome-div" align="left">
-                <h1>Читайте книги онлайн!</h1>
-                <h2>
+    <div id="main" class="container container-margin">
+        <div class="row">
+            <div class="col-sm-6 col-md-5 col-lg-5">
+                <h1 class="header-color"><b>Читайте книги онлайн!</b></h1>
+                <h3 class="header-color header-font">
                     вапрдвадплова ывлоарывоар!Ёвдлыаоыаывалд
-                    дваоывдлоаывдлаоыд жвалдаывладоывдлаывоа
-                    лываываолываоывдаоывадлоывадыв лдываылвоаывд
-                    длвыоалывоаывдаовы ывдлаоывдалоыадоывадыалы</h2>
-                <button class="enter-button" onclick="logInPageShow()">Вoйти</button>
-                <button class="register-button" onclick="registerPageShow()">Зарегистрироваться</button>
+                    дваоывдло аывдлаоыд жвалдаывлад оывдлаывоа
+                    лываываолываоывда оывадлоывадыв лдываылвоаывд
+                    длвыоалывоаывдаовы ывдлаоывдал оыадоывадыалы
+                </h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 col-md-5 col-lg-5 margin">
+                <button class="btn enter-button margin" onclick="logInPageShow()">Bойти</button>
+                <button class="btn register-button margin" onclick="registerPageShow()">Зарегистрироваться</button>
             </div>
         </div>
     </div>
 
-    <!--LogIn dialog area-->
-    <div id="log-in-sub-page" class="sub-page" align="center">
-        <div class="layout sub-page-margin" align="right">
-            <button class="close-btn" onclick="logInPageHide()">X</button>
-            <div class="heading"><b>Bход</b></div>
+    <!--Login dialog area-->
+    <div id="log-in-sub-page">
+        <div class="container container-margin">
+            <div class="row">
+                <div class="col-sm-6 col-md-5 col-lg-5">
+                    <div class="margin-header header-color"><h1><b>Bход</b></h1></div>
 
-            <form action="/" method="POST">
-                {% csrf_token %}
-                <div><input class="input input-colors index-input-width" placeholder="Имя пользователя"
-                            type="text" maxlength="30" name="username" required></div>
-                <div>
-                    <img class="eye-img" src="{% static 'app/images/eye_primary.png' %}" width="48" height="48"
-                         onmousedown="showPasswords('{% static 'app/images/eye_selected.png' %}');"
-                         onmouseup="hidePasswords('{% static 'app/images/eye_primary.png' %}');">
-                    <input class="input input-colors index-input-width" placeholder="Пароль" type="password"
-                            maxlength="16" name="passw" required>
+                    <form action="/" method="POST">
+                        {% csrf_token %}
+                        <div>
+                            <input class="input input-colors margin" placeholder="Имя пользователя"
+                                   type="text" maxlength="30" name="username" required>
+                        </div>
+                        <div>
+                            <input class="input input-colors margin" placeholder="Пароль"
+                                   type="password" maxlength="16" name="passw" required>
+                        </div>
+                        <div class="margin" align="right">
+                            {% if invalid_authentication %}
+                                <div class="error-msg error-text"><b>Логин или пароль введен не верно!</b></div>
+                            {% endif %}
+                            <a href="" class="auth-msg reference">Забыли пароль?</a>
+                            <button class="btn enter-button margin" onclick="logInPageHide()">Назад</button>
+                            <button type="submit" class="btn register-button margin">Bойти</button>
+                        </div>
+                    </form>
                 </div>
-                <div align="right">
-                    {% if invalid_authentication %}
-                    <div class="error-msg error-text"><b>Логин или пароль введен неверно!</b></div>
-                    {% endif %}
-                    <a href="" class="auth-msg reference">Забыли пароль ?</a>
-                    <button type="submit" class="register-button">Bойти</button>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 
-    <!--Registraton dialog area-->
-    <div id="register-sub-page" class="sub-page" align="center">
-        <div class="layout sub-page-margin" align="right">
-            <button class="close-btn" onclick="registerPageHide()">X</button>
-            <div class="heading"><b>Регистрация</b></div>
-            <form action="{% url 'sign_in' %}" method="POST" onsubmit="isSignInAvailable(this); return false;">
-                {% csrf_token %}
-                <div><input id="username-input" class="input input-colors index-input-width" placeholder="Имя пользователя"
-                            type="text" required pattern="^[a-zA-Z0-9_]{6,30}" oninvalid="usernameSignInMessage(this)"
-                            oninput="checkUserNotExists()" name="username"></div>
-                <div id="user-exists" class="error-msg error-text"><b>Пользователь с таким именем уже существует.</b></div>
-                <div><input class="input input-colors index-input-width" placeholder="Email" type="email" required
-                            name="email"></div>
-                <div>
-                    <img class="eye-img" src="{% static 'app/images/eye_primary.png' %}" width="48" height="48"
-                         onmousedown="showPasswords('{% static 'app/images/eye_selected.png' %}');"
-                         onmouseup="hidePasswords('{% static 'app/images/eye_primary.png' %}');">
-                    <input class="input input-colors index-input-width" id="first-pass" placeholder="Пароль"
-                            type="password" pattern="^[a-zA-Z0-9_]{6,16}" oninvalid="passwordSignInMessage(this)"
-                            name="passw1" required>
+    <!--Registration dialog area-->
+    <div id="register-sub-page">
+        <div class="container container-margin">
+            <div class="row">
+                <div class="col-sm-6 col-md-5 col-lg-5">
+                    <div class="margin-header header-color"><h1><b>Регистрация</b></h1></div>
+                    <form action="{% url 'sign_in' %}" method="POST" onsubmit="isSignInAvailable(this); return false;">
+                        {% csrf_token %}
+                        <div>
+                            <input id="username-input" class="input input-colors margin" name="username"
+                                   placeholder="Имя пользователя" pattern="^[a-zA-Z0-9_]{6,30}" type="text"
+                                   oninvalid="usernameSignInMessage(this)" oninput="checkUserNotExists()" required>
+                        </div>
+                        <div id="user-exists" class="error-msg error-text">
+                            <b>Пользователь с таким именем уже существует.</b>
+                        </div>
+                        <div>
+                            <input class="input input-colors margin" placeholder="Email" type="email"
+                                   name="email" required>
+                        </div>
+                        <div>
+                            <input class="input input-colors margin" id="first-pass" placeholder="Пароль"
+                                   type="password" pattern="^[a-zA-Z0-9_]{6,16}" oninvalid="passwordSignInMessage(this)"
+                                   name="passw1" required>
+                        </div>
+                        <div>
+                            <input class="input input-colors margin" id="second-pass" name="passw2"
+                                   placeholder="Повторите Пароль" type="password" pattern="^[a-zA-Z0-9_]{6,16}"
+                                   oninvalid="passwordSignInMessage(this)" oninput="checkEqualPassLines()" required>
+                        </div>
+                        <div id="pass-wrong-message" class=" error-msg error-text">
+                            <b>Пароли должны быть одинаковые!</b>
+                        </div>
+                        <div class="margin" align="right">
+                            <button class="btn enter-button margin" onclick="registerPageHide()">Назад</button>
+                            <button type="submit" class="btn register-button margin">Присоединиться</button>
+                        </div>
+                    </form>
                 </div>
-                <div ><input class="input input-colors index-input-width" id="second-pass" placeholder="Повторите Пароль"
-                             type="password" required pattern="^[a-zA-Z0-9_]{6,16}" name="passw2"
-                             oninvalid="passwordSignInMessage(this)" oninput="checkEqualPassLines()"></div>
-                <div id="pass-wrong-message" class=" error-msg error-text"><b>Пароли должны быть одинаковые!</b></div>
-                <div align="right"><button class="register-button">Присоединиться</button></div>
-            </form>
+            </div>
         </div>
     </div>
-
 </body>
 </html>
