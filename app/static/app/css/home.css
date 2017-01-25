@@ -1,102 +1,69 @@
-body {
-    background-color: #fff;
+.container-margin {
+    margin-top: 50px;
 }
 
-.my-books-header {
+.header-color {
     color: #9aa6ad;
-    font: 35pt 'Comfortaa', cursive;
-    margin-top: 20px;
-    margin-bottom: 20px;
 }
 
-.add-book {
-    border-radius: 2px;
-    font: 20pt 'Comfortaa', cursive;
-    height: 40px;
-    width: 40px;
-    outline: none;
-    cursor: pointer;
+.thumbnail img{
+    max-width: 100%;
 }
 
-.add-book-library {
+.img-wrapper{
+	width: 100%;
+	padding-bottom: 150%;
+	position: relative;
+}
+
+.img-wrapper img{
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	min-height: 95%;
+}
+
+.book-info {
+    bottom: 0;
+    color: #31a445;
+    display: none;
+    font-family: 'Lucida Grande', Arial, sans-serif;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.thumbnail:hover img {
+    display: none;
+}
+
+.thumbnail:hover .book-info {
+    display: block;
+}
+
+.decoration {
+    text-decoration: none;
+}
+
+.decoration:hover {
+    text-decoration: none;
+}
+
+.action-button {
     background-color: #31a445;
     border: solid 2px #31a445;
     color: #fff;
 }
 
-a:hover .add-book-library {
-    background-color: #2e3438;
-    border-color: #2e3438;
-}
-
-.add-book-computer {
-    background-color: #2e3438;
-    border: solid 2px #2e3438;
-    color: #31a445;
-    margin-left: 10px;
-}
-
-a:hover .add-book-computer {
-    background-color: #9aa6ad;
-    border: solid 2px #9aa6ad;
-    color: #fff;
-}
-
-.a-text {
-    font: 14pt 'Comfortaa', cursive;
-    text-decoration: none;
-}
-
-.a-library-color {
+.action-button:hover {
+    background-color: Transparent;
+    border: solid 2px #31a445;
     color: #31a445;
 }
 
-.a-library-color:hover {
-    color: #2e3438;
-}
-
-.a-computer-color {
-    color: #2e3438;
-}
-
-.a-computer-color:hover {
-    color: #9aa6ad;
-}
-
-.book {
-    border: 1px solid black;
-    border-radius: 1px;
-    float: left;
-    font-family: 'Lucida Grande', Arial, sans-serif;
-    height: 300px;
-    margin: 0 10px 20px 10px;
-    padding: 5px;
-    text-align: left;
-    width: 220px;
-}
-
-.book-info {
-    display: none;
-}
-
-.book:hover {
-    background-color: #31a445;
-    color: #fff;
-}
-
-.book:hover hr {
-    border-color: #fff;
-}
-
-.book:hover img {
-    display: none;
-}
-
-.book:hover .book-info {
-    display: block;
-}
-
-h1 {
-    color: #2e3438;
-    font-family: 'Comfortaa', cursive;
+.margin {
+    margin-bottom: 10px;
 }
