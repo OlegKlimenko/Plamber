@@ -3,33 +3,54 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Успешная регистрация</title>
-    <link rel="stylesheet" href="{% static 'app/css/general/general.css' %}">
     <link rel="stylesheet" href="{% static 'app/css/general/text.css' %}">
-    <link rel="stylesheet" href="{% static 'app/css/general/buttons.css' %}">
     <link rel="stylesheet" href="{% static 'app/css/register_success.css' %}">
+    <link rel="stylesheet" href="{% static 'app/css/third_party/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'app/css/third_party/bootstrap-theme.css' %}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Comfortaa&subset=cyrillic,cyrillic-ext,latin-ext">
+
+    <script src="{% static 'app/js/third_party/jquery.js' %}"></script>
+    <script src="{% static 'app/js/third_party/bootstrap.min.js' %}"></script>
 </head>
 <body>
     <!--Header Area-->
-    <div id="header" align="center">
-        <div class="layout">
-            <img id="header-logo" src="{% static 'app/images/logo.png' %}" width="140" height="80"
-                    alt="Логотип сайта">
-            <div align="right">
-                <a href="{% url 'about' %}"><button class="header-button header-button-color">О проекте</button></a>
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbarCollapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">LOGO</a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="{% url 'about' %}">О проекте</a></li>
+                </ul>
             </div>
         </div>
-    </div>
+    </nav>
 
     <!--Main info area-->
-    <div align="center">
-        <div class="layout" align="center">
-            <h1><b>Cпасибо за то, что присоеденились к нам!</b></h1>
-            <div align="left">
-                <h2>Активация аккаунта прошла успешно!</h2>
-                <h2>Теперь вы можете авторизоваться и читать ваши любимые книги.</h2>
-                <h2>Перейдите по ссылке:  <a class="active-reference" href="{% url 'index' %}">Главная страница</a></h2>
+    <div id="main" class="container container-margin">
+        <div class="row">
+            <div class="col-sm-6 col-md-6 col-lg-6">
+                <h2><b>Cпасибо за то, что присоеденились к нам!</b></h2>
+                <div class="header-font" align="left">
+                    <h4>Активация аккаунта прошла успешно!</h4>
+                    <h4>Теперь вы можете авторизоваться и читать ваши любимые книги.</h4>
+                    <br>
+                    <h4>
+                        <i>Перейдите по ссылке:</i><br>
+                        <a class="active-reference" href="{% url 'index' %}">Главная страница</a>
+                    </h4>
+                </div>
             </div>
         </div>
     </div>
