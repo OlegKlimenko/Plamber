@@ -3,96 +3,93 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>О проекте</title>
-    <link rel="stylesheet" href="{% static 'app/css/general/general.css' %}">
-    <link rel="stylesheet" href="{% static 'app/css/general/buttons.css' %}">
-    <link rel="stylesheet" href="{% static 'app/css/general/inputs.css' %}">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Comfortaa&subset=cyrillic,cyrillic-ext,latin-ext">
     <link rel="stylesheet" href="{% static 'app/css/about.css' %}">
+    <link rel="stylesheet" href="{% static 'app/css/third_party/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'app/css/third_party/bootstrap-theme.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Comfortaa&subset=cyrillic,cyrillic-ext,latin-ext">
+
     <script src="{% static 'app/js/third_party/jquery.js' %}"></script>
+    <script src="{% static 'app/js/third_party/bootstrap.min.js' %}"></script>
     <script src="{% static 'app/js/helper/special.js' %}"></script>
     <script src="{% static 'app/js/about.js' %}"></script>
 </head>
 <body>
     <!--Header Area-->
-    <div id="header" align="center">
-        <div class="layout">
-            <img id="header-logo" src="{% static 'app/images/logo.png' %}" width="140" height="80"
-                    alt="Логотип сайта">
-            <div align="right">
-                {% if request.user.is_anonymous %}
-                    <a href="/"><button class="header-button header-button-color" type="submit" form="logout">На главную</button></a>
-                {% else %}
-                    <form id="logout" action="/logout/" method="POST">
-                        {% csrf_token %}
-                    </form>
-                    <a href="{% url 'categories' %}"><button class="header-button header-button-color">Библиотека</button></a>
-                    <a href="{% url 'index' %}"><button class="header-button header-button-color">Мои книги</button></a>
-                    <a href="{% url 'profile' request.user.id %}"><button class="header-button header-button-color">Профиль</button></a>
-                    <button class="header-button header-selected-button-color">О проекте</button>
-                    <button class="header-button header-button-color" type="submit" form="logout">Bыйти</button>
-                {% endif %}
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbarCollapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">LOGO</a>
+            </div>
+
+            <form id="logout" action="{% url 'logout' %}" method="POST">
+                {% csrf_token %}
+            </form>
+
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="nav navbar-nav">
+                    {% if request.user.is_anonymous %}
+                        <li><a href="{% url 'index' %}">На главную</a></li>
+                    {% else %}
+                        <li><a href="{% url 'categories' %}">Библиотека</a></li>
+                        <li><a href="{% url 'index' %}">Мои книги</a></li>
+                        <li><a href="{% url 'profile' request.user.id %}">Профиль</a></li>
+                        <li><a href="{% url 'about' %}">О проекте</a></li>
+                        <li><a href="javascript:;" onclick="logout()">Выйти</a></li>
+                    {% endif %}
+                </ul>
             </div>
         </div>
-    </div>
+    </nav>
 
     <!--Main info area-->
-    <div align="center">
-        <div class="layout">
+    <div id="main" class="container container-margin">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12" align="center">
 
-            <!-- About project area -->
-            <h1>Мы бла бла ла дылваодылаоывдлаоывалд</h1>
-            <div class="paragraph">
-                <p>slkdfjsldkfjsdlfkjsdlkfjsdfksjdfksd<br>
-                lsjfdkslkjfsdlkfjsdlkfjsdlfkjsdfksdjfksdf<br>
-                sdfklsjflksjflksdjfklsjfskldjfslkdjfsldfj
-                sdfksjflksjdflksjflksdjflksdjflksjfsdkfj
-                dgkljsgkljdg<br>
-                sfglksdjglkdsjgldg</p>
-                <p>slfjsldkfjsdkfjsdklfjsdkfjsdlfkjdsfsdfklsdjflsfsklfjsdlfk<br>
-                akfdljalksfjslkfjsla;fjsdlfkjal;ksfjsalkfjsal;fjslafjsdalfkjsdf
-                lfkjalsjkdflakjfdal;skjdfalskfjaslkfjaslkfjalskjfalsfjasl;fkjsf
-                slfkjsalf;kjasf;laskjf;aslkfjsalfkjsdlkfjaslfjsalfjlskfjsfkjalsdfj</p>
-            </div>
-
-            <!-- Questions project area -->
-{#            <hr class="hr-style">#}
-{#            <div align="left">#}
-{#                <h1 align="center">Cвяжитесь с нами</h1>#}
-{#                Если у вас есть вопросы, предложения <br>#}
-{#                или вы обнаружили какие-либо ошибки или недочеты<br>#}
-{#                в работе нашей системы, напишите нам<br>#}
-{#                и мы вам непременно ответим :-)#}
-{#                <div>#}
-{#                    <!--<form method="POST" onsubmit="sendMessage(); return false;">-->#}
-{#                        <div><textarea id="message-text" class="input-colors" placeholder="Ваше сообщение"#}
-{#                                       maxlength="1000" required></textarea></div>#}
-{#                        <div><input id="mailer" class="line-input input input-colors" placeholder="Ваш email"#}
-{#                                    type="email" required></div>#}
-{#                        <div><button id="send-message" onclick="sendMessage();">Отправить</button></div>#}
-{#                    <!--</form>-->#}
-{#                </div>#}
-{#            </div>#}
-
-            <hr class="hr-style">
-            <div align="center">
-                <h1>Блог нашего проекта</h1>
-            </div>
-
-            {% for post in posts %}
-                <hr>
-                <div class="post-block" align="left">
-                    <div class="post-heading-block">
-                        <h3 class="post-heading">{{ post.heading }}</h3>
-                        <span class="post-heading-meta">
-                            <i>{{ post.posted_date }}</i> - <strong>{{ post.user }}</strong>
-                        </span>
-                    </div>
-                    <div class="paragraph">
-                        {{ post.text }}
-                    </div>
+                <!-- About project area -->
+                <h1>Мы бла бла ла дылваоды лаоы вдлаоывалд</h1>
+                <div class="paragraph">
+                    <p>slkdfjsldkfjsdlfkjsdlkfjsdfksjdfksd<br>
+                    lsjfdkslkjfsdlkfjsdlkfjsdlfkjsdfksdjfksdf<br>
+                    sdfklsjflksjflksdjfklsjfskldjfslkdjfsldfj
+                    sdfksjflksjdflksjflksdjflksdjflksjfsdkfj
+                    dgkljsgkljdg<br>
+                    sfglksdjglkdsjgldg</p>
+                    <p>slfjsldkfjsdkfj sdklfjsdkfjsdlf kjdsfsdfklsdj flsfsklfjsdlfk<br>
+                    akfdljalksfjs lkfjsla;fj sdlfkjal;ksfjsalkfj sal;fjslafjsdalfkjsdf
+                    lfkjalsjkdflak jfdal;sk jdfalskfjaslkfj aslkfjalskjfals fjasl;fkjsf
+                    slfkjsalf;kj asf;las kjf;aslkfjsalfkjsdlkf jaslfjsalfjlsk fjsfkjalsdfj</p>
                 </div>
-            {% endfor %}
+
+                <hr class="hr-style">
+                <div align="center">
+                    <h1>Блог нашего проекта</h1>
+                </div>
+
+                {% for post in posts %}
+                    <hr>
+                    <div align="left">
+                        <div class="post-heading-block">
+                            <h3 class="post-heading">{{ post.heading }}</h3>
+                            <span class="post-heading-meta">
+                                <i>{{ post.posted_date }}</i> - <strong>{{ post.user }}</strong>
+                            </span>
+                        </div>
+                        <div class="paragraph">
+                            {{ post.text }}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
 </body>

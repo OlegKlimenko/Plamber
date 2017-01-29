@@ -1,11 +1,5 @@
-body {
-    color: #2e3438;
-    font-family: 'Comfortaa', cursive;
-    font-size: 15pt;
-}
-
-h1 {
-    color: #2e3438;
+.container-margin {
+    margin-top: 50px;
 }
 
 .paragraph {
@@ -14,43 +8,6 @@ h1 {
 
 .hr-style {
     border: 1px solid #2e3438;
-}
-
-#message-text {
-    height: 150px;
-    margin-top: 20px;
-    margin-bottom: 10px;
-    padding: 10px;
-    resize: none;
-    width: 400px;
-}
-
-.line-input {
-    margin-bottom: 20px;
-    width: 400px;
-}
-
-#send-message {
-    background-color: #31a445;
-    border: solid 2px #31a445;
-    border-radius: 2px;
-    color: #fff;
-    cursor: pointer;
-    font: 15pt 'Comfortaa', cursive;
-    height: 50px;
-    margin-bottom: 15px;
-    outline: none;
-    width: 200px;
-}
-
-#send-message:hover {
-    background-color: Transparent;
-    color: #31a445;
-}
-
-.post-block {
-    padding-top: 10px;
-    padding-bottom: 10px;
 }
 
 .post-heading-block {
