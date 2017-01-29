@@ -1,43 +1,15 @@
-.category-name {
+.container-margin {
+    margin-top: 50px;
+}
+
+.header-color {
     color: #31a445;
-    font: 27pt 'Comfortaa', cursive;
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-
-#search-header {
-    color: #9aa6ad;
-    font: 20pt 'Comfortaa', cursive;
-    margin-right: 20px;
-}
-
-#search-input {
-    width: 884px;
 }
 
 .sort-area {
     color: #2e3438;
-    font: 18pt 'Comfortaa', cursive;
-    margin-top: 20px;
-}
-
-#sort-header {
-    margin-right: 13px;
-}
-
-.books-area {
-    float: left;
-    margin-top: 20px;
-}
-
-.button {
-    border-radius: 2px;
-    cursor: pointer;
-    font: 12pt 'Comfortaa', cursive;
-    height: 50px;
-    margin-left: 10px;
-    outline: none;
-    width: 181px;
+    font: 14pt 'Lucida Grande', Arial, sans-serif;
+    margin-top: 10px;
 }
 
 .button-color {
@@ -62,39 +34,56 @@
     color: #31a445;
 }
 
-.book {
-    border: 1px solid black;
-    float: left;
-    font: 11pt 'Lucida Grande', Arial, sans-serif;
-    height: 205px;
-    margin: 0 10px 10px 0;
-    padding: 4px;
-    width: 150px;
+.sort-buttons {
+    margin-top: 5px;
+}
+
+.margin {
+    margin-bottom: 5px;
+}
+
+.books-area {
+    margin-top: 10px;
+}
+
+.thumbnail img{
+    max-width: 100%;
+}
+
+.img-wrapper{
+	width: 100%;
+	padding-bottom: 150%;
+	position: relative;
+}
+
+.img-wrapper img{
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	min-height: 99%;
 }
 
 .book-info {
+    bottom: 0;
+    color: #31a445;
+    display: none;
+    font-family: 'Lucida Grande', Arial, sans-serif;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.thumbnail:hover img {
     display: none;
 }
 
-.book:hover {
-    background-color: #31a445;
-    color: #fff;
-}
-
-.book:hover img {
-    display: none;
-}
-
-.book:hover .book-info {
+.thumbnail:hover .book-info {
     display: block;
 }
 
-h1 {
-    color: #2e3438;
-    font-family: 'Comfortaa', cursive;
-}
-
-h2 {
-    color: #2e3438;
-    font-family: 'Comfortaa', cursive;
+.paragraph {
+    font: 14pt 'Lucida Grande', Arial, sans-serif;
 }

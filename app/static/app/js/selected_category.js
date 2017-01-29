@@ -13,10 +13,10 @@ function insertBooks(books) {
         var author = books[book]["author"];
         var url = books[book]["url"];
 
-        $(".books-area").append("<a href='book/" + id + "/'><div class='book word-wrap' align='left'>" +
-                                "<img width='150' height='205' src='" + url + "'>" +
-                                "<div class='book-info'><b>" + bookName + "</b><br><i>" + author + "</i></div>" +
-                                "</div></a>");
+        $(".books-area").append("<a href='book/" + id + "/'><div class='col-sm-3 col-md-3 col-lg-2 col-xs-6'" +
+                                " align='left'><div class='thumbnail'><div class='img-wrapper'>" +
+                                "<img src='" + url + "'><div class='book-info word-wrap'>" +
+                                "<b>" + bookName + "</b><br><i>" + author + "</i></div></div></div></div></a>");
     }
 }
 
@@ -45,9 +45,9 @@ function sort(sortCategory, sortCriterion) {
  * Changes classes on buttons for change their colors.
  */
 function changeBtnColor(element) {
-    if ($(".button").hasClass("selected-button-color")) {
-        $(".button").removeClass("selected-button-color");
-        $(".button").addClass("button-color");
+    if ($(".btn").hasClass("selected-button-color")) {
+        $(".btn").removeClass("selected-button-color");
+        $(".btn").addClass("button-color");
     }
 
     $(element).removeClass("button-color");
