@@ -54,23 +54,25 @@
 
                 <!--Header part of main area-->
                 <h3 class="header-color"><b>{{ category.category_name }}</b></h3>
-                <input id="search-input" class="input input-colors" placeholder="Поиск..."
-                       oninput="searchBooks({{ category.id }});" maxlength="255">
+                {% if books %}
+                    <input id="search-input" class="input input-colors" placeholder="Поиск..."
+                           oninput="searchBooks({{ category.id }});" maxlength="255">
 
-                <!--Sort part of main area-->
-                <div class="sort-area" align="left">
-                    <span id="sort-header">Фильтровать по</span>
-                    <div class="sort-buttons">
-                        <button class="btn selected-button-color margin"
-                                onclick="sort({{ category_number }}, 'book_name'); changeBtnColor(this);">Алфавиту</button>
-                        <button class="btn button-color margin"
-                                onclick="sort({{ category_number }}, 'author'); changeBtnColor(this);">Автору</button>
-                        <button class="btn button-color margin"
-                                onclick="sort({{ category_number }}, 'estimation'); changeBtnColor(this);">Оценкам</button>
-                        <button class="btn button-color margin"
-                                onclick="sort({{ category_number }}, 'most_readable'); changeBtnColor(this);">Самым читаемым</button>
+                    <!--Sort part of main area-->
+                    <div class="sort-area" align="left">
+                        <span id="sort-header">Фильтровать по</span>
+                        <div class="sort-buttons">
+                            <button class="btn selected-button-color margin"
+                                    onclick="sort({{ category_number }}, 'book_name'); changeBtnColor(this);">Алфавиту</button>
+                            <button class="btn button-color margin"
+                                    onclick="sort({{ category_number }}, 'author'); changeBtnColor(this);">Автору</button>
+                            <button class="btn button-color margin"
+                                    onclick="sort({{ category_number }}, 'estimation'); changeBtnColor(this);">Оценкам</button>
+                            <button class="btn button-color margin"
+                                    onclick="sort({{ category_number }}, 'most_readable'); changeBtnColor(this);">Самым читаемым</button>
+                        </div>
                     </div>
-                </div>
+                {% endif %}
 
                 <!--Area with books list-->
                 <div class="col-sm-16 col-md-16 col-lg-16 books-area">
