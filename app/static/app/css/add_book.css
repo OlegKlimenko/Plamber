@@ -1,43 +1,33 @@
-h1 {
-    font: 35pt 'Comfortaa', cursive;
+.container-margin {
+    margin-top: 50px;
+}
+
+.header-color {
     color: #31a445;
-    margin-top: 20px;
 }
 
-#main-space {
-    margin-top: 20px;
-    width: 550px;
-}
-
-.line-input {
-    width: 95%;
-    margin-bottom: 20px;
+.margin {
+    margin-bottom: 10px;
 }
 
 #div-authors-list-header {
     display: none;
-    font: 15pt 'Comfortaa', cursive;
-    margin-bottom: 10px;
 }
 
 #div-authors-list {
     display: none;
     font: 12pt 'Lucida Grande', Arial, sans-serif;
-    margin-bottom: 20px;
 }
 
 .input-header {
-    font: 18pt 'Comfortaa', cursive;
+    font: 14pt 'Comfortaa', cursive;
 }
 
-.check-box {
+.select-box {
     background-color: #fff;
     color: #9aa6ad;
-    font: 14pt 'Comfortaa', cursive;
-    height: 57px;
-    margin-bottom: 20px;
+    height: 38px;
     margin-left: 10px;
-    padding: 2px 5px 2px 15px;
     width: 71%;
 }
 
@@ -47,29 +37,25 @@ h1 {
 
 #about-book {
     height: 200px;
-    margin-bottom: 20px;
-    padding: 10px;
     resize: none;
-    width: 522px;
+}
+
+.about-padding {
+    padding-top: 5px;
+}
+
+#upload-button-label {
+    display: inline-block;
+    text-align: center;
 }
 
 #upload-book {
     display: none;
 }
 
-#upload-button-label {
-    display: inline-block;
-    padding: 4px;
-    text-align: center;
-}
-
 .upload-button {
     border: solid 2px #31a445;
-    border-radius: 2px;
     color: #31a445;
-    cursor: pointer;
-    font: 15pt 'Comfortaa', cursive;
-    margin-left: 5px;
 }
 
 .upload-button:hover {
@@ -79,28 +65,19 @@ h1 {
 
 #missing-book-warn {
     display: none;
-    font: 16pt 'Comfortaa', cursive;
-    margin-left: 5px;
+    font: 14pt 'Comfortaa', cursive;
 }
 
 #file-uploading {
     color: #31a445;
     display: none;
-    font: 16pt 'Comfortaa', cursive;
+    font: 14pt 'Comfortaa', cursive;
 }
 
 .add-book-button {
     background-color: #31a445;
     border: solid 2px #31a445;
-    border-radius: 2px;
     color: #fff;
-    cursor: pointer;
-    font: 15pt 'Comfortaa', cursive;
-    height: 50px;
-    margin-bottom: 30px;
-    outline: none;
-    padding-left: 20px;
-    padding-right: 20px;
 }
 
 .add-book-button:hover {

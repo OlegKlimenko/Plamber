@@ -3,83 +3,100 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Добавить книгу</title>
-    <link rel="stylesheet" href="{% static 'app/css/general/general.css' %}">
-    <link rel="stylesheet" href="{% static 'app/css/general/buttons.css' %}">
     <link rel="stylesheet" href="{% static 'app/css/general/inputs.css' %}">
     <link rel="stylesheet" href="{% static 'app/css/general/text.css' %}">
     <link rel="stylesheet" href="{% static 'app/css/add_book.css' %}">
+    <link rel="stylesheet" href="{% static 'app/css/third_party/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'app/css/third_party/bootstrap-theme.css' %}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Comfortaa&subset=cyrillic,cyrillic-ext,latin-ext">
 
     <script src="{% static 'app/js/third_party/jquery.js' %}"></script>
+    <script src="{% static 'app/js/third_party/bootstrap.min.js' %}"></script>
+    <script src="{% static 'app/js/helper/special.js' %}"></script>
     <script src="{% static 'app/js/add_book.js' %}"></script>
 </head>
 <body>
     <!--Header Area-->
-    <div id="header" align="center">
-        <div class="layout">
-            <img id="header-logo" src="{% static 'app/images/logo.png' %}" width="140" height="80"
-                    alt="Логотип сайта">
-            <div align="right">
-                <form id="logout" action="{% url 'logout' %}" method="POST">
-                    {% csrf_token %}
-                </form>
-                <a href="{% url 'categories' %}"><button class="header-button header-button-color">Библиотека</button></a>
-                <a href="{% url 'index' %}"><button class="header-button header-button-color">Мои книги</button></a>
-                <a href="{% url 'profile' request.user.id %}"><button class="header-button header-button-color">Профиль</button></a>
-                <a href="{% url 'about' %}"><button class="header-button header-button-color">О проекте</button></a>
-                <button class="header-button header-button-color" type="submit" form="logout">Bыйти</button>
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbarCollapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">LOGO</a>
+            </div>
+
+            <form id="logout" action="{% url 'logout' %}" method="POST">
+                {% csrf_token %}
+            </form>
+
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="{% url 'categories' %}">Библиотека</a></li>
+                    <li><a href="{% url 'index' %}">Мои книги</a></li>
+                    <li><a href="{% url 'profile' request.user.id %}">Профиль</a></li>
+                    <li><a href="{% url 'about' %}">О проекте</a></li>
+                    <li><a href="javascript:;" onclick="logout()">Выйти</a></li>
+                </ul>
             </div>
         </div>
-    </div>
+    </nav>
 
     <!--Main info area-->
-    <div align="center">
-        <div class="layout">
-            <div id="main-space" align="right">
-                <div align="left">
-                    <h1><b>Добавить книгу</b></h1>
-                </div>
+    <div id="main" class="container container-margin">
+        <div class="row">
+            <div class="col-sm-8 col-md-6 col-lg-6">
+                <h1 class="header-color"><b>Добавить книгу</b></h1>
+
                 <form action="{% url 'book_successful' %}" method="POST" onsubmit="isBookChosen(this); return false;"
-                        enctype="multipart/form-data">
+                      enctype="multipart/form-data">
                     {% csrf_token %}
-                    <div>
-                        <input class="line-input input input-colors" placeholder="Название книги" maxlength="30"
+
+                    <div class="margin">
+                        <input class="input input-colors" placeholder="Название книги" maxlength="30"
                                name="bookname" required>
                     </div>
-                    <div>
-                        <input id="author-input" class="line-input input input-colors" placeholder="Автор"
+                    <div class="margin">
+                        <input id="author-input" class="input input-colors" placeholder="Автор"
                                maxlength="30" name="author" oninput="generateAuthors()" required>
                     </div>
-                    <div id="div-authors-list-header" align="left">Bы можете выбрать автора из списка:</div>
-                    <div id="div-authors-list"></div>
-                    <div class="input-header" align="right">
+                    <div id="div-authors-list-header" align="left"><h4>Bы можете выбрать автора из списка:</h4></div>
+                    <div id="div-authors-list" class="margin"></div>
+                    <div class="input-header margin" align="right">
                         Категория
-                        <select class="check-box input-colors" name="category" required>
+                        <select class="select-box input input-colors" name="category" required>
                             {% for category in categories %}
                             <option class="check-element" value="{{ category }}">{{ category }}</option>
                             {% endfor %}
                         </select>
                     </div>
-                    <div class="input-header" align="right">
+                    <div class="input-header margin" align="right">
                         Язык книги
-                        <select class="check-box input-colors" name="language" required>
+                        <select class="select-box input input-colors" name="language" required>
                             {% for language in languages %}
                             <option class="check-element" value="{{ language }}">{{ language }}</option>
                             {% endfor %}
                         </select>
                     </div>
-                    <div><textarea id="about-book" class="input-colors" placeholder="О книге" name="about"
-                                   required maxlength="1000"></textarea></div>
-                    <div align="left">
-                        <label id="upload-button-label" class="upload-button">Загрузить книгу
+                    <div>
+                        <textarea id="about-book" class="input input-colors about-padding" placeholder="О книге"
+                                  name="about" required maxlength="1000"></textarea>
+                    </div>
+                    <div class="margin" align="left">
+                        <label id="upload-button-label" class="btn upload-button">Загрузить книгу
                             <input id="upload-book" type="file" accept="application/pdf" name="bookfile">
                         </label>
                         <p id="missing-book-warn" class="error-text"><b>Bыберите книгу!</b></p>
                         <p id="file-uploading" align="center">Подождите пожалуйста, файл загружается на сервер ...</p>
                     </div>
-                    <div align="right">
-                        <button class="add-book-button" type="submit">Добавить книгу</button>
+                    <div class="margin" align="right">
+                        <button class="btn add-book-button" type="submit">Добавить книгу</button>
                     </div>
                 </form>
             </div>
