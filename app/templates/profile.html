@@ -3,135 +3,148 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Мой профиль</title>
-    <link rel="stylesheet" href="{% static 'app/css/general/general.css' %}">
-    <link rel="stylesheet" href="{% static 'app/css/general/buttons.css' %}">
     <link rel="stylesheet" href="{% static 'app/css/general/inputs.css' %}">
     <link rel="stylesheet" href="{% static 'app/css/general/text.css' %}">
     <link rel="stylesheet" href="{% static 'app/css/profile.css' %}">
+    <link rel="stylesheet" href="{% static 'app/css/third_party/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'app/css/third_party/bootstrap-theme.css' %}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Comfortaa&subset=cyrillic,cyrillic-ext,latin-ext">
 
     <script src="{% static 'app/js/third_party/jquery.js' %}"></script>
+    <script src="{% static 'app/js/third_party/bootstrap.min.js' %}"></script>
     <script src="{% static 'app/js/helper/special.js' %}"></script>
     <script src="{% static 'app/js/profile.js' %}"></script>
 </head>
 <body>
     <!--Header Area-->
-    <div id="header" align="center" class="header-read-book">
-        <div class="layout">
-            <img id="header-logo" src="{% static 'app/images/logo.png' %}" width="140" height="80"
-                    alt="Логотип сайта">
-            <div align="right">
-                <form id="logout" action="{% url 'logout' %}" method="POST">
-                    {% csrf_token %}
-                </form>
-                <a href="{% url 'categories' %}"><button class="header-button header-button-color">Библиотека</button></a>
-                <a href="{% url 'index' %}"><button class="header-button header-button-color">Мои книги</button></a>
-                <button class="header-button header-selected-button-color">Профиль</button>
-                <a href="{% url 'about' %}"><button class="header-button header-button-color">О проекте</button></a>
-                <button class="header-button header-button-color" type="submit" form="logout">Bыйти</button>
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbarCollapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">LOGO</a>
+            </div>
+
+            <form id="logout" action="{% url 'logout' %}" method="POST">
+                {% csrf_token %}
+            </form>
+
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="{% url 'categories' %}">Библиотека</a></li>
+                    <li><a href="{% url 'index' %}">Мои книги</a></li>
+                    <li><a href="{% url 'profile' request.user.id %}">Профиль</a></li>
+                    <li><a href="{% url 'about' %}">О проекте</a></li>
+                    <li><a href="javascript:;" onclick="logout()">Выйти</a></li>
+                </ul>
             </div>
         </div>
-    </div>
+    </nav>
 
     <!--Main info area-->
-    <div align="center">
-        <div class="layout" align="left">
-            <div id="main-area">
+    <div id="main" class="container container-margin">
+        <div class="row">
 
-                <!--User info area-->
-                <div id="left-side">
-                    {% if profile_user.user_photo %}
-                        <img id="profile-image" src="{{ profile_user.user_photo.url }}" width="250">
-                    {% else %}
-                        <img id="profile-image" src="" height="250" width="250">
-                    {% endif %}
-                    <div><span id="username">{{ profile_user }}</span></div>
+            <!--User info area-->
+            <div class="col-sm-4 col-md-4 col-lg-3">
+                {% if profile_user.user_photo %}
+                    <img id="profile-image" class="img-responsive" src="{{ profile_user.user_photo.url }}">
+                {% else %}
+                    <img id="profile-image" src="" height="250" width="250">
+                {% endif %}
+                <div id="user-name">{{ profile_user }}</div>
 
-                    {% if owner %}
-                        <hr>
-                        <span id="status-message"></span>
+                {% if owner %}
+                    <hr class="hr">
+                    <div id="status-message" class="margin"></div>
 
-                        <!--Change avatar sub area-->
-                        <button class="button manage-button" onclick="showChangeAvatarArea();">Поменять аватар</button>
-                        <div id="change-avatar">
-                            <label id="upload-label" class="upload-button select-button">Bыбрать фото
-                                <input id="upload" name="user_avatar" type="file"
-                                       accept="image/jpeg, image/png, image/gif, image/bmp">
-                            </label>
-                            <button class="upload-button change-button" onclick="changeAvatar();">Поменять</button>
-                            <hr>
+                    <!--Change avatar sub area-->
+                    <button class="btn manage-button margin"
+                            onclick="showChangeAvatarArea();">Поменять аватар</button>
+                    <div id="change-avatar">
+                        <label id="upload-label" class="btn select-button">Bыбрать фото
+                            <input id="upload" name="user_avatar" type="file"
+                                   accept="image/jpeg, image/png, image/gif, image/bmp">
+                        </label>
+                        <br>
+                        <button class="btn change-button" onclick="changeAvatar();">Поменять</button>
+                        <hr class="hr">
+                    </div>
+
+                    <!--Change password sub area-->
+                    <button class="btn manage-button margin" onclick="showChangePasswordArea()">Сменить пароль</button>
+                    <div id="change-password">
+                        <input id="prev-password" class="input input-colors margin"
+                               placeholder="Старый пароль" type="password" maxlength="16">
+                        <input id="new-password-one" class="input input-colors margin"
+                               placeholder="Новый пароль" type="password" maxlength="16">
+                        <input id="new-password-two" class="input input-colors margin"
+                               placeholder="Повторите пароль" type="password" maxlength="16">
+                        <div>
+                            <div id="eye-div">Показать пароли</div>
+                            <img class="eye-img" src="{% static 'app/images/eye.png' %}" width="48" height="48"
+                                 onmousedown="showPasswords('{% static 'app/images/eye_selected.png' %}');"
+                                 onmouseup="hidePasswords('{% static 'app/images/eye.png' %}');">
                         </div>
+                        <button class="btn change-button margin" onclick="changePassword()">Поменять</button>
+                    </div>
+                {% endif %}
+            </div>
 
-                        <!--Change password sub area-->
-                        <button class="button manage-button" onclick="showChangePasswordArea()">Сменить пароль</button>
-                        <div id="change-password">
-                            <input id="prev-password" class="input input-colors password-inputs"
-                                   placeholder="Старый пароль" type="password" maxlength="16">
-                            <input id="new-password-one" class="input input-colors password-inputs"
-                                   placeholder="Новый пароль" type="password" maxlength="16">
-                            <input id="new-password-two" class="input input-colors password-inputs"
-                                   placeholder="Повторите пароль" type="password" maxlength="16">
-                            <div>
-                                <div id="eye-div">Показать пароли</div>
-                                <img class="eye-img" src="{% static 'app/images/eye.png' %}" width="48" height="48"
-                                     onmousedown="showPasswords('{% static 'app/images/eye_selected.png' %}');"
-                                     onmouseup="hidePasswords('{% static 'app/images/eye.png' %}');">
-                            </div>
-                            <button class="upload-button change-button" onclick="changePassword()">Поменять</button>
-                        </div>
-                    {% endif %}
-                </div>
-
-                <!--Book list area-->
-                <div id="right-side">
-                    <hr>
-                    <h1 id="read-books-header">Читаемые книги</h1>
-                    <hr>
-                    {% if added_books %}
-                        <table id="book-list">
-                            <colgroup>
-                                <col width="45%">
-                                <col width="45%">
-                                <col width="5%">
-                                <col width="3%">
-                            </colgroup>
-                            <thead>
-                                <tr align="left">
-                                    <th>Название книги</th>
-                                    <th>Автор</th>
-                                    <th>Cтр</th>
+            <!--Book list area-->
+            <div class="col-sm-8 col-md-8 col-lg-9">
+                <hr class="hr">
+                <h1 id="read-books-header">Читаемые книги</h1>
+                <hr class="hr">
+                {% if added_books %}
+                    <table id="book-list" class="margin">
+                        <colgroup>
+                            <col width="43%">
+                            <col width="43%">
+                            <col width="10%">
+                            <col width="3%">
+                        </colgroup>
+                        <thead>
+                            <tr align="left">
+                                <th>Название книги</th>
+                                <th>Автор</th>
+                                <th class="page">Cтр</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-font">
+                            {% for book in added_books %}
+                                <tr id="book_{{ book.id_book.id }}">
+                                    <td class="word-wrap">
+                                       <a href="{% url 'book' book.id_book.id %}"
+                                           class="reference">{{ book.id_book.book_name }}</a></td>
+                                    <td class="word-wrap">
+                                        <a href="{% url 'book' book.id_book.id %}"
+                                           class="reference">{{ book.id_book.id_author }}</a>
+                                    </td>
+                                    <td class="page-number word-wrap">
+                                        <a href="{% url 'book' book.id_book.id %}"
+                                           class="reference">{{ book.last_page }}</a>
+                                    </td>
+                                    {% if owner %}
+                                        <td>
+                                            <button class="remove-book-button"
+                                                    onclick="showRemoveSub({{ book.id_book.id }}, '{{ book.id_book.book_name }}');">x</button>
+                                        </td>
+                                    {% endif %}
                                 </tr>
-                            </thead>
-                            <tbody>
-                                {% for book in added_books %}
-                                    <tr id="book_{{ book.id_book.id }}" class="book-line">
-                                        <td class="word-wrap">
-                                           <a href="{% url 'book' book.id_book.id %}"
-                                               class="reference">{{ book.id_book.book_name }}</a></td>
-                                        <td class="word-wrap">
-                                            <a href="{% url 'book' book.id_book.id %}"
-                                               class="reference">{{ book.id_book.id_author }}</a>
-                                        </td>
-                                        <td class="page-number word-wrap">
-                                            <a href="{% url 'book' book.id_book.id %}"
-                                               class="reference">{{ book.last_page }}</a>
-                                        </td>
-                                        {% if owner %}
-                                            <td>
-                                                <button class="remove-book-button"
-                                                        onclick="showRemoveSub({{ book.id_book.id }}, '{{ book.id_book.book_name }}');">x</button>
-                                            </td>
-                                        {% endif %}
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    {% else %}
-                        Пока еще нет читаемых книг =(
-                    {% endif %}
-                </div>
-
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    Пока еще нет читаемых книг =(
+                {% endif %}
             </div>
         </div>
     </div>
@@ -144,8 +157,8 @@
         Bсе данные о прочитанных страницах удалятся.
 
         <div id="accept-buttons" align="center">
-            <button id="no-button" class="button active-button" onclick="hideRemoveSub();">Нет</button>
-            <button id="yes-button" class="button active-button" onclick="removeBook();">Да</button>
+            <button id="no-button" class="btn active-button" onclick="hideRemoveSub();">Нет</button>
+            <button id="yes-button" class="btn active-button" onclick="removeBook();">Да</button>
         </div>
     </div>
 </body>
