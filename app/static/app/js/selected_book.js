@@ -99,10 +99,9 @@ function addBookHome() {
 
         success: function result(json) {
             $("#add-book-div").remove();
-            $("#left-side").append("<div id='remove-book-div'><button class='add-book' id='remove-book'>" +
-                                   "Удалить книгу</button>" +
-                                   "<div class='word-wrap add-book-text'>" +
-                                   "Сейчас книга в списке читаемых вами.</div></div>");
+            $("#btn-area").append("<div id='remove-book-div'><button class='btn' id='remove-book'>" +
+                                  "Удалить книгу</button><div class='word-wrap add-book-text'>" +
+                                  "Сейчас книга в списке читаемых вами.</div></div>");
             $("#remove-book").attr("onClick", "removeBookHome()");
         }
     });
@@ -121,8 +120,8 @@ function removeBookHome(csrfToken) {
 
         success: function result(json) {
             $("#remove-book-div").remove();
-            $("#left-side").append("<div id='add-book-div'><button class='add-book' " +
-                                   "id='add-book'>Добавить книгу</button></div>");
+            $("#btn-area").append("<div id='add-book-div'><button class='btn' " +
+                                  "id='add-book'>Добавить книгу</button></div>");
             $("#add-book").attr("onClick", "addBookHome()");
         }
     });
@@ -164,14 +163,16 @@ function addComment(idBook) {
                csrfmiddlewaretoken: getCookie("csrftoken")},
 
         success: function result(response) {
-            $("#comments-header").after("<hr class='hr'>" +
-                                        "<div class='comment' align='left'>" +
-                                        "<div class='user-photo'>" +
-                                        "<img class='comment-photo' src='" + response['user_photo'] + "' " +
-                                        "width='120' height='120'>" +
-                                        "<div class='word-wrap user-name'><b>" + response['username'] +
-                                        "</b></div></div>" +
-                                        "<div class='comment-text word-wrap'>" + response['text'] + "</div></div>");
+            $("#no-comments").remove();
+            $("#comments").after(
+                "<hr class='hr'><div class='row'><div class='col-sm-12 col-md-12 col-lg-12 col-xs-12'>" +
+                "<div class='col-sm-2 col-md-2 col-lg-2 col-xs-5'>" +
+                "<img class='img-responsive' src='" + response['user_photo'] + "'>" +
+                "<div class='word-wrap user-name'><b>" + response['username'] +
+                "</b></div></div><div class='col-sm-10 col-md-10 col-lg-10 col-xs-7 word-wrap'>" +
+                "<span class='text-font'>" + response['text'] + "</span>" +
+                "</div></div></div>"
+            );
 
             $("#add-comment-text").val("");
             $("html, body").animate({scrollBottom: $(document).height()});

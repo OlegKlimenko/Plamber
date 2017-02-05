@@ -3,58 +3,71 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ book.book_name }}</title>
-    <link rel="stylesheet" href="{% static 'app/css/general/general.css' %}">
-    <link rel="stylesheet" href="{% static 'app/css/general/buttons.css' %}">
     <link rel="stylesheet" href="{% static 'app/css/general/inputs.css' %}">
     <link rel="stylesheet" href="{% static 'app/css/general/text.css' %}">
     <link rel="stylesheet" href="{% static 'app/css/selected_book.css' %}">
+    <link rel="stylesheet" href="{% static 'app/css/third_party/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'app/css/third_party/bootstrap-theme.css' %}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Comfortaa&subset=cyrillic,cyrillic-ext,latin-ext">
 
     <script src="{% static 'app/js/third_party/jquery.js' %}"></script>
+    <script src="{% static 'app/js/third_party/bootstrap.min.js' %}"></script>
     <script src="{% static 'app/js/third_party/pdf_js/pdf.js' %}"></script>
     <script src="{% static 'app/js/helper/special.js' %}"></script>
     <script src="{% static 'app/js/selected_book.js' %}"></script>
 </head>
 <body>
     <!--Header Area-->
-    <div id="header" align="center">
-        <div class="layout">
-            <img id="header-logo" src="{% static 'app/images/logo.png' %}" width="140" height="80" alt="Логотип сайта">
-            <div align="right">
-                <form id="logout" action="{% url 'logout' %}" method="POST">
-                    {% csrf_token %}
-                </form>
-                <a href="{% url 'categories' %}"><button class="header-button header-selected-button-color">Библиотека</button></a>
-                <a href="{% url 'index' %}"><button class="header-button header-button-color">Мои книги</button></a>
-                <a href="{% url 'profile' request.user.id %}"><button class="header-button header-button-color">Профиль</button></a>
-                <a href="{% url 'about' %}"><button class="header-button header-button-color">О проекте</button></a>
-                <button class="header-button header-button-color" type="submit" form="logout">Bыйти</button>
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbarCollapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">LOGO</a>
+            </div>
+
+            <form id="logout" action="{% url 'logout' %}" method="POST">
+                {% csrf_token %}
+            </form>
+
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="{% url 'categories' %}">Библиотека</a></li>
+                    <li><a href="{% url 'index' %}">Мои книги</a></li>
+                    <li><a href="{% url 'profile' request.user.id %}">Профиль</a></li>
+                    <li><a href="{% url 'about' %}">О проекте</a></li>
+                    <li><a href="javascript:;" onclick="logout()">Выйти</a></li>
+                </ul>
             </div>
         </div>
-    </div>
+    </nav>
 
     <!--Main info area-->
-    <div align="center">
-        <div class="layout" align="center">
+    <div class="container container-margin">
 
-            <!--Area with info about book-->
-            <div class="main-space">
+        <!--Main book info-->
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
 
-                <div id="left-side">
-                    <!--The book image-->
-                    <div align="left">
-                        <img id="the-book-image" src="{% if book.photo %}{{ book.photo.url }}{% endif %}"
-                             width="250" height="350">
-                        <canvas id="book-image" class="book-meta"></canvas>
-                        <div id="book-url" class="book-meta">{{ book.book_file.url }}</div>
-                    </div>
+                <!--Left side-->
+                <div class="col-sm-5 col-md-4 col-lg-3">
+                    <img class="img-responsive" id="the-book-image"
+                         src="{% if book.photo %}{{ book.photo.url }}{% endif %}">
+                    <canvas id="book-image" class="book-meta"></canvas>
+                    <div id="book-url" class="book-meta">{{ book.book_file.url }}</div>
 
+                    <!--Estimation Area-->
                     <div id="avg-mach" align="left">
                         Рейтинг книги: <b id="rating">{{ book_rating }}</b>
                     </div>
 
-                    <!--Estimation Area-->
                     <div id="estimation-area" align="left">
                         <div><b>Оценить книгу</b></div>
                         {% for estimation in estimation_count %}
@@ -65,23 +78,26 @@
 
                     <!--The button for adding book-->
                     <input id="book-id" type="hidden" name="book_id" value="{{ book.id }}">
-                    {% if added_book %}
-                    <div id="remove-book-div">
-                        <button class="add-book" id="remove-book"
-                                onclick="removeBookHome()">Удалить книгу</button>
-                        <div class="word-wrap add-book-text">Сейчас книга в списке читаемых вами.</div>
+                    <div id="btn-area" class="margin">
+                        {% if added_book %}
+                            <div id="remove-book-div">
+                                <button class="btn" id="remove-book"
+                                        onclick="removeBookHome()">Удалить книгу</button>
+                                <div class="word-wrap add-book-text">Сейчас книга в списке читаемых вами.</div>
+                            </div>
+                        {% else %}
+                            <div id="add-book-div">
+                                <button class="btn" id="add-book"
+                                        onclick="addBookHome()">Добавить книгу</button>
+                            </div>
+                        {% endif %}
                     </div>
-                    {% else %}
-                    <div id="add-book-div">
-                        <button class="add-book" id="add-book"
-                                onclick="addBookHome()">Добавить книгу</button>
-                    </div>
-                    {% endif %}
                 </div>
 
-                <div>
+                <!--Right side-->
+                <div class="col-sm-7 col-md-8 col-lg-9">
                     <div id="book-name" class="word-wrap"><h2>{{ book.book_name }}</h2></div>
-                    <div align="left">
+                    <div>
                         <table>
                             <tr><th>Автор</th><td class="word-wrap">{{ book.id_author }}</td></tr>
                             <tr><th>Категория</th><td class="word-wrap">{{ book.id_category }}</td></tr>
@@ -89,45 +105,72 @@
                             <tr><th id="about-book">Про книгу</th></tr>
                         </table>
                     </div>
-                    <div align="right" id="about-text" class="word-wrap">
+                    <div id="about-text" class="word-wrap">
                         {{ book.description }}
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!--Area for adding comment-->
-            <hr>
-            <div class="new-comment" align="left">
-                <div id="new-comment-header">Оставить комментарий</div>
-                <div id="new-comment-body">
-                    {% if user.user_photo %}
-                        <img class="user-photo" src="{{ user.user_photo.url }}" width="120" height="120">
-                    {% else %}
-                        <img class="user-photo" src="" width="120" height="120">
-                    {% endif %}
-                    <textarea id="add-comment-text" maxlength="500" placeholder="Введите текст..."></textarea>
-                    <button id="comment-button" onclick="addComment({{ book.id }})">Отправить</button>
+        <!--Area for adding comment-->
+        <div class="row margin">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+            <hr class="main-separator">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
+                        <div id="new-comment-header" class="margin">Оставить комментарий</div>
+                        <div class="col-sm-2 col-md-2 col-lg-2 col-xs-5">
+                            {% if user.user_photo %}
+                                <img class="img-responsive" src="{{ user.user_photo.url }}">
+                            {% else %}
+                                <img class="user-photo img-responsive" src="" height="120">
+                            {% endif %}
+                        </div>
+                        <div class="col-sm-10 col-md-10 col-lg-10 col-xs-7">
+                            <textarea id="add-comment-text" class="input input-colors" maxlength="500"
+                                      placeholder="Введите текст..."></textarea>
+                            <div align="right"><button id="comment-button" class="btn"
+                                    onclick="addComment({{ book.id }})">Отправить</button></div>
+                        </div>
+                    </div>
                 </div>
             </div>
+        </div>
 
-            <hr>
-            <div id="comments-header" align="left"><b>Комментарии</b></div>
-
-            <!--Area with existing comments-->
-            {% for comment in comments %}
-            <hr class="hr">
-            <div class="comment" align="left">
-                <div class="user-photo">
-                    {% if comment.id_user.user_photo %}
-                        <img class="comment-photo" src="{{ comment.id_user.user_photo.url }}" width="120" height="120">
-                    {% else %}
-                        <img class="comment-photo" src="" width="120" height="120">
-                    {% endif %}
-                    <div class="word-wrap user-name"><b>{{ comment.id_user }}</b></div>
-                </div>
-                <div class="comment-text word-wrap">{{ comment.text }}</div>
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <hr class="main-separator">
+                <div id="comments-header"><h3 class="no-margin"><b>Комментарии</b></h3></div>
             </div>
-            {% endfor %}
+        </div>
+
+        <!--Area with existing comments-->
+        <div class="row margin">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <div id="comments"></div>
+                {% if comments %}
+                    {% for comment in comments %}
+                        <hr class="hr">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
+                                <div class="col-sm-2 col-md-2 col-lg-2 col-xs-5">
+                                    {% if comment.id_user.user_photo %}
+                                        <img class="img-responsive" src="{{ comment.id_user.user_photo.url }}">
+                                    {% else %}
+                                        <img class="user-photo img-responsive" src="" height="120">
+                                    {% endif %}
+                                    <div class="word-wrap user-name"><b>{{ comment.id_user }}</b></div>
+                                </div>
+                                <div class="col-sm-10 col-md-10 col-lg-10 col-xs-7 word-wrap">
+                                    <span class="text-font">{{ comment.text }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div id="no-comments"><h4><b>Пока никто не оставил комментариев об этой книге.</b></h4></div>
+                {% endif %}
+            </div>
         </div>
     </div>
 </body>

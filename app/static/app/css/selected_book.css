@@ -1,18 +1,77 @@
-.main-space {
-    margin-top: 40px;
+.container-margin {
+    margin-top: 70px;
 }
 
-#left-side {
-    float: left;
+.margin {
+    margin-bottom: 10px;
 }
 
 #the-book-image {
-    border: 1px solid black;
-    object-fit: cover;
+    border: 1px solid #9aa6ad;
+    border-radius: 2px;
 }
 
 .book-meta {
     display: none;
+}
+
+#avg-mach {
+    color: #9aa6ad;
+    font: 16pt 'Lucida Grande', Arial, sans-serif;
+    margin-top: 10px;
+}
+
+#rating {
+    color: #31a445;
+}
+
+#estimation-area {
+    font-family: 'Lucida Grande', Arial, sans-serif;
+    margin-bottom: 30px;
+}
+
+.estimate {
+    background-color: #2e3438;
+    border-radius: 2px;
+    color: #fff;
+    cursor: pointer;
+    float: left;
+    margin-right: 2px;
+    text-align: center;
+    width: 21px;
+}
+
+.estimate:hover {
+    background-color: #31a445;
+}
+
+#remove-book {
+    background-color: #9aa6ad;
+    border: solid 2px #9aa6ad;
+    color: #fff;
+}
+
+#remove-book:hover {
+    background-color: Transparent;
+    border: solid 2px #9aa6ad;
+    color: #9aa6ad;
+}
+
+#add-book {
+    background-color: #31a445;
+    border: solid 2px #31a445;
+    color: #fff;
+}
+
+#add-book:hover {
+    background-color: Transparent;
+    border: solid 2px #31a445;
+    color: #31a445;
+}
+
+.add-book-text {
+    color: #2e3438;
+    font-family: 'Lucida Grande', Arial, sans-serif;
 }
 
 #book-name {
@@ -22,8 +81,9 @@
 }
 
 table {
-    margin-left: 300px;
+    table-layout: fixed;
     text-align: left;
+    width: 95%;
 }
 
 th {
@@ -39,140 +99,38 @@ td {
 }
 
 #about-book {
-    font-size: 20px;
     color: #31a445;
+    font-size: 20px;
+    height: 50px;
 }
 
 #about-text {
     color: #2e3438;
     font-family: 'Lucida Grande', Arial, sans-serif;
-    margin-left: 280px;
-    min-height: 400px;
-    text-align: left;
-    width: 700px;
 }
 
-#avg-mach {
-    color: #9aa6ad;
-    font: 15pt 'Comfortaa', cursive;
-    margin-top: 20px;
-}
-
-#rating {
-    color: #31a445;
-}
-
-.add-book {
-    border-radius: 2px;
-    color: #fff;
-    cursor: pointer;
-    font: 15pt 'Comfortaa', cursive;
-    height: 50px;
-    margin-top: 30px;
-    outline: none;
-    width: 252px;
-}
-
-#add-book {
-    background-color: #31a445;
-    border: solid 2px #31a445;
-}
-
-#add-book:hover {
-    background-color: Transparent;
-    border: solid 2px #31a445;
-    color: #31a445;
-}
-
-#remove-book {
-    background-color: #9aa6ad;
-    border: solid 2px #9aa6ad;
-}
-
-#remove-book:hover {
-    background-color: Transparent;
-    border: solid 2px #9aa6ad;
-    color: #9aa6ad;
-}
-
-.add-book-text {
-    color: #2e3438;
-    font-family: 'Comfortaa', cursive;
-    max-width: 242px;
-}
-
-#estimation-area {
-    font-family: 'Comfortaa', cursive;
-    margin-top: 20px;
-}
-
-.estimate {
-    background-color: #2e3438;
-    border-radius: 2px;
-    color: #fff;
-    cursor: pointer;
-    float: left;
-    margin-right: 3px;
-    text-align: center;
-    width: 22px;
-}
-
-.estimate:hover {
-    background-color: #31a445;
-}
-
-hr {
+.main-separator {
     border: 1px solid #31a445;
-}
-
-.new-comment {
-    margin-top: 20px;
-    margin-bottom: 160px;
 }
 
 #new-comment-header {
     font: 18px 'Comfortaa', cursive;
 }
 
-#new-comment-body {
-    margin-top: 20px;
-}
-
 .user-photo {
-    float: left;
-    object-fit: contain;
-    object-position: 0 0;
+    border: 1px solid #9aa6ad;
 }
 
 #add-comment-text {
-    border: 2px solid #9aa6ad;
-    border-radius: 2px;
-    color: #2e3438;
-    font: 12pt 'Lucida Grande', Arial, sans-serif;
-    float: right;
-    height: 60px;
-    outline: none;
-    padding: 10px;
+    height: 80px;
+    padding-top: 5px;
     resize: none;
-    width: 840px;
-}
-
-#add-comment-text:focus {
-    border: 2px solid #31a445;
 }
 
 #comment-button {
     background-color: #2e3438;
     border: 2px solid #2e3438;
-    border-radius: 2px;
-    color: #31a445;
-    cursor: pointer;
-    font: 12pt 'Comfortaa', cursive;
-    float: right;
-    height: 30px;
-    margin-top: 10px;
-    outline: none;
-    width: 120px;
+    color: #fff;
 }
 
 #comment-button:hover {
@@ -182,33 +140,16 @@ hr {
 
 #comments-header {
     color: #31a445;
-    font: 24px 'Comfortaa', cursive;
-    margin-top: 20px;
-    margin-bottom: 20px;
+}
+
+.no-margin {
+    margin: 0;
 }
 
 .hr {
     border: 1px solid #9aa6ad;
 }
 
-.comment {
-    color: #2e3438;
-    font: 10pt 'Lucida Grande', Arial, sans-serif;
-    min-height: 170px;
-}
-
-.comment-photo {
-    object-fit: contain;
-    object-position: 0 0;
-}
-
-.comment-text {
-    color: #2e3438;
-    font: 14px 'Lucida Grande', Arial, sans-serif;
-    float: right;
-    width: 860px;
-}
-
-.user-name {
-    width: 130px;
+.text-font {
+    font-family: 'Lucida Grande', Arial, sans-serif;
 }
