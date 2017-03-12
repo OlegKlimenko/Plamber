@@ -12,7 +12,6 @@ var PAGE_SEPARATOR = 6;
 var TOTAL_HEIGHT = 0;
 var PREVIOUS_PAGE = 0;
 var LAST_PAGE = 0;
-var RENDERED_PAGES = [];
 
 // Reload data.
 var RELOAD = false;
@@ -146,7 +145,6 @@ function loadPages() {
         DESIRED_WIDTH = $('#container-width').width();
 
         $('#main').empty();
-        RENDERED_PAGES = [];
         TOTAL_HEIGHT = 0;
 
         calculateHeight(PDF_DOCUMENT, 1);
