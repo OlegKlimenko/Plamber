@@ -1,57 +1,36 @@
-.header-read-book {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 9999;
+.container-margin {
+    margin-top: 65px;
 }
 
 .book-meta {
     display: none;
 }
 
-#space-pusher {
-    height: 130px;
-    width: 100%;
-}
-
 .the-page {
     border: 1px solid black;
 }
 
+#small-page-num {
+    margin-top: 5px;
+    border: 1px solid #31a445;
+}
+
 #page-nav-bar {
     background-color: #2e3438;
-    border-radius: 2px;
-    height: 200px;
+    border-radius: 1px;
+    height: 80px;
     padding-top: 20px;
     position: fixed;
-    opacity: .5;
+    opacity: .3;
     width: 100px;
+    z-index: 9999;
 }
 
 #page-nav-bar:hover {
     opacity: 1;
 }
 
-.page-nav-button {
-    background-color: #31a445;
-    border: solid 2px #31a445;
-    border-radius: 2px;
-    color: #fff;
-    cursor: pointer;
-    font: 25pt 'Comfortaa', cursive;
-    height: 50px;
-    outline: none;
-    width: 50px;
-}
-
-.page-nav-button:hover {
-    background-color: #9aa6ad;
-    border: solid 2px #9aa6ad;
-}
-
-#page-number {
+.page-number {
     text-align: center;
-    margin-bottom: 10px;
-    margin-top: 10px;
     width: 60px;
 }
