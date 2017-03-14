@@ -278,9 +278,8 @@ class AddedBook(models.Model):
         :return list[app.models.Book]:
         """
         added_books = AddedBook.objects.filter(id_user=TheUser.objects.get(id_user=user)).order_by('-last_read')
-        book_ids = [added_book.id_book for added_book in added_books]
 
-        return book_ids
+        return added_books
 
 
 # ----------------------------------------------------------------------------------------------------------------------
