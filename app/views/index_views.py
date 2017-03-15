@@ -10,6 +10,7 @@ from django.shortcuts import render, redirect
 
 from ..forms import LogInForm, IsUserExistsForm, SignInForm
 from ..models import AddedBook, TheUser
+from ..recommend import get_recommend
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -39,8 +40,9 @@ def home(request):
     :return: The 'Home page'.
     """
     books = AddedBook.get_user_added_books(request.user)
+    recommend_books = get_recommend(request.user, books)
 
-    return render(request, 'home.html', {'books': books})
+    return render(request, 'home.html', {'books': books, 'recommend_books': recommend_books})
 
 
 # ----------------------------------------------------------------------------------------------------------------------

@@ -67,3 +67,7 @@
 .margin {
     margin-bottom: 10px;
 }
+
+.hr-style {
+    border: 1px solid #2e3438;
+}
