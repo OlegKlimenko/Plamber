@@ -12,7 +12,10 @@ from django.shortcuts import redirect, render
 
 from ..forms import BookHomeForm, AddCommentForm, ChangeRatingForm, StoreBookImageForm
 from ..models import AddedBook, Book, BookRating, BookComment, TheUser
+from ..recommend import get_recommend
 from ..utils import html_escape
+
+RANDOM_BOOKS_COUNT = 6
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -28,12 +31,15 @@ def selected_book(request, book_id):
         rel_objects = Book.get_related_objects_selected_book(request.user, book_id)
         user = TheUser.objects.get(id_user=request.user)
 
+        recommend_books = get_recommend(request.user, AddedBook.get_user_added_books(request.user), RANDOM_BOOKS_COUNT)
+
         context = {'book': rel_objects['book'],
                    'added_book': rel_objects['added_book'],
                    'comments': rel_objects['comments'],
                    'book_rating': rel_objects['avg_book_rating']['rating__avg'],
                    'estimation_count': range(1, 11),
-                   'user': user}
+                   'user': user,
+                   'recommend_books': recommend_books}
 
         return render(request, 'selected_book.html', context)
     else:

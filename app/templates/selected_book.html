@@ -115,6 +115,29 @@
         <!--Area for adding comment-->
         <div class="row margin">
             <div class="col-sm-12 col-md-12 col-lg-12">
+                <h3>Так же рекомендуем</h3>
+                <hr class="main-separator">
+                {% for book in recommend_books %}
+                    <a href="{% url 'book' book.id %}">
+                        <div class="col-sm-3 col-md-3 col-lg-2 col-xs-6">
+                            <div class="thumbnail">
+                                <div class="img-wrapper">
+                                    <img src="{% if book.photo %}{{ book.photo.url }}{% endif %}">
+                                    <div class="book-info word-wrap">
+                                        <b>{{ book.book_name }}</b><br>
+                                        <i>{{ book.id_author }}</i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!--Area for adding comment-->
+        <div class="row margin">
+            <div class="col-sm-12 col-md-12 col-lg-12">
             <hr class="main-separator">
                 <div class="row">
                     <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12">

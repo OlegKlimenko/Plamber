@@ -113,6 +113,44 @@ td {
     border: 1px solid #31a445;
 }
 
+.thumbnail img{
+    max-width: 100%;
+}
+
+.img-wrapper{
+	width: 100%;
+	padding-bottom: 150%;
+	position: relative;
+}
+
+.img-wrapper img{
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	min-height: 99%;
+}
+
+.book-info {
+    bottom: 0;
+    color: #31a445;
+    display: none;
+    font-family: 'Lucida Grande', Arial, sans-serif;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.thumbnail:hover img {
+    display: none;
+}
+
+.thumbnail:hover .book-info {
+    display: block;
+}
+
 #new-comment-header {
     font: 18px 'Comfortaa', cursive;
 }
