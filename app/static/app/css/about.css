@@ -1,10 +1,14 @@
 .container-margin {
-    margin-top: 50px;
+    margin-top: 70px;
     margin-bottom: 10px;
 }
 
 .paragraph {
-    font-family: 'Lucida Grande', Arial, sans-serif
+    font-family: 'Lucida Grande', Arial, sans-serif;
+}
+
+.heading {
+    font-family: 'Comfortaa', cursive;
 }
 
 .hr-style {
