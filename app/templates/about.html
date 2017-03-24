@@ -53,10 +53,12 @@
 
     <!--Main info area-->
     <div id="main" class="container container-margin">
+
+        <!-- About project area -->
         <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-12" align="center">
+                <h2>О проекте <span class="feature-head"><b>Plamber</b></span></h2>
 
-                <!-- About project area -->
                 <div class="paragraph">
                     <h3>
                         <b class="heading">Plamber</b>
@@ -71,14 +73,121 @@
                         ваши книги на дисплеях любого типа и любого размера.
                     </h3>
                 </div>
+            </div>
+        </div>
 
-                <!--System features-->
+        <!--System features-->
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12" align="center">
                 <hr class="hr-style">
-                <div align="center">
-                    <h2>Фичи системы</h2>
+                <h2>Возможности системы</h2>
+                <hr class="hr-style">
+
+                <div class="col-sm-12 col-md-6 col-lg-6">
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                        <img class="img-responsive" src="{% static 'app/images/features/responsive.png' %}">
+                    </div>
+                    <div class="col-sm-8 col-md-8 col-lg-8" align="left">
+                        <h3 class="feature-head">Адаптивный дизайн</h3>
+                        <p class="paragraph">Удобное отображение интерфейса и книг на любых типах устройств</p>
+                    </div>
                 </div>
 
-                <!--Blog area-->
+                <div class="col-sm-12 col-md-6 col-lg-6">
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                        <img class="img-responsive" src="{% static 'app/images/features/sync.png' %}">
+                    </div>
+                    <div class="col-sm-8 col-md-8 col-lg-8" align="left">
+                        <h3 class="feature-head">Синхронизация</h3>
+                        <p class="paragraph">Полная синхронизация данных между всеми вашими устройствами</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12" align="center">
+                <div class="col-sm-12 col-md-6 col-lg-6">
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                        <img class="img-responsive" src="{% static 'app/images/features/page_saving.png' %}">
+                    </div>
+                    <div class="col-sm-8 col-md-8 col-lg-8" align="left">
+                        <h3 class="feature-head">Сохранение страниц</h3>
+                        <p class="paragraph">Система сохраняет последнюю прочитанную страницу на всех ваших книгах</p>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-6 col-lg-6">
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                        <img class="img-responsive" src="{% static 'app/images/features/pdf.png' %}">
+                    </div>
+                    <div class="col-sm-8 col-md-8 col-lg-8" align="left">
+                        <h3 class="feature-head">Формат PDF</h3>
+                        <p class="paragraph">Полная поддержка документов в формате PDF</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12" align="center">
+                <div class="col-sm-12 col-md-6 col-lg-6">
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                        <img class="img-responsive" src="{% static 'app/images/features/add_book.png' %}">
+                    </div>
+                    <div class="col-sm-8 col-md-8 col-lg-8" align="left">
+                        <h3 class="feature-head">Добавление книг</h3>
+                        <p class="paragraph">Добавление своих любимых книг разнообразной тематики</p>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-6 col-lg-6">
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                        <img class="img-responsive" src="{% static 'app/images/features/comment.png' %}">
+                    </div>
+                    <div class="col-sm-8 col-md-8 col-lg-8" align="left">
+                        <h3 class="feature-head">Комментарии и оценки</h3>
+                        <p class="paragraph">Возможность комментировать и оставлять оценки на любые книги</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12" align="center">
+                <div class="col-sm-12 col-md-6 col-lg-6">
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                        <img class="img-responsive" src="{% static 'app/images/features/storage.png' %}">
+                    </div>
+                    <div class="col-sm-8 col-md-8 col-lg-8" align="left">
+                        <h3 class="feature-head">Хранилище книг</h3>
+                        <p class="paragraph">Большое хранилище книг с удобными функциями поиска и сортировки</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Contact us area-->
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12" align="center">
+                <hr class="hr-style">
+                <h2>Обратная связь</h2>
+                <hr class="hr-style">
+                <div align="left">
+                    <ul>
+                        <li>Если вы обнаружили ошибки или неправильно работающие участки системы</li>
+                        <li>Если у вас есть предложения о том, как можно улучшить работу системы</li>
+                        <li>Если у вас есть жалобы</li>
+                    </ul>
+                    <p>Пожалуйста, свяжитесь с нами по электронной почте:</p>
+                    <h3 class="feature-head">Plamber@gmail.com</h3>
+                </div>
+            </div>
+        </div>
+
+        <!--Blog area-->
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12" align="center">
                 <hr class="hr-style">
                 <div align="center">
                     <h2>Блог проекта</h2>
