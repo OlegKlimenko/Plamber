@@ -188,6 +188,10 @@ td {
     border: 1px solid #9aa6ad;
 }
 
+.comment-posted-date {
+    color: #9aa6ad;
+}
+
 .text-font {
     font-family: 'Lucida Grande', Arial, sans-serif;
 }

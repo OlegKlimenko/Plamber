@@ -2,6 +2,7 @@
 
 import json
 from binascii import a2b_base64
+import calendar
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.files.base import ContentFile
@@ -174,7 +175,12 @@ def add_comment(request):
             response_data = {
                 'text': html_escape(comment.text),
                 'username': request.user.username,
-                'user_photo': user_photo
+                'user_photo': user_photo,
+                'posted_date': {
+                    'month': comment.posted_date.strftime('%B'),
+                    'day': comment.posted_date.day,
+                    'year': comment.posted_date.year
+                }
             }
             return HttpResponse(json.dumps(response_data), content_type='application/json')
     else:

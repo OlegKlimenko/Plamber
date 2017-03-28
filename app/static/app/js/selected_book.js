@@ -163,13 +163,19 @@ function addComment(idBook) {
                csrfmiddlewaretoken: getCookie("csrftoken")},
 
         success: function result(response) {
+            var date = response['posted_date']['month'] +
+                " " + response['posted_date']['day'] +
+                ", " + response['posted_date']['year'];
+
             $("#no-comments").remove();
             $("#comments").after(
                 "<hr class='hr'><div class='row'><div class='col-sm-12 col-md-12 col-lg-12 col-xs-12'>" +
                 "<div class='col-sm-2 col-md-2 col-lg-2 col-xs-5'>" +
                 "<img class='img-responsive' src='" + response['user_photo'] + "'>" +
-                "<div class='word-wrap user-name'><b>" + response['username'] +
-                "</b></div></div><div class='col-sm-10 col-md-10 col-lg-10 col-xs-7 word-wrap'>" +
+                "</div><div class='col-sm-10 col-md-10 col-lg-10 col-xs-7 word-wrap'>" +
+                "<div class='word-wrap user-name'>" +
+                "<b>" + response['username'] + "</b>" +
+                "<b> - <i class='comment-posted-date'>" + date + "</i></b></div>" +
                 "<span class='text-font'>" + response['text'] + "</span>" +
                 "</div></div></div>"
             );

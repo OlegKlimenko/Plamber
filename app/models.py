@@ -256,6 +256,7 @@ class BookComment(models.Model):
     id_user = models.ForeignKey(TheUser)
     id_book = models.ForeignKey(Book)
     text = models.CharField(max_length=500)
+    posted_date = models.DateField(auto_now=True)
 
 
 # ----------------------------------------------------------------------------------------------------------------------
