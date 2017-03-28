@@ -2,7 +2,6 @@
 
 import json
 from binascii import a2b_base64
-import calendar
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.files.base import ContentFile
