@@ -41,7 +41,10 @@ def get_by_added(added_books, result_count):
         most_read_category = max(set(books_categories), key=books_categories.count)
         category_books = Book.objects.filter(id_category=most_read_category).exclude(id__in=added_books_ids)
 
-        return unique_books(category_books, result_count)
+        if category_books.count() > START_RECOMMEND:
+            return unique_books(category_books, result_count)
+        else:
+            return unique_books(Book.objects.all(), result_count)
 
     else:
         return unique_books(Book.objects.all(), result_count)
