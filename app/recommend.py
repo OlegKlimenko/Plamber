@@ -4,6 +4,8 @@ import random
 
 from .models import Book
 
+START_RECOMMEND = 10
+
 
 # ----------------------------------------------------------------------------------------------------------------------
 def get_recommend(user, books, result_count):
@@ -57,7 +59,8 @@ def unique_books(books, result_count):
     """
     unique = set()
 
-    while len(unique) < result_count:
-        unique.add(books[random.randint(0, books.count() - 1)])
+    if books.count() > START_RECOMMEND:
+        while len(unique) < result_count:
+            unique.add(books[random.randint(0, books.count() - 1)])
 
     return unique
