@@ -2,3 +2,4 @@
 app/migrations
 *__pycache__*
 BookReader/media
+*.log

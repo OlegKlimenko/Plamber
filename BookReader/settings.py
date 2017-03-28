@@ -112,6 +112,30 @@ USE_L10N = True
 
 USE_TZ = False
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'simple': {
+            'format': '[%(asctime)s]: %(message)s'
+        }
+    },
+    'handlers': {
+        'default': {
+            'level': 'INFO',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(BASE_DIR, 'changes.log'),
+            'formatter': 'simple'
+        }
+    },
+    'loggers': {
+        'changes': {
+            'handlers': ['default'],
+            'level': 'INFO',
+            'propagate': True,
+        }
+    }
+}
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
