@@ -1,4 +1,7 @@
+# -*- coding: utf-8 -*-
+
 import json
+import logging
 
 from django.contrib.auth.models import User
 from django.db import transaction
@@ -7,6 +10,8 @@ from django.shortcuts import redirect, render, get_object_or_404
 
 from app.forms import UploadAvatarForm, ChangePasswordForm
 from app.models import TheUser, AddedBook
+
+logger = logging.getLogger('changes')
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -57,6 +62,7 @@ def upload_avatar(request):
                 profile_user.user_photo.save('user_{}.png'.format(profile_user.id),
                                              upload_avatar_form.cleaned_data['avatar'])
                 profile_user.save()
+                logger.info("User '{}' changed his avatar.".format(profile_user))
 
                 response_data = {'message': 'Аватар успешно изменен!'}
                 return HttpResponse(json.dumps(response_data), content_type='application/json')
@@ -81,6 +87,8 @@ def change_password(request):
                 if request.user.check_password(change_password_form.cleaned_data['prev_password']):
                     request.user.set_password(change_password_form.cleaned_data['new_password'])
                     request.user.save()
+
+                    logger.info("User '{}' changed his password successfully.".format(request.user))
 
                     return HttpResponse(json.dumps('Пароль успешно изменен!'), content_type='application/json')
 

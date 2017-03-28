@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import logging
+
 from django.db import models
 from django.db.models import Avg, Count
 from django.contrib.auth.models import User
@@ -7,6 +9,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 from .storage import OverwriteStorage
+
+logger = logging.getLogger('changes')
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -103,6 +107,9 @@ class Book(models.Model):
             author = Author.objects.get(author_name__iexact=book_form.cleaned_data['author'])
         except ObjectDoesNotExist:
             author = Author.objects.create(author_name=book_form.cleaned_data['author'])
+
+            logger.info("Created new author with name: '{}' and id: '{}'."
+                        .format(author.author_name, author.id))
 
         category = Category.objects.get(category_name=book_form.cleaned_data['category'])
         lang = Language.objects.get(language=book_form.cleaned_data['language'])

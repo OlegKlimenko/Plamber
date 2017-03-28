@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
+
 import json
+import logging
 
 from django.db import transaction
 from django.http import HttpResponse
@@ -7,6 +9,8 @@ from django.shortcuts import redirect, render
 
 from ..forms import SetCurrentPageForm
 from ..models import Book, AddedBook, TheUser
+
+logger = logging.getLogger('changes')
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -25,6 +29,8 @@ def open_book(request, book_id):
         added_book = AddedBook.objects.get(id_book=book, id_user=user)
         added_book.last_read = added_book.last_read.now()
         added_book.save()
+
+        logger.info("User '{}' opened book with id: '{}'.".format(user, book.id))
 
         context = {'book': book, 'book_page': added_book.last_page}
         return render(request, 'read_book.html', context)
@@ -50,6 +56,9 @@ def set_current_page(request):
                 added_book = AddedBook.objects.get(id_book=book, id_user=user)
                 added_book.last_page = pages_form.cleaned_data['page']
                 added_book.save()
+
+                logger.info("User '{}' on book with id: '{}' changed page to: '{}'."
+                            .format(user, book.id, pages_form.cleaned_data['page']))
 
                 return HttpResponse(json.dumps(True), content_type='application/json')
     else:

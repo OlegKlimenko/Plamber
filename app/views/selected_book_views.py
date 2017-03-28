@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import json
+import logging
 from binascii import a2b_base64
 
 from django.core.exceptions import ObjectDoesNotExist
@@ -16,6 +17,8 @@ from ..recommend import get_recommend
 from ..utils import html_escape
 
 RANDOM_BOOKS_COUNT = 6
+
+logger = logging.getLogger('changes')
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -63,8 +66,9 @@ def store_image(request):
 
                 data = image_form.cleaned_data['image'].split(',')[1]
                 bin_data = a2b_base64(data)
-
                 book.photo.save('book_{}.png'.format(image_form.cleaned_data['id']), ContentFile(bin_data))
+
+                logger.info("The image was stored for book with id: '{}'.".format(book.id))
 
                 return HttpResponse(json.dumps(True), content_type='application/json')
     else:
@@ -85,6 +89,10 @@ def add_book_to_home(request):
         if book_form.is_valid():
             AddedBook.objects.create(id_user=TheUser.objects.get(id_user=request.user),
                                      id_book=Book.objects.get(id=book_form.cleaned_data['book']))
+
+            logger.info("User '{}' added book with id: '{}' to his own library."
+                        .format(request.user, book_form.cleaned_data['book']))
+
             return HttpResponse(json.dumps(True), content_type='application/json')
     else:
         return HttpResponse(status=404)
@@ -104,6 +112,10 @@ def remove_book_from_home(request):
         if book_form.is_valid():
             AddedBook.objects.get(id_user=TheUser.objects.get(id_user=request.user),
                                   id_book=Book.objects.get(id=book_form.cleaned_data['book'])).delete()
+
+            logger.info("User '{}' removed book with id: '{}' from his own library."
+                        .format(request.user, book_form.cleaned_data['book']))
+
             return HttpResponse(json.dumps(True), content_type='application/json')
     else:
         return HttpResponse(status=404)
@@ -151,6 +163,10 @@ def set_rating(request, rating_form):
                                   id_book=Book.objects.get(id=rating_form.cleaned_data['book']),
                                   rating=rating_form.cleaned_data['rating'])
 
+    finally:
+        logger.info("User '{}' set rating '{}' to book with id: '{}'."
+                    .format(request.user, rating_form.cleaned_data['rating'], rating_form.cleaned_data['book']))
+
 
 # ----------------------------------------------------------------------------------------------------------------------
 def add_comment(request):
@@ -170,6 +186,9 @@ def add_comment(request):
 
             user = TheUser.objects.get(id_user=request.user)
             user_photo = user.user_photo.url if user.user_photo else ''
+
+            logger.info("User '{}' left comment with id: '{}' on book with id: '{}'."
+                        .format(user, comment.id, comment.id_book.id))
 
             response_data = {
                 'text': html_escape(comment.text),

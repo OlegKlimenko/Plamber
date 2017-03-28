@@ -1,12 +1,16 @@
 # -*- coding: utf-8 -*-
 
 import json
+import logging
+
 from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
 from ..forms import GenerateAuthorsForm, AddBookForm
 from ..models import Author, Book, Category, Language
+
+logger = logging.getLogger('changes')
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -67,6 +71,10 @@ def add_book_successful(request):
                                            language=rel_objects['lang'],
                                            book_file=book_form.cleaned_data['bookfile'],
                                            who_added=rel_objects['user'])
+
+                logger.info("User '{}' uploaded book with id: '{}' and name: '{}' on category: '{}'."
+                            .format(rel_objects['user'], book.id, book.book_name, rel_objects['category']))
+
                 return redirect('book/{0}/'.format(book.id))
     else:
         return HttpResponse(status=404)
