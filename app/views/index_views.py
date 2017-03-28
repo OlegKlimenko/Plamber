@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import json
+import logging
+
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
@@ -13,6 +15,8 @@ from ..models import AddedBook, TheUser
 from ..recommend import get_recommend
 
 RANDOM_BOOKS_COUNT = 4
+
+logger = logging.getLogger('changes')
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -63,6 +67,8 @@ def user_login(request):
 
         if user:
             login(request, user)
+            logger.info("User '{}' logged in.".format(user.username))
+
             return redirect('index')
         else:
             return render(request, 'index.html', {'invalid_authentication': True})
@@ -106,5 +112,8 @@ def sign_in(request):
                                                 email=sign_in_form.cleaned_data['email'],
                                                 password=sign_in_form.cleaned_data['passw1'])
                 TheUser.objects.create(id_user=user)
+
+                logger.info("Created user with name: '{}' mail: '{}' and id: '{}'"
+                            .format(user.username, user.email, user.id))
 
                 return redirect('/thanks/')
