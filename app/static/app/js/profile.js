@@ -107,7 +107,7 @@ function showChangePasswordArea() {
  * Hides the area for changing password.
  */
 function hideChangePasswordArea() {
-    $('#change-avatar').css('display', 'block');
+    $('#change-password').css('display', 'none');
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -157,6 +157,7 @@ function changePassword() {
             },
 
             success: function(response) {
+                hideChangePasswordArea();
                 $('#status-message').text(response);
             },
 
