@@ -1,0 +1,15 @@
+.container-margin {
+    margin-top: 15%;
+}
+
+@media (max-width: 768px) {
+    .container-margin {
+        margin-top: 10%;
+    }
+}
+
+@media (max-width: 480px) {
+    .container-margin {
+        margin-top: 35%;
+    }
+}

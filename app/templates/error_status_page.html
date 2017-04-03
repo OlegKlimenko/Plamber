@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>О проекте</title>
+    <link rel="shortcut icon" href="{% static 'app/images/favicon.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'app/css/error_page.css' %}">
+    <link rel="stylesheet" href="{% static 'app/css/third_party/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'app/css/third_party/bootstrap-theme.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Comfortaa&subset=cyrillic,cyrillic-ext,latin-ext">
+
+    <script src="{% static 'app/js/third_party/jquery.js' %}"></script>
+    <script src="{% static 'app/js/third_party/bootstrap.min.js' %}"></script>
+    <script src="{% static 'app/js/helper/special.js' %}"></script>
+</head>
+<body>
+    <!--Header Area-->
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbarCollapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/"><img src="{% static 'app/images/logo.jpg' %}"></a>
+            </div>
+
+            <form id="logout" action="{% url 'logout' %}" method="POST">
+                {% csrf_token %}
+            </form>
+
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="{% url 'index' %}">На главную</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!--Main info area-->
+    <div class="container container-margin">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12" align="center">
+                <div class="col-xs-2 col-sm-4 col-md-2 col-lg-2"></div>
+                <div class="col-xs-8 col-sm-4 col-md-8 col-lg-8">
+                    {% if status_code == 404 %}
+                        <img class="img-responsive test" src="{% static 'app/images/error_status/404.png' %}">
+                        <h2><b>Страница не найдена</b></h2>
+                    {% elif status_code == 400 %}
+                        <img class="img-responsive" src="{% static 'app/images/error_status/400.png' %}">
+                        <h2><b>Проблемный запрос</b></h2>
+                    {% elif status_code == 403 %}
+                        <img class="img-responsive" src="{% static 'app/images/error_status/403.png' %}">
+                        <h2><b>Доступ запрещен</b></h2>
+                    {% elif status_code == 500 %}
+                        <img class="img-responsive" src="{% static 'app/images/error_status/500.png' %}">
+                        <h2><b>Внутренняя ошибка сервера</b></h2>
+                    {% endif %}
+                    <h5>Если вы считаете, что это сообщение не должно было появиться, <br>
+                        пожалуйста, обратитесь к администрации</h5>
+                </div>
+                <div class="col-xs-2 col-sm-4 col-md-2 col-lg-2"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

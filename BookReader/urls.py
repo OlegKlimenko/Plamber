@@ -9,6 +9,11 @@ from app.views import (index_views, additional_views, add_book_views, selected_b
                        read_book_views, profile_views, about_views)
 
 
+handler404 = 'app.views.error_views.not_found_404'
+handler400 = 'app.views.error_views.bad_request_400'
+handler403 = 'app.views.error_views.permission_denied_403'
+handler500 = 'app.views.error_views.internal_error_500'
+
 urlpatterns = [
     url(r'^not/an/admin/url/', include(admin.site.urls)),
 
