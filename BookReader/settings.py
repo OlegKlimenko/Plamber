@@ -13,21 +13,24 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 """
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+import json
 import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+with open(BASE_DIR + '/BookReader/settings.json') as file:
+    settings = json.loads(file.read())
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'i_k18*a*9qfy9828j%ogsh0)b8cn6t(++&iv#5gw4i7ll$$@s='
+SECRET_KEY = settings['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = settings['DEBUG']
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = settings['ALLOWED_HOSTS']
 
 # Application definition
 
@@ -79,10 +82,10 @@ WSGI_APPLICATION = 'BookReader.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'mysql.connector.django',
-        'NAME': 'proj_schema',
-        'USER': 'root',
-        'PASSWORD': 'startproject',
-        'HOST': 'localhost',
+        'NAME': settings['DATABASE']['NAME'],
+        'USER': settings['DATABASE']['USER'],
+        'PASSWORD': settings['DATABASE']['PASSWORD'],
+        'HOST': settings['DATABASE']['HOST'],
         'PORT': '3306'
     }
 }
