@@ -141,7 +141,7 @@ LOGGING = {
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(os.path.realpath(os.path.dirname(__file__)), 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
