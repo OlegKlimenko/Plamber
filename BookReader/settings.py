@@ -140,6 +140,14 @@ LOGGING = {
     }
 }
 
+# Mail settings
+
+EMAIL_HOST = settings['EMAIL']['HOST']
+EMAIL_PORT = settings['EMAIL']['PORT']
+EMAIL_HOST_USER = settings['EMAIL']['USER']
+EMAIL_HOST_PASSWORD = settings['EMAIL']['PASSWORD']
+EMAIL_USE_TLS = True
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
