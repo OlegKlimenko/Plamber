@@ -156,7 +156,7 @@
                             {% if user.user_photo %}
                                 <img class="img-responsive" src="{{ user.user_photo.url }}">
                             {% else %}
-                                <img class="user-photo img-responsive" src="" height="120">
+                                <img class="img-responsive" src="{% static 'app/images/user.png' %}">
                             {% endif %}
                         </div>
                         <div class="col-sm-10 col-md-10 col-lg-10 col-xs-7">
@@ -190,7 +190,7 @@
                                     {% if comment.id_user.user_photo %}
                                         <img class="img-responsive" src="{{ comment.id_user.user_photo.url }}">
                                     {% else %}
-                                        <img class="user-photo img-responsive" src="" height="120">
+                                        <img class="img-responsive" src="{% static 'app/images/user.png' %}">
                                     {% endif %}
                                 </div>
                                 <div class="col-sm-10 col-md-10 col-lg-10 col-xs-7 word-wrap">

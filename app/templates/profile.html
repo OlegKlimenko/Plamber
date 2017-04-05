@@ -58,7 +58,7 @@
                 {% if profile_user.user_photo %}
                     <img id="profile-image" class="img-responsive" src="{{ profile_user.user_photo.url }}">
                 {% else %}
-                    <img id="profile-image" src="" height="250" width="250">
+                    <img id="profile-image" class="img-responsive" src="{% static 'app/images/user.png' %}">
                 {% endif %}
                 <div id="user-name">{{ profile_user }}</div>
 

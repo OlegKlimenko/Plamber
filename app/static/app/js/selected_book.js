@@ -111,7 +111,7 @@ function addBookHome() {
 /**
  * Sends ajax request for removing book from user's own library; Generates additional HTML code.
  */
-function removeBookHome(csrfToken) {
+function removeBookHome() {
     $.ajax({
         url: "home-remove-book",
         type: "POST",
@@ -167,13 +167,15 @@ function addComment(idBook) {
                 " " + response['posted_date']['day'] +
                 ", " + response['posted_date']['year'];
 
+            var imageSrc = response['user_photo'] ? response['user_photo'] : "/static/app/images/user.png";
+
             $("#no-comments").remove();
             $("#comments").after(
                 "<hr class='hr'><div class='row'><div class='col-sm-12 col-md-12 col-lg-12 col-xs-12'>" +
                 "<div class='col-sm-2 col-md-2 col-lg-2 col-xs-5'>" +
-                "<img class='img-responsive' src='" + response['user_photo'] + "'>" +
+                "<img class='img-responsive' src='" + imageSrc + "'>" +
                 "</div><div class='col-sm-10 col-md-10 col-lg-10 col-xs-7 word-wrap'>" +
-                "<div class='word-wrap user-name'>" +
+                "<div class='word-wrap user-name margin'>" +
                 "<b>" + response['username'] + "</b>" +
                 "<b> - <i class='comment-posted-date'>" + date + "</i></b></div>" +
                 "<span class='text-font'>" + response['text'] + "</span>" +
