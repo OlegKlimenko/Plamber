@@ -40,6 +40,27 @@ function registerPageHide() {
 
 // ---------------------------------------------------------------------------------------------------------------------
 /**
+ * Displays sub page for forgotten password.
+ */
+function forgotPageShow() {
+    $("#forgot-status").text("");
+    fitForgot();
+    $("#forgot-sub-page").css("display", "block");
+    $("#log-in-sub-page").css("display", "none");
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+/**
+ * Hides sub page for forgotten password.
+ */
+function forgotPageHide() {
+    fitForgot();
+    $("#forgot-sub-page").css("display", "none");
+    $("#log-in-sub-page").css("display", "block");
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+/**
  * Changes standard message in username 'Input' field for signing new user.
  *
  * @param {Object} input
@@ -127,6 +148,35 @@ function isSignInAvailable(event) {
 
 // ---------------------------------------------------------------------------------------------------------------------
 /**
+ * Sends mail to restore user data.
+ */
+function sendMail() {
+    $("#forgot-status").text("");
+    $.ajax({
+        url: "send-mail",
+        type: "POST",
+        data: {
+            email: $("#forgot-input").val(),
+            csrfmiddlewaretoken: getCookie("csrftoken")
+        },
+
+        success: function result(json) {
+            $("#forgot-status").text("Письмо успешно отправлено вам на почту!");
+        },
+
+        error: function(response) {
+            if (response.status == 404) {
+                $("#forgot-status").text("Такого Email не обнаружено. Перепроверьте данные.");
+            }
+            else {
+                $("#forgot-status").text("Произошла ошибка. Попробуйте снова или обратитесь к администрации.");
+            }
+        }
+    });
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+/**
  * Creates artificial margin for fitting up the background image at main sub page.
  */
 function fitMain() {
@@ -147,6 +197,14 @@ function fitLogin() {
  */
 function fitRegister() {
     $("#register-sub-page").css("margin-bottom", $(window).height() - $("#register-sub-page").height() + 6);
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+/**
+ * Creates artificial margin for fitting up the background image at forgot sub page.
+ */
+function fitForgot() {
+    $("#forgot-sub-page").css("margin-bottom", $(window).height() - $("#register-sub-page").height() + 6);
 }
 
 // ---------------------------------------------------------------------------------------------------------------------

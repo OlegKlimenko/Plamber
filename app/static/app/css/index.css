@@ -64,6 +64,10 @@
     display: none;
 }
 
+#forgot-sub-page {
+    display: none;
+}
+
 #user-exists {
     display: none;
 }

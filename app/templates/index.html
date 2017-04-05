@@ -17,6 +17,7 @@
 
     <script src="{% static 'app/js/third_party/jquery.js' %}"></script>
     <script src="{% static 'app/js/third_party/bootstrap.min.js' %}"></script>
+    <script src="{% static 'app/js/helper/special.js' %}"></script>
     <script src="{% static 'app/js/index.js' %}"></script>
 
     {% if invalid_authentication %}
@@ -90,7 +91,7 @@
         <div class="container container-margin">
             <div class="row">
                 <div class="col-sm-6 col-md-5 col-lg-5">
-                    <div class="margin-header header-color"><h1><b>Bход</b></h1></div>
+                    <div class="margin-header header-color"><h2><b>Bход</b></h2></div>
 
                     <form action="/" method="POST">
                         {% csrf_token %}
@@ -106,7 +107,7 @@
                             {% if invalid_authentication %}
                                 <div class="error-msg error-text"><b>Логин или пароль введен не верно!</b></div>
                             {% endif %}
-                            <a href="" class="auth-msg reference">Забыли пароль?</a>
+                            <a href="#" class="auth-msg reference" onclick="forgotPageShow()">Забыли пароль?</a>
                             <button class="btn enter-button margin" onclick="logInPageHide()">Назад</button>
                             <button type="submit" class="btn register-button margin">Bойти</button>
                         </div>
@@ -121,7 +122,7 @@
         <div class="container container-margin">
             <div class="row">
                 <div class="col-sm-6 col-md-5 col-lg-5">
-                    <div class="margin-header header-color"><h1><b>Регистрация</b></h1></div>
+                    <div class="margin-header header-color"><h2><b>Регистрация</b></h2></div>
                     <form action="{% url 'sign_in' %}" method="POST" onsubmit="isSignInAvailable(this); return false;">
                         {% csrf_token %}
                         <div>
@@ -154,6 +155,28 @@
                             <button type="submit" class="btn register-button margin">Присоединиться</button>
                         </div>
                     </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Forgot password dialog area-->
+    <div id="forgot-sub-page">
+        <div class="container container-margin">
+            <div class="row">
+                <div class="col-sm-6 col-md-5 col-lg-5">
+                    <div class="margin-header header-color"><h2><b>Восстановление пароля</b></h2></div>
+                    <p class="header-color header-font">Забыли пароль? Введите ваш Email
+                        адрес и мы отправим вам письмо для восстановления данных.</p>
+                    <div>
+                        <input class="input input-colors margin" id="forgot-input" name="email"
+                               placeholder="Ваш Email" type="email">
+                    </div>
+                    <div id="forgot-status" class="header-color header-font margin"></div>
+                    <div class="margin" align="right">
+                        <button class="btn enter-button margin" onclick="forgotPageHide()">Назад</button>
+                        <button class="btn register-button margin" onclick="sendMail()">Отправить</button>
+                    </div>
                 </div>
             </div>
         </div>

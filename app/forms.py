@@ -137,3 +137,11 @@ class ChangePasswordForm(forms.Form):
     """
     prev_password = forms.CharField(max_length=16)
     new_password = forms.CharField(max_length=16)
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+class ForgotPasswordForm(forms.Form):
+    """
+    Form for checking the mail for password recovery.
+    """
+    email = forms.CharField(max_length=255)

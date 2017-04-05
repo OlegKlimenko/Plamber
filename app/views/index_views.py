@@ -6,13 +6,17 @@ import logging
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.mail import EmailMultiAlternatives
 from django.db import transaction
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 
-from ..forms import LogInForm, IsUserExistsForm, SignInForm
+from ..forms import LogInForm, IsUserExistsForm, SignInForm, ForgotPasswordForm
 from ..models import AddedBook, TheUser
 from ..recommend import get_recommend
+from ..utils import generate_password
 
 RANDOM_BOOKS_COUNT = 4
 
@@ -117,3 +121,36 @@ def sign_in(request):
                             .format(user.username, user.email, user.id))
 
                 return redirect('/thanks/')
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+def send_mail(request):
+    """
+    Restores the password for user.
+
+    :param django.core.handlers.wsgi.WSGIRequest request: The request for restoring password.
+    :return: The response about restoring password.
+    """
+    if request.method == 'POST':
+        forgot_form = ForgotPasswordForm(request.POST)
+
+        if forgot_form.is_valid():
+            with transaction.atomic():
+                temp_password = generate_password()
+
+                user = get_object_or_404(User, email=forgot_form.cleaned_data['email'])
+                user.set_password(temp_password)
+                user.save()
+
+                # TODO - Add to separate function and apply with Celery
+                html_content = render_to_string('email.html', {'username': user.username, 'password': temp_password})
+                text_content = strip_tags(html_content)
+                subject = 'Восстановление аккаунта'
+
+                email = EmailMultiAlternatives(subject, text_content, to=[forgot_form.cleaned_data['email']])
+                email.attach_alternative(html_content, 'text/html')
+                email.send()
+
+                logger.info("The password for user: '{}' restored successfully.".format(user))
+
+                return HttpResponse(json.dumps(True), content_type='application/json')
