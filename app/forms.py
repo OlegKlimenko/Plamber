@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django import forms
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -75,7 +76,7 @@ class ChangeRatingForm(forms.Form):
     Class for changing rating of book form.
     """
     book = forms.IntegerField()
-    rating = forms.IntegerField()
+    rating = forms.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)])
 
 
 # ----------------------------------------------------------------------------------------------------------------------
