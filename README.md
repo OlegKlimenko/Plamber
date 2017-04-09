@@ -1,2 +1,2 @@
-# BookReader
-The project for online/offline library (Just practise with django, HTML5, CSS, JS, JQuery)
+# Plamber
+The multiplatform web-oriented system for reading and storing books online.

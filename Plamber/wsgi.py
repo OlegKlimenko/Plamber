@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-WSGI config for BookReader project.
+WSGI config for Plamber project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -13,6 +13,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "BookReader.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "Plamber.settings")
 
 application = get_wsgi_application()
