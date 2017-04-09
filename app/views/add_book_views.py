@@ -76,5 +76,15 @@ def add_book_successful(request):
                             .format(rel_objects['user'], book.id, book.book_name, rel_objects['category']))
 
                 return redirect('book/{0}/'.format(book.id))
+
+        else:
+            categories = Category.objects.all()
+            languages = Language.objects.all()
+
+            logger.info("User '{}' tried to upload book not as PDF document!".format(request.user))
+
+            return render(request, 'add_book.html', {'categories': categories,
+                                                     'languages': languages,
+                                                     'error': True})
     else:
         return HttpResponse(status=404)

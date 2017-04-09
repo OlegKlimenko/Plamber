@@ -96,6 +96,10 @@
                         <p id="missing-book-warn" class="error-text"><b>Bыберите книгу!</b></p>
                         <p id="file-uploading" align="center">Подождите пожалуйста, файл загружается на сервер ...</p>
                     </div>
+                    {% if error %}
+                        <div id="invalid-book"
+                             class="error-text">Вы выбрали неправильный формат файла. Поддерживается только PDF.</div>
+                    {% endif %}
                     <div class="margin" align="right">
                         <button class="btn add-book-button" type="submit">Добавить книгу</button>
                     </div>

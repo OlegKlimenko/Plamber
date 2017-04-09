@@ -57,6 +57,7 @@ function selectedAuthor(name) {
  * @param {Object} event
  */
 function isBookChosen(event) {
+    $("#invalid-book").hide();
     if ($("#upload-book").val()) {
         $("#missing-book-warn").css("display", "none");
         $("#file-uploading").css("display", "block");

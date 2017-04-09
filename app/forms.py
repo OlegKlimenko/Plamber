@@ -3,7 +3,7 @@
 from django import forms
 from django.core.validators import MaxValueValidator, MinValueValidator
 
-from .validators import validate_image
+from .validators import validate_image, validate_pdf
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -52,7 +52,7 @@ class AddBookForm(forms.Form):
     category = forms.CharField(max_length=30)
     language = forms.CharField(max_length=30)
     about = forms.CharField(widget=forms.Textarea)
-    bookfile = forms.FileField()
+    bookfile = forms.FileField(validators=[validate_pdf])
 
 
 # ----------------------------------------------------------------------------------------------------------------------
