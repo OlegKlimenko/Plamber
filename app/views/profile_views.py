@@ -54,11 +54,11 @@ def upload_avatar(request):
     if request.is_ajax():
         upload_avatar_form = UploadAvatarForm(request.POST, request.FILES)
 
-        if upload_avatar_form.is_valid():
-            with transaction.atomic():
-                user = get_object_or_404(User, id=request.user.id)
-                profile_user = get_object_or_404(TheUser, id_user=user)
+        with transaction.atomic():
+            user = get_object_or_404(User, id=request.user.id)
+            profile_user = get_object_or_404(TheUser, id_user=user)
 
+            if upload_avatar_form.is_valid():
                 profile_user.user_photo.save('user_{}.png'.format(profile_user.id),
                                              upload_avatar_form.cleaned_data['avatar'])
                 profile_user.save()
@@ -66,6 +66,11 @@ def upload_avatar(request):
 
                 response_data = {'message': 'Аватар успешно изменен!'}
                 return HttpResponse(json.dumps(response_data), content_type='application/json')
+
+            else:
+                logger.info("User '{}' tried to upload not an image as avatar!".format(profile_user))
+                return HttpResponse(json.dumps(False), content_type='application/json', status=500)
+
     else:
         return HttpResponse(status=404)
 

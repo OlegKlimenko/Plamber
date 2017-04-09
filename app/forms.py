@@ -3,6 +3,8 @@
 from django import forms
 from django.core.validators import MaxValueValidator, MinValueValidator
 
+from .validators import validate_image
+
 
 # ----------------------------------------------------------------------------------------------------------------------
 class IsUserExistsForm(forms.Form):
@@ -128,7 +130,7 @@ class UploadAvatarForm(forms.Form):
     """
     Form for uploading user's avatar.
     """
-    avatar = forms.FileField()
+    avatar = forms.FileField(validators=[validate_image])
 
 
 # ----------------------------------------------------------------------------------------------------------------------

@@ -86,7 +86,12 @@ function changeAvatar() {
             },
 
             error: function(response) {
-                $('#status-message').text('Не удалось загрузить фото. Попробуйте еще раз.');
+                if (response.status == '500') {
+                    $('#status-message').text('Вы попытались загрузить не изображение. Попробуйте снова!')
+                }
+                else {
+                    $('#status-message').text('Произошла неизвестная ошибка. Обратитесь к администрации.');
+                }
             }
         });
 
