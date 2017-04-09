@@ -4,3 +4,4 @@ app/migrations
 media
 *.log
 *.json
+celerybeat-schedule

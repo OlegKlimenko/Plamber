@@ -6,16 +6,14 @@ import logging
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
-from django.core.mail import EmailMultiAlternatives
 from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from django.template.loader import render_to_string
-from django.utils.html import strip_tags
 
 from ..forms import LogInForm, IsUserExistsForm, SignInForm, ForgotPasswordForm
 from ..models import AddedBook, TheUser
 from ..recommend import get_recommend
+from ..tasks import send_mail
 from ..utils import generate_password
 
 RANDOM_BOOKS_COUNT = 4
@@ -124,7 +122,7 @@ def sign_in(request):
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-def send_mail(request):
+def restore_data(request):
     """
     Restores the password for user.
 
@@ -142,14 +140,7 @@ def send_mail(request):
                 user.set_password(temp_password)
                 user.save()
 
-                # TODO - Add to separate function and apply with Celery
-                html_content = render_to_string('email.html', {'username': user.username, 'password': temp_password})
-                text_content = strip_tags(html_content)
-                subject = 'Восстановление аккаунта'
-
-                email = EmailMultiAlternatives(subject, text_content, to=[forgot_form.cleaned_data['email']])
-                email.attach_alternative(html_content, 'text/html')
-                email.send()
+                send_mail.delay(user.username, temp_password, forgot_form.cleaned_data['email'])
 
                 logger.info("The password for user: '{}' restored successfully.".format(user))
 

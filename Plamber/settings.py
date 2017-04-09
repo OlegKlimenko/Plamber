@@ -148,6 +148,14 @@ EMAIL_HOST_USER = settings['EMAIL']['USER']
 EMAIL_HOST_PASSWORD = settings['EMAIL']['PASSWORD']
 EMAIL_USE_TLS = True
 
+# Celery settings
+
+CELERY_BROKER_URL = settings['CELERY']['BROKER_URL']
+CELERY_RESULT_BACKEND = settings['CELERY']['RESULT_BACKEND']
+CELERY_ACCEPT_CONTENT = settings['CELERY']['ACCEPT_CONTENT']
+CELERY_TASK_SERIALIZER = settings['CELERY']['TASK_SERIALIZER']
+CELERY_RESULT_SERIALIZER = settings['CELERY']['RESULT_SERIALIZER']
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
