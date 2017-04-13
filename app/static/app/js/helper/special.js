@@ -1,34 +1,17 @@
-// Options for loading spinner
-var spinner_opts = {
-    lines: 9,
-    length: 28,
-    width: 14,
-    radius: 42,
-    scale: 0.3,
-    corners: 1,
-    color: '#fff',
-    opacity: 0.15,
-    rotate: 0,
-    direction: 1,
-    speed: 1,
-    trail: 60,
-    fps: 20,
-    zIndex: 2e9,
-    className: 'spinner',
-    top: '50%',
-    left: '50%',
-    shadow: false,
-    hwaccel: false,
-    position: 'absolute'
-};
+// ---------------------------------------------------------------------------------------------------------------------
+/**
+ * Initiates and shows loading spinner.
+ */
+function showSpinner() {
+
+}
 
 // ---------------------------------------------------------------------------------------------------------------------
 /**
- * Initiates the spinner.
+ * Hides loading spinner.
  */
-function initSpinner() {
-    var target = document.getElementById('spinner');
-    new Spinner(spinner_opts).spin(target);
+function hideSpinner() {
+    
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
