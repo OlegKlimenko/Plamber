@@ -127,7 +127,7 @@
                         {% csrf_token %}
                         <div>
                             <input id="username-input" class="input input-colors margin" name="username"
-                                   placeholder="Имя пользователя" pattern="^[a-zA-Z0-9_]{6,30}" type="text"
+                                   placeholder="Имя пользователя" pattern="^[a-zA-Z0-9_]{2,30}" type="text"
                                    oninvalid="usernameSignInMessage(this)" oninput="checkUserNotExists()" required>
                         </div>
                         <div id="user-exists" class="error-msg error-text">

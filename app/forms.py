@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from django import forms
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.validators import MinLengthValidator, MaxLengthValidator
 
 from .validators import validate_image, validate_pdf
 
@@ -19,7 +20,7 @@ class SignInForm(forms.Form):
     """
     Class for creating new user form.
     """
-    username = forms.CharField(max_length=30)
+    username = forms.CharField(max_length=30, validators=[MinLengthValidator(2), MaxLengthValidator(30)])
     email = forms.CharField(max_length=320)
     passw1 = forms.CharField(max_length=16)
     passw2 = forms.CharField(max_length=16)
