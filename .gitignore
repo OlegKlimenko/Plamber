@@ -5,3 +5,4 @@ media
 *.log
 *.json
 celerybeat-schedule
+venv

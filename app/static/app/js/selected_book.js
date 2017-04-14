@@ -100,7 +100,7 @@ function addBookHome() {
         success: function result(json) {
             $("#add-book-div").remove();
             $("#btn-area").append("<div id='remove-book-div'><button class='btn' id='remove-book'>" +
-                                  "Удалить книгу</button><div class='word-wrap add-book-text'>" +
+                                  "Перестать читать</button><div class='word-wrap add-book-text'>" +
                                   "Сейчас книга в списке читаемых вами.</div></div>");
             $("#remove-book").attr("onClick", "removeBookHome()");
         }
@@ -121,7 +121,7 @@ function removeBookHome() {
         success: function result(json) {
             $("#remove-book-div").remove();
             $("#btn-area").append("<div id='add-book-div'><button class='btn' " +
-                                  "id='add-book'>Добавить книгу</button></div>");
+                                  "id='add-book'>Начать читать</button></div>");
             $("#add-book").attr("onClick", "addBookHome()");
         }
     });
