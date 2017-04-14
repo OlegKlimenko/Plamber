@@ -54,9 +54,9 @@
 
                 <!--Categories-->
                 {% for category in categories %}
-                    <a href="{% url 'category' category.id %}" class="decoration">
+                    <div><a href="{% url 'category' category.id %}" class="decoration">
                         <button class="btn action-button margin">{{ category.category_name }}</button>
-                    </a>
+                    </a></div>
                 {% endfor %}
             </div>
         </div>
