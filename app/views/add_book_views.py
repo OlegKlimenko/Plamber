@@ -23,7 +23,7 @@ def add_book(request):
     """
     if request.method == 'GET':
         if request.user.is_authenticated():
-            categories = Category.objects.all()
+            categories = Category.objects.all().order_by('category_name')
             languages = Language.objects.all()
 
             return render(request, 'add_book.html', {'categories': categories, 'languages': languages})
