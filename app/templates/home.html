@@ -88,7 +88,7 @@
         {% if recommend_books %}
             <div class="row">
                 <div class="col-sm-12 col-md-12 col-lg-12">
-                    <h3>Рекомендуем так же добавить</h3>
+                    <h3>Рекомендуем так же читать</h3>
                     <hr class="hr-style">
                     {% for book in recommend_books %}
                         <a href="{% url 'book' book.id %}">

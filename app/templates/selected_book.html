@@ -124,7 +124,7 @@
         {% if recommend_books %}
             <div class="row margin">
                 <div class="col-sm-12 col-md-12 col-lg-12">
-                    <h3>Так же рекомендуем</h3>
+                    <h3>Так же рекомендуем читать</h3>
                     <hr class="main-separator">
                     {% for book in recommend_books %}
                         <a href="{% url 'book' book.id %}">
