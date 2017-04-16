@@ -43,7 +43,7 @@ class Author(models.Model):
     """
     Class for author objects in database.
     """
-    author_name = models.CharField(max_length=30)
+    author_name = models.CharField(max_length=100)
 
     # ------------------------------------------------------------------------------------------------------------------
     def __str__(self):
@@ -80,7 +80,7 @@ class Book(models.Model):
     """
     Class for book objects in database.
     """
-    book_name = models.CharField(max_length=30)
+    book_name = models.CharField(max_length=150)
     id_author = models.ForeignKey(Author)
     id_category = models.ForeignKey(Category)
     description = models.CharField(max_length=1000, blank=True)

@@ -48,8 +48,8 @@ class AddBookForm(forms.Form):
     """
     Class for adding book form.
     """
-    bookname = forms.CharField(max_length=70)
-    author = forms.CharField(max_length=70)
+    bookname = forms.CharField(max_length=150)
+    author = forms.CharField(max_length=100)
     category = forms.CharField(max_length=30)
     language = forms.CharField(max_length=30)
     about = forms.CharField(widget=forms.Textarea)
