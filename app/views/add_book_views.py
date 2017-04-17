@@ -9,6 +9,7 @@ from django.shortcuts import redirect, render
 
 from ..forms import GenerateAuthorsForm, AddBookForm
 from ..models import Author, Book, Category, Language
+from ..utils import compress_pdf
 
 logger = logging.getLogger('changes')
 
@@ -74,6 +75,10 @@ def add_book_successful(request):
 
                 logger.info("User '{}' uploaded book with id: '{}' and name: '{}' on category: '{}'."
                             .format(rel_objects['user'], book.id, book.book_name, rel_objects['category']))
+
+                compress_pdf(book.book_file.path)
+
+                logger.info("Book with id: '{}' compressed successfully!".format(book.id))
 
                 return redirect('book/{0}/'.format(book.id))
 
