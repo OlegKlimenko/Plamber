@@ -33,7 +33,7 @@ def send_mail(username, temp_password, recipient):
 
 # ----------------------------------------------------------------------------------------------------------------------
 @shared_task
-def compress_pdf(filename):
+def compress_pdf_task(filename):
     """
     Celery task for compressing the PDF file.
 
