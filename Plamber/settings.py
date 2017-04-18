@@ -156,6 +156,10 @@ CELERY_ACCEPT_CONTENT = settings['CELERY']['ACCEPT_CONTENT']
 CELERY_TASK_SERIALIZER = settings['CELERY']['TASK_SERIALIZER']
 CELERY_RESULT_SERIALIZER = settings['CELERY']['RESULT_SERIALIZER']
 
+# Uploading settings
+
+DATA_UPLOAD_MAX_MEMORY_SIZE = None
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
