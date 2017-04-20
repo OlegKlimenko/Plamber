@@ -57,6 +57,7 @@ urlpatterns = [
 
     # Additional urls.
     url(r'thanks', additional_views.thanks, name='thanks'),
-    url(r'logout', additional_views.user_logout, name='logout')
+    url(r'logout', additional_views.user_logout, name='logout'),
+    url(r'(?P<file>[%&+ \w]+.txt)', additional_views.verification_token, name='verification_token')
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
