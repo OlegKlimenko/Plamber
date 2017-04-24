@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Категории</title>
     <link rel="shortcut icon" href="{% static 'app/images/favicon.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'app/css/general/text.css' %}">
     <link rel="stylesheet" href="{% static 'app/css/categories.css' %}">
     <link rel="stylesheet" href="{% static 'app/css/third_party/bootstrap.css' %}">
     <link rel="stylesheet" href="{% static 'app/css/third_party/bootstrap-theme.css' %}">
@@ -53,11 +54,21 @@
                 <h2 class="header-color"><b>Категории</b></h2>
 
                 <!--Categories-->
-                {% for category in categories %}
-                    <div><a href="{% url 'category' category.id %}" class="decoration">
-                        <button class="btn action-button margin">{{ category.category_name }}</button>
-                    </a></div>
-                {% endfor %}
+                <div class="col-sm-6 col-md-6 col-lg-6">
+                    {% for category in first_line %}
+                        <div class="word-wrap"><a href="{% url 'category' category.id %}"
+                                class="active-reference">{{ category.category_name }}</a>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="col-sm-6 col-md-6 col-lg-6">
+                    {% for category in second_line %}
+                        <div class="word-wrap"><a href="{% url 'category' category.id %}"
+                                class="active-reference">{{ category.category_name }}</a>
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>

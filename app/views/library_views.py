@@ -20,7 +20,13 @@ def all_categories(request):
         if request.user.is_authenticated():
             categories = Category.objects.all().order_by('category_name')
 
-            return render(request, 'categories.html', {'categories': categories})
+            count = categories.count() / 2
+
+            first_line = categories[:count+1]
+            second_line = categories[count+1:count*2]
+
+            return render(request, 'categories.html', {'first_line': first_line,
+                                                       'second_line': second_line})
 
         else:
             return redirect('index')

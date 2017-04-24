@@ -6,26 +6,6 @@
     color: #2e3438;
 }
 
-.decoration {
-    text-decoration: none;
-}
-
-.decoration:hover {
-    text-decoration: none;
-}
-
-.action-button {
-    background-color: #31a445;
-    border: solid 2px #31a445;
-    color: #fff;
-}
-
-.action-button:hover {
-    background-color: Transparent;
-    border: solid 2px #2e3438;
-    color: #2e3438;
-}
-
 .margin {
     margin-bottom: 10px;
 }
