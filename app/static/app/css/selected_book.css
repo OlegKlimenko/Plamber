@@ -195,3 +195,7 @@ td {
 .text-font {
     font-family: 'Lucida Grande', Arial, sans-serif;
 }
+
+.footer-margin {
+    margin-bottom: 40px;
+}

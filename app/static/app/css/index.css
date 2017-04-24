@@ -75,3 +75,7 @@
 #pass-wrong-message {
     display: none;
 }
+
+.footer-margin {
+    margin-bottom: 40px;
+}
