@@ -6,6 +6,10 @@
  */
 function insertBooks(books) {
     $(".books-area").empty();
+    
+    if (!books.length) {
+        $(".books-area").append("<h4>По вашему запросу книг не найдено :(</h4>")
+    }
 
     for (var book = 0; book < books.length; book++) {
         var id = books[book]["id"];
