@@ -164,6 +164,8 @@ function changePassword() {
             success: function(response) {
                 hideChangePasswordArea();
                 $('#status-message').text(response);
+
+                setTimeout(function() { window.location.reload(true); }, 3000);
             },
 
             error: function(response) {
