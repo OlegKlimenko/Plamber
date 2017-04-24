@@ -15,8 +15,7 @@ def about(request):
     :return: The about project main page.
     """
     if request.method == 'GET':
-        posts = Post.objects.all()
-        return render(request, 'about.html', {'posts': posts})
+        return render(request, 'about.html', {'posts': Post.objects.all().order_by('-id')})
 
     else:
         return HttpResponse(status=404)
