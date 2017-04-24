@@ -88,13 +88,15 @@ def add_book_to_home(request):
         book_form = BookHomeForm(request.POST)
 
         if book_form.is_valid():
-            AddedBook.objects.create(id_user=TheUser.objects.get(id_user=request.user),
-                                     id_book=Book.objects.get(id=book_form.cleaned_data['book']))
+            user = TheUser.objects.get(id_user=request.user)
+            book = Book.objects.get(id=book_form.cleaned_data['book'])
+
+            AddedBook.objects.create(id_user=user, id_book=book)
 
             logger.info("User '{}' added book with id: '{}' to his own library."
                         .format(request.user, book_form.cleaned_data['book']))
 
-            return HttpResponse(json.dumps(True), content_type='application/json')
+            return HttpResponse(json.dumps({'book_id': book.id}), content_type='application/json')
     else:
         return HttpResponse(status=404)
 

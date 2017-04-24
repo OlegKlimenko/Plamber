@@ -98,11 +98,7 @@ function addBookHome() {
                csrfmiddlewaretoken: getCookie("csrftoken")},
 
         success: function result(json) {
-            $("#add-book-div").remove();
-            $("#btn-area").append("<div id='remove-book-div'><button class='btn' id='remove-book'>" +
-                                  "Перестать читать</button><div class='word-wrap add-book-text'>" +
-                                  "Сейчас книга в списке читаемых вами.</div></div>");
-            $("#remove-book").attr("onClick", "removeBookHome()");
+            window.location.replace('/read-book/' + json['book_id'] + '/');
         }
     });
 }
