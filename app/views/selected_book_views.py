@@ -35,11 +35,12 @@ def selected_book(request, book_id):
         user = TheUser.objects.get(id_user=request.user)
 
         recommend_books = get_recommend(request.user, AddedBook.get_user_added_books(request.user), RANDOM_BOOKS_COUNT)
+        book_rating = rel_objects['avg_book_rating']['rating__avg']
 
         context = {'book': rel_objects['book'],
                    'added_book': rel_objects['added_book'],
                    'comments': rel_objects['comments'],
-                   'book_rating': rel_objects['avg_book_rating']['rating__avg'],
+                   'book_rating': book_rating if book_rating else '-',
                    'estimation_count': range(1, 11),
                    'user': user,
                    'recommend_books': recommend_books}
