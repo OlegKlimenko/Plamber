@@ -203,7 +203,9 @@
                             </span>
                         </div>
                         <div class="paragraph">
-                            {{ post.text }}
+                            {% autoescape off %}
+                                {{ post.text }}
+                            {% endautoescape %}
                         </div>
                     </div>
                 {% endfor %}
