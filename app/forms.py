@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django import forms
+from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.core.validators import MinLengthValidator, MaxLengthValidator
 
@@ -24,6 +25,15 @@ class SignInForm(forms.Form):
     email = forms.CharField(max_length=320)
     passw1 = forms.CharField(max_length=16)
     passw2 = forms.CharField(max_length=16)
+
+    def clean(self):
+        """
+        Checks if two of the passwords are the same. If not. Raises an error.
+        """
+        cleaned_data = super(SignInForm, self).clean()
+
+        if cleaned_data['passw1'] != cleaned_data['passw2']:
+            raise ValidationError('Passwords are not matching!')
 
 
 # ----------------------------------------------------------------------------------------------------------------------
