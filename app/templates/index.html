@@ -140,7 +140,7 @@
                         <div>
                             <input class="input input-colors margin" id="first-pass" placeholder="Пароль"
                                    type="password" pattern="^[a-zA-Z0-9_]{6,16}" oninvalid="passwordSignInMessage(this)"
-                                   name="passw1" required>
+                                   name="passw1" oninput="checkEqualPassLines()" required>
                         </div>
                         <div>
                             <input class="input input-colors margin" id="second-pass" name="passw2"
