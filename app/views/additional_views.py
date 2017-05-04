@@ -5,21 +5,9 @@ import logging
 from django.conf import settings
 from django.contrib.auth import logout
 from django.http import HttpResponse
-from django.shortcuts import render
 from django.shortcuts import redirect
 
 logger = logging.getLogger('changes')
-
-
-# ----------------------------------------------------------------------------------------------------------------------
-def thanks(request):
-    """
-    Returns a page with success registration message.
-
-    :param django.core.handlers.wsgi.WSGIRequest request: The request for generating a success register page.
-    :return: The page with info about success registration.
-    """
-    return render(request, 'register_success.html')
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -36,6 +24,7 @@ def user_logout(request):
     return redirect('index')
 
 
+# ----------------------------------------------------------------------------------------------------------------------
 def verification_token(request, file):
     """
     Handles the request for SSL token.

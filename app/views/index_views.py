@@ -118,7 +118,9 @@ def sign_in(request):
                 logger.info("Created user with name: '{}' mail: '{}' and id: '{}'"
                             .format(user.username, user.email, user.id))
 
-                return redirect('/thanks/')
+                login(request, user)
+
+                return redirect('/')
 
 
 # ----------------------------------------------------------------------------------------------------------------------
