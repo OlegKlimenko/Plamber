@@ -101,7 +101,13 @@
                     <div>
                         <table>
                             <tr><th>Автор</th><td class="word-wrap">{{ book.id_author }}</td></tr>
-                            <tr><th>Категория</th><td class="word-wrap">{{ book.id_category }}</td></tr>
+                            <tr>
+                                <th>Категория</th>
+                                <td class="word-wrap">
+                                    <a class="reference"
+                                       href="{% url 'category' book.id_category.id %}">{{ book.id_category }}</a>
+                                </td>
+                            </tr>
                             <tr><th>Язык</th><td class="word-wrap">{{ book.language }}</td></tr>
                             <tr>
                                 <th>Кто загрузил</th>
