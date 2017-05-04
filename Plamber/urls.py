@@ -56,7 +56,6 @@ urlpatterns = [
     url(r'send-message', about_views.send_message, name='send_message'),
 
     # Additional urls.
-    url(r'thanks', additional_views.thanks, name='thanks'),
     url(r'logout', additional_views.user_logout, name='logout'),
     url(r'(?P<file>[%&+ \w]+.txt)', additional_views.verification_token, name='verification_token')
 

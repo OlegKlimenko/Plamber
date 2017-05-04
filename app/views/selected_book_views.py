@@ -36,11 +36,13 @@ def selected_book(request, book_id):
 
         recommend_books = get_recommend(request.user, AddedBook.get_user_added_books(request.user), RANDOM_BOOKS_COUNT)
         book_rating = rel_objects['avg_book_rating']['rating__avg']
+        book_rating_count = rel_objects['book_rating_count']
 
         context = {'book': rel_objects['book'],
                    'added_book': rel_objects['added_book'],
                    'comments': rel_objects['comments'],
                    'book_rating': book_rating if book_rating else '-',
+                   'book_rating_count': '({})'.format(book_rating_count) if book_rating_count else '',
                    'estimation_count': range(1, 11),
                    'user': user,
                    'recommend_books': recommend_books}
@@ -139,10 +141,12 @@ def change_rating(request):
             with transaction.atomic():
                 set_rating(request, rating_form)
 
-                avg_book_rating = BookRating.objects.filter(
-                    id_book=Book.objects.get(id=rating_form.cleaned_data['book'])).aggregate(Avg('rating'))
+                book_rating = BookRating.objects.filter(id_book=Book.objects.get(id=rating_form.cleaned_data['book']))
 
-                return HttpResponse(json.dumps(avg_book_rating['rating__avg']), content_type='application/json')
+                data = {'avg_rating': book_rating.aggregate(Avg('rating'))['rating__avg'],
+                        'rating_count': '({})'.format(book_rating.count())}
+
+                return HttpResponse(json.dumps(data), content_type='application/json')
     else:
         return HttpResponse(status=404)
 

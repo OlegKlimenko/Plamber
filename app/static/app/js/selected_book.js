@@ -139,7 +139,8 @@ function changeEstimation(idBook, newRating) {
                csrfmiddlewaretoken: getCookie("csrftoken")},
 
         success: function result(json) {
-            $("#rating").text(json);
+            $("#rating").text(json['avg_rating']);
+            $("#rating-count").text(json['rating_count']);
         }
     });
 }

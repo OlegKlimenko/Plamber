@@ -128,7 +128,7 @@ class Book(models.Model):
         :return: Related objects.
         """
         book = Book.objects.get(id=book_id)
-        avg_book_rating = BookRating.objects.filter(id_book=book).aggregate(Avg('rating'))
+        book_rating = BookRating.objects.filter(id_book=book)
 
         try:
             added_book = AddedBook.objects.get(id_user=TheUser.objects.get(id_user=user), id_book=book)
@@ -137,7 +137,11 @@ class Book(models.Model):
 
         comments = BookComment.objects.filter(id_book=Book.objects.get(id=book_id)).order_by('-id')
 
-        return {'book': book, 'avg_book_rating': avg_book_rating, 'added_book': added_book, 'comments': comments}
+        return {'book': book,
+                'avg_book_rating': book_rating.aggregate(Avg('rating')),
+                'book_rating_count': book_rating.count(),
+                'added_book': added_book,
+                'comments': comments}
 
     # ------------------------------------------------------------------------------------------------------------------
     @staticmethod
