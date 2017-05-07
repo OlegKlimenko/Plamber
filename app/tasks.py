@@ -14,6 +14,24 @@ logger = logging.getLogger('changes')
 
 # ----------------------------------------------------------------------------------------------------------------------
 @shared_task
+def successful_registration(username, recipient):
+    """
+    Celery task for sending welcome mail after creating new user.
+
+    :param str username:   The restored username.
+    :param str recipient:  The mail recipient.
+    """
+    html_content = render_to_string('mails/registration_success.html', {'username': username})
+    text_content = strip_tags(html_content)
+    subject = 'Успешная регистрация на plamber.com.ua'
+
+    email = EmailMultiAlternatives(subject, text_content, to=[recipient])
+    email.attach_alternative(html_content, 'text/html')
+    email.send()
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+@shared_task
 def restore_account(username, temp_password, recipient):
     """
     Celery task for sending mail on restore user data.

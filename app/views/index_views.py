@@ -13,7 +13,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from ..forms import LogInForm, IsUserExistsForm, SignInForm, ForgotPasswordForm
 from ..models import AddedBook, TheUser
 from ..recommend import get_recommend
-from ..tasks import restore_account
+from ..tasks import restore_account, successful_registration
 from ..utils import generate_password
 
 RANDOM_BOOKS_COUNT = 4
@@ -114,6 +114,8 @@ def sign_in(request):
                                                 email=sign_in_form.cleaned_data['email'],
                                                 password=sign_in_form.cleaned_data['passw1'])
                 TheUser.objects.create(id_user=user)
+
+                successful_registration.delay(user.username, user.email)
 
                 logger.info("Created user with name: '{}' mail: '{}' and id: '{}'"
                             .format(user.username, user.email, user.id))
