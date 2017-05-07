@@ -13,7 +13,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from ..forms import LogInForm, IsUserExistsForm, SignInForm, ForgotPasswordForm
 from ..models import AddedBook, TheUser
 from ..recommend import get_recommend
-from ..tasks import send_mail
+from ..tasks import restore_account
 from ..utils import generate_password
 
 RANDOM_BOOKS_COUNT = 4
@@ -142,7 +142,7 @@ def restore_data(request):
                 user.set_password(temp_password)
                 user.save()
 
-                send_mail.delay(user.username, temp_password, forgot_form.cleaned_data['email'])
+                restore_account.delay(user.username, temp_password, forgot_form.cleaned_data['email'])
 
                 logger.info("The password for user: '{}' restored successfully.".format(user))
 

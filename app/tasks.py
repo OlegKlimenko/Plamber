@@ -14,17 +14,35 @@ logger = logging.getLogger('changes')
 
 # ----------------------------------------------------------------------------------------------------------------------
 @shared_task
-def send_mail(username, temp_password, recipient):
+def restore_account(username, temp_password, recipient):
     """
     Celery task for sending mail on restore user data.
 
     :param str username:       The restored username.
     :param str temp_password:  The temporary password for restored username.
-    :param str recipient:      The mail of recipient.
+    :param str recipient:      The mail recipient.
     """
-    html_content = render_to_string('email.html', {'username': username, 'password': temp_password})
+    html_content = render_to_string('mails/account_restore.html', {'username': username, 'password': temp_password})
     text_content = strip_tags(html_content)
     subject = 'Восстановление аккаунта'
+
+    email = EmailMultiAlternatives(subject, text_content, to=[recipient])
+    email.attach_alternative(html_content, 'text/html')
+    email.send()
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+@shared_task
+def changed_password(username, recipient):
+    """
+    Celery task for sending mail, to notify user about password changed.
+
+    :param str username:   The restored username.
+    :param str recipient:  The mail recipient.
+    """
+    html_content = render_to_string('mails/password_changed.html', {'username': username})
+    text_content = strip_tags(html_content)
+    subject = 'Изменение пароля аккаунта'
 
     email = EmailMultiAlternatives(subject, text_content, to=[recipient])
     email.attach_alternative(html_content, 'text/html')

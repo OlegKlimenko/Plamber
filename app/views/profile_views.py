@@ -8,6 +8,7 @@ from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import redirect, render, get_object_or_404
 
+from ..tasks import changed_password
 from app.forms import UploadAvatarForm, ChangePasswordForm
 from app.models import TheUser, AddedBook
 
@@ -94,6 +95,8 @@ def change_password(request):
                     request.user.save()
 
                     logger.info("User '{}' changed his password successfully.".format(request.user))
+
+                    changed_password.delay(request.user.username, request.user.email)
 
                     return HttpResponse(json.dumps('Пароль успешно изменен!'), content_type='application/json')
 
