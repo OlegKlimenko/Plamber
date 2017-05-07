@@ -9,8 +9,8 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, render, get_object_or_404
 
 from ..tasks import changed_password
-from app.forms import UploadAvatarForm, ChangePasswordForm
-from app.models import TheUser, AddedBook
+from ..forms import UploadAvatarForm, ChangePasswordForm
+from ..models import TheUser, AddedBook
 
 logger = logging.getLogger('changes')
 

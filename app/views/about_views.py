@@ -3,7 +3,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 
-from app.models import Post
+from ..models import Post
 
 
 # ----------------------------------------------------------------------------------------------------------------------
