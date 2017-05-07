@@ -196,3 +196,18 @@ function hidePasswords(src) {
     $('#new-password-one').attr('type', 'password');
     $('#new-password-two').attr('type', 'password');
 }
+
+// ---------------------------------------------------------------------------------------------------------------------
+/**
+ * Specifies the input button, when file is selected.
+ */
+$(document).ready(function() {
+    $('#upload').on('change', function(event) {
+        var txt = $(this).val().split('\\').pop();
+
+        if (txt.length > 20) {
+            txt = txt.substring(0, 20) + '...'
+        }
+        $('#upload-caption').text(txt);
+    });
+});

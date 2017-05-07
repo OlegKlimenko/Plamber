@@ -67,3 +67,19 @@ function isBookChosen(event) {
         $("#missing-book-warn").css("display", "block");
     }
 }
+
+// ---------------------------------------------------------------------------------------------------------------------
+/**
+ * Specifies the input button, when file is selected.
+ */
+$(document).ready(function() {
+    $('#upload-book').on('change', function(event) {
+        var txt = $(this).val().split('\\').pop();
+
+        if (txt.length > 30) {
+            txt = txt.substring(0, 30) + '...'
+        }
+        $('#upload-caption').text(txt);
+    });
+});
+
