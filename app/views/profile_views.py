@@ -11,6 +11,9 @@ from django.shortcuts import redirect, render, get_object_or_404
 from ..tasks import changed_password
 from ..forms import UploadAvatarForm, ChangePasswordForm
 from ..models import TheUser, AddedBook
+from ..utils import resize_image
+
+AVATAR_WIDTH = 250
 
 logger = logging.getLogger('changes')
 
@@ -64,6 +67,9 @@ def upload_avatar(request):
                                              upload_avatar_form.cleaned_data['avatar'])
                 profile_user.save()
                 logger.info("User '{}' changed his avatar.".format(profile_user))
+
+                resize_image(profile_user.user_photo.path, AVATAR_WIDTH)
+                logger.info("Image '{}' successfully resized!".format(profile_user.user_photo.path))
 
                 response_data = {'message': 'Аватар успешно изменен!'}
                 return HttpResponse(json.dumps(response_data), content_type='application/json')

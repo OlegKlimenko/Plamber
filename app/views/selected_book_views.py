@@ -14,8 +14,9 @@ from django.shortcuts import redirect, render
 from ..forms import BookHomeForm, AddCommentForm, ChangeRatingForm, StoreBookImageForm
 from ..models import AddedBook, Book, BookRating, BookComment, TheUser
 from ..recommend import get_recommend
-from ..utils import html_escape
+from ..utils import html_escape, resize_image
 
+BOOK_COVER_HEIGHT = 350
 RANDOM_BOOKS_COUNT = 6
 
 logger = logging.getLogger('changes')
@@ -72,6 +73,9 @@ def store_image(request):
                 book.photo.save('book_{}.png'.format(image_form.cleaned_data['id']), ContentFile(bin_data))
 
                 logger.info("The image was stored for book with id: '{}'.".format(book.id))
+
+                resize_image(book.photo.path, BOOK_COVER_HEIGHT)
+                logger.info("Image '{}' successfully resized!".format(book.photo.path))
 
                 return HttpResponse(json.dumps(True), content_type='application/json')
     else:

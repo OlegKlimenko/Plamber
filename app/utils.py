@@ -6,6 +6,7 @@ import string
 import subprocess
 
 import PyPDF2
+from PIL import Image
 
 PASSWORD_LENGTH = 12
 
@@ -86,3 +87,24 @@ def compress_pdf(old_path):
             os.remove(new_path)
 
         return True
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+def resize_image(path, width):
+    """
+    Resizes the image.
+
+    :param str path:  The path to the image file.
+    :param int width: The width of the output image.
+    """
+    try:
+        img = Image.open(path)
+
+        ratio = width / float(img.width)
+        height = int(float(img.height) * float(ratio))
+
+        new_img = img.resize((width, height), Image.ANTIALIAS)
+        new_img.save(path)
+
+    except IOError:
+        pass
