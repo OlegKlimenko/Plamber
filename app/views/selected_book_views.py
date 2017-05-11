@@ -35,7 +35,10 @@ def selected_book(request, book_id):
         rel_objects = Book.get_related_objects_selected_book(request.user, book_id)
         user = TheUser.objects.get(id_user=request.user)
 
-        recommend_books = get_recommend(request.user, AddedBook.get_user_added_books(request.user), RANDOM_BOOKS_COUNT)
+        recommend_books = get_recommend(request.user,
+                                        AddedBook.get_user_added_books(request.user),
+                                        RANDOM_BOOKS_COUNT,
+                                        [book_id])
         book_rating = rel_objects['avg_book_rating']['rating__avg']
         book_rating_count = rel_objects['book_rating_count']
 

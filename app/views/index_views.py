@@ -48,7 +48,7 @@ def home(request):
     :return: The 'Home page'.
     """
     books = AddedBook.get_user_added_books(request.user)
-    recommend_books = get_recommend(request.user, books, RANDOM_BOOKS_COUNT)
+    recommend_books = get_recommend(request.user, books, RANDOM_BOOKS_COUNT, [])
 
     return render(request, 'home.html', {'books': books, 'recommend_books': recommend_books})
 
