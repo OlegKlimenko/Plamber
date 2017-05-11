@@ -17,6 +17,14 @@ class IsUserExistsForm(forms.Form):
 
 
 # ----------------------------------------------------------------------------------------------------------------------
+class IsMailExistsForm(forms.Form):
+    """
+    Class for form if mail is exists.
+    """
+    email = forms.CharField(max_length=320)
+
+
+# ----------------------------------------------------------------------------------------------------------------------
 class SignInForm(forms.Form):
     """
     Class for creating new user form.

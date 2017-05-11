@@ -134,8 +134,11 @@
                             <b>Пользователь с таким именем уже существует.</b>
                         </div>
                         <div>
-                            <input class="input input-colors margin" placeholder="Email" type="email"
-                                   name="email" required>
+                            <input id="mail-input" class="input input-colors margin" placeholder="Email"
+                                   type="email" name="email" oninput="checkMailNotExists()" required>
+                        </div>
+                        <div id="mail-exists" class="error-msg error-text">
+                            <b>Пользователь с таким email уже существует.</b>
                         </div>
                         <div>
                             <input class="input input-colors margin" id="first-pass" placeholder="Пароль"

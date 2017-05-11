@@ -72,6 +72,10 @@
     display: none;
 }
 
+#mail-exists {
+    display: none;
+}
+
 #pass-wrong-message {
     display: none;
 }

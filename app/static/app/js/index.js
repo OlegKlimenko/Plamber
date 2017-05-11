@@ -133,15 +133,40 @@ function checkUserNotExists() {
 
 // ---------------------------------------------------------------------------------------------------------------------
 /**
+ * Sends ajax request to check if the requested email is already exists.
+ */
+function checkMailNotExists() {
+    // Send request only if 'Input' is not empty.
+    if ($("#mail-input").val()) {
+        $.ajax({
+            url: "is-mail-exists",
+            type: "GET",
+            data: {email: $("#mail-input").val()},
+
+            success: function result(json) {
+                if (json) {
+                    document.getElementById("mail-exists").style.display = "block";
+                }
+                else {
+                    document.getElementById("mail-exists").style.display = "none";
+                }
+            }
+        });
+    }
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+/**
  * Sends form only if both of password 'Input' lines are equals and filled.
  *
  * @param {Object} event
  */
 function isSignInAvailable(event) {
     var isUserExists = document.getElementById("user-exists").style.display;
+    var isMailExists = document.getElementById("mail-exists").style.display;
     var isLinesEqual = document.getElementById("pass-wrong-message").style.display;
 
-    if (isUserExists === "none" && isLinesEqual === "none") {
+    if (isUserExists === "none" && isLinesEqual === "none" && isMailExists === "none") {
         event.submit();
     }
 }

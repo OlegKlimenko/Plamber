@@ -10,7 +10,7 @@ from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 
-from ..forms import LogInForm, IsUserExistsForm, SignInForm, ForgotPasswordForm
+from ..forms import LogInForm, IsUserExistsForm, IsMailExistsForm, SignInForm, ForgotPasswordForm
 from ..models import AddedBook, TheUser
 from ..recommend import get_recommend
 from ..tasks import restore_account, successful_registration
@@ -90,6 +90,27 @@ def is_user_exists(request):
         if is_user_exists_form.is_valid():
             try:
                 User.objects.get(username=is_user_exists_form.cleaned_data['username'])
+                return HttpResponse(json.dumps(True), content_type='application/json')
+            except ObjectDoesNotExist:
+                return HttpResponse(json.dumps(False), content_type='application/json')
+    else:
+        return HttpResponse(status=404)
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+def is_mail_exists(request):
+    """
+    Checks if mail is exists. If exists return True, else False.
+
+    :param django.core.handlers.wsgi.WSGIRequest request: The ajax request on index page.
+    :return: True or False.
+    """
+    if request.is_ajax():
+        is_mail_exists_form = IsMailExistsForm(request.GET)
+
+        if is_mail_exists_form.is_valid():
+            try:
+                User.objects.get(email=is_mail_exists_form.cleaned_data['email'])
                 return HttpResponse(json.dumps(True), content_type='application/json')
             except ObjectDoesNotExist:
                 return HttpResponse(json.dumps(False), content_type='application/json')
