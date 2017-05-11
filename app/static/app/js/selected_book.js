@@ -160,10 +160,6 @@ function addComment(idBook) {
                csrfmiddlewaretoken: getCookie("csrftoken")},
 
         success: function result(response) {
-            var date = response['posted_date']['month'] +
-                " " + response['posted_date']['day'] +
-                ", " + response['posted_date']['year'];
-
             var imageSrc = response['user_photo'] ? response['user_photo'] : "/static/app/images/user.png";
 
             $("#no-comments").remove();
@@ -174,7 +170,7 @@ function addComment(idBook) {
                 "</div><div class='col-sm-10 col-md-10 col-lg-10 col-xs-7 word-wrap'>" +
                 "<div class='word-wrap user-name margin'>" +
                 "<b>" + response['username'] + "</b>" +
-                "<b> - <i class='comment-posted-date'>" + date + "</i></b></div>" +
+                "<b> - <i class='comment-posted-date'>" + response['posted_date'] + "</i></b></div>" +
                 "<span class='text-font'>" + response['text'] + "</span>" +
                 "</div></div></div>"
             );

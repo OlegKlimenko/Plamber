@@ -202,7 +202,7 @@
                                 <div class="col-sm-10 col-md-10 col-lg-10 col-xs-7 word-wrap">
                                     <div class="word-wrap user-name margin">
                                         <b>{{ comment.id_user }}</b>
-                                        <b> - <i class="comment-posted-date">{{ comment.posted_date }}</i></b>
+                                        <b> - <i class="comment-posted-date">{{ comment.posted_date|date:"d-m-Y" }}</i></b>
                                     </div>
                                     <span class="text-font">{{ comment.text }}</span>
                                 </div>

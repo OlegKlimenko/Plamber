@@ -208,11 +208,7 @@ def add_comment(request):
                 'text': html_escape(comment.text),
                 'username': request.user.username,
                 'user_photo': user_photo,
-                'posted_date': {
-                    'month': comment.posted_date.strftime('%B'),
-                    'day': comment.posted_date.day,
-                    'year': comment.posted_date.year
-                }
+                'posted_date': comment.posted_date.strftime('%d-%m-%Y')
             }
             return HttpResponse(json.dumps(response_data), content_type='application/json')
     else:
