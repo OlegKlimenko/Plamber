@@ -149,7 +149,7 @@ def change_rating(request):
 
                 book_rating = BookRating.objects.filter(id_book=Book.objects.get(id=rating_form.cleaned_data['book']))
 
-                data = {'avg_rating': book_rating.aggregate(Avg('rating'))['rating__avg'],
+                data = {'avg_rating': round(book_rating.aggregate(Avg('rating'))['rating__avg'], 1),
                         'rating_count': '({})'.format(book_rating.count())}
 
                 return HttpResponse(json.dumps(data), content_type='application/json')
