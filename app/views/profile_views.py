@@ -33,7 +33,7 @@ def profile(request, profile_id):
             profile_user = get_object_or_404(TheUser, id_user=user)
 
             added_books = AddedBook.objects.filter(id_user=profile_user)
-            uploaded_books = Book.objects.filter(who_added=profile_user)
+            uploaded_books = Book.objects.filter(who_added=profile_user).order_by('-id')
 
             context = {'profile_user': profile_user, 'added_books': added_books, 'uploaded_books': uploaded_books}
 

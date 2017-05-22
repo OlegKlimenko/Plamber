@@ -290,9 +290,18 @@ class AddedBook(models.Model):
         :param app.models.TheUser user: The user instance.
         :return list[app.models.Book]:
         """
-        added_books = AddedBook.objects.filter(id_user=TheUser.objects.get(id_user=user)).order_by('-last_read')
+        return AddedBook.objects.filter(id_user=TheUser.objects.get(id_user=user)).order_by('-last_read')
 
-        return added_books
+    # ------------------------------------------------------------------------------------------------------------------
+    @staticmethod
+    def get_count_added(book_id):
+        """
+        Returns the added count of selected book.
+
+        :param int book_id: The id of book which we are counting.
+        :return int: The count of added books
+        """
+        return AddedBook.objects.filter(id_book__id=book_id).count()
 
 
 # ----------------------------------------------------------------------------------------------------------------------

@@ -35,15 +35,14 @@ def selected_book(request, book_id):
         rel_objects = Book.get_related_objects_selected_book(request.user, book_id)
         user = TheUser.objects.get(id_user=request.user)
 
-        recommend_books = get_recommend(request.user,
-                                        AddedBook.get_user_added_books(request.user),
-                                        RANDOM_BOOKS_COUNT,
-                                        [book_id])
+        recommend_books = get_recommend(request.user, AddedBook.get_user_added_books(request.user),
+                                        RANDOM_BOOKS_COUNT, [book_id])
         book_rating = rel_objects['avg_book_rating']['rating__avg']
         book_rating_count = rel_objects['book_rating_count']
 
         context = {'book': rel_objects['book'],
                    'added_book': rel_objects['added_book'],
+                   'added_book_count': AddedBook.get_count_added(book_id),
                    'comments': rel_objects['comments'],
                    'book_rating': book_rating if book_rating else '-',
                    'book_rating_count': '({})'.format(book_rating_count) if book_rating_count else '',

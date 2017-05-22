@@ -65,8 +65,12 @@
                     <div id="book-url" class="book-meta">{{ book.book_file.url }}</div>
 
                     <!--Estimation Area-->
-                    <div id="avg-mach" align="left">
+                    <div id="avg-mach" class="stats" align="left">
                         Рейтинг книги: <b id="rating">{{ book_rating }}</b> <i id="rating-count">{{ book_rating_count }}</i>
+                    </div>
+
+                    <div class="stats" align="left">
+                        Читают: <b class="added-count">{{ added_book_count }}</b>
                     </div>
 
                     <div id="estimation-area" align="left">
