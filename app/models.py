@@ -88,6 +88,7 @@ class Book(models.Model):
     photo = models.ImageField(blank=True, upload_to='book_cover')
     book_file = models.FileField(upload_to='book_file')
     who_added = models.ForeignKey(TheUser)
+    upload_date = models.DateTimeField(auto_now=True)
 
     # ------------------------------------------------------------------------------------------------------------------
     def __str__(self):

@@ -100,7 +100,7 @@
                 {% endif %}
             </div>
 
-            <!--Book list area-->
+            <!--Reading book list area-->
             <div class="col-sm-8 col-md-8 col-lg-9">
                 <hr class="hr">
                 <h2 id="read-books-header">Читаемые книги</h2>
@@ -148,6 +148,46 @@
                     Пока еще нет читаемых книг =(
                 {% endif %}
             </div>
+
+            <!--Added book list area-->
+            {% if uploaded_books %}
+                <div class="col-sm-8 col-md-8 col-lg-9">
+                    <hr class="hr">
+                    <h2 id="read-books-header">Загруженные книги</h2>
+                    <hr class="hr">
+                    <table id="book-list" class="margin">
+                        <colgroup>
+                            <col width="43%">
+                            <col width="43%">
+                            <col width="15%">
+                        </colgroup>
+                        <thead>
+                            <tr align="left">
+                                <th>Название книги</th>
+                                <th>Автор</th>
+                                <th>Дата загрузки</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-font">
+                            {% for book in uploaded_books %}
+                                <tr>
+                                    <td class="word-wrap">
+                                       <a href="{% url 'book' book.id %}"
+                                           class="reference">{{ book.book_name }}</a></td>
+                                    <td class="word-wrap">
+                                        <a href="{% url 'book' book.id %}"
+                                           class="reference">{{ book.id_author }}</a>
+                                    </td>
+                                    <td class="page-number word-wrap">
+                                        <a href="{% url 'book' book.id %}"
+                                           class="reference">{{ book.upload_date|date:"d-m-Y" }}</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
         </div>
     </div>
 

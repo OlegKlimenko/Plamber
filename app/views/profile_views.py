@@ -10,7 +10,7 @@ from django.shortcuts import redirect, render, get_object_or_404
 
 from ..tasks import changed_password
 from ..forms import UploadAvatarForm, ChangePasswordForm
-from ..models import TheUser, AddedBook
+from ..models import AddedBook, Book, TheUser
 from ..utils import resize_image
 
 AVATAR_WIDTH = 250
@@ -33,8 +33,9 @@ def profile(request, profile_id):
             profile_user = get_object_or_404(TheUser, id_user=user)
 
             added_books = AddedBook.objects.filter(id_user=profile_user)
+            uploaded_books = Book.objects.filter(who_added=profile_user)
 
-            context = {'profile_user': profile_user, 'added_books': added_books}
+            context = {'profile_user': profile_user, 'added_books': added_books, 'uploaded_books': uploaded_books}
 
             if request.user.username == profile_user.id_user.username:
                 context['owner'] = True
