@@ -33,8 +33,27 @@ function renderPage(pdf, pageNumber) {
         var canvas = document.getElementById("page" + pageNumber);
         var context = canvas.getContext("2d");
 
-        canvas.height = scaledViewport.height;
-        canvas.width = scaledViewport.width;
+        var devicePixelRatio = window.devicePixelRatio || 1;
+        var backingStoreRatio = context.webkitBackingStorePixelRatio ||
+                                context.mozBackingStorePixelRatio ||
+                                context.msBackingStorePixelRatio ||
+                                context.oBackingStorePixelRatio ||
+                                context.backingStorePixelRatio || 1;
+
+        var ratio = devicePixelRatio / backingStoreRatio;
+
+        if (devicePixelRatio !== backingStoreRatio) {
+            var oldWidth = scaledViewport.width;
+            var oldHeight = scaledViewport.height;
+
+            canvas.width = oldWidth * ratio;
+            canvas.height = oldHeight * ratio;
+
+            canvas.style.width = oldWidth + 'px';
+            canvas.style.height = oldHeight + 'px';
+
+            context.scale(ratio, ratio);
+        }
 
         var renderContext = {
             canvasContext: context,
