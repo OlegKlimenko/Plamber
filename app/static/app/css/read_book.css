@@ -34,3 +34,13 @@
     text-align: center;
     width: 60px;
 }
+
+#loading {
+    display: none;
+    left: 50%;
+    top: 50%;
+    margin-left: -32px;
+    margin-top: -32px;
+    position: fixed;
+    z-index: 9999;
+}

@@ -32,6 +32,7 @@ function insertBooks(books) {
  * @param {number} sortCategory  The number of a category.
  */
 function sort(sortCategory, sortCriterion) {
+    loadDisplay();
     $.ajax({
         url: "sort",
         type: "GET",
@@ -40,6 +41,7 @@ function sort(sortCategory, sortCriterion) {
 
         success: function result(books) {
             insertBooks(books);
+            loadHide();
         }
     });
 }
@@ -68,6 +70,7 @@ function searchBooks(searchCategory) {
     var searchData = $("#search-input").val();
 
     if (searchData) {
+        loadDisplay();
         $.ajax({
             url: "search-book",
             type: "GET",
@@ -76,10 +79,27 @@ function searchBooks(searchCategory) {
 
             success: function result(books) {
                 insertBooks(books);
+                loadHide();
             }
         });
     }
     else {
         sort(searchCategory, "book_name");
     }
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+/**
+ * Displays the loading spinner
+ */
+function loadDisplay() {
+    $("#loading").css('display', 'block');
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+/**
+ * Hides the loading spinner
+ */
+function loadHide() {
+    $("#loading").css('display', 'none');
 }

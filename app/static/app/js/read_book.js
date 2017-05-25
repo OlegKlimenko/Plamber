@@ -41,7 +41,9 @@ function renderPage(pdf, pageNumber) {
             viewport: scaledViewport
         };
 
-        page.render(renderContext);
+        page.render(renderContext).then(function() {
+            loadHide();
+        })
     });
 }
 
@@ -202,6 +204,7 @@ function navigatePanel() {
  * Load pages when the document is ready.
  */
 $(document).ready(function() {
+    loadDisplay();
     loadPages();
     navigatePanel();
 });
@@ -212,8 +215,25 @@ $(document).ready(function() {
  */
 window.addEventListener("resize", function() {
     if (DESIRED_WIDTH != $('#container-width').width()) {
+        loadDisplay();
         navigatePanel();
         loadPages();
         RELOAD = true;
     }
 });
+
+// ---------------------------------------------------------------------------------------------------------------------
+/**
+ * Displays the loading spinner
+ */
+function loadDisplay() {
+    $("#loading").css('display', 'block');
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+/**
+ * Hides the loading spinner
+ */
+function loadHide() {
+    $("#loading").css('display', 'none');
+}

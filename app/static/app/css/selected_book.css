@@ -6,6 +6,10 @@
     margin-bottom: 10px;
 }
 
+#loading {
+    display: none;
+}
+
 #the-book-image {
     border: 1px solid #9aa6ad;
     border-radius: 2px;
@@ -15,10 +19,17 @@
     display: none;
 }
 
+#avg-mach {
+    margin-top: 10px;
+}
+
 .stats {
     color: #9aa6ad;
     font: 16pt 'Lucida Grande', Arial, sans-serif;
-    margin-top: 10px;
+}
+
+#added-count {
+    margin-bottom: 10px;
 }
 
 #rating {

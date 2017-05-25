@@ -59,6 +59,11 @@
 
                 <!--Left side-->
                 <div class="col-sm-5 col-md-4 col-lg-3">
+                    <div id="loading" align="center">
+                        <p>Загрузка изображения</p>
+                        <p><img src="{% static 'app/images/loading.gif' %}"></p>
+                    </div>
+
                     <img class="img-responsive" id="the-book-image"
                          src="{% if book.photo %}{{ book.photo.url }}{% endif %}">
                     <canvas id="book-image" class="book-meta"></canvas>
@@ -69,7 +74,7 @@
                         Рейтинг книги: <b id="rating">{{ book_rating|floatformat }}</b> <i id="rating-count">{{ book_rating_count }}</i>
                     </div>
 
-                    <div class="stats" align="left">
+                    <div id="added-count" class="stats" align="left">
                         Читают: <b class="added-count">{{ added_book_count }}</b>
                     </div>
 

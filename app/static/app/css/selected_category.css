@@ -91,3 +91,11 @@
 .footer-margin {
     margin-bottom: 40px;
 }
+
+#loading {
+    display: none;
+    left: 50%;
+    margin-left: -32px;
+    position: fixed;
+    z-index: 9999;
+}

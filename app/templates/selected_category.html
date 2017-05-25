@@ -76,8 +76,11 @@
                     </div>
                 {% endif %}
 
+                <img id="loading" src="{% static 'app/images/loading.gif' %}">
+
                 <!--Area with books list-->
                 <div class="col-sm-16 col-md-16 col-lg-16 books-area">
+
                     {% if books %}
                         {% for book in books %}
                             <a href="{% url 'book' book.id %}">

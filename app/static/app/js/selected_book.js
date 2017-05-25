@@ -8,7 +8,9 @@ function fetchData() {
     var canvas = document.getElementById("book-image");
     var dataURL = canvas.toDataURL();
 
+    $("#loading").css("display", "none");
     $("#the-book-image").attr("src", dataURL);
+
     BOOK_IMAGE = dataURL;
 }
 
@@ -82,6 +84,7 @@ $(document).ready(function() {
     var src = $("#the-book-image").attr("src");
     if (src) {}
     else {
+        $("#loading").css("display", "block");
         loadImage();
     }
 });
