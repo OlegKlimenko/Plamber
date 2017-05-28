@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="yandex-verification" content="a47c874dc2de855e" />
+    <meta name='wmail-verification' content='036d59550baaddc2abb39fd16a1ab6b6' />
     <title>Plamber</title>
     <link rel="shortcut icon" href="{% static 'app/images/favicon.ico' %}" type="image/x-icon">
     <link rel="stylesheet" href="{% static 'app/css/general/buttons.css' %}">
@@ -67,7 +69,7 @@
         <div class="row">
             <div class="col-sm-5 col-md-4 col-lg-4">
                 <div class="intro">
-                    <h2 class="header-color"><b>Читайте книги онлайн!</b></h2>
+                    <h2 class="header-color"><strong>Читайте книги онлайн!</strong></h2>
                     <h3 class="header-color header-font">
                         Получи уникальную возможность
                         всегда иметь доступ к своей любимой
@@ -91,7 +93,7 @@
         <div class="container container-margin footer-margin">
             <div class="row">
                 <div class="col-sm-6 col-md-5 col-lg-5">
-                    <div class="margin-header header-color"><h2><b>Bход</b></h2></div>
+                    <div class="margin-header header-color"><h2><strong>Bход</strong></h2></div>
 
                     <form action="/" method="POST">
                         {% csrf_token %}
@@ -105,7 +107,7 @@
                         </div>
                         <div class="margin" align="right">
                             {% if invalid_authentication %}
-                                <div class="error-msg error-text"><b>Логин или пароль введен не верно!</b></div>
+                                <div class="error-msg error-text"><strong>Логин или пароль введен не верно!</strong></div>
                             {% endif %}
                             <a href="#" class="auth-msg reference" onclick="forgotPageShow()">Забыли пароль?</a>
                             <button class="btn enter-button margin" onclick="logInPageHide()">Назад</button>
@@ -122,7 +124,7 @@
         <div class="container container-margin footer-margin">
             <div class="row">
                 <div class="col-sm-6 col-md-5 col-lg-5">
-                    <div class="margin-header header-color"><h2><b>Регистрация</b></h2></div>
+                    <div class="margin-header header-color"><h2><strong>Регистрация</strong></h2></div>
                     <form action="{% url 'sign_in' %}" method="POST" onsubmit="isSignInAvailable(this); return false;">
                         {% csrf_token %}
                         <div>
@@ -131,14 +133,14 @@
                                    oninvalid="usernameSignInMessage(this)" oninput="checkUserNotExists()" required>
                         </div>
                         <div id="user-exists" class="error-msg error-text">
-                            <b>Пользователь с таким именем уже существует.</b>
+                            <strong>Пользователь с таким именем уже существует.</strong>
                         </div>
                         <div>
                             <input id="mail-input" class="input input-colors margin" placeholder="Email"
                                    type="email" name="email" oninput="checkMailNotExists()" required>
                         </div>
                         <div id="mail-exists" class="error-msg error-text">
-                            <b>Пользователь с таким email уже существует.</b>
+                            <strong>Пользователь с таким email уже существует.</strong>
                         </div>
                         <div>
                             <input class="input input-colors margin" id="first-pass" placeholder="Пароль"
@@ -151,7 +153,7 @@
                                    oninvalid="passwordSignInMessage(this)" oninput="checkEqualPassLines()" required>
                         </div>
                         <div id="pass-wrong-message" class="error-msg error-text">
-                            <b>Пароли должны быть одинаковые!</b>
+                            <strong>Пароли должны быть одинаковые!</strong>
                         </div>
                         <div class="margin" align="right">
                             <button class="btn enter-button margin" onclick="registerPageHide()">Назад</button>
@@ -168,7 +170,7 @@
         <div class="container container-margin footer-margin">
             <div class="row">
                 <div class="col-sm-6 col-md-5 col-lg-5">
-                    <div class="margin-header header-color"><h2><b>Восстановление пароля</b></h2></div>
+                    <div class="margin-header header-color"><h2><strong>Восстановление пароля</strong></h2></div>
                     <p class="header-color header-font">Забыли пароль? Введите ваш Email
                         адрес и мы отправим вам письмо для восстановления данных.</p>
                     <div>
