@@ -29,6 +29,6 @@ Plamber is released under [Apache 2.0 License](http://www.apache.org/licenses/LI
 ## Special thanks
 
 * __Milana Kharitonova__ - Helping in generate ideas, pages design, creating logos, styles and fonts
-* __[Dmitriy Kischenko]__(https://github.com/sys27) - Review and bug reports
+* [Dmitriy Kischenko](https://github.com/sys27) - Review and bug reports
 * __Evgeniy Krasnikov__ - Review and bug reports
 * __Andrey Yampolskii__ - Review, features proposal, bug reports
