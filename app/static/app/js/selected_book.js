@@ -183,3 +183,16 @@ function addComment(idBook) {
         }
     });
 }
+
+// ---------------------------------------------------------------------------------------------------------------------
+/**
+ * Sends comment py pressing enter key.
+ *
+ * @param {object} event Standard event.
+ * @param {number} id    Book identifier which is used to add comment.
+ */
+function addMessage(event, id) {
+    if (event.keyCode == 13) {
+        addComment(id);
+    }
+}

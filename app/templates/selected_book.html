@@ -134,7 +134,7 @@
             </div>
         </div>
 
-        <!--Area for adding comment-->
+        <!--Recommend books area-->
         {% if recommend_books %}
             <div class="row margin">
                 <div class="col-sm-12 col-md-12 col-lg-12">
@@ -175,7 +175,7 @@
                         </div>
                         <div class="col-sm-10 col-md-10 col-lg-10 col-xs-7">
                             <textarea id="add-comment-text" class="input input-colors" maxlength="500"
-                                      placeholder="Введите текст..."></textarea>
+                                      placeholder="Введите текст..." onkeypress="addMessage(event, {{ book.id }})"></textarea>
                             <div align="right"><button id="comment-button" class="btn"
                                     onclick="addComment({{ book.id }})">Отправить</button></div>
                         </div>
