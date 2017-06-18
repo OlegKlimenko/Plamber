@@ -3,6 +3,7 @@
 import json
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
+from django.utils.html import escape
 
 from ..forms import SortForm, SearchBookForm
 from ..models import Category, Book
@@ -73,6 +74,10 @@ def sort(request):
             category = Category.objects.get(id=sort_form.cleaned_data['category'])
 
             books = criterion_dict[sort_form.cleaned_data['criterion']](category)
+            for book in books:
+                book['name'] = escape(book['name'])
+                book['author'] = escape(book['author'])
+
             return HttpResponse(json.dumps(books), content_type='application/json')
     else:
         return HttpResponse(status=404)
@@ -95,6 +100,9 @@ def find_books(request):
 
             filtered_books = Book.fetch_books(search_data)
             books = Book.generate_books(filtered_books)
+            for book in books:
+                book['name'] = escape(book['name'])
+                book['author'] = escape(book['author'])
 
             return HttpResponse(json.dumps(books), content_type='application/json')
     else:

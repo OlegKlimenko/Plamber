@@ -10,11 +10,12 @@ from django.db import transaction
 from django.db.models import Avg
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
+from django.utils.html import escape
 
 from ..forms import BookHomeForm, AddCommentForm, ChangeRatingForm, StoreBookImageForm
 from ..models import AddedBook, Book, BookRating, BookComment, TheUser
 from ..recommend import get_recommend
-from ..utils import html_escape, resize_image
+from ..utils import resize_image
 
 BOOK_COVER_HEIGHT = 350
 RANDOM_BOOKS_COUNT = 6
@@ -204,8 +205,8 @@ def add_comment(request):
                         .format(user, comment.id, comment.id_book.id))
 
             response_data = {
-                'text': html_escape(comment.text),
-                'username': request.user.username,
+                'text': escape(comment.text),
+                'username': escape(request.user.username),
                 'user_photo': user_photo,
                 'posted_date': comment.posted_date.strftime('%d-%m-%Y')
             }

@@ -107,7 +107,8 @@
                         {% csrf_token %}
                         <div>
                             <input class="input input-colors margin" placeholder="Имя пользователя"
-                                   type="text" maxlength="30" name="username" required>
+                                   type="text" maxlength="30" pattern="^[a-zA-Z0-9_]{2,30}"
+                                   name="username" oninvalid="usernameSignInMessage(this)" required>
                         </div>
                         <div>
                             <input class="input input-colors margin" placeholder="Пароль"

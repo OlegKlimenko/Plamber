@@ -6,6 +6,7 @@ import logging
 from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
+from django.utils.html import escape
 
 from ..forms import GenerateAuthorsForm, AddBookForm
 from ..models import Author, Book, Category, Language
@@ -44,7 +45,9 @@ def generate_authors(request):
         authors_form = GenerateAuthorsForm(request.GET)
 
         if authors_form.is_valid():
-            list_of_authors = Author.get_authors_list(authors_form.cleaned_data['part'])
+            list_of_authors = [escape(author) for author in
+                               Author.get_authors_list(authors_form.cleaned_data['part'])]
+
             return HttpResponse(json.dumps(list_of_authors), content_type='application/json')
     else:
         return HttpResponse(status=404)

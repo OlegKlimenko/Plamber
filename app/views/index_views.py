@@ -136,12 +136,11 @@ def sign_in(request):
                                                 password=sign_in_form.cleaned_data['passw1'])
                 TheUser.objects.create(id_user=user)
 
-                successful_registration.delay(user.username, user.email)
-
                 logger.info("Created user with name: '{}' mail: '{}' and id: '{}'"
                             .format(user.username, user.email, user.id))
-
                 login(request, user)
+
+                successful_registration.delay(user.username, user.email)
 
                 return redirect('/')
 

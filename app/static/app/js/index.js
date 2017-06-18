@@ -61,7 +61,7 @@ function forgotPageHide() {
 
 // ---------------------------------------------------------------------------------------------------------------------
 /**
- * Changes standard message in username 'Input' field for signing new user.
+ * Changes standard message in username 'Input' field.
  *
  * @param {Object} input
  */

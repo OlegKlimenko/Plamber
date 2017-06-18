@@ -4,6 +4,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.core.validators import MinLengthValidator, MaxLengthValidator
+from django.core.validators import RegexValidator, EmailValidator
 
 from .validators import validate_image, validate_pdf
 
@@ -13,7 +14,8 @@ class IsUserExistsForm(forms.Form):
     """
     Class for form if user is exists.
     """
-    username = forms.CharField(max_length=30)
+    username = forms.CharField(max_length=30,
+                               validators=[RegexValidator(regex='^[a-zA-Z0-9_]{2,30}')])
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -21,7 +23,8 @@ class IsMailExistsForm(forms.Form):
     """
     Class for form if mail is exists.
     """
-    email = forms.CharField(max_length=320)
+    email = forms.CharField(max_length=320,
+                            validators=[EmailValidator()])
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -29,10 +32,18 @@ class SignInForm(forms.Form):
     """
     Class for creating new user form.
     """
-    username = forms.CharField(max_length=30, validators=[MinLengthValidator(2), MaxLengthValidator(30)])
-    email = forms.CharField(max_length=320)
-    passw1 = forms.CharField(max_length=16)
-    passw2 = forms.CharField(max_length=16)
+    username = forms.CharField(max_length=30,
+                               validators=[RegexValidator(regex='^[a-zA-Z0-9_]{2,30}'),
+                                           MinLengthValidator(2),
+                                           MaxLengthValidator(30)])
+    email = forms.CharField(max_length=320,
+                            validators=[EmailValidator()])
+    passw1 = forms.CharField(max_length=16,
+                             validators=[MinLengthValidator(6),
+                                         MaxLengthValidator(16)])
+    passw2 = forms.CharField(max_length=16,
+                             validators=[MinLengthValidator(6),
+                                         MaxLengthValidator(16)])
 
     def clean(self):
         """
@@ -49,7 +60,8 @@ class LogInForm(forms.Form):
     """
     Class for login form.
     """
-    username = forms.CharField(max_length=30)
+    username = forms.CharField(max_length=30,
+                               validators=[RegexValidator(regex='^[a-zA-Z0-9_]{2,30}')])
     passw = forms.CharField(max_length=16)
 
 
@@ -166,4 +178,5 @@ class ForgotPasswordForm(forms.Form):
     """
     Form for checking the mail for password recovery.
     """
-    email = forms.CharField(max_length=255)
+    email = forms.CharField(max_length=320,
+                            validators=[EmailValidator()])
