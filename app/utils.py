@@ -108,8 +108,8 @@ def validate_captcha(captcha_post):
         'secret': settings.GOOGLE_RECAPTCHA_SECRET_KEY,
         'response': captcha_post
     }
-    response = requests.post('https://www.google.com/recaptcha/api/siteverify', data=data).json()
 
+    response = requests.post('https://www.google.com/recaptcha/api/siteverify', data=data, verify=False).json()
     if response['success']:
         validated = True
 

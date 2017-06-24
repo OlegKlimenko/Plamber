@@ -132,7 +132,7 @@ def sign_in(request):
             re_captcha_response = request.POST.get('g-recaptcha-response', '')
 
             if validate_captcha(re_captcha_response):
-
+                print('CAPTCHA VALIDATED!!!!')
                 with transaction.atomic():
                     user = User.objects.create_user(username=sign_in_form.cleaned_data['username'],
                                                     email=sign_in_form.cleaned_data['email'],
