@@ -14,7 +14,7 @@ from ..forms import LogInForm, IsUserExistsForm, IsMailExistsForm, SignInForm, F
 from ..models import AddedBook, TheUser
 from ..recommend import get_recommend
 from ..tasks import restore_account, successful_registration
-from ..utils import generate_password
+from ..utils import generate_password, validate_captcha
 
 RANDOM_BOOKS_COUNT = 4
 
@@ -66,7 +66,6 @@ def user_login(request):
     if log_in_form.is_valid():
         user = authenticate(username=log_in_form.cleaned_data['username'],
                             password=log_in_form.cleaned_data['passw'])
-
         if user:
             login(request, user)
             logger.info("User '{}' logged in.".format(user.username))
@@ -130,19 +129,21 @@ def sign_in(request):
         sign_in_form = SignInForm(request.POST)
 
         if sign_in_form.is_valid():
-            with transaction.atomic():
-                user = User.objects.create_user(username=sign_in_form.cleaned_data['username'],
-                                                email=sign_in_form.cleaned_data['email'],
-                                                password=sign_in_form.cleaned_data['passw1'])
-                TheUser.objects.create(id_user=user)
+            if validate_captcha(sign_in_form.cleaned_data['g-recaptcha-response']):
 
-                logger.info("Created user with name: '{}' mail: '{}' and id: '{}'"
-                            .format(user.username, user.email, user.id))
-                login(request, user)
+                with transaction.atomic():
+                    user = User.objects.create_user(username=sign_in_form.cleaned_data['username'],
+                                                    email=sign_in_form.cleaned_data['email'],
+                                                    password=sign_in_form.cleaned_data['passw1'])
+                    TheUser.objects.create(id_user=user)
 
-                successful_registration.delay(user.username, user.email)
+                    logger.info("Created user with name: '{}' mail: '{}' and id: '{}'"
+                                .format(user.username, user.email, user.id))
+                    login(request, user)
 
-                return redirect('/')
+                    successful_registration.delay(user.username, user.email)
+
+            return redirect('/')
 
 
 # ----------------------------------------------------------------------------------------------------------------------

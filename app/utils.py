@@ -5,7 +5,10 @@ import random
 import string
 import subprocess
 
+from django.conf import settings
+
 import PyPDF2
+import requests
 from PIL import Image
 
 PASSWORD_LENGTH = 12
@@ -89,3 +92,25 @@ def resize_image(path, width):
 
     except IOError:
         pass
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+def validate_captcha(captcha_post):
+    """
+    Validates the Google re-captcha data.
+
+    :param str captcha_post: The re-captcha post data
+    :return bool:
+    """
+    validated = False
+
+    data = {
+        'secret': settings.GOOGLE_RECAPTCHA_SECRET_KEY,
+        'response': captcha_post
+    }
+    response = requests.post('https://www.google.com/recaptcha/api/siteverify', data=data).json()
+
+    if response['success']:
+        validated = True
+
+    return validated

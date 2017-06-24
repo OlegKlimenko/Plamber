@@ -26,6 +26,7 @@ with open(BASE_DIR + '/Plamber/settings.json') as file:
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = settings['SECRET_KEY']
+GOOGLE_RECAPTCHA_SECRET_KEY = settings['GOOGLE_RECAPTCHA_SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = settings['DEBUG']
