@@ -129,9 +129,10 @@ def sign_in(request):
         sign_in_form = SignInForm(request.POST)
 
         if sign_in_form.is_valid():
-            re_captcha_response = sign_in_form.get('g-recaptcha-response', '')
-            
+            re_captcha_response = request.POST.get('g-recaptcha-response', '')
+
             if validate_captcha(re_captcha_response):
+
                 with transaction.atomic():
                     user = User.objects.create_user(username=sign_in_form.cleaned_data['username'],
                                                     email=sign_in_form.cleaned_data['email'],
