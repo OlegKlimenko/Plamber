@@ -165,8 +165,13 @@ function isSignInAvailable(event) {
     var isUserExists = document.getElementById("user-exists").style.display;
     var isMailExists = document.getElementById("mail-exists").style.display;
     var isLinesEqual = document.getElementById("pass-wrong-message").style.display;
+    var captcha = $('#g-recaptcha-response').val();
 
-    if (isUserExists === "none" && isLinesEqual === "none" && isMailExists === "none") {
+    if (!captcha) {
+        $('#no-captcha').css('display', 'block');
+    }
+
+    if (isUserExists === "none" && isLinesEqual === "none" && isMailExists === "none" && captcha) {
         event.submit();
     }
 }

@@ -83,3 +83,7 @@
 .footer-margin {
     margin-bottom: 40px;
 }
+
+#no-captcha {
+    display: none;
+}
