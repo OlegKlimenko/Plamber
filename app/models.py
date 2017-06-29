@@ -7,6 +7,8 @@ from django.db.models import Avg, Count
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.urls import reverse
+from django.utils.html import escape
 
 from .storage import OverwriteStorage
 
@@ -233,7 +235,7 @@ class Book(models.Model):
 
         return books
 
-    # ----------------------------------------------------------------------------------------------------------------------
+    # ------------------------------------------------------------------------------------------------------------------
     @staticmethod
     def fetch_books(search_data):
         """
@@ -248,6 +250,18 @@ class Book(models.Model):
         filtered_books += list(Book.objects.filter(id_author__author_name__icontains=search_data))
 
         return list(set(filtered_books))
+
+    # ------------------------------------------------------------------------------------------------------------------
+    @staticmethod
+    def generate_existing_books(book_part):
+        """
+        Returns a list of books.
+
+        :param str book_part: Criterion for returning books.
+        :return:
+        """
+        return [{'url': reverse('book', args=[escape(item[0])]), 'name': escape(item[1])} for item in
+                Book.objects.filter(book_name__icontains=book_part)[:10].values_list('id', 'book_name')]
 
 
 # ----------------------------------------------------------------------------------------------------------------------

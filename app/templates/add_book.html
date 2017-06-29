@@ -69,15 +69,20 @@
                     {% csrf_token %}
 
                     <div class="margin">
-                        <input class="input input-colors" placeholder="Название книги" maxlength="150"
-                               name="bookname" required>
+                        <input id="book-input" class="input input-colors" placeholder="Название книги"
+                               maxlength="150" name="bookname" oninput="generateBooks()" required>
                     </div>
+                    <div id="div-books-list-header" align="left">
+                        <h4>Может такая книга уже есть? Просто начните читать:</h4></div>
+                    <div id="div-books-list" class="margin word-wrap"></div>
+
                     <div class="margin">
                         <input id="author-input" class="input input-colors" placeholder="Автор"
                                maxlength="100" name="author" oninput="generateAuthors()" required>
                     </div>
                     <div id="div-authors-list-header" align="left"><h4>Bы можете выбрать автора из списка:</h4></div>
                     <div id="div-authors-list" class="margin word-wrap"></div>
+
                     <div class="input-header margin" align="right">
                         Категория
                         <select class="select-box input input-colors" name="category" required>

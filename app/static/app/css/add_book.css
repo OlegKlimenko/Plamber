@@ -19,6 +19,15 @@
     font: 12pt 'Lucida Grande', Arial, sans-serif;
 }
 
+#div-books-list-header {
+    display: none;
+}
+
+#div-books-list {
+    display: none;
+    font: 12pt 'Lucida Grande', Arial, sans-serif;
+}
+
 .input-header {
     font: 14pt 'Comfortaa', cursive;
 }

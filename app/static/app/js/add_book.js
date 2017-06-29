@@ -16,10 +16,6 @@ function insertAuthors(authors) {
                                           authors[author] + "</a></div>");
         }
     }
-    else {
-        $("#div-authors-list-header").css("display", "none");
-        $("#div-authors-list").empty();
-    }
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -37,6 +33,52 @@ function generateAuthors() {
                 insertAuthors(authors);
             }
         });
+    }
+    else {
+        $("#div-authors-list-header").css("display", "none");
+        $("#div-authors-list").empty();
+    }
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+/**
+ * Inserts books in HTML document, depending on count of books.
+ *
+ * @param {Object} books The list of authors.
+ */
+function insertBooks(books) {
+    if (books.length > 0) {
+        $("#div-books-list").css("display", "block");
+        $("#div-books-list-header").css("display", "block");
+        $("#div-books-list").empty();
+
+        for (var book = 0; book < books.length; book++) {
+            $("#div-books-list").append("<div align='left'>" +
+                                          "<a class='reference' href='" + books[book]['url'] + "'>" +
+                                          books[book]['name'] + "</a></div>");
+        }
+    }
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+/**
+ * Creates Ajax request for generating book list.
+ */
+function generateBooks() {
+    if ($("#book-input").val() !== "") {
+        $.ajax({
+            url: "generate-books",
+            type: "GET",
+            data: {part: $("#book-input").val()},
+
+            success: function result(books) {
+                insertBooks(books)
+            }
+        });
+    }
+    else {
+        $("#div-books-list-header").css("display", "none");
+        $("#div-books-list").empty();
     }
 }
 

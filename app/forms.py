@@ -68,9 +68,17 @@ class LogInForm(forms.Form):
 # ----------------------------------------------------------------------------------------------------------------------
 class GenerateAuthorsForm(forms.Form):
     """
-    Class for form of generating authors of special criterion.
+    Class for form of generating authors with special criterion.
     """
     part = forms.CharField(max_length=70)
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+class GenerateBooksForm(forms.Form):
+    """
+    Class for form of generating books with special criterion.
+    """
+    part = forms.CharField(max_length=150)
 
 
 # ----------------------------------------------------------------------------------------------------------------------
