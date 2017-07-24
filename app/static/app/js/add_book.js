@@ -44,7 +44,7 @@ function generateAuthors() {
 /**
  * Inserts books in HTML document, depending on count of books.
  *
- * @param {Object} books The list of authors.
+ * @param {Object} books The list of books.
  */
 function insertBooks(books) {
     if (books.length > 0) {

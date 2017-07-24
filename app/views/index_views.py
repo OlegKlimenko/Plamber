@@ -90,6 +90,7 @@ def is_user_exists(request):
             try:
                 User.objects.get(username=is_user_exists_form.cleaned_data['username'])
                 return HttpResponse(json.dumps(True), content_type='application/json')
+
             except ObjectDoesNotExist:
                 return HttpResponse(json.dumps(False), content_type='application/json')
     else:
@@ -111,6 +112,7 @@ def is_mail_exists(request):
             try:
                 User.objects.get(email=is_mail_exists_form.cleaned_data['email'])
                 return HttpResponse(json.dumps(True), content_type='application/json')
+
             except ObjectDoesNotExist:
                 return HttpResponse(json.dumps(False), content_type='application/json')
     else:

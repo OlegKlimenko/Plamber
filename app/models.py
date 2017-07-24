@@ -187,7 +187,7 @@ class Book(models.Model):
             book = {'id': item.id,
                     'name': item.book_name,
                     'author': item.id_author.author_name,
-                    'url': item.photo.url,
+                    'url': item.photo.url if item.photo else '',
                     'rating': book_rating['rating__avg']}
             books.append(book)
 
@@ -211,7 +211,7 @@ class Book(models.Model):
             book = {'id': item.id,
                     'name': item.book_name,
                     'author': item.id_author.author_name,
-                    'url': item.photo.url,
+                    'url': item.photo.url if item.photo else '',
                     'read_count': book_read_count['id_user__count']}
             books.append(book)
 
@@ -230,7 +230,7 @@ class Book(models.Model):
             {'id': item.id,
              'name': item.book_name,
              'author': item.id_author.author_name,
-             'url': item.photo.url} for item in filtered_books
+             'url': item.photo.url if item.photo else ''} for item in filtered_books
         ]
 
         return books
