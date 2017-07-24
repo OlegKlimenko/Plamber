@@ -93,11 +93,11 @@
                     <button class="btn manage-button margin" onclick="showChangePasswordArea()">Сменить пароль</button>
                     <div id="change-password">
                         <input id="prev-password" class="input input-colors margin"
-                               placeholder="Старый пароль" type="password" maxlength="16">
+                               placeholder="Старый пароль" type="password" autocomplete="off" maxlength="16">
                         <input id="new-password-one" class="input input-colors margin"
-                               placeholder="Новый пароль" type="password" maxlength="16">
+                               placeholder="Новый пароль" type="password" autocomplete="off" maxlength="16">
                         <input id="new-password-two" class="input input-colors margin"
-                               placeholder="Повторите пароль" type="password" maxlength="16">
+                               placeholder="Повторите пароль" type="password" autocomplete="off" maxlength="16">
                         <div>
                             <div id="eye-div">Показать пароли</div>
                             <img class="eye-img" src="{% static 'app/images/eye.png' %}" width="48" height="48"

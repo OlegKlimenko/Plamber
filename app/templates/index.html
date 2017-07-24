@@ -113,7 +113,7 @@
                         </div>
                         <div>
                             <input class="input input-colors margin" placeholder="Пароль"
-                                   type="password" maxlength="16" name="passw" required>
+                                   type="password" maxlength="16" name="passw" autocomplete="off" required>
                         </div>
                         <div class="margin" align="right">
                             {% if invalid_authentication %}
@@ -155,12 +155,13 @@
                         <div>
                             <input class="input input-colors margin" id="first-pass" placeholder="Пароль"
                                    type="password" pattern="^[a-zA-Z0-9_]{6,16}" oninvalid="passwordSignInMessage(this)"
-                                   name="passw1" oninput="checkEqualPassLines()" required>
+                                   name="passw1" oninput="checkEqualPassLines()" autocomplete="off" required>
                         </div>
                         <div>
                             <input class="input input-colors margin" id="second-pass" name="passw2"
-                                   placeholder="Повторите Пароль" type="password" pattern="^[a-zA-Z0-9_]{6,16}"
-                                   oninvalid="passwordSignInMessage(this)" oninput="checkEqualPassLines()" required>
+                                   placeholder="Повторите Пароль" type="password" autocomplete="off"
+                                   pattern="^[a-zA-Z0-9_]{6,16}" oninvalid="passwordSignInMessage(this)"
+                                   oninput="checkEqualPassLines()" required>
                         </div>
                         <div id="pass-wrong-message" class="error-msg error-text">
                             <strong>Пароли должны быть одинаковые!</strong>

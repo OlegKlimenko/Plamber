@@ -33,6 +33,9 @@ DEBUG = settings['DEBUG']
 
 ALLOWED_HOSTS = settings['ALLOWED_HOSTS']
 
+CSRF_COOKIE_SECURE = settings['CSRF_COOKIE_SECURE']
+SESSION_COOKIE_SECURE = settings['SESSION_COOKIE_SECURE']
+
 # Application definition
 
 INSTALLED_APPS = (

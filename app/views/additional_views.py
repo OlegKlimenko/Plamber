@@ -18,10 +18,14 @@ def user_logout(request):
     :param django.core.handlers.wsgi.WSGIRequest request: The request for log out.
     :return: Index page.
     """
-    logger.info("User '{}' logged out.".format(request.user))
+    if request.method == 'POST':
+        logger.info("User '{}' logged out.".format(request.user))
 
-    logout(request)
-    return redirect('index')
+        logout(request)
+        return redirect('index')
+
+    else:
+        return HttpResponse(status=404)
 
 
 # ----------------------------------------------------------------------------------------------------------------------
