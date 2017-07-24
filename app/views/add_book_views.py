@@ -9,7 +9,7 @@ from django.shortcuts import redirect, render
 from django.utils.html import escape
 
 from ..forms import GenerateAuthorsForm, AddBookForm, GenerateBooksForm
-from ..models import Author, Book, Category, Language
+from ..models import AddedBook, Author, Book, Category, Language
 from ..tasks import compress_pdf_task
 
 logger = logging.getLogger('changes')
@@ -95,6 +95,9 @@ def add_book_successful(request):
                                            language=rel_objects['lang'],
                                            book_file=book_form.cleaned_data['bookfile'],
                                            who_added=rel_objects['user'])
+
+                AddedBook.objects.create(id_user=rel_objects['user'],
+                                         id_book=book)
 
                 logger.info("User '{}' uploaded book with id: '{}' and name: '{}' on category: '{}'."
                             .format(rel_objects['user'], book.id, book.book_name, rel_objects['category']))
