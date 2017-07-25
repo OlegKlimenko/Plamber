@@ -1,63 +1,18 @@
-<!DOCTYPE html>
+{% extends 'main/base.html' %}
 {% load staticfiles %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Категории</title>
-    <link rel="shortcut icon" href="{% static 'app/images/favicon.ico' %}" type="image/x-icon">
+
+{% block title %}Категории{% endblock %}
+
+{% block css %}
     <link rel="stylesheet" href="{% static 'app/css/general.css' %}">
     <link rel="stylesheet" href="{% static 'app/css/categories.css' %}">
-    <link rel="stylesheet" href="{% static 'app/css/third_party/bootstrap.css' %}">
-    <link rel="stylesheet" href="{% static 'app/css/third_party/bootstrap-theme.css' %}">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Comfortaa&subset=cyrillic,cyrillic-ext,latin-ext">
+{% endblock %}
 
-    <script src="{% static 'app/js/third_party/jquery.js' %}"></script>
-    <script src="{% static 'app/js/third_party/bootstrap.min.js' %}"></script>
-    <script src="{% static 'app/js/helper/special.js' %}"></script>
+{% block js %}
     <script src="{% static 'app/js/categories.js' %}"></script>
+{% endblock %}
 
-    <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-        ga('create', 'UA-100423566-1', 'auto');
-        ga('send', 'pageview');
-    </script>
-</head>
-<body>
-    <!--Header Area-->
-    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbarCollapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="/"><img src="{% static 'app/images/logo_beta.jpg' %}"></a>
-            </div>
-
-            <form id="logout" action="{% url 'logout' %}" method="POST">
-                {% csrf_token %}
-            </form>
-
-            <div class="collapse navbar-collapse" id="navbarCollapse">
-                <ul class="nav navbar-nav">
-                    <li><a href="{% url 'categories' %}">Библиотека</a></li>
-                    <li><a href="{% url 'index' %}">Мои книги</a></li>
-                    <li><a href="{% url 'profile' request.user.id %}">Профиль</a></li>
-                    <li><a href="{% url 'about' %}">О проекте</a></li>
-                    <li><a href="javascript:;" onclick="logout()">Выйти</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
+{% block content %}
     <!--Main info area-->
     <div id="main" class="container container-margin footer-margin">
         <div class="row">
@@ -92,35 +47,4 @@
             </div>
         </div>
     </div>
-
-    <!-- Yandex.Metrika counter -->
-    <script type="text/javascript">
-        (function (d, w, c) {
-            (w[c] = w[c] || []).push(function() {
-                try {
-                    w.yaCounter44888053 = new Ya.Metrika({
-                        id:44888053,
-                        clickmap:true,
-                        trackLinks:true,
-                        accurateTrackBounce:true,
-                        webvisor:true
-                    });
-                } catch(e) { }
-            });
-
-            var n = d.getElementsByTagName("script")[0],
-                s = d.createElement("script"),
-                f = function () { n.parentNode.insertBefore(s, n); };
-            s.type = "text/javascript";
-            s.async = true;
-            s.src = "https://mc.yandex.ru/metrika/watch.js";
-
-            if (w.opera == "[object Opera]") {
-                d.addEventListener("DOMContentLoaded", f, false);
-            } else { f(); }
-        })(document, window, "yandex_metrika_callbacks");
-    </script>
-    <noscript><div><img src="https://mc.yandex.ru/watch/44888053" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-    <!-- /Yandex.Metrika counter -->
-</body>
-</html>
+{% endblock %}
