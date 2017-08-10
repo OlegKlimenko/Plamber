@@ -92,6 +92,7 @@ class AddBookForm(forms.Form):
     language = forms.CharField(max_length=30)
     about = forms.CharField(widget=forms.Textarea)
     bookfile = forms.FileField(validators=[validate_pdf])
+    private = forms.BooleanField(required=False)
 
 
 # ----------------------------------------------------------------------------------------------------------------------

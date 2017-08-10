@@ -63,7 +63,7 @@ class BookAdmin(admin.ModelAdmin):
     """
     Class for pretty representation data of books in admin panel.
     """
-    list_display = ('id', 'book_name', 'author', 'category', 'language', 'who_added', 'upload_date')
+    list_display = ('id', 'book_name', 'author', 'category', 'language', 'private_book', 'who_added', 'upload_date')
 
     # ------------------------------------------------------------------------------------------------------------------
     @staticmethod

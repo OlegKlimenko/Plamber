@@ -47,7 +47,9 @@ def selected_category(request, category_id):
             category = Category.objects.get(id=category_id)
             books = Book.objects.filter(id_category=category).order_by('book_name')
 
-            context = {'category': category, 'books': books, 'category_number': category_id}
+            filtered_books = Book.exclude_private_books(request.user, books)
+
+            context = {'category': category, 'books': filtered_books, 'category_number': category_id}
             return render(request, 'selected_category.html', context)
 
         else:
@@ -72,8 +74,8 @@ def sort(request):
                               'most_readable': Book.sort_by_readable}
 
             category = Category.objects.get(id=sort_form.cleaned_data['category'])
+            books = criterion_dict[sort_form.cleaned_data['criterion']](request.user, category)
 
-            books = criterion_dict[sort_form.cleaned_data['criterion']](category)
             for book in books:
                 book['name'] = escape(book['name'])
                 book['author'] = escape(book['author'])
@@ -98,8 +100,9 @@ def find_books(request):
         if search_book_form.is_valid():
             search_data = search_book_form.cleaned_data['data']
 
-            filtered_books = Book.fetch_books(search_data)
+            filtered_books = Book.exclude_private_books(request.user, Book.fetch_books(search_data))
             books = Book.generate_books(filtered_books)
+
             for book in books:
                 book['name'] = escape(book['name'])
                 book['author'] = escape(book['author'])

@@ -91,6 +91,7 @@ class Book(models.Model):
     book_file = models.FileField(upload_to='book_file')
     who_added = models.ForeignKey(TheUser)
     upload_date = models.DateTimeField(auto_now=True)
+    private_book = models.BooleanField(default=False)
 
     # ------------------------------------------------------------------------------------------------------------------
     def __str__(self):
@@ -148,39 +149,49 @@ class Book(models.Model):
 
     # ------------------------------------------------------------------------------------------------------------------
     @staticmethod
-    def sort_by_book_name(category):
+    def sort_by_book_name(user, category):
         """
         Sorts books by book name.
 
-        :param app.models.Category category: The category.
+        :param django.contrib.auth.models.User  user:     The request user.
+        :param app.models.Category              category: The category.
+
         :return list[dict[str, str]]: list of books with data.
         """
-        filtered_books = Book.objects.filter(id_category=category).order_by('book_name')
+        books = Book.objects.filter(id_category=category).order_by('book_name')
+        filtered_books = Book.exclude_private_books(user, books)
+
         return Book.generate_books(filtered_books)
 
     # ------------------------------------------------------------------------------------------------------------------
     @staticmethod
-    def sort_by_author(category):
+    def sort_by_author(user, category):
         """
         Sorts books by author.
 
-        :param app.models.Category category: The category.
+        :param django.contrib.auth.models.User  user:     The request user.
+        :param app.models.Category              category: The category.
+
         :return list[dict[str, str]]: list of books with data.
         """
-        filtered_books = Book.objects.filter(id_category=category).order_by('id_author__author_name')
+        books = Book.objects.filter(id_category=category).order_by('id_author__author_name')
+        filtered_books = Book.exclude_private_books(user, books)
+
         return Book.generate_books(filtered_books)
 
     # ------------------------------------------------------------------------------------------------------------------
     @staticmethod
-    def sort_by_estimation(category):
+    def sort_by_estimation(user, category):
         """
         Sorts books by average count of estimation of each book. Uses aggregate function.
 
-        :param app.models.Category category: The category.
+        :param django.contrib.auth.models.User  user:     The request user.
+        :param app.models.Category              category: The category.
+
         :return: The list with sorted books.
         """
         books = []
-        filtered_books = Book.objects.filter(id_category=category)
+        filtered_books = Book.exclude_private_books(user, Book.objects.filter(id_category=category))
 
         for item in filtered_books:
             book_rating = BookRating.objects.filter(id_book=item).aggregate(Avg('rating'))
@@ -195,16 +206,18 @@ class Book(models.Model):
 
     # ------------------------------------------------------------------------------------------------------------------
     @staticmethod
-    def sort_by_readable(category):
+    def sort_by_readable(user, category):
         """
 
         Sorts books by most readable criterion. Uses aggregate 'count' function.
 
-        :param app.models.Category category: The category.
+        :param django.contrib.auth.models.User  user:     The request user.
+        :param app.models.Category              category: The category.
+
         :return: The list with sorted books.
         """
         books = []
-        filtered_books = Book.objects.filter(id_category=category)
+        filtered_books = Book.exclude_private_books(user, Book.objects.filter(id_category=category))
 
         for item in filtered_books:
             book_read_count = AddedBook.objects.filter(id_book=item).aggregate(Count('id_user'))
@@ -262,6 +275,28 @@ class Book(models.Model):
         """
         return [{'url': reverse('book', args=[escape(item[0])]), 'name': escape(item[1])} for item in
                 Book.objects.filter(book_name__icontains=book_part)[:10].values_list('id', 'book_name')]
+
+    # ------------------------------------------------------------------------------------------------------------------
+    @staticmethod
+    def exclude_private_books(user, books):
+        """
+        Returns the list of books without private books which not depend to current user
+
+        :param django.contrib.auth.models.User               user:         The request user.
+        :param django.db.models.query.QuerySet[.models.Book] books:        The given list of books.
+
+        :return list[.models.Book]: List of books.
+        """
+        the_user = TheUser.objects.get(id_user=user)
+        filtered_books = []
+
+        for book in books:
+            if book.private_book and book.who_added != the_user:
+                continue
+
+            filtered_books.append(book)
+
+        return filtered_books
 
 
 # ----------------------------------------------------------------------------------------------------------------------

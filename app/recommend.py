@@ -20,17 +20,18 @@ def get_recommend(user, books, result_count, extra):
 
     :return set[.models.Book]: The recommend books.
     """
-    added_books = get_by_added(books, result_count, extra)
+    added_books = get_by_added(user, books, result_count, extra)
 
     return added_books
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-def get_by_added(added_books, result_count, extra):
+def get_by_added(user, added_books, result_count, extra):
     """
     If added books is present, return random books from the most read by user category.
     Otherwise return random books from all categories.
 
+    :param django.contrib.auth.models.User                    user:         The request user.
     :param django.db.models.query.QuerySet[.models.AddedBook] added_books:  The user's added book list.
     :param int                                                result_count: The count of random generated books.
     :param list[int]                                          extra:        The list of id's of books which must
@@ -47,28 +48,30 @@ def get_by_added(added_books, result_count, extra):
         category_books = Book.objects.filter(id_category=most_read_category).exclude(id__in=added_books_ids)
 
         if category_books.count() > START_RECOMMEND:
-            return unique_books(category_books, result_count)
+            return unique_books(user, category_books, result_count)
         else:
-            return unique_books(Book.objects.all().exclude(id__in=extra), result_count)
+            return unique_books(user, Book.objects.all().exclude(id__in=extra), result_count)
 
     else:
-        return unique_books(Book.objects.all().exclude(id__in=extra), result_count)
+        return unique_books(user, Book.objects.all().exclude(id__in=extra), result_count)
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-def unique_books(books, result_count):
+def unique_books(user, books, result_count):
     """
     Return unique random books from given list of books.
 
+    :param django.contrib.auth.models.User               user:         The request user.
     :param django.db.models.query.QuerySet[.models.Book] books:        The given list of books.
     :param int                                           result_count: The count of unique books.
 
     :return set[.models.Book]: The unique books.
     """
+    books = Book.exclude_private_books(user, books)
     unique = set()
 
-    if books.count() > START_RECOMMEND:
+    if len(books) > START_RECOMMEND:
         while len(unique) < result_count:
-            unique.add(books[random.randint(0, books.count() - 1)])
+            unique.add(books[random.randint(0, len(books) - 1)])
 
     return unique

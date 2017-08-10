@@ -94,7 +94,8 @@ def add_book_successful(request):
                                            description=book_form.cleaned_data['about'],
                                            language=rel_objects['lang'],
                                            book_file=book_form.cleaned_data['bookfile'],
-                                           who_added=rel_objects['user'])
+                                           who_added=rel_objects['user'],
+                                           private_book=book_form.cleaned_data['private'])
 
                 AddedBook.objects.create(id_user=rel_objects['user'],
                                          id_book=book)

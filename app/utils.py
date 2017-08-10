@@ -5,11 +5,11 @@ import random
 import string
 import subprocess
 
-from django.conf import settings
-
 import PyPDF2
 import requests
 from PIL import Image
+
+from django.conf import settings
 
 PASSWORD_LENGTH = 12
 

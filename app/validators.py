@@ -17,7 +17,7 @@ def validate_image(value):
     :param str value: The file object.
     """
     if not imghdr.what(value):
-        raise ValidationError('Try to upload not an image!')
+        raise ValidationError('Tried to upload not an image!')
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -31,4 +31,4 @@ def validate_pdf(value):
     try:
         PyPDF2.PdfFileReader(io.BytesIO(value.read()))
     except PyPDF2.utils.PdfReadError:
-        raise ValidationError('Try to upload not PDF as a book!')
+        raise ValidationError('Tried to upload not PDF as a book!')

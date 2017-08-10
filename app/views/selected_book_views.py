@@ -36,6 +36,9 @@ def selected_book(request, book_id):
         rel_objects = Book.get_related_objects_selected_book(request.user, book_id)
         user = TheUser.objects.get(id_user=request.user)
 
+        if rel_objects['book'].private_book and rel_objects['book'].who_added != user:
+            return HttpResponse(status=404)
+
         recommend_books = get_recommend(request.user, AddedBook.get_user_added_books(request.user),
                                         RANDOM_BOOKS_COUNT, [book_id])
         book_rating = rel_objects['avg_book_rating']['rating__avg']
@@ -99,6 +102,9 @@ def add_book_to_home(request):
         if book_form.is_valid():
             user = TheUser.objects.get(id_user=request.user)
             book = Book.objects.get(id=book_form.cleaned_data['book'])
+
+            if book.private_book and book.who_added != user:
+                return HttpResponse(status=404)
 
             AddedBook.objects.create(id_user=user, id_book=book)
 
