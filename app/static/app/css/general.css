@@ -45,3 +45,14 @@
     white-space: -o-pre-wrap;
     word-wrap: break-word;
 }
+
+#vk-ref {
+    opacity: 0.3;
+    position: fixed;
+    top: 40%;
+    z-index: 9999;
+}
+
+#vk-ref:hover {
+    opacity: 1;
+}
