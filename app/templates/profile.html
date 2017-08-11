@@ -98,7 +98,7 @@
                                            class="reference">{{ book.last_page }}</a>
                                     </td>
                                     {% if owner %}
-                                        <td>
+                                        <td title="Удалить книгу из списка читаемых вами">
                                             <button class="remove-book-button"
                                                     onclick="showRemoveSub({{ book.id_book.id }}, '{{ book.id_book.book_name }}');">x</button>
                                         </td>

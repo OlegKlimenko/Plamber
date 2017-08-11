@@ -21,6 +21,7 @@
                 <h3 class="header-color"><b>{{ category.category_name }}</b></h3>
                 {% if books %}
                     <input id="search-input" class="input input-colors" placeholder="Поиск..."
+                           title="Вводите любую информацию: название книги, автора..."
                            oninput="searchBooks({{ category.id }});" maxlength="255">
 
                     <!--Sort part of main area-->
