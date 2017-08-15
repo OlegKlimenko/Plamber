@@ -21,7 +21,7 @@ class TheUserAdmin(admin.ModelAdmin):
     """
     Class for pretty representation data of users in admin panel.
     """
-    list_display = ('id', 'username', 'email', 'date_joined')
+    list_display = ('id', 'username', 'email', 'auth_token', 'date_joined')
 
     # ------------------------------------------------------------------------------------------------------------------
     @staticmethod
