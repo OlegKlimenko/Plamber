@@ -17,6 +17,9 @@ handler500 = 'app.views.error_views.internal_error_500'
 urlpatterns = [
     url(r'^not/an/admin/url/', include(admin.site.urls)),
 
+    # API urls
+    url(r'^api/v1/', include('api.urls')),
+
     # Index urls.
     url(r'^$', index_views.index, name='index'),
     url(r'is-user-exists', index_views.is_user_exists),
