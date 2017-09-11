@@ -4,7 +4,6 @@
 {% block title %}{{ book.book_name }}{% endblock %}
 
 {% block css %}
-    <link rel="stylesheet" href="{% static 'app/css/general.css' %}">
     <link rel="stylesheet" href="{% static 'app/css/read_book.css' %}">
 {% endblock %}
 
@@ -16,6 +15,8 @@
 {% block header_additional %}
     <input id="small-page-num" class="input input-colors page-number">
 {% endblock %}
+
+{% block references %}{% endblock %}
 
 {% block content %}
     <div>

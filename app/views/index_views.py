@@ -11,7 +11,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 
 from ..forms import LogInForm, IsUserExistsForm, IsMailExistsForm, SignInForm, ForgotPasswordForm
-from ..models import AddedBook, TheUser
+from ..models import AddedBook
 from ..recommend import get_recommend
 from ..tasks import restore_account, successful_registration
 from ..utils import generate_password, validate_captcha
@@ -138,7 +138,6 @@ def sign_in(request):
                     user = User.objects.create_user(username=sign_in_form.cleaned_data['username'],
                                                     email=sign_in_form.cleaned_data['email'],
                                                     password=sign_in_form.cleaned_data['passw1'])
-                    TheUser.objects.create(id_user=user)
 
                     logger.info("Created user with name: '{}' mail: '{}' and id: '{}'"
                                 .format(user.username, user.email, user.id))

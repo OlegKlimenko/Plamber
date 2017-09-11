@@ -4,7 +4,6 @@
 {% block title %}{{ book.book_name }}{% endblock %}
 
 {% block css %}
-    <link rel="stylesheet" href="{% static 'app/css/general.css' %}">
     <link rel="stylesheet" href="{% static 'app/css/selected_book.css' %}">
 {% endblock %}
 
@@ -35,10 +34,11 @@
 
                     <!--Estimation Area-->
                     <div id="avg-mach" class="stats" align="left">
-                        Рейтинг книги: <b id="rating">{{ book_rating|floatformat }}</b> <i id="rating-count">{{ book_rating_count }}</i>
+                        Рейтинг книги: <b id="rating" title="Средняя оценка этой книги пользователями">{{ book_rating|floatformat }}</b>
+                        <i id="rating-count" title="Количество оценок книги">{{ book_rating_count }}</i>
                     </div>
 
-                    <div id="added-count" class="stats" align="left">
+                    <div id="added-count" class="stats" align="left" title="Количество пользователей читающих книгу">
                         Читают: <b class="added-count">{{ added_book_count }}</b>
                     </div>
 

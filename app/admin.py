@@ -12,7 +12,7 @@ class CustomUserAdmin(UserAdmin):
     """
     Class for specifying extra fields for admin panel.
     """
-    list_display = ('id',) + UserAdmin.list_display
+    list_display = ('id',) + UserAdmin.list_display + ('date_joined',)
     ordering = ('-id',)
 
 
@@ -21,7 +21,7 @@ class TheUserAdmin(admin.ModelAdmin):
     """
     Class for pretty representation data of users in admin panel.
     """
-    list_display = ('id', 'username', 'email')
+    list_display = ('id', 'username', 'email', 'auth_token', 'date_joined')
 
     # ------------------------------------------------------------------------------------------------------------------
     @staticmethod
@@ -32,6 +32,10 @@ class TheUserAdmin(admin.ModelAdmin):
     @staticmethod
     def email(obj):
         return obj.id_user.email
+
+    @staticmethod
+    def date_joined(obj):
+        return obj.id_user.date_joined
 
 
 # ----------------------------------------------------------------------------------------------------------------------

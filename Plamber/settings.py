@@ -45,7 +45,9 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'app',
+    'api'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -142,6 +144,15 @@ LOGGING = {
             'propagate': True,
         }
     }
+}
+
+# REST framework settings
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    )
 }
 
 # Mail settings

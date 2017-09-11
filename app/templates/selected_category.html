@@ -4,7 +4,6 @@
 {% block title %}{{ category.category_name }}{% endblock %}
 
 {% block css %}
-    <link rel="stylesheet" href="{% static 'app/css/general.css' %}">
     <link rel="stylesheet" href="{% static 'app/css/selected_category.css' %}">
 {% endblock %}
 
@@ -22,6 +21,7 @@
                 <h3 class="header-color"><b>{{ category.category_name }}</b></h3>
                 {% if books %}
                     <input id="search-input" class="input input-colors" placeholder="Поиск..."
+                           title="Вводите любую информацию: название книги, автора..."
                            oninput="searchBooks({{ category.id }});" maxlength="255">
 
                     <!--Sort part of main area-->

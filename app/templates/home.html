@@ -4,7 +4,6 @@
 {% block title %}Мои книги{% endblock %}
 
 {% block css %}
-    <link rel="stylesheet" href="{% static 'app/css/general.css' %}">
     <link rel="stylesheet" href="{% static 'app/css/home.css' %}">
 {% endblock %}
 
@@ -15,10 +14,12 @@
             <div class="col-sm-12 col-md-12 col-lg-12">
                 <h2 class="header-color"><b>Мои книги</b></h2>
                 <div>
-                    <a href="{% url 'add_book' %}" class="decoration">
+                    <a href="{% url 'add_book' %}" class="decoration"
+                       title="Нажмите, чтобы добавить в систему книгу которую вы хотите читать">
                         <button class="btn action-button margin">Добавить с устройства</button>
                     </a>
-                    <a href="{% url 'categories' %}" class="decoration">
+                    <a href="{% url 'categories' %}" class="decoration"
+                       title="Нажмите, чтобы выбрать и начать читать книгу которая уже имеется в системе">
                         <button class="btn action-button margin">Читать из библиотеки</button>
                     </a>
                 </div>
