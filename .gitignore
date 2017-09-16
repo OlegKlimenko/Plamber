@@ -3,7 +3,7 @@ app/migrations
 *__pycache__*
 media
 *.log
-*.json
+Plamber/settings.json
 celerybeat-schedule
 venv
 Plamber/*.txt
