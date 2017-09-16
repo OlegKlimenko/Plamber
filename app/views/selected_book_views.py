@@ -27,10 +27,6 @@ logger = logging.getLogger('changes')
 def selected_book(request, book_id):
     """
     Returns a page with selected book.
-
-    :param django.core.handlers.wsgi.WSGIRequest request: The request for selecting book.
-    :param int book_id: The identifier of a book.
-    :return: A HTML page with selected book.
     """
     if request.user.is_authenticated():
         rel_objects = Book.get_related_objects_selected_book(request.user, book_id)
@@ -63,9 +59,6 @@ def selected_book(request, book_id):
 def store_image(request):
     """
     Stores the book image to database.
-
-    :param django.core.handlers.wsgi.WSGIRequest request:
-    :return: The status of adding book.
     """
     if request.is_ajax():
         image_form = StoreBookImageForm(request.POST)
@@ -92,9 +85,6 @@ def store_image(request):
 def add_book_to_home(request):
     """
     Adds book to list of user's added books.
-
-    :param django.core.handlers.wsgi.WSGIRequest request: The request with id of a book.
-    :return: The status of adding book.
     """
     if request.is_ajax():
         book_form = BookHomeForm(request.POST)
@@ -120,9 +110,6 @@ def add_book_to_home(request):
 def remove_book_from_home(request):
     """
     Removes book from list of user's added books.
-
-    :param django.core.handlers.wsgi.WSGIRequest request: The request with id of a book.
-    :return: The status of adding book.
     """
     if request.is_ajax():
         book_form = BookHomeForm(request.POST)
@@ -141,12 +128,6 @@ def remove_book_from_home(request):
 
 # ----------------------------------------------------------------------------------------------------------------------
 def change_rating(request):
-    """
-    Sets new rating to a book.
-
-    :param django.core.handlers.wsgi.WSGIRequest request: The request with id of a book and new rating.
-    :return: New average count of rating of a book.
-    """
     if request.is_ajax():
         rating_form = ChangeRatingForm(request.POST)
 
@@ -167,10 +148,7 @@ def change_rating(request):
 # ----------------------------------------------------------------------------------------------------------------------
 def set_rating(request, rating_form):
     """
-    Changes rating of a book.
-
-    :param django.core.handlers.wsgi.WSGIRequest request: The request for changing book rating.
-    :param app.forms.ChangeRatingForm rating_form: The form with rating.
+    Checks if rating for books exists. If exists, changes it. If not, creates a new one.
     """
     try:
         book_rating = BookRating.objects.get(id_user=TheUser.objects.get(id_user=request.user),
@@ -190,12 +168,6 @@ def set_rating(request, rating_form):
 
 # ----------------------------------------------------------------------------------------------------------------------
 def add_comment(request):
-    """
-    Adds a comment.
-
-    :param django.core.handlers.wsgi.WSGIRequest request: The request for adding a comment.
-    :return: Response with successfully added comment.
-    """
     if request.is_ajax():
         comment_form = AddCommentForm(request.POST)
 

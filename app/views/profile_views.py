@@ -22,10 +22,6 @@ logger = logging.getLogger('changes')
 def profile(request, profile_id):
     """
     Renders the profile page.
-
-    :param django.core.handlers.wsgi.WSGIRequest request: The request for looking profile.
-    :param int profile_id: The id profile we want to look.
-    :return: HTML page.
     """
     if request.method == 'GET':
         if request.user.is_authenticated():
@@ -52,9 +48,6 @@ def profile(request, profile_id):
 def upload_avatar(request):
     """
     Sets new user's avatar.
-
-    :param django.core.handlers.wsgi.WSGIRequest request: The request for upload avatar.
-    :return: JSON response
     """
     if request.is_ajax():
         upload_avatar_form = UploadAvatarForm(request.POST, request.FILES)
@@ -87,9 +80,6 @@ def upload_avatar(request):
 def change_password(request):
     """
     Sets the new password for user.
-
-    :param django.core.handlers.wsgi.WSGIRequest request: The request for changing password.
-    :return: JSON response
     """
     if request.is_ajax():
         change_password_form = ChangePasswordForm(request.POST)

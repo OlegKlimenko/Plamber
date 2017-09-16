@@ -13,9 +13,6 @@ from ..models import Category, Book
 def all_categories(request):
     """
     Returns page with book categories.
-
-    :param django.core.handlers.wsgi.WSGIRequest request: The request on categories page.
-    :return: The HTML page.
     """
     if request.method == "GET":
         if request.user.is_authenticated():
@@ -37,10 +34,6 @@ def all_categories(request):
 def selected_category(request, category_id):
     """
     Returns page with selected category.
-
-    :param django.core.handlers.wsgi.WSGIRequest request: The request on selected category page.
-    :param str category_id: The identifier of a category.
-    :return: The HTML page.
     """
     if request.method == 'GET':
         if request.user.is_authenticated():
@@ -60,9 +53,6 @@ def selected_category(request, category_id):
 def sort(request):
     """
     Returns data sorted data depending on criterion.
-
-    :param django.core.handlers.wsgi.WSGIRequest request: The request for sorting.
-    :return: The sorted objects.
     """
     if request.is_ajax():
         sort_form = SortForm(request.GET)
@@ -90,9 +80,6 @@ def find_books(request):
     """
     Generates list with books of data which user entered. At first it check full equality in name,
     after tries to check if contains some part of entered data.
-
-    :param django.core.handlers.wsgi.WSGIRequest request: The request for searching.
-    :return: The list of books.
     """
     if request.is_ajax():
         search_book_form = SearchBookForm(request.GET)

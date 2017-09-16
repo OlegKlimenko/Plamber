@@ -59,6 +59,7 @@ class Author(models.Model):
         Returns a list of authors.
 
         :param str author_part: The part of author name
+
         :return list[str]:
         """
         return list(
@@ -106,6 +107,7 @@ class Book(models.Model):
 
         :param int user_id: The id of user.
         :param app.forms.AddBookForm book_form: The form with received data.
+
         :return: A dict of objects related to book.
         """
         try:
@@ -130,6 +132,7 @@ class Book(models.Model):
 
         :param app.models.TheUser user: The request for selecting book.
         :param int book_id: The ID of selected book.
+
         :return: Related objects.
         """
         book = Book.objects.get(id=book_id)
@@ -209,7 +212,6 @@ class Book(models.Model):
     @staticmethod
     def sort_by_readable(user, category):
         """
-
         Sorts books by most readable criterion. Uses aggregate 'count' function.
 
         :param django.contrib.auth.models.User  user:     The request user.
@@ -338,6 +340,7 @@ class AddedBook(models.Model):
         Returns the list of books which user added in his home library
 
         :param app.models.TheUser user: The user instance.
+
         :return list[app.models.Book]:
         """
         return AddedBook.objects.filter(id_user=TheUser.objects.get(id_user=user)).order_by('-last_read')
@@ -349,6 +352,7 @@ class AddedBook(models.Model):
         Returns the added count of selected book.
 
         :param int book_id: The id of book which we are counting.
+
         :return int: The count of added books
         """
         return AddedBook.objects.filter(id_book__id=book_id).count()

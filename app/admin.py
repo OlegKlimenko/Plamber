@@ -9,18 +9,12 @@ from .models import Category, Author, Book, BookRating, BookComment, AddedBook, 
 
 # ----------------------------------------------------------------------------------------------------------------------
 class CustomUserAdmin(UserAdmin):
-    """
-    Class for specifying extra fields for admin panel.
-    """
     list_display = ('id',) + UserAdmin.list_display + ('date_joined',)
     ordering = ('-id',)
 
 
 # ----------------------------------------------------------------------------------------------------------------------
 class TheUserAdmin(admin.ModelAdmin):
-    """
-    Class for pretty representation data of users in admin panel.
-    """
     list_display = ('id', 'username', 'email', 'auth_token', 'date_joined')
 
     # ------------------------------------------------------------------------------------------------------------------
@@ -40,33 +34,21 @@ class TheUserAdmin(admin.ModelAdmin):
 
 # ----------------------------------------------------------------------------------------------------------------------
 class CategoryAdmin(admin.ModelAdmin):
-    """
-    Class for pretty representation data of categories in admin panel.
-    """
     list_display = ('category_name',)
 
 
 # ----------------------------------------------------------------------------------------------------------------------
 class AuthorAdmin(admin.ModelAdmin):
-    """
-    Class for pretty representation data of authors in admin panel.
-    """
     list_display = ('id', 'author_name')
 
 
 # ----------------------------------------------------------------------------------------------------------------------
 class LanguageAdmin(admin.ModelAdmin):
-    """
-    Class for pretty representation data of languages in admin panel.
-    """
     list_display = ('language',)
 
 
 # ----------------------------------------------------------------------------------------------------------------------
 class BookAdmin(admin.ModelAdmin):
-    """
-    Class for pretty representation data of books in admin panel.
-    """
     list_display = ('id', 'book_name', 'author', 'category', 'language', 'private_book', 'who_added', 'upload_date')
 
     # ------------------------------------------------------------------------------------------------------------------
@@ -103,33 +85,21 @@ class BookGeneral(admin.ModelAdmin):
 
 # ----------------------------------------------------------------------------------------------------------------------
 class BookRatingAdmin(BookGeneral):
-    """
-    Class for pretty representation data of book rating in admin panel.
-    """
     list_display = ('user', 'book', 'rating')
 
 
 # ----------------------------------------------------------------------------------------------------------------------
 class BookCommentAdmin(BookGeneral):
-    """
-    Class for pretty representation data of book comments in admin panel.
-    """
     list_display = ('user', 'book', 'text', 'posted_date')
 
 
 # ----------------------------------------------------------------------------------------------------------------------
 class AddedBookAdmin(BookGeneral):
-    """
-    Class for pretty representation data of added books in admin panel.
-    """
     list_display = ('user', 'book', 'last_page', 'last_read')
 
 
 # ----------------------------------------------------------------------------------------------------------------------
 class PostAdmin(admin.ModelAdmin):
-    """
-    Class for pretty representation data of project blog posts in admin panel.
-    """
     list_display = ('heading', 'user', 'posted_date')
 
 
