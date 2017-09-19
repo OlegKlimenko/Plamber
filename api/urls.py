@@ -3,7 +3,7 @@
 from django.conf.urls import url
 from django.conf import settings
 
-from .views import index_views
+from .views import index_views, home_views
 
 # Remove in production when will define the way to get requests only from expected origin.
 if settings.DEBUG:
@@ -13,6 +13,9 @@ if settings.DEBUG:
         url(r'is-user-exists', index_views.is_user_exists),
         url(r'is-mail-exists', index_views.is_mail_exists),
         url(r'sign-in', index_views.sign_in),
+
+        url(r'home', home_views.home),
+        # url(r'recommend', home_views.recommendations)
     ]
 
 else:
