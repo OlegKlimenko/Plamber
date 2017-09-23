@@ -8,7 +8,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from ..serializers import BookSerializer
-from app.models import TheUser, AddedBook, Category
+from app.models import TheUser, AddedBook
 from app.recommend import get_recommend
 
 logger = logging.getLogger('changes')
@@ -44,18 +44,3 @@ def recommendations(request):
     return Response({'status': 200,
                      'detail': 'successful',
                      'data': [BookSerializer(book).data for book in recommend_books]})
-
-
-# ----------------------------------------------------------------------------------------------------------------------
-# @api_view(['POST'])
-# def all_categories(request):
-#     """
-#     Generates the categories list.
-#     """
-#     the_user = get_object_or_404(TheUser, auth_token=request.data.get('user_token'))
-#
-#     categories = Category.objects.all().order_by('category_name')
-#
-#     return Response({'status': 200,
-#                      'detail': 'successful',
-#                      'data': []})

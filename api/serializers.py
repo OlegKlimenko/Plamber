@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from django.urls import reverse
+
 from rest_framework import serializers
 
 
@@ -15,3 +17,13 @@ class BookSerializer(serializers.Serializer):
     who_added = serializers.ReadOnlyField(source='who_added.id_user.username')
     upload_date = serializers.DateTimeField()
     private_book = serializers.BooleanField()
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+class CategorySerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    category_name = serializers.CharField(max_length=150)
+    url = serializers.SerializerMethodField('category_url')
+
+    def category_url(self, obj):
+        return reverse('category_api', args=[obj.id])
