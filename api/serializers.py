@@ -27,3 +27,10 @@ class CategorySerializer(serializers.Serializer):
 
     def category_url(self, obj):
         return reverse('category_api', args=[obj.id])
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+class ProfileSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    username = serializers.ReadOnlyField(source='id_user.username')
+    user_photo = serializers.ImageField()

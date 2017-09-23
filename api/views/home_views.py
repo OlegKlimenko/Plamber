@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import logging
-
 from django.shortcuts import get_object_or_404
 
 from rest_framework.decorators import api_view
@@ -10,8 +8,6 @@ from rest_framework.response import Response
 from ..serializers import BookSerializer
 from app.models import TheUser, AddedBook
 from app.recommend import get_recommend
-
-logger = logging.getLogger('changes')
 
 RANDOM_BOOKS_COUNT = 6
 
