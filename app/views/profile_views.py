@@ -8,9 +8,9 @@ from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import redirect, render, get_object_or_404
 
-from ..tasks import changed_password
 from ..forms import UploadAvatarForm, ChangePasswordForm
 from ..models import AddedBook, Book, TheUser
+from ..tasks import changed_password
 from ..utils import resize_image
 
 AVATAR_WIDTH = 250
