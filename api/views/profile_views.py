@@ -48,7 +48,7 @@ def change_password(request):
 
             logger.info("User '{}' changed his password successfully.".format(the_user.id_user))
 
-            changed_password.delay(request.user.username, request.user.email)
+            changed_password.delay(the_user.id_user.username, the_user.id_user.email)
 
             return Response({'status': 200,
                              'detail': 'successful',
