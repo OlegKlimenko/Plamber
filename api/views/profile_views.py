@@ -3,14 +3,19 @@
 import logging
 
 from django.db import transaction
+from django.core.exceptions import ValidationError
 from django.shortcuts import get_object_or_404
 
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, parser_classes
+from rest_framework.parsers import FileUploadParser
 from rest_framework.response import Response
 
 from ..serializers import BookSerializer, ProfileSerializer
 from app.models import TheUser, AddedBook, Book
 from app.tasks import changed_password
+from app.utils import resize_image
+
+AVATAR_WIDTH = 250
 
 logger = logging.getLogger('changes')
 
@@ -57,4 +62,34 @@ def change_password(request):
         else:
             return Response({'status': 200,
                              'detail': 'old password didn\'t match',
+                             'data': {}})
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+@api_view(['POST'])
+@parser_classes((FileUploadParser,))
+def upload_avatar(request):
+    """
+    Sets new user's avatar.
+    """
+    with transaction.atomic():
+        profile_user = get_object_or_404(TheUser, auth_token=request.data.get('user_token'))
+
+        try:
+            profile_user.user_photo.save('user_{}.png'.format(profile_user.id), request.data.get('file'))
+            profile_user.save()
+            logger.info("User '{}' changed his avatar.".format(profile_user))
+
+            resize_image(profile_user.user_photo.path, AVATAR_WIDTH)
+            logger.info("Image '{}' successfully resized!".format(profile_user.user_photo.path))
+
+            return Response({'status': 200,
+                             'detail': 'successful',
+                             'data': {'profile_image': profile_user.user_photo.url}})
+
+        except ValidationError:
+            logger.info("User '{}' tried to upload not an image as avatar!".format(profile_user))
+
+            return Response({'status': 404,
+                             'detail': 'tried to upload not an image',
                              'data': {}})

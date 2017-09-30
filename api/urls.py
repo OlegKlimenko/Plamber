@@ -26,6 +26,7 @@ if settings.DEBUG:
         # Profile urls.
         url(r'my-profile', profile_views.my_profile),
         url(r'change-password', profile_views.change_password),
+        url(r'upload-avatar', profile_views.upload_avatar),
     ]
 
 else:
