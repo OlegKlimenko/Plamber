@@ -19,9 +19,6 @@ logger = logging.getLogger('changes')
 def add_book(request):
     """
     Returns a page for adding book.
-
-    :param django.core.handlers.wsgi.WSGIRequest request: The request for adding book.
-    :return: Page for adding book
     """
     if request.method == 'GET':
         if request.user.is_authenticated():
@@ -37,9 +34,6 @@ def add_book(request):
 def generate_authors(request):
     """
     Returns a list of authors.
-
-    :param django.core.handlers.wsgi.WSGIRequest request: The request for generating list of possible authors.
-    :return: A list of authors.
     """
     if request.is_ajax():
         authors_form = GenerateAuthorsForm(request.GET)
@@ -57,9 +51,6 @@ def generate_authors(request):
 def generate_books(request):
     """
     Returns a list of books.
-
-    :param django.core.handlers.wsgi.WSGIRequest request: The request for generating list of possible authors.
-    :return: A list of books.
     """
     if request.is_ajax():
         book_list_form = GenerateBooksForm(request.GET)
@@ -77,9 +68,6 @@ def generate_books(request):
 def add_book_successful(request):
     """
     Creates new book object.
-
-    :param django.core.handlers.wsgi.WSGIRequest request: The request for adding new book.
-    :return: A page with added book.
     """
     if request.method == 'POST':
         book_form = AddBookForm(request.POST, request.FILES)

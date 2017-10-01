@@ -10,9 +10,6 @@ from ..models import Post
 def about(request):
     """
     Returns the about project main page.
-
-    :param django.core.handlers.wsgi.WSGIRequest request: The request for adding book.
-    :return: The about project main page.
     """
     if request.method == 'GET':
         return render(request, 'about.html', {'posts': Post.objects.all().order_by('-id')})
@@ -25,9 +22,6 @@ def about(request):
 def send_message(request):
     """
     Sends the message to system (moderators of resource).
-
-    :param django.core.handlers.wsgi.WSGIRequest request: The request for sending message.
-    :return: Response status
     """
 #     if request.is_ajax():
 #         send_message_form = SendMessageForm(request.POST)

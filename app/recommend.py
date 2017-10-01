@@ -10,14 +10,13 @@ START_RECOMMEND = 10
 # ----------------------------------------------------------------------------------------------------------------------
 def get_recommend(user, books, result_count, extra):
     """
-    Return the recommend books.
+    Returns the recommend books.
 
     :param django.contrib.auth.models.User                    user:         The request user.
     :param django.db.models.query.QuerySet[.models.AddedBook] books:        The user's added book list.
     :param int                                                result_count: The count of random generated books.
     :param list[int]                                          extra:        The list of id's of books which must
                                                                             also be removed.
-
     :return set[.models.Book]: The recommend books.
     """
     added_books = get_by_added(user, books, result_count, extra)
@@ -36,7 +35,6 @@ def get_by_added(user, added_books, result_count, extra):
     :param int                                                result_count: The count of random generated books.
     :param list[int]                                          extra:        The list of id's of books which must
                                                                             also be removed.
-
     :return set[.models.Book]: The random generated books.
     """
     if added_books:

@@ -16,10 +16,6 @@ class OverwriteStorage(FileSystemStorage):
         """
         Returns a filename that's free on the target storage system, and
         available for new content to be written to.
-
-        :param name:
-        :param max_length:
-        :return:
         """
         if self.exists(name):
             os.remove(os.path.join(settings.MEDIA_ROOT, name))

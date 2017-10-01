@@ -17,10 +17,6 @@ logger = logging.getLogger('changes')
 def open_book(request, book_id):
     """
     Returns a page for reading book.
-
-    :param django.core.handlers.wsgi.WSGIRequest request: The request for reading book.
-    :param int book_id: The id of an opened book.
-    :return: Page for reading book.
     """
     if request.user.is_authenticated():
         book = Book.objects.get(id=book_id)
@@ -42,8 +38,6 @@ def open_book(request, book_id):
 def set_current_page(request):
     """
     Changes current readed page for book of user.
-
-    :param django.core.handlers.wsgi.WSGIRequest request: The request for reading book.
     """
     if request.is_ajax():
         pages_form = SetCurrentPageForm(request.POST)

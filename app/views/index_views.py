@@ -25,9 +25,6 @@ logger = logging.getLogger('changes')
 def index(request):
     """
     Checks, if request method GET, returns index page. If POST, and all checks are passed, returns home page.
-
-    :param django.core.handlers.wsgi.WSGIRequest request: The request on index page.
-    :return: The HTML page.
     """
     if request.method == 'GET':
         if request.user.is_authenticated():
@@ -43,9 +40,6 @@ def index(request):
 def home(request):
     """
     Returns the 'Home page'.
-
-    :param django.core.handlers.wsgi.WSGIRequest request: The request on index page.
-    :return: The 'Home page'.
     """
     books = AddedBook.get_user_added_books(request.user)
     recommend_books = get_recommend(request.user, books, RANDOM_BOOKS_COUNT, [])
@@ -56,10 +50,7 @@ def home(request):
 # ----------------------------------------------------------------------------------------------------------------------
 def user_login(request):
     """
-    Checks if user is authenticated.
-
-    :param django.core.handlers.wsgi.WSGIRequest request: The request on index page.
-    :return: The 'Index' or 'Home' page.
+    Logins user if he passed authentication.
     """
     log_in_form = LogInForm(request.POST)
 
@@ -79,9 +70,6 @@ def user_login(request):
 def is_user_exists(request):
     """
     Checks if user is exists. If exists return True, else False.
-
-    :param django.core.handlers.wsgi.WSGIRequest request: The ajax request on index page.
-    :return: True or False.
     """
     if request.is_ajax():
         is_user_exists_form = IsUserExistsForm(request.GET)
@@ -101,9 +89,6 @@ def is_user_exists(request):
 def is_mail_exists(request):
     """
     Checks if mail is exists. If exists return True, else False.
-
-    :param django.core.handlers.wsgi.WSGIRequest request: The ajax request on index page.
-    :return: True or False.
     """
     if request.is_ajax():
         is_mail_exists_form = IsMailExistsForm(request.GET)
@@ -123,9 +108,6 @@ def is_mail_exists(request):
 def sign_in(request):
     """
     Creates a new user and returns page with registration status.
-
-    :param django.core.handlers.wsgi.WSGIRequest request: The request for creating new user.
-    :return: The page with registration status.
     """
     if request.method == 'POST':
         sign_in_form = SignInForm(request.POST)
@@ -152,9 +134,6 @@ def sign_in(request):
 def restore_data(request):
     """
     Restores the password for user.
-
-    :param django.core.handlers.wsgi.WSGIRequest request: The request for restoring password.
-    :return: The response about restoring password.
     """
     if request.method == 'POST':
         forgot_form = ForgotPasswordForm(request.POST)
