@@ -5,13 +5,15 @@ var SCALE = 1;
 // Page outputting.
 var DESIRED_WIDTH;
 var DESIRED_HEIGHT;
-var HEADER_MARGIN = 130;
-var PAGE_SEPARATOR = 6;
+var HEADER_MARGIN = 100;
+var PAGES_TO_RENDER = [];
 
 // Page navigating.
 var TOTAL_HEIGHT = 0;
-var PREVIOUS_PAGE = 0;
-var LAST_PAGE = 0;
+var CURRENT_PAGE = 1;
+var PREVIOUS_OFFSET = 0;
+var CURRENT_OFFSET = 0;
+var NEXT_OFFSET = 0;
 
 // Reload data.
 var RELOAD = false;
@@ -61,6 +63,7 @@ function renderPage(pdf, pageNumber) {
         };
 
         page.render(renderContext).then(function() {
+            renderPage(PDF_DOCUMENT, PAGES_TO_RENDER.pop());
             loadHide();
         })
     });
@@ -73,9 +76,8 @@ function renderPage(pdf, pageNumber) {
  * @param {number} pageNum The number of a page.
  */
 function renderPages(pageNum) {
-    renderPage(PDF_DOCUMENT, pageNum - 1);
+    PAGES_TO_RENDER.push(CURRENT_PAGE + 1);
     renderPage(PDF_DOCUMENT, pageNum);
-    renderPage(PDF_DOCUMENT, pageNum + 1);
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -106,8 +108,13 @@ function setCurrentPage(pageNum) {
  * @param {number} pageNum The number of a page.
  */
 function setOffset(pageNum) {
-    var offset = $('#page' + pageNum).offset().top;
-    $(document).scrollTop(offset - HEADER_MARGIN);
+    PREVIOUS_OFFSET = $('#page' + (parseInt(pageNum) - 1)).offset().top;
+    CURRENT_OFFSET = $('#page' + pageNum).offset().top;
+    NEXT_OFFSET = $('#page' + (parseInt(pageNum) + 1)).offset().top;
+
+    CURRENT_PAGE = parseInt(pageNum);
+    renderPages(CURRENT_PAGE);
+    $(document).scrollTop(CURRENT_OFFSET - HEADER_MARGIN);
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -134,22 +141,33 @@ function loadPage(pageNum) {
 $(document).scroll(function() {
     if (RELOAD) {
         RELOAD = false;
-        LAST_PAGE = 0;
     }
     else {
         var document_scroll = $(document).scrollTop();
 
-        PREVIOUS_PAGE = parseInt((document_scroll + HEADER_MARGIN) / DESIRED_HEIGHT);
-        var current_page = parseInt(
-            (document_scroll + HEADER_MARGIN - PAGE_SEPARATOR * PREVIOUS_PAGE) / DESIRED_HEIGHT) + 1;
+        if (document_scroll + HEADER_MARGIN > NEXT_OFFSET) {
+            CURRENT_PAGE += 1;
+            updateOffsets();
+        }
 
-        if (LAST_PAGE != current_page) {
-            LAST_PAGE = current_page;
-            setCurrentPage(current_page);
-            renderPages(parseInt(current_page));
+        else if (document_scroll + HEADER_MARGIN < PREVIOUS_OFFSET + DESIRED_HEIGHT) {
+            CURRENT_PAGE -= 1;
+            updateOffsets();
         }
     }
 });
+
+// ---------------------------------------------------------------------------------------------------------------------
+/**
+ * Updates offsets info for further calculations.
+ */
+function updateOffsets() {
+    NEXT_OFFSET = $('#page' + (parseInt(CURRENT_PAGE) + 1)).offset().top;
+    PREVIOUS_OFFSET = $('#page' + (parseInt(CURRENT_PAGE) - 1)).offset().top;
+
+    setCurrentPage(CURRENT_PAGE);
+    renderPages(CURRENT_PAGE);
+}
 
 // ---------------------------------------------------------------------------------------------------------------------
 /**
