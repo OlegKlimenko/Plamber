@@ -13,7 +13,10 @@
 {% endblock %}
 
 {% block header_additional %}
-    <input id="small-page-num" class="input input-colors page-number">
+    <div id="small-page-nav">
+        <input id="small-page-num" class="input input-colors page-number">
+        <button id="small-btn" class="btn action-button" onclick="goToPageSmall();">➤</button>
+    </div>
 {% endblock %}
 
 {% block references %}{% endblock %}
@@ -30,7 +33,8 @@
 
     <!--Main info area-->
     <div id="page-nav-bar" align="center">
-        <div><input class="input input-colors page-number"></div>
+        <div><input id="big-page-num" class="input input-colors page-number"></div>
+        <div><button class="btn action-button margin-top" onclick="goToPageBig();">➤</button></div>
     </div>
 
     <div id="container-width" class="container container-margin">

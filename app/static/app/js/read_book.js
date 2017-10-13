@@ -108,9 +108,10 @@ function setCurrentPage(pageNum) {
  * @param {number} pageNum The number of a page.
  */
 function setOffset(pageNum) {
-    PREVIOUS_OFFSET = $('#page' + (parseInt(pageNum) - 1)).offset().top;
+    loadDisplay();
+    PREVIOUS_OFFSET = pageNum > 1 ? $('#page' + (parseInt(pageNum) - 1)).offset().top : 0;
     CURRENT_OFFSET = $('#page' + pageNum).offset().top;
-    NEXT_OFFSET = $('#page' + (parseInt(pageNum) + 1)).offset().top;
+    NEXT_OFFSET = pageNum < (PDF_DOCUMENT.numPages - 1) ? $('#page' + (parseInt(pageNum) + 1)).offset().top : $('#page' + parseInt(pageNum)).offset().top;
 
     CURRENT_PAGE = parseInt(pageNum);
     renderPages(CURRENT_PAGE);
@@ -146,13 +147,17 @@ $(document).scroll(function() {
         var document_scroll = $(document).scrollTop();
 
         if (document_scroll + HEADER_MARGIN > NEXT_OFFSET) {
-            CURRENT_PAGE += 1;
-            updateOffsets();
+            if (CURRENT_PAGE < PDF_DOCUMENT.numPages) {
+                CURRENT_PAGE += 1;
+                updateOffsets();
+            }
         }
 
         else if (document_scroll + HEADER_MARGIN < PREVIOUS_OFFSET + DESIRED_HEIGHT) {
-            CURRENT_PAGE -= 1;
-            updateOffsets();
+            if (CURRENT_PAGE > 1) {
+                CURRENT_PAGE -= 1;
+                updateOffsets();
+            }
         }
     }
 });
@@ -162,8 +167,11 @@ $(document).scroll(function() {
  * Updates offsets info for further calculations.
  */
 function updateOffsets() {
-    NEXT_OFFSET = $('#page' + (parseInt(CURRENT_PAGE) + 1)).offset().top;
-    PREVIOUS_OFFSET = $('#page' + (parseInt(CURRENT_PAGE) - 1)).offset().top;
+    var prevPage = CURRENT_PAGE > 1 ? CURRENT_PAGE - 1 : 1;
+    var nextPage = CURRENT_PAGE < PDF_DOCUMENT.numPages ? CURRENT_PAGE + 1 : CURRENT_PAGE;
+
+    PREVIOUS_OFFSET = $('#page' + prevPage).offset().top;
+    NEXT_OFFSET = $('#page' + nextPage).offset().top;
 
     setCurrentPage(CURRENT_PAGE);
     renderPages(CURRENT_PAGE);
@@ -227,11 +235,11 @@ function calculateHeight(pdf, currentPage) {
  */
 function navigatePanel() {
     if ($('#container-width').width() < SIZE_LINE) {
-        $('#small-page-num').css('display', 'block');
+        $('#small-page-nav').css('display', 'block');
         $('#page-nav-bar').css('display', 'none');
     }
     else {
-        $('#small-page-num').css('display', 'none');
+        $('#small-page-nav').css('display', 'none');
         $('#page-nav-bar').css('display', 'block');
     }
 }
@@ -273,4 +281,35 @@ function loadDisplay() {
  */
 function loadHide() {
     $("#loading").css('display', 'none');
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+/**
+ * Changes page to page in input of button on big screens.
+ */
+function goToPageBig() {
+    var pageNum = $('#big-page-num').val();
+    validateNumberAndChangePage(pageNum);
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+/**
+ * Changes page to page in input of button on small screens.
+ */
+function goToPageSmall() {
+    var pageNum = $('#small-page-num').val();
+    validateNumberAndChangePage(pageNum);
+}
+// ---------------------------------------------------------------------------------------------------------------------
+/**
+ * Validates the page number and changes page offset and current page.
+ */
+function validateNumberAndChangePage(pageNum) {
+    if (pageNum > 0 && pageNum < PDF_DOCUMENT.numPages + 1) {
+        setCurrentPage(pageNum);
+        setOffset(pageNum);
+    }
+    else {
+        alert('Нет такого номера страницы.\nВведите от 1 до ' + PDF_DOCUMENT.numPages);
+    }
 }
