@@ -69,3 +69,21 @@
     position: fixed;
     z-index: 9999;
 }
+
+#error-toast {
+    background-color: #2e3438;
+    border-radius: 2px;
+    color: #fff;
+    display: none;
+    font-family: 'Comfortaa', cursive;
+    font-size: 14px;
+    height: 60px;
+    left: 50%;
+    margin-left: -100px;
+    padding: 10px;
+    position: fixed;
+    text-align: center;
+    top: 85%;
+    width: 200px;
+    z-index: 10000;
+}

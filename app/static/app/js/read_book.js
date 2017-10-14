@@ -19,6 +19,10 @@ var NEXT_OFFSET = 0;
 var RELOAD = false;
 var SIZE_LINE = 720;
 
+// Other.
+var LAST_TOAST_SHOWN = new Date();
+var TOAST_UPDATE_FREQ = -120000;   // 2 mins in milliseconds.
+
 // ---------------------------------------------------------------------------------------------------------------------
 /**
  * Renders the page of the PDF document.
@@ -97,7 +101,18 @@ function setCurrentPage(pageNum) {
                book: $("#book-id").text(),
                csrfmiddlewaretoken: getCookie("csrftoken")},
 
-        success: function result(json) {}
+        success: function result(json) {},
+
+        error: function(jqXHR, errorThrown) {
+            if (jqXHR.status == 0) {
+                var curDate = new Date();
+
+                if (LAST_TOAST_SHOWN - curDate < TOAST_UPDATE_FREQ) {
+                    LAST_TOAST_SHOWN = curDate;
+                    $('#error-toast').fadeIn(400).delay(1000).fadeOut(400);
+                }
+            }
+        }
     });
 }
 
