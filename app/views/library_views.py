@@ -17,14 +17,10 @@ def all_categories(request):
     if request.method == "GET":
         if request.user.is_authenticated():
             categories = Category.objects.all().order_by('category_name')
+            most_readable_books = Book.sort_by_readable(request.user)
 
-            count = categories.count() / 2
-
-            first_line = categories[:count+1]
-            second_line = categories[count+1:count*2]
-
-            return render(request, 'categories.html', {'first_line': first_line,
-                                                       'second_line': second_line})
+            return render(request, 'categories.html', {'categories': categories,
+                                                       'most_readable_books': most_readable_books[:9]})
 
         else:
             return redirect('index')

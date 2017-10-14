@@ -10,6 +10,15 @@
     margin-bottom: 10px;
 }
 
+.margin-top {
+    margin-top: 10px;
+}
+
+.recommend-margin {
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
 .footer-margin {
     margin-bottom: 40px;
 }

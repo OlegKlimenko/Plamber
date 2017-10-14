@@ -210,7 +210,7 @@ class Book(models.Model):
 
     # ------------------------------------------------------------------------------------------------------------------
     @staticmethod
-    def sort_by_readable(user, category):
+    def sort_by_readable(user, category=None):
         """
         Sorts books by most readable criterion. Uses aggregate 'count' function.
 
@@ -220,7 +220,10 @@ class Book(models.Model):
         :return: The list with sorted books.
         """
         books = []
-        filtered_books = Book.exclude_private_books(user, Book.objects.filter(id_category=category))
+        if category:
+            filtered_books = Book.exclude_private_books(user, Book.objects.filter(id_category=category))
+        else:
+            filtered_books = Book.exclude_private_books(user, Book.objects.all())
 
         for item in filtered_books:
             book_read_count = AddedBook.objects.filter(id_book=item).aggregate(Count('id_user'))
