@@ -139,7 +139,11 @@ class Book(models.Model):
         book_rating = BookRating.objects.filter(id_book=book)
 
         try:
-            added_book = AddedBook.objects.get(id_user=TheUser.objects.get(id_user=user), id_book=book)
+            if not user.is_anonymous:
+                added_book = AddedBook.objects.get(id_user=TheUser.objects.get(id_user=user), id_book=book)
+            else:
+                added_book = None
+
         except ObjectDoesNotExist:
             added_book = None
 
@@ -290,7 +294,11 @@ class Book(models.Model):
 
         :return list[.models.Book]: List of books.
         """
-        the_user = TheUser.objects.get(id_user=user)
+        if user.is_anonymous:
+            the_user = user
+        else:
+            the_user = TheUser.objects.get(id_user=user)
+
         filtered_books = []
 
         for book in books:
@@ -343,6 +351,9 @@ class AddedBook(models.Model):
 
         :return list[app.models.Book]:
         """
+        if user.is_anonymous:
+            return []
+
         return AddedBook.objects.filter(id_user=TheUser.objects.get(id_user=user)).order_by('-last_read')
 
     # ------------------------------------------------------------------------------------------------------------------

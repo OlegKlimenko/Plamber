@@ -11,6 +11,11 @@
     <script src="{% static 'app/js/categories.js' %}"></script>
 {% endblock %}
 
+{% block header_special %}
+    <li><a href="{% url 'categories' %}">Библиотека</a></li>
+    <li><a href="{% url 'about' %}">О проекте</a></li>
+{% endblock %}
+
 {% block content %}
     <!--Main info area-->
     <div id="main" class="container container-margin footer-margin">

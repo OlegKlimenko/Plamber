@@ -15,19 +15,18 @@ def all_categories(request):
     Returns page with book categories.
     """
     if request.method == "GET":
-        if request.user.is_authenticated():
-            categories = Category.objects.all().order_by('category_name')
+        categories = Category.objects.all().order_by('category_name')
 
-            count = categories.count() / 2
+        count = categories.count() / 2
 
-            first_line = categories[:count+1]
-            second_line = categories[count+1:count*2]
+        first_line = categories[:count+1]
+        second_line = categories[count+1:count*2]
 
-            return render(request, 'categories.html', {'first_line': first_line,
-                                                       'second_line': second_line})
+        return render(request, 'categories.html', {'first_line': first_line,
+                                                   'second_line': second_line})
 
-        else:
-            return redirect('index')
+    else:
+        return HttpResponse(status=404)
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -36,17 +35,16 @@ def selected_category(request, category_id):
     Returns page with selected category.
     """
     if request.method == 'GET':
-        if request.user.is_authenticated():
-            category = Category.objects.get(id=category_id)
-            books = Book.objects.filter(id_category=category).order_by('book_name')
+        category = Category.objects.get(id=category_id)
+        books = Book.objects.filter(id_category=category).order_by('book_name')
 
-            filtered_books = Book.exclude_private_books(request.user, books)
+        filtered_books = Book.exclude_private_books(request.user, books)
 
-            context = {'category': category, 'books': filtered_books, 'category_number': category_id}
-            return render(request, 'selected_category.html', context)
+        context = {'category': category, 'books': filtered_books, 'category_number': category_id}
+        return render(request, 'selected_category.html', context)
 
-        else:
-            return redirect('index')
+    else:
+        return HttpResponse(status=404)
 
 
 # ----------------------------------------------------------------------------------------------------------------------
