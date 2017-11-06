@@ -139,7 +139,11 @@ class Book(models.Model):
         book_rating = BookRating.objects.filter(id_book=book)
 
         try:
-            added_book = AddedBook.objects.get(id_user=TheUser.objects.get(id_user=user), id_book=book)
+            if not user.is_anonymous:
+                added_book = AddedBook.objects.get(id_user=TheUser.objects.get(id_user=user), id_book=book)
+            else:
+                added_book = None
+
         except ObjectDoesNotExist:
             added_book = None
 
@@ -210,7 +214,7 @@ class Book(models.Model):
 
     # ------------------------------------------------------------------------------------------------------------------
     @staticmethod
-    def sort_by_readable(user, category):
+    def sort_by_readable(user, category=None):
         """
         Sorts books by most readable criterion. Uses aggregate 'count' function.
 
@@ -220,7 +224,10 @@ class Book(models.Model):
         :return: The list with sorted books.
         """
         books = []
-        filtered_books = Book.exclude_private_books(user, Book.objects.filter(id_category=category))
+        if category:
+            filtered_books = Book.exclude_private_books(user, Book.objects.filter(id_category=category))
+        else:
+            filtered_books = Book.exclude_private_books(user, Book.objects.all())
 
         for item in filtered_books:
             book_read_count = AddedBook.objects.filter(id_book=item).aggregate(Count('id_user'))
@@ -290,7 +297,11 @@ class Book(models.Model):
 
         :return list[.models.Book]: List of books.
         """
-        the_user = TheUser.objects.get(id_user=user)
+        if user.is_anonymous:
+            the_user = user
+        else:
+            the_user = TheUser.objects.get(id_user=user)
+
         filtered_books = []
 
         for book in books:
@@ -343,6 +354,9 @@ class AddedBook(models.Model):
 
         :return list[app.models.Book]:
         """
+        if user.is_anonymous:
+            return []
+
         return AddedBook.objects.filter(id_user=TheUser.objects.get(id_user=user)).order_by('-last_read')
 
     # ------------------------------------------------------------------------------------------------------------------

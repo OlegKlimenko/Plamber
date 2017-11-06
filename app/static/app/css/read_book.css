@@ -2,6 +2,10 @@
     margin-top: 65px;
 }
 
+.margin-top {
+    margin-top: 5px;
+}
+
 .book-meta {
     display: none;
 }
@@ -10,20 +14,41 @@
     border: 1px solid black;
 }
 
-#small-page-num {
+#small-page-nav {
     margin-top: 5px;
-    border: 1px solid #31a445;
+}
+
+#small-page-num {
+    border: 2px solid #31a445;
+}
+
+#small-btn {
+    margin-top: -2px;
 }
 
 #page-nav-bar {
     background-color: #2e3438;
     border-radius: 1px;
-    height: 80px;
+    height: 123px;
     padding-top: 20px;
     position: fixed;
     opacity: .3;
     width: 100px;
     z-index: 9999;
+}
+
+.action-button {
+    background-color: #31a445;
+    border: solid 2px #31a445;
+    color: #fff;
+    font-size: 20px;
+    padding: 3px 20px 3px 20px;
+}
+
+.action-button:hover {
+    background-color: Transparent;
+    border: solid 2px #31a445;
+    color: #31a445;
 }
 
 #page-nav-bar:hover {
@@ -43,4 +68,22 @@
     margin-top: -32px;
     position: fixed;
     z-index: 9999;
+}
+
+#error-toast {
+    background-color: #2e3438;
+    border-radius: 2px;
+    color: #fff;
+    display: none;
+    font-family: 'Comfortaa', cursive;
+    font-size: 14px;
+    height: 60px;
+    left: 50%;
+    margin-left: -100px;
+    padding: 10px;
+    position: fixed;
+    text-align: center;
+    top: 85%;
+    width: 200px;
+    z-index: 10000;
 }

@@ -5,17 +5,23 @@ var SCALE = 1;
 // Page outputting.
 var DESIRED_WIDTH;
 var DESIRED_HEIGHT;
-var HEADER_MARGIN = 130;
-var PAGE_SEPARATOR = 6;
+var HEADER_MARGIN = 100;
+var PAGES_TO_RENDER = [];
 
 // Page navigating.
 var TOTAL_HEIGHT = 0;
-var PREVIOUS_PAGE = 0;
-var LAST_PAGE = 0;
+var CURRENT_PAGE = 1;
+var PREVIOUS_OFFSET = 0;
+var CURRENT_OFFSET = 0;
+var NEXT_OFFSET = 0;
 
 // Reload data.
 var RELOAD = false;
 var SIZE_LINE = 720;
+
+// Other.
+var LAST_TOAST_SHOWN = new Date();
+var TOAST_UPDATE_FREQ = -120000;   // 2 mins in milliseconds.
 
 // ---------------------------------------------------------------------------------------------------------------------
 /**
@@ -61,6 +67,7 @@ function renderPage(pdf, pageNumber) {
         };
 
         page.render(renderContext).then(function() {
+            renderPage(PDF_DOCUMENT, PAGES_TO_RENDER.pop());
             loadHide();
         })
     });
@@ -73,9 +80,8 @@ function renderPage(pdf, pageNumber) {
  * @param {number} pageNum The number of a page.
  */
 function renderPages(pageNum) {
-    renderPage(PDF_DOCUMENT, pageNum - 1);
+    PAGES_TO_RENDER.push(CURRENT_PAGE + 1);
     renderPage(PDF_DOCUMENT, pageNum);
-    renderPage(PDF_DOCUMENT, pageNum + 1);
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -95,7 +101,18 @@ function setCurrentPage(pageNum) {
                book: $("#book-id").text(),
                csrfmiddlewaretoken: getCookie("csrftoken")},
 
-        success: function result(json) {}
+        success: function result(json) {},
+
+        error: function(jqXHR, errorThrown) {
+            if (jqXHR.status == 0) {
+                var curDate = new Date();
+
+                if (LAST_TOAST_SHOWN - curDate < TOAST_UPDATE_FREQ) {
+                    LAST_TOAST_SHOWN = curDate;
+                    $('#error-toast').fadeIn(400).delay(1000).fadeOut(400);
+                }
+            }
+        }
     });
 }
 
@@ -106,8 +123,14 @@ function setCurrentPage(pageNum) {
  * @param {number} pageNum The number of a page.
  */
 function setOffset(pageNum) {
-    var offset = $('#page' + pageNum).offset().top;
-    $(document).scrollTop(offset - HEADER_MARGIN);
+    loadDisplay();
+    PREVIOUS_OFFSET = pageNum > 1 ? $('#page' + (parseInt(pageNum) - 1)).offset().top : 0;
+    CURRENT_OFFSET = $('#page' + pageNum).offset().top;
+    NEXT_OFFSET = pageNum < (PDF_DOCUMENT.numPages - 1) ? $('#page' + (parseInt(pageNum) + 1)).offset().top : $('#page' + parseInt(pageNum)).offset().top;
+
+    CURRENT_PAGE = parseInt(pageNum);
+    renderPages(CURRENT_PAGE);
+    $(document).scrollTop(CURRENT_OFFSET - HEADER_MARGIN);
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -134,22 +157,40 @@ function loadPage(pageNum) {
 $(document).scroll(function() {
     if (RELOAD) {
         RELOAD = false;
-        LAST_PAGE = 0;
     }
     else {
         var document_scroll = $(document).scrollTop();
 
-        PREVIOUS_PAGE = parseInt((document_scroll + HEADER_MARGIN) / DESIRED_HEIGHT);
-        var current_page = parseInt(
-            (document_scroll + HEADER_MARGIN - PAGE_SEPARATOR * PREVIOUS_PAGE) / DESIRED_HEIGHT) + 1;
+        if (document_scroll + HEADER_MARGIN > NEXT_OFFSET) {
+            if (CURRENT_PAGE < PDF_DOCUMENT.numPages) {
+                CURRENT_PAGE += 1;
+                updateOffsets();
+            }
+        }
 
-        if (LAST_PAGE != current_page) {
-            LAST_PAGE = current_page;
-            setCurrentPage(current_page);
-            renderPages(parseInt(current_page));
+        else if (document_scroll + HEADER_MARGIN < PREVIOUS_OFFSET + DESIRED_HEIGHT) {
+            if (CURRENT_PAGE > 1) {
+                CURRENT_PAGE -= 1;
+                updateOffsets();
+            }
         }
     }
 });
+
+// ---------------------------------------------------------------------------------------------------------------------
+/**
+ * Updates offsets info for further calculations.
+ */
+function updateOffsets() {
+    var prevPage = CURRENT_PAGE > 1 ? CURRENT_PAGE - 1 : 1;
+    var nextPage = CURRENT_PAGE < PDF_DOCUMENT.numPages ? CURRENT_PAGE + 1 : CURRENT_PAGE;
+
+    PREVIOUS_OFFSET = $('#page' + prevPage).offset().top;
+    NEXT_OFFSET = $('#page' + nextPage).offset().top;
+
+    setCurrentPage(CURRENT_PAGE);
+    renderPages(CURRENT_PAGE);
+}
 
 // ---------------------------------------------------------------------------------------------------------------------
 /**
@@ -209,11 +250,11 @@ function calculateHeight(pdf, currentPage) {
  */
 function navigatePanel() {
     if ($('#container-width').width() < SIZE_LINE) {
-        $('#small-page-num').css('display', 'block');
+        $('#small-page-nav').css('display', 'block');
         $('#page-nav-bar').css('display', 'none');
     }
     else {
-        $('#small-page-num').css('display', 'none');
+        $('#small-page-nav').css('display', 'none');
         $('#page-nav-bar').css('display', 'block');
     }
 }
@@ -255,4 +296,35 @@ function loadDisplay() {
  */
 function loadHide() {
     $("#loading").css('display', 'none');
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+/**
+ * Changes page to page in input of button on big screens.
+ */
+function goToPageBig() {
+    var pageNum = $('#big-page-num').val();
+    validateNumberAndChangePage(pageNum);
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+/**
+ * Changes page to page in input of button on small screens.
+ */
+function goToPageSmall() {
+    var pageNum = $('#small-page-num').val();
+    validateNumberAndChangePage(pageNum);
+}
+// ---------------------------------------------------------------------------------------------------------------------
+/**
+ * Validates the page number and changes page offset and current page.
+ */
+function validateNumberAndChangePage(pageNum) {
+    if (pageNum > 0 && pageNum < PDF_DOCUMENT.numPages + 1) {
+        setCurrentPage(pageNum);
+        setOffset(pageNum);
+    }
+    else {
+        alert('Нет такого номера страницы.\nВведите от 1 до ' + PDF_DOCUMENT.numPages);
+    }
 }

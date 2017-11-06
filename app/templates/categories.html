@@ -11,6 +11,11 @@
     <script src="{% static 'app/js/categories.js' %}"></script>
 {% endblock %}
 
+{% block header_special %}
+    <li><a href="{% url 'categories' %}">Библиотека</a></li>
+    <li><a href="{% url 'about' %}">О проекте</a></li>
+{% endblock %}
+
 {% block content %}
     <!--Main info area-->
     <div id="main" class="container container-margin footer-margin">
@@ -27,21 +32,37 @@
                 <img id="loading" src="{% static 'app/images/loading.gif' %}">
 
                 <!--Categories-->
-                <div id="categories">
-                    <div class="col-sm-6 col-md-6 col-lg-6">
-                        {% for category in first_line %}
+                <div id="categories" class="margin-top">
+                    <div class="col-sm-4 col-md-4 col-lg-4 margin">
+                        {% for category in categories %}
                             <div class="word-wrap"><a href="{% url 'category' category.id %}"
                                     class="active-reference">{{ category.category_name }}</a>
                             </div>
                         {% endfor %}
                     </div>
 
-                    <div class="col-sm-6 col-md-6 col-lg-6">
-                        {% for category in second_line %}
-                            <div class="word-wrap"><a href="{% url 'category' category.id %}"
-                                    class="active-reference">{{ category.category_name }}</a>
+                    <div class="col-sm-8 col-md-8 col-lg-8">
+                        {% if most_readable_books %}
+                            <div align="center">
+                                <h3 class="no-margin-top recommend-margin">Самые читаемые книги</h3>
                             </div>
-                        {% endfor %}
+
+                            {% for book in most_readable_books %}
+                                <a href="{% url 'book' book.id %}">
+                                    <div class="col-sm-4 col-md-4 col-lg-4 col-xs-6">
+                                        <div class="thumbnail">
+                                            <div class="img-wrapper">
+                                                <img src="{{ book.url }}">
+                                                <div class="book-info word-wrap">
+                                                    <b>{{ book.name }}</b><br>
+                                                    <i>{{ book.author }}</i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            {% endfor %}
+                        {% endif %}
                     </div>
                 </div>
             </div>

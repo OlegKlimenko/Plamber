@@ -12,6 +12,11 @@
     <script src="{% static 'app/js/selected_book.js' %}"></script>
 {% endblock %}
 
+{% block header_special %}
+    <li><a href="{% url 'categories' %}">Библиотека</a></li>
+    <li><a href="{% url 'about' %}">О проекте</a></li>
+{% endblock %}
+
 {% block content %}
     <!--Main info area-->
     <div class="container container-margin footer-margin">
@@ -43,26 +48,35 @@
                     </div>
 
                     <div id="estimation-area" align="left">
-                        <div><b>Оценить книгу</b></div>
-                        {% for estimation in estimation_count %}
-                        <div class="estimate"
-                             onclick="changeEstimation({{ book.id }}, {{ estimation }})">{{ estimation }}</div>
-                        {% endfor %}
+                        {% if request.user.is_anonymous %}
+                        <div><b>Только зарегистрированные пользователи могут ставить оценки.</b></div>
+                        {% else %}
+                            <div><b>Оценить книгу</b></div>
+                            {% for estimation in estimation_count %}
+                            <div class="estimate"
+                                 onclick="changeEstimation({{ book.id }}, {{ estimation }})">{{ estimation }}</div>
+                            {% endfor %}
+                        {% endif %}
                     </div>
 
                     <!--The button for adding book-->
                     <input id="book-id" type="hidden" name="book_id" value="{{ book.id }}">
                     <div id="btn-area" class="margin">
-                        {% if added_book %}
-                            <div id="remove-book-div">
-                                <button class="btn" id="remove-book"
-                                        onclick="removeBookHome()">Перестать читать</button>
-                                <div class="word-wrap add-book-text">Сейчас книга в списке читаемых вами.</div>
-                            </div>
+                        {% if not request.user.is_anonymous %}
+                            {% if added_book %}
+                                <div id="remove-book-div">
+                                    <button class="btn" id="remove-book"
+                                            onclick="removeBookHome()">Перестать читать</button>
+                                    <div class="word-wrap add-book-text">Сейчас книга в списке читаемых вами.</div>
+                                </div>
+                            {% else %}
+                                <div id="add-book-div">
+                                    <button class="btn" id="add-book" onclick="addBookHome()">Начать читать</button>
+                                </div>
+                            {% endif %}
                         {% else %}
                             <div id="add-book-div">
-                                <button class="btn" id="add-book"
-                                        onclick="addBookHome()">Начать читать</button>
+                                <a href="{% url 'index' %}"><button class="btn" id="add-book">Начать читать</button></a>
                             </div>
                         {% endif %}
                     </div>
@@ -85,8 +99,12 @@
                             <tr>
                                 <th>Кто загрузил</th>
                                 <td class="word-wrap">
-                                    <a class="reference"
-                                       href="{% url 'profile' book.who_added.id_user.id %}">{{ book.who_added }}</a>
+                                    {% if not request.user.is_anonymous %}
+                                        <a class="reference"
+                                           href="{% url 'profile' book.who_added.id_user.id %}">{{ book.who_added }}</a>
+                                    {% else %}
+                                        <span>{{ book.who_added }}</span>
+                                    {% endif %}
                                 </td>
                             </tr>
                             <tr><th id="about-book">Про книгу</th></tr>
@@ -131,19 +149,23 @@
                 <div class="row">
                     <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
                         <div id="new-comment-header" class="margin">Оставить комментарий</div>
-                        <div class="col-sm-2 col-md-2 col-lg-2 col-xs-5">
-                            {% if user.user_photo %}
-                                <img class="img-responsive" src="{{ user.user_photo.url }}">
-                            {% else %}
-                                <img class="img-responsive" src="{% static 'app/images/user.png' %}">
-                            {% endif %}
-                        </div>
-                        <div class="col-sm-10 col-md-10 col-lg-10 col-xs-7">
-                            <textarea id="add-comment-text" class="input input-colors" maxlength="500"
-                                      placeholder="Введите текст..." onkeypress="addMessage(event, {{ book.id }})"></textarea>
-                            <div align="right"><button id="comment-button" class="btn"
-                                    onclick="addComment({{ book.id }})">Отправить</button></div>
-                        </div>
+                        {% if not request.user.is_anonymous %}
+                            <div class="col-sm-2 col-md-2 col-lg-2 col-xs-5">
+                                {% if user.user_photo %}
+                                    <img class="img-responsive" src="{{ user.user_photo.url }}">
+                                {% else %}
+                                    <img class="img-responsive" src="{% static 'app/images/user.png' %}">
+                                {% endif %}
+                            </div>
+                            <div class="col-sm-10 col-md-10 col-lg-10 col-xs-7">
+                                <textarea id="add-comment-text" class="input input-colors" maxlength="500"
+                                          placeholder="Введите текст..." onkeypress="addMessage(event, {{ book.id }})"></textarea>
+                                <div align="right"><button id="comment-button" class="btn"
+                                        onclick="addComment({{ book.id }})">Отправить</button></div>
+                            </div>
+                        {% else %}
+                            <h5>Только зарегистрированные пользователи могут оставлять комментарии</h5>
+                        {% endif %}
                     </div>
                 </div>
             </div>
