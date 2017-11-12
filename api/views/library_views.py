@@ -22,7 +22,7 @@ def all_categories(request):
     """
     Generates the categories list.
     """
-    the_user = get_object_or_404(TheUser, auth_token=request.data.get('user_token'))
+    get_object_or_404(TheUser, auth_token=request.data.get('user_token'))
     categories = Category.objects.all().order_by('category_name')
 
     return Response({'status': 200,
@@ -37,7 +37,7 @@ def selected_category(request, category_id):
     """
     Returns books from selected category.
     """
-    the_user = get_object_or_404(TheUser, auth_token=request.data.get('user_token'))
+    get_object_or_404(TheUser, auth_token=request.data.get('user_token'))
 
     category = Category.objects.get(id=category_id)
     books = Book.objects.filter(id_category=category).order_by('book_name')

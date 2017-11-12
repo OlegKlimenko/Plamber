@@ -10,8 +10,8 @@ from rest_framework.decorators import api_view, parser_classes
 from rest_framework.parsers import FileUploadParser
 from rest_framework.response import Response
 
-from ..serializers import BookSerializer, ProfileSerializer
-from app.models import TheUser, AddedBook, Book
+from ..serializers import ProfileSerializer
+from app.models import TheUser
 from app.tasks import changed_password
 from app.utils import resize_image
 
