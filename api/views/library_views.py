@@ -33,13 +33,13 @@ def all_categories(request):
 
 # ----------------------------------------------------------------------------------------------------------------------
 @api_view(['POST'])
-def selected_category(request, category_id):
+def selected_category(request):
     """
     Returns books from selected category.
     """
     get_object_or_404(TheUser, auth_token=request.data.get('user_token'))
+    category = get_object_or_404(Category, id=request.data.get('category_id'))
 
-    category = Category.objects.get(id=category_id)
     books = Book.objects.filter(id_category=category).order_by('book_name')
     filtered_books = Book.exclude_private_books(request.user, books)
 
@@ -51,4 +51,4 @@ def selected_category(request, category_id):
     return Response({'status': 200,
                      'detail': 'successful',
                      'data': {'books': [BookSerializer(book).data for book in page_books],
-                              'next_page': page.next_page_number() if next_page else next_page}})
+                              'next_page': page.next_page_number() if next_page else 0}})

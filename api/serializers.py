@@ -27,10 +27,6 @@ class BookSerializer(serializers.Serializer):
 class CategorySerializer(serializers.Serializer):
     id = serializers.IntegerField()
     category_name = serializers.CharField(max_length=150)
-    url = serializers.SerializerMethodField('category_url')
-
-    def category_url(self, obj):
-        return reverse('category_api', args=[obj.id])
 
 
 # ----------------------------------------------------------------------------------------------------------------------
