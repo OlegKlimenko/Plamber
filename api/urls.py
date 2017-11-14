@@ -23,7 +23,10 @@ if settings.DEBUG:
         # Library urls.
         url(r'categories', library_views.all_categories),
         url(r'^category', library_views.selected_category, name='category_api'),
-        url(r'book/', selected_book_views.selected_book, name='book_api'),
+        url(r'search-book', library_views.find_book),
+
+        # Selected book urls.
+        url(r'book', selected_book_views.selected_book, name='book_api'),
 
         # Profile urls.
         url(r'my-profile', profile_views.my_profile),
