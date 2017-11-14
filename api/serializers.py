@@ -17,10 +17,6 @@ class BookSerializer(serializers.Serializer):
     who_added = serializers.ReadOnlyField(source='who_added.id_user.username')
     upload_date = serializers.DateTimeField()
     private_book = serializers.BooleanField()
-    url = serializers.SerializerMethodField('book_url')
-
-    def book_url(self, obj):
-        return reverse('book_api', args=[obj.id])
 
 
 # ----------------------------------------------------------------------------------------------------------------------

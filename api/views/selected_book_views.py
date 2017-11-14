@@ -1,2 +1,2 @@
-def selected_book(request, book_id):
+def selected_book(request):
     pass
