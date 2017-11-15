@@ -22,6 +22,7 @@ if settings.DEBUG:
 
         # Read book urls.
         url(r'read-book', read_book_views.open_book),
+        url(r'set-current-page', read_book_views.set_current_page),
 
         # Library urls.
         url(r'categories', library_views.all_categories),
