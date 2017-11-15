@@ -3,7 +3,7 @@
 from django.conf.urls import url
 from django.conf import settings
 
-from .views import index_views, home_views, library_views, profile_views, selected_book_views
+from .views import index_views, home_views, library_views, profile_views, selected_book_views, read_book_views
 
 # Remove in production when will define the way to get requests only from expected origin.
 if settings.DEBUG:
@@ -19,6 +19,9 @@ if settings.DEBUG:
         url(r'home', home_views.home),
         url(r'recommend', home_views.recommendations),
         url(r'uploaded', home_views.uploaded_books),
+
+        # Read book urls.
+        url(r'read-book', read_book_views.open_book),
 
         # Library urls.
         url(r'categories', library_views.all_categories),
