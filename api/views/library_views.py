@@ -11,7 +11,7 @@ from rest_framework.response import Response
 from ..serializers import CategorySerializer, BookSerializer
 from app.models import TheUser, Category, Book
 
-OUTPUT_BOOKS_PER_PAGE = 6
+OUTPUT_BOOKS_PER_PAGE = 20
 
 logger = logging.getLogger('changes')
 
