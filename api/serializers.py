@@ -7,6 +7,7 @@ from rest_framework import serializers
 
 # ----------------------------------------------------------------------------------------------------------------------
 class BookSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
     book_name = serializers.CharField(max_length=150)
     id_author = serializers.ReadOnlyField(source='id_author.author_name')
     id_category = serializers.ReadOnlyField(source='id_category.category_name')
