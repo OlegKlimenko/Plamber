@@ -31,3 +31,11 @@ class ProfileSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     username = serializers.ReadOnlyField(source='id_user.username')
     user_photo = serializers.ImageField()
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+class CommentSerializer(serializers.Serializer):
+    user = serializers.ReadOnlyField(source='id_user.id_user.username')
+    text = serializers.CharField(max_length=500)
+    posted_date = serializers.DateField()
+
