@@ -43,6 +43,26 @@ def selected_book(request):
 
 # ----------------------------------------------------------------------------------------------------------------------
 @api_view(['POST'])
+def add_book_to_home(request):
+    """
+    Adds book to list of user's added books.
+    """
+    user = get_object_or_404(TheUser, auth_token=request.data.get('user_token'))
+    book = Book.objects.get(id=request.data.get('book_id'))
+
+    if book.private_book and book.who_added != user:
+        return Response({}, status=404)
+
+    AddedBook.objects.create(id_user=user, id_book=book)
+    logger.info("User '{}' added book with id: '{}' to his own library.".format(user.id_user.id, book.id))
+
+    return Response({'status': 200,
+                     'detail': 'success',
+                     'data': {}})
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+@api_view(['POST'])
 def add_comment(request):
     the_user = get_object_or_404(TheUser, auth_token=request.data.get('user_token'))
 
