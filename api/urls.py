@@ -31,6 +31,7 @@ if settings.DEBUG:
 
         # Selected book urls.
         url(r'book', selected_book_views.selected_book, name='book_api'),
+        url(r'comment-add', selected_book_views.add_comment),
 
         # Profile urls.
         url(r'my-profile', profile_views.my_profile),

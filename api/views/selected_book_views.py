@@ -1,12 +1,16 @@
 # -*- coding: utf-8 -*-
 
+import logging
+
 from django.shortcuts import get_object_or_404
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from ..serializers import BookSerializer, CommentSerializer
-from app.models import AddedBook, Book, TheUser
+from app.models import AddedBook, Book, BookComment, TheUser
+
+logger = logging.getLogger('changes')
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -35,3 +39,20 @@ def selected_book(request):
                               'book_rating': book_rating if book_rating else 0,
                               'book_rated_count': book_rating_count if book_rating_count else 0,
                               'comments': comments}})
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+@api_view(['POST'])
+def add_comment(request):
+    the_user = get_object_or_404(TheUser, auth_token=request.data.get('user_token'))
+
+    comment = BookComment.objects.create(id_user=the_user,
+                                         id_book=Book.objects.get(id=request.data.get('book_id')),
+                                         text=request.data.get('text'))
+
+    logger.info("User '{}' left comment with id: '{}' on book with id: '{}'."
+                .format(the_user.id_user.id, comment.id, comment.id_book.id))
+
+    return Response({'status': 200,
+                     'detail': 'success',
+                     'data': CommentSerializer(comment).data})

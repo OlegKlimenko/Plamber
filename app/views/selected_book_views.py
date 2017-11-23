@@ -9,7 +9,7 @@ from django.core.files.base import ContentFile
 from django.db import transaction
 from django.db.models import Avg
 from django.http import HttpResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import render
 from django.utils.html import escape
 
 from ..forms import BookHomeForm, AddCommentForm, ChangeRatingForm, StoreBookImageForm

@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from django.urls import reverse
-
 from rest_framework import serializers
 
 
@@ -39,4 +37,3 @@ class CommentSerializer(serializers.Serializer):
     user_photo = serializers.ReadOnlyField(source='id_user.user_photo.url')
     text = serializers.CharField(max_length=500)
     posted_date = serializers.DateField()
-
