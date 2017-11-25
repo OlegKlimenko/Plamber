@@ -111,6 +111,11 @@ def sign_in(request):
     Creates a new user and returns status.
     """
     with transaction.atomic():
+        if 'admin' in request.data.get('username'):
+            return Response({'status': 400,
+                             'detail': 'not allowed username',
+                             'data': {}})
+
         user = User.objects.create_user(username=request.data.get('username'),
                                         email=request.data.get('email'),
                                         password=request.data.get('passw1'))

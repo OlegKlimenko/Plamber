@@ -45,6 +45,9 @@ class SignInForm(forms.Form):
         if cleaned_data['passw1'] != cleaned_data['passw2']:
             raise ValidationError('Passwords are not matching!')
 
+        if 'admin' in cleaned_data['username']:
+            raise ValidationError('Not allowed username!')
+
 
 # ----------------------------------------------------------------------------------------------------------------------
 class LogInForm(forms.Form):
