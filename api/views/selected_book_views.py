@@ -2,13 +2,14 @@
 
 import logging
 
+from django.db.models import Avg
 from django.shortcuts import get_object_or_404
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from ..serializers import BookSerializer, CommentSerializer
-from app.models import AddedBook, Book, BookComment, TheUser
+from app.models import AddedBook, Book, BookComment, BookRating, TheUser
 
 logger = logging.getLogger('changes')
 
@@ -81,6 +82,33 @@ def remove_book_from_home(request):
     return Response({'status': 200,
                      'detail': 'success',
                      'data': {}})
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+@api_view(['POST'])
+def change_rating(request):
+    user = get_object_or_404(TheUser, auth_token=request.data.get('user_token'))
+    book = get_object_or_404(Book, id=request.data.get('book_id'))
+    rating = request.data.get('rating')
+
+    if rating not in range(1, 11):
+        return Response({}, status=404)
+
+    book_ratings = BookRating.objects.filter(id_user=user, id_book=book)
+
+    if book_ratings.exists():
+        book_rating = book_ratings[0]
+        book_rating.rating = rating
+        book_rating.save()
+    else:
+        BookRating.objects.create(id_user=user, id_book=book, rating=rating)
+
+    logger.info("User '{}' set rating '{}' to book with id: '{}'.".format(user, rating, book.id))
+
+    return Response({'status': 200,
+                     'detail': 'success',
+                     'data': {'book_rating': round(book_ratings.aggregate(Avg('rating'))['rating__avg'], 1),
+                              'book_rated_count': book_ratings.count()}})
 
 
 # ----------------------------------------------------------------------------------------------------------------------
