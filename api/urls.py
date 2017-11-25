@@ -16,7 +16,7 @@ if settings.DEBUG:
         url(r'sign-in', index_views.sign_in),
 
         # Home urls.
-        url(r'home', home_views.home),
+        url(r'^home', home_views.home),
         url(r'recommend', home_views.recommendations),
         url(r'uploaded', home_views.uploaded_books),
 
@@ -30,8 +30,8 @@ if settings.DEBUG:
         url(r'search-book', library_views.find_book),
 
         # Selected book urls.
-        url(r'book', selected_book_views.selected_book, name='book_api'),
-        url(r'start-read', selected_book_views.add_book_to_home),
+        url(r'^book', selected_book_views.selected_book, name='book_api'),
+        url(r'^add-book-home', selected_book_views.add_book_to_home),
         url(r'comment-add', selected_book_views.add_comment),
 
         # Profile urls.
