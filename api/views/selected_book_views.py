@@ -53,6 +53,9 @@ def add_book_to_home(request):
     if book.private_book and book.who_added != user:
         return Response({}, status=404)
 
+    if AddedBook.objects.filter(id_user=user, id_book=book).exists():
+        return Response({}, status=404)
+
     AddedBook.objects.create(id_user=user, id_book=book)
     logger.info("User '{}' added book with id: '{}' to his own library.".format(user.id_user.id, book.id))
 
