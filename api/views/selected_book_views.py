@@ -66,6 +66,25 @@ def add_book_to_home(request):
 
 # ----------------------------------------------------------------------------------------------------------------------
 @api_view(['POST'])
+def remove_book_from_home(request):
+    """
+    Removes book from list of user's reading books.
+    """
+    user = get_object_or_404(TheUser, auth_token=request.data.get('user_token'))
+    book = get_object_or_404(Book, id=request.data.get('book_id'))
+    added_book = get_object_or_404(AddedBook, id_user=user, id_book=book)
+
+    added_book.delete()
+    logger.info("User '{}' removed book with id: '{}' from his own library."
+                .format(request.user, request.data.get('book_id')))
+
+    return Response({'status': 200,
+                     'detail': 'success',
+                     'data': {}})
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+@api_view(['POST'])
 def add_comment(request):
     the_user = get_object_or_404(TheUser, auth_token=request.data.get('user_token'))
 

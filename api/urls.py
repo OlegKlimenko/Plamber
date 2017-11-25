@@ -32,6 +32,7 @@ if settings.DEBUG:
         # Selected book urls.
         url(r'^book', selected_book_views.selected_book, name='book_api'),
         url(r'^add-book-home', selected_book_views.add_book_to_home),
+        url(r'^remove-book-home', selected_book_views.remove_book_from_home),
         url(r'comment-add', selected_book_views.add_comment),
 
         # Profile urls.
@@ -42,4 +43,3 @@ if settings.DEBUG:
 
 else:
     urlpatterns = []
-
