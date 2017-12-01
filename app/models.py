@@ -284,7 +284,8 @@ class Book(models.Model):
         :return:
         """
         return [{'url': reverse('book', args=[escape(item[0])]), 'name': escape(item[1])} for item in
-                Book.objects.filter(book_name__icontains=book_part)[:10].values_list('id', 'book_name')]
+                Book.objects.filter(book_name__icontains=book_part,
+                                    private_book=False)[:10].values_list('id', 'book_name')]
 
     # ------------------------------------------------------------------------------------------------------------------
     @staticmethod
