@@ -33,7 +33,7 @@ if settings.DEBUG:
         # Add book urls.
         url(r'generate-authors', upload_book_views.generate_authors),
         url(r'generate-books', upload_book_views.generate_books),
-        url(r'upload', upload_book_views.upload_book),
+        url(r'^upload-book', upload_book_views.upload_book),
 
         # Library urls.
         url(r'categories', library_views.all_categories),
@@ -50,7 +50,7 @@ if settings.DEBUG:
         # Profile urls.
         url(r'my-profile', profile_views.my_profile),
         url(r'change-password', profile_views.change_password),
-        url(r'upload-avatar', profile_views.upload_avatar),
+        url(r'^upload-avatar', profile_views.upload_avatar),
     ]
 
 else:

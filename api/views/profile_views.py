@@ -7,7 +7,7 @@ from django.core.exceptions import ValidationError
 from django.shortcuts import get_object_or_404
 
 from rest_framework.decorators import api_view, parser_classes
-from rest_framework.parsers import FileUploadParser
+from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
 
 from ..serializers import ProfileSerializer
@@ -62,7 +62,7 @@ def change_password(request):
 
 # ----------------------------------------------------------------------------------------------------------------------
 @api_view(['POST'])
-@parser_classes((FileUploadParser,))
+@parser_classes((MultiPartParser,))
 def upload_avatar(request):
     """
     Sets new user's avatar.
