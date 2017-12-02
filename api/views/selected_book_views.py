@@ -23,7 +23,7 @@ def selected_book(request):
     user = get_object_or_404(TheUser, auth_token=request.data.get('user_token'))
     book_id = request.data.get('book_id')
 
-    rel_objects = Book.get_related_objects_selected_book(request.user, book_id)
+    rel_objects = Book.get_related_objects_selected_book(request.user, book_id, request.data.get('user_token'))
 
     if rel_objects['book'].private_book and rel_objects['book'].who_added != user:
         return Response({}, status=404)

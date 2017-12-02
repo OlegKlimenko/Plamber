@@ -145,12 +145,13 @@ class Book(models.Model):
 
     # ------------------------------------------------------------------------------------------------------------------
     @staticmethod
-    def get_related_objects_selected_book(user, book_id):
+    def get_related_objects_selected_book(user, book_id, user_key=''):
         """
         Returns the related objects of selected book
 
         :param app.models.TheUser user: The request for selecting book.
-        :param int book_id: The ID of selected book.
+        :param int book_id:             The ID of selected book.
+        :param str user_key:            The key which is used to get user if it's an API call.
 
         :return: Related objects.
         """
@@ -161,7 +162,8 @@ class Book(models.Model):
             if not user.is_anonymous:
                 added_book = AddedBook.objects.get(id_user=TheUser.objects.get(id_user=user), id_book=book)
             else:
-                added_book = None
+                the_user = TheUser.objects.get(auth_token=user_key)
+                added_book = AddedBook.object.get(id_user=the_user, id_book=book)
 
         except ObjectDoesNotExist:
             added_book = None
