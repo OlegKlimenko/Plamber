@@ -126,6 +126,25 @@ class Book(models.Model):
 
     # ------------------------------------------------------------------------------------------------------------------
     @staticmethod
+    def get_related_objects_create_api(user, data):
+        """
+        Selects related object for book instance when create a new book; creates author object if needed.
+        """
+        try:
+            author = Author.objects.get(author_name__iexact=data.get('author'))
+        except ObjectDoesNotExist:
+            author = Author.objects.create(author_name=data.get('author'))
+
+            logger.info("Created new author with name: '{}' and id: '{}'."
+                        .format(author.author_name, author.id))
+
+        category = Category.objects.get(category_name=data.get('category'))
+        lang = Language.objects.get(language=data.get('language'))
+
+        return {'author': author, 'category': category, 'lang': lang}
+
+    # ------------------------------------------------------------------------------------------------------------------
+    @staticmethod
     def get_related_objects_selected_book(user, book_id):
         """
         Returns the related objects of selected book

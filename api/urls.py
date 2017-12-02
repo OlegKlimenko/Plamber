@@ -33,6 +33,7 @@ if settings.DEBUG:
         # Add book urls.
         url(r'generate-authors', upload_book_views.generate_authors),
         url(r'generate-books', upload_book_views.generate_books),
+        url(r'upload', upload_book_views.upload_book),
 
         # Library urls.
         url(r'categories', library_views.all_categories),

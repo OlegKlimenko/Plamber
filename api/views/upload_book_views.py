@@ -2,15 +2,50 @@
 
 import logging
 
+from django.db import transaction
 from django.shortcuts import get_object_or_404
 
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, parser_classes
+from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
 
 from ..serializers import BookSerializer
-from app.models import Author, Book, TheUser
+from app.models import Author, AddedBook, Book, TheUser
+from app.tasks import compress_pdf_task
 
 logger = logging.getLogger('changes')
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+@api_view(['POST'])
+@parser_classes((MultiPartParser,))
+def upload_book(request):
+    """
+    Handles request and saves uploaded book.
+    """
+    with transaction.atomic():
+        user = get_object_or_404(TheUser, auth_token=request.data.get('user_token'))
+        rel_objects = Book.get_related_objects_create_api(user, request.data)
+
+        book = Book.objects.create(book_name=request.data.get('book_name'),
+                                   id_author=rel_objects['author'],
+                                   id_category=rel_objects['category'],
+                                   description=request.data.get('about'),
+                                   language=rel_objects['lang'],
+                                   book_file=request.data['book_file'],
+                                   who_added=user,
+                                   private_book=request.data.get('private_book'))
+
+        AddedBook.objects.create(id_user=user, id_book=book)
+
+        logger.info("User '{}' uploaded book with id: '{}' and name: '{}' on category: '{}'."
+                    .format(user, book.id, book.book_name, rel_objects['category']))
+
+        compress_pdf_task.delay(book.book_file.path)
+
+        return Response({'status': '200',
+                         'detail': 'successful',
+                         'data': {}})
 
 
 # ----------------------------------------------------------------------------------------------------------------------
