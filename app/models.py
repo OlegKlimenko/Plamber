@@ -163,7 +163,7 @@ class Book(models.Model):
                 added_book = AddedBook.objects.get(id_user=TheUser.objects.get(id_user=user), id_book=book)
             else:
                 the_user = TheUser.objects.get(auth_token=user_key)
-                added_book = AddedBook.object.get(id_user=the_user, id_book=book)
+                added_book = AddedBook.objects.get(id_user=the_user, id_book=book)
 
         except ObjectDoesNotExist:
             added_book = None
