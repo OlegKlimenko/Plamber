@@ -9,7 +9,8 @@ from .views import (index_views,
                     profile_views,
                     selected_book_views,
                     read_book_views,
-                    upload_book_views)
+                    upload_book_views,
+                    additional_views)
 
 # Remove in production when will define the way to get requests only from expected origin.
 if settings.DEBUG:
@@ -51,6 +52,9 @@ if settings.DEBUG:
         url(r'my-profile', profile_views.my_profile),
         url(r'change-password', profile_views.change_password),
         url(r'^upload-avatar', profile_views.upload_avatar),
+
+        # Other urls.
+        url(r'send-support-message', additional_views.save_support_message)
     ]
 
 else:
