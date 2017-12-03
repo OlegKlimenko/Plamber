@@ -4,7 +4,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 
-from .models import Category, Author, Book, BookRating, BookComment, AddedBook, TheUser, Language, Post
+from .models import Category, Author, Book, BookRating, BookComment, AddedBook, TheUser, Language, Post, SupportMessage
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -103,6 +103,11 @@ class PostAdmin(admin.ModelAdmin):
     list_display = ('heading', 'user', 'posted_date')
 
 
+# ----------------------------------------------------------------------------------------------------------------------
+class SupportMessageAdmin(admin.ModelAdmin):
+    list_display = ('id', 'email', 'is_checked', 'posted_date')
+
+
 admin.site.unregister(User)
 admin.site.register(User, CustomUserAdmin)
 admin.site.register(TheUser, TheUserAdmin)
@@ -114,3 +119,4 @@ admin.site.register(BookRating, BookRatingAdmin)
 admin.site.register(BookComment, BookCommentAdmin)
 admin.site.register(AddedBook, AddedBookAdmin)
 admin.site.register(Post, PostAdmin)
+admin.site.register(SupportMessage, SupportMessageAdmin)

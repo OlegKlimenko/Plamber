@@ -403,3 +403,15 @@ class Post(models.Model):
     user = models.ForeignKey(TheUser)
     posted_date = models.DateField(auto_now=True)
     text = models.TextField()
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+class SupportMessage(models.Model):
+    """
+    Class for managing support messages.
+    """
+    email = models.EmailField()
+    text = models.TextField(max_length=5000)
+    posted_date = models.DateTimeField(auto_now_add=True)
+    is_checked = models.BooleanField(default=False)
+
