@@ -44,6 +44,7 @@ urlpatterns = [
     url(r'home-remove-book', selected_book_views.remove_book_from_home),
     url(r'change-rating', selected_book_views.change_rating),
     url(r'comment-add', selected_book_views.add_comment),
+    url(r'load-comments', selected_book_views.load_comments),
 
     # Library urls.
     url(r'library', library_views.all_categories, name='categories'),

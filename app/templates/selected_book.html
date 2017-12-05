@@ -180,7 +180,7 @@
 
         <!--Area with existing comments-->
         <div class="row margin">
-            <div class="col-sm-12 col-md-12 col-lg-12">
+            <div id="all-comments" class="col-sm-12 col-md-12 col-lg-12">
                 <div id="comments"></div>
                 {% if comments %}
                     {% for comment in comments %}
@@ -204,6 +204,12 @@
                             </div>
                         </div>
                     {% endfor %}
+                    {% if comments_has_next_page %}
+                        <div id="load-comments-area" align="center">
+                            <button id="load-comments" class="btn"
+                                    onclick="getNextPage({{ comments_page }}, {{ book.id }})">Еще комментарии</button>
+                        </div>
+                    {% endif %}
                 {% else %}
                     <div id="no-comments"><h4><b>Пока никто не оставил комментариев об этой книге.</b></h4></div>
                 {% endif %}

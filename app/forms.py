@@ -101,6 +101,12 @@ class AddCommentForm(forms.Form):
 
 
 # ----------------------------------------------------------------------------------------------------------------------
+class LoadCommentsForm(forms.Form):
+    page = forms.IntegerField()
+    book_id = forms.IntegerField()
+
+
+# ----------------------------------------------------------------------------------------------------------------------
 class SortForm(forms.Form):
     category = forms.IntegerField()
     criterion = forms.CharField(max_length=30)

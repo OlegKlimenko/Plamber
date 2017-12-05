@@ -5,6 +5,7 @@ import logging
 from binascii import a2b_base64
 
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.paginator import Paginator
 from django.core.files.base import ContentFile
 from django.db import transaction
 from django.db.models import Avg
@@ -12,12 +13,14 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.utils.html import escape
 
-from ..forms import BookHomeForm, AddCommentForm, ChangeRatingForm, StoreBookImageForm
+from ..forms import BookHomeForm, AddCommentForm, ChangeRatingForm, StoreBookImageForm, LoadCommentsForm
 from ..models import AddedBook, Book, BookRating, BookComment, TheUser
 from ..recommend import get_recommend
 from ..utils import resize_image
 
 BOOK_COVER_HEIGHT = 350
+COMMENTS_PER_PAGE = 20
+COMMENTS_START_PAGE = 1
 RANDOM_BOOKS_COUNT = 6
 
 logger = logging.getLogger('changes')
@@ -43,10 +46,16 @@ def selected_book(request, book_id):
     book_rating = rel_objects['avg_book_rating']['rating__avg']
     book_rating_count = rel_objects['book_rating_count']
 
+    comments = rel_objects['comments']
+    comments_paginator = Paginator(comments, COMMENTS_PER_PAGE)
+    page = comments_paginator.page(COMMENTS_START_PAGE)
+
     context = {'book': rel_objects['book'],
                'added_book': rel_objects['added_book'],
                'added_book_count': AddedBook.get_count_added(book_id),
-               'comments': rel_objects['comments'],
+               'comments': page.object_list,
+               'comments_page': COMMENTS_START_PAGE,
+               'comments_has_next_page': page.has_next(),
                'book_rating': book_rating if book_rating else '-',
                'book_rating_count': '({})'.format(book_rating_count) if book_rating_count else '',
                'estimation_count': range(1, 11),
@@ -187,11 +196,43 @@ def add_comment(request):
                         .format(user, comment.id, comment.id_book.id))
 
             response_data = {
-                'text': escape(comment.text),
                 'username': escape(request.user.username),
                 'user_photo': user_photo,
-                'posted_date': comment.posted_date.strftime('%d-%m-%Y')
+                'posted_date': comment.posted_date.strftime('%d-%m-%Y'),
+                'text': escape(comment.text)
             }
+            return HttpResponse(json.dumps(response_data), content_type='application/json')
+    else:
+        return HttpResponse(status=404)
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+def load_comments(request):
+    if request.is_ajax():
+        form = LoadCommentsForm(request.POST)
+
+        if form.is_valid():
+            book = Book.objects.get(id=form.cleaned_data['book_id'])
+            comments = BookComment.objects.filter(id_book=book).order_by('-id')
+            next_page_num = form.cleaned_data['page'] + 1
+
+            comments_paginator = Paginator(comments, COMMENTS_PER_PAGE)
+            page = comments_paginator.page(next_page_num)
+
+            json_comments = [{
+                'username': escape(comment.id_user.id_user.username),
+                'user_photo': comment.id_user.user_photo.url if comment.id_user.user_photo else '',
+                'posted_date': comment.posted_date.strftime('%d-%m-%Y'),
+                'text': escape(comment.text)
+            } for comment in page.object_list]
+
+            response_data = {
+                'comments': json_comments,
+                'current_page': next_page_num,
+                'has_next_page': page.has_next(),
+                'book_id': book.id
+            }
+
             return HttpResponse(json.dumps(response_data), content_type='application/json')
     else:
         return HttpResponse(status=404)

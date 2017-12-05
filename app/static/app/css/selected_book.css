@@ -214,3 +214,15 @@ td {
 .footer-margin {
     margin-bottom: 40px;
 }
+
+#load-comments {
+    background-color: #31a445;
+    border: solid 2px #31a445;
+    color: #fff;
+}
+
+#load-comments:hover {
+    background-color: Transparent;
+    border: solid 2px #31a445;
+    color: #31a445;
+}
