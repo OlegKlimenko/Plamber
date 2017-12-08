@@ -53,4 +53,4 @@ def uploaded_books(request):
 
     return Response({'status': 200,
                      'detail': 'successful',
-                     'data': {'uploaded_books': [BookSerializer(book).data for book in user_uploaded_books]}})
+                     'data': [BookSerializer(book).data for book in user_uploaded_books]})
