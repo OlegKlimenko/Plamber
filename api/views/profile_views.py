@@ -7,11 +7,11 @@ from django.core.exceptions import ValidationError
 from django.shortcuts import get_object_or_404
 
 from rest_framework.decorators import api_view, parser_classes
-from rest_framework.parsers import FileUploadParser
+from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
 
-from ..serializers import BookSerializer, ProfileSerializer
-from app.models import TheUser, AddedBook, Book
+from ..serializers import ProfileSerializer
+from app.models import TheUser
 from app.tasks import changed_password
 from app.utils import resize_image
 
@@ -28,14 +28,9 @@ def my_profile(request):
     """
     the_user = get_object_or_404(TheUser, auth_token=request.data.get('user_token'))
 
-    added_books = [book.id_book for book in AddedBook.get_user_added_books(the_user.id_user)]
-    uploaded_books = Book.objects.filter(who_added=the_user).order_by('-id')
-
     return Response({'status': 200,
                      'detail': 'successful',
-                     'data': {'profile': ProfileSerializer(the_user).data,
-                              'added_books': [BookSerializer(book).data for book in added_books],
-                              'uploaded_books': [BookSerializer(book).data for book in uploaded_books]}})
+                     'data': {'profile': ProfileSerializer(the_user).data}})
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -67,7 +62,7 @@ def change_password(request):
 
 # ----------------------------------------------------------------------------------------------------------------------
 @api_view(['POST'])
-@parser_classes((FileUploadParser,))
+@parser_classes((MultiPartParser,))
 def upload_avatar(request):
     """
     Sets new user's avatar.

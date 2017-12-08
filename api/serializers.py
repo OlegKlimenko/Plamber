@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 
-from django.urls import reverse
-
 from rest_framework import serializers
 
 
 # ----------------------------------------------------------------------------------------------------------------------
 class BookSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
     book_name = serializers.CharField(max_length=150)
     id_author = serializers.ReadOnlyField(source='id_author.author_name')
     id_category = serializers.ReadOnlyField(source='id_category.category_name')
@@ -23,10 +22,6 @@ class BookSerializer(serializers.Serializer):
 class CategorySerializer(serializers.Serializer):
     id = serializers.IntegerField()
     category_name = serializers.CharField(max_length=150)
-    url = serializers.SerializerMethodField('category_url')
-
-    def category_url(self, obj):
-        return reverse('category_api', args=[obj.id])
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -34,3 +29,11 @@ class ProfileSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     username = serializers.ReadOnlyField(source='id_user.username')
     user_photo = serializers.ImageField()
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+class CommentSerializer(serializers.Serializer):
+    user = serializers.ReadOnlyField(source='id_user.id_user.username')
+    user_photo = serializers.ReadOnlyField(source='id_user.user_photo.url')
+    text = serializers.CharField(max_length=500)
+    posted_date = serializers.DateField()

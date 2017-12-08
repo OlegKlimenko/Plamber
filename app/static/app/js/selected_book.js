@@ -196,3 +196,64 @@ function addMessage(event, id) {
         addComment(id);
     }
 }
+
+// ---------------------------------------------------------------------------------------------------------------------
+/**
+ * Fetches next page if next page is present.
+ *
+ * @param {number} currentPage The number of current page.
+ * @param {number} bookId      ID of current book.
+ */
+function getNextPage(currentPage, bookId) {
+    $("#load-comments-area").remove();
+
+    $.ajax({
+        url: "load-comments",
+        type: "POST",
+        data: {page: currentPage,
+               book_id: bookId,
+               csrfmiddlewaretoken: getCookie("csrftoken")},
+
+        success: function result(response) {
+            generateNextPageHTML(response);
+        }
+    });
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+/**
+ * Generates HTML output for loading new comments.
+ *
+ * @param {object} response The AJAX response in JSON.
+ */
+function generateNextPageHTML(response) {
+    for (var elem in response["comments"]) {
+        if (response["comments"].hasOwnProperty(elem)) {
+
+            var imageSrc = response["comments"][elem]['user_photo'];
+            var username = response["comments"][elem]['username'];
+            var postedDate = response["comments"][elem]['posted_date'];
+            var text = response["comments"][elem]['text'];
+
+            $("#all-comments").append(
+                "<hr class='hr'><div class='row'><div class='col-sm-12 col-md-12 col-lg-12 col-xs-12'>" +
+                "<div class='col-sm-2 col-md-2 col-lg-2 col-xs-5'>" +
+                "<img class='img-responsive' src='" + imageSrc + "'>" +
+                "</div><div class='col-sm-10 col-md-10 col-lg-10 col-xs-7 word-wrap'>" +
+                "<div class='word-wrap user-name margin'>" +
+                "<b>" + username + "</b>" +
+                "<b> - <i class='comment-posted-date'>" + postedDate + "</i></b></div>" +
+                "<span class='text-font'>" + text + "</span>" +
+                "</div></div></div>");
+        }
+    }
+
+    if (response['has_next_page']) {
+        $("#all-comments").append(
+            '<div id="load-comments-area" align="center">' +
+            '<button id="load-comments" class="btn" ' +
+            'onclick="getNextPage(' + response['current_page'] + ', ' + response['book_id'] + ')' +
+            '">Еще комментарии</button>' +
+            '</div>')
+    }
+}

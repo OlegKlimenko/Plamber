@@ -6,7 +6,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from ..serializers import BookSerializer
-from app.models import TheUser, AddedBook
+from app.models import TheUser, AddedBook, Book
 from app.recommend import get_recommend
 
 RANDOM_BOOKS_COUNT = 6
@@ -40,3 +40,17 @@ def recommendations(request):
     return Response({'status': 200,
                      'detail': 'successful',
                      'data': [BookSerializer(book).data for book in recommend_books]})
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+@api_view(['POST'])
+def uploaded_books(request):
+    """
+    Returns the list of books which user uploaded before in system.
+    """
+    the_user = get_object_or_404(TheUser, auth_token=request.data.get('user_token'))
+    user_uploaded_books = Book.objects.filter(who_added=the_user).order_by('-id')
+
+    return Response({'status': 200,
+                     'detail': 'successful',
+                     'data': {'uploaded_books': [BookSerializer(book).data for book in user_uploaded_books]}})

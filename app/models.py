@@ -126,12 +126,32 @@ class Book(models.Model):
 
     # ------------------------------------------------------------------------------------------------------------------
     @staticmethod
-    def get_related_objects_selected_book(user, book_id):
+    def get_related_objects_create_api(user, data):
+        """
+        Selects related object for book instance when create a new book; creates author object if needed.
+        """
+        try:
+            author = Author.objects.get(author_name__iexact=data.get('author'))
+        except ObjectDoesNotExist:
+            author = Author.objects.create(author_name=data.get('author'))
+
+            logger.info("Created new author with name: '{}' and id: '{}'."
+                        .format(author.author_name, author.id))
+
+        category = Category.objects.get(category_name=data.get('category'))
+        lang = Language.objects.get(language=data.get('language'))
+
+        return {'author': author, 'category': category, 'lang': lang}
+
+    # ------------------------------------------------------------------------------------------------------------------
+    @staticmethod
+    def get_related_objects_selected_book(user, book_id, user_key=''):
         """
         Returns the related objects of selected book
 
         :param app.models.TheUser user: The request for selecting book.
-        :param int book_id: The ID of selected book.
+        :param int book_id:             The ID of selected book.
+        :param str user_key:            The key which is used to get user if it's an API call.
 
         :return: Related objects.
         """
@@ -142,7 +162,8 @@ class Book(models.Model):
             if not user.is_anonymous:
                 added_book = AddedBook.objects.get(id_user=TheUser.objects.get(id_user=user), id_book=book)
             else:
-                added_book = None
+                the_user = TheUser.objects.get(auth_token=user_key)
+                added_book = AddedBook.objects.get(id_user=the_user, id_book=book)
 
         except ObjectDoesNotExist:
             added_book = None
@@ -284,7 +305,8 @@ class Book(models.Model):
         :return:
         """
         return [{'url': reverse('book', args=[escape(item[0])]), 'name': escape(item[1])} for item in
-                Book.objects.filter(book_name__icontains=book_part)[:10].values_list('id', 'book_name')]
+                Book.objects.filter(book_name__icontains=book_part,
+                                    private_book=False)[:10].values_list('id', 'book_name')]
 
     # ------------------------------------------------------------------------------------------------------------------
     @staticmethod
@@ -381,3 +403,15 @@ class Post(models.Model):
     user = models.ForeignKey(TheUser)
     posted_date = models.DateField(auto_now=True)
     text = models.TextField()
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+class SupportMessage(models.Model):
+    """
+    Class for managing support messages.
+    """
+    email = models.EmailField()
+    text = models.TextField(max_length=5000)
+    posted_date = models.DateTimeField(auto_now_add=True)
+    is_checked = models.BooleanField(default=False)
+
