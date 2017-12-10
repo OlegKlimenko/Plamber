@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 {% load staticfiles %}
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="yandex-verification" content="a47c874dc2de855e" />
     <meta name='wmail-verification' content='036d59550baaddc2abb39fd16a1ab6b6' />
+    <meta name="robots" content="all">
 
-    <title>{% block title %}{% endblock %}</title>
+    <meta name="description" content="Plamber - онлайн библиотека и система для чтения книг в различных форматах. Удобно читать с телефона, есть мобильная версия.">
+    <meta name="keywords" content="книги, книги онлайн, читать, читать онлайн, читать книги онлайн, бесплатно, читать бесплатно, читать книги бесплатно, читать удобно, читать книги удобно, библиотека, онлайн библиотека, разные книги, pdf">
+    <meta name="application-name" content="Plamber">
+
+    <title>{% block title %}{% endblock %} | Plamber | Чтение книг онлайн</title>
 
     <link rel="shortcut icon" href="{% static 'app/images/favicon.ico' %}" type="image/x-icon">
     <link rel="stylesheet" href="{% static 'app/css/third_party/bootstrap.css' %}">

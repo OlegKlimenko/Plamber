@@ -21,7 +21,7 @@
     <div id="main" class="container container-margin footer-margin">
         <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-12">
-                <h2 class="header-color"><b>Категории</b></h2>
+                <h1 class="header-color"><strong>Категории</strong></h1>
                 <input id="search-input" class="input input-colors margin" placeholder="Поиск книг..."
                        title="Вводите любую информацию: название книги, автора..."
                        oninput="searchBooks({{ category.id }});" maxlength="255">
@@ -54,7 +54,7 @@
                                             <div class="img-wrapper">
                                                 <img src="{{ book.url }}">
                                                 <div class="book-info word-wrap">
-                                                    <b>{{ book.name }}</b><br>
+                                                    <strong>{{ book.name }}</strong><br>
                                                     <i>{{ book.author }}</i>
                                                 </div>
                                             </div>

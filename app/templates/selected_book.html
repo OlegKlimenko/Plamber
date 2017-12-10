@@ -39,19 +39,19 @@
 
                     <!--Estimation Area-->
                     <div id="avg-mach" class="stats" align="left">
-                        Рейтинг книги: <b id="rating" title="Средняя оценка этой книги пользователями">{{ book_rating|floatformat }}</b>
+                        Рейтинг книги: <strong id="rating" title="Средняя оценка этой книги пользователями">{{ book_rating|floatformat }}</strong>
                         <i id="rating-count" title="Количество оценок книги">{{ book_rating_count }}</i>
                     </div>
 
                     <div id="added-count" class="stats" align="left" title="Количество пользователей читающих книгу">
-                        Читают: <b class="added-count">{{ added_book_count }}</b>
+                        Читают: <strong class="added-count">{{ added_book_count }}</strong>
                     </div>
 
                     <div id="estimation-area" align="left">
                         {% if request.user.is_anonymous %}
-                        <div><b>Только зарегистрированные пользователи могут ставить оценки.</b></div>
+                        <div><strong>Только зарегистрированные пользователи могут ставить оценки.</strong></div>
                         {% else %}
-                            <div><b>Оценить книгу</b></div>
+                            <div><strong>Оценить книгу</strong></div>
                             {% for estimation in estimation_count %}
                             <div class="estimate"
                                  onclick="changeEstimation({{ book.id }}, {{ estimation }})">{{ estimation }}</div>
@@ -87,7 +87,7 @@
                     <div id="book-name" class="word-wrap"><h2>{{ book.book_name }}</h2></div>
                     <div>
                         <table>
-                            <tr><th>Автор</th><td class="word-wrap">{{ book.id_author }}</td></tr>
+                            <tr><th>Автор</th><td class="word-wrap"><strong>{{ book.id_author }}</strong></td></tr>
                             <tr>
                                 <th>Категория</th>
                                 <td class="word-wrap">
@@ -107,7 +107,7 @@
                                     {% endif %}
                                 </td>
                             </tr>
-                            <tr><th id="about-book">Про книгу</th></tr>
+                            <tr><th id="about-book"><strong>Про книгу</strong></th></tr>
                         </table>
                     </div>
                     <div id="about-text" class="word-wrap">
@@ -130,7 +130,7 @@
                                     <div class="img-wrapper">
                                         <img src="{% if book.photo %}{{ book.photo.url }}{% endif %}">
                                         <div class="book-info word-wrap">
-                                            <b>{{ book.book_name }}</b><br>
+                                            <strong>{{ book.book_name }}</strong><br>
                                             <i>{{ book.id_author }}</i>
                                         </div>
                                     </div>
@@ -148,7 +148,7 @@
             <hr class="main-separator">
                 <div class="row">
                     <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
-                        <div id="new-comment-header" class="margin">Оставить комментарий</div>
+                        <div id="new-comment-header" class="margin"><h4>Оставить комментарий</h4></div>
                         {% if not request.user.is_anonymous %}
                             <div class="col-sm-2 col-md-2 col-lg-2 col-xs-5">
                                 {% if user.user_photo %}
@@ -174,7 +174,7 @@
         <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-12">
                 <hr class="main-separator">
-                <div id="comments-header"><h3 class="no-margin"><b>Комментарии</b></h3></div>
+                <div id="comments-header"><h3 class="no-margin"><strong>Комментарии</strong></h3></div>
             </div>
         </div>
 
@@ -196,8 +196,8 @@
                                 </div>
                                 <div class="col-sm-10 col-md-10 col-lg-10 col-xs-7 word-wrap">
                                     <div class="word-wrap user-name margin">
-                                        <b>{{ comment.id_user }}</b>
-                                        <b> - <i class="comment-posted-date">{{ comment.posted_date|date:"d-m-Y" }}</i></b>
+                                        <strong>{{ comment.id_user }}</strong>
+                                        <strong> - <i class="comment-posted-date">{{ comment.posted_date|date:"d-m-Y" }}</i></strong>
                                     </div>
                                     <span class="text-font">{{ comment.text }}</span>
                                 </div>
@@ -211,7 +211,7 @@
                         </div>
                     {% endif %}
                 {% else %}
-                    <div id="no-comments"><h4><b>Пока никто не оставил комментариев об этой книге.</b></h4></div>
+                    <div id="no-comments"><h4><strong>Пока никто не оставил комментариев об этой книге.</strong></h4></div>
                 {% endif %}
             </div>
         </div>

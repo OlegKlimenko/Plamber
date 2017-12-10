@@ -16,16 +16,16 @@
                 <div class="col-xs-8 col-sm-4 col-md-8 col-lg-8">
                     {% if status_code == 404 %}
                         <img class="img-responsive test" src="{% static 'app/images/error_status/404.png' %}">
-                        <h2><b>Страница не найдена</b></h2>
+                        <h2><strong>Страница не найдена</strong></h2>
                     {% elif status_code == 400 %}
                         <img class="img-responsive" src="{% static 'app/images/error_status/400.png' %}">
-                        <h2><b>Проблемный запрос</b></h2>
+                        <h2><strong>Проблемный запрос</strong></h2>
                     {% elif status_code == 403 %}
                         <img class="img-responsive" src="{% static 'app/images/error_status/403.png' %}">
-                        <h2><b>Доступ запрещен</b></h2>
+                        <h2><strong>Доступ запрещен</strong></h2>
                     {% elif status_code == 500 %}
                         <img class="img-responsive" src="{% static 'app/images/error_status/500.png' %}">
-                        <h2><b>Внутренняя ошибка сервера</b></h2>
+                        <h2><strong>Внутренняя ошибка сервера</strong></h2>
                     {% endif %}
                     <h5>Если вы считаете, что это сообщение не должно было появиться, <br>
                         пожалуйста, обратитесь к администрации</h5>

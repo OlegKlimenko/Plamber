@@ -23,7 +23,7 @@
             <div class="col-sm-12 col-md-12 col-lg-12">
 
                 <!--Header part of main area-->
-                <h3 class="header-color"><b>{{ category.category_name }}</b></h3>
+                <h1 class="header-color"><strong>{{ category.category_name }}</strong></h1>
                 {% if books %}
                     <input id="search-input" class="input input-colors" placeholder="Поиск..."
                            title="Вводите любую информацию: название книги, автора..."
@@ -58,7 +58,7 @@
                                         <div class="img-wrapper">
                                             <img src="{% if book.photo %}{{ book.photo.url }}{% endif %}">
                                             <div class="book-info word-wrap">
-                                                <b>{{ book.book_name }}</b><br>
+                                                <strong>{{ book.book_name }}</strong><br>
                                                 <i>{{ book.id_author }}</i>
                                             </div>
                                         </div>

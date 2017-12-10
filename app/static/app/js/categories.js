@@ -36,7 +36,7 @@ function insertBooks(books) {
         $(".books-area").append("<a href='book/" + id + "/'><div class='col-sm-3 col-md-3 col-lg-2 col-xs-6'" +
                                 " align='left'><div class='thumbnail'><div class='img-wrapper'>" +
                                 "<img src='" + url + "'><div class='book-info word-wrap'>" +
-                                "<b>" + bookName + "</b><br><i>" + author + "</i></div></div></div></div></a>");
+                                "<strong>" + bookName + "</strong><br><i>" + author + "</i></div></div></div></div></a>");
     }
 }
 
