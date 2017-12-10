@@ -169,7 +169,7 @@ function addComment(idBook) {
             $("#comments").after(
                 "<hr class='hr'><div class='row'><div class='col-sm-12 col-md-12 col-lg-12 col-xs-12'>" +
                 "<div class='col-sm-2 col-md-2 col-lg-2 col-xs-5'>" +
-                "<img class='img-responsive' src='" + imageSrc + "'>" +
+                "<img class='img-responsive' src='" + imageSrc + "' alt='Фото пользователя'>" +
                 "</div><div class='col-sm-10 col-md-10 col-lg-10 col-xs-7 word-wrap'>" +
                 "<div class='word-wrap user-name margin'>" +
                 "<strong>" + response['username'] + "</strong>" +
@@ -238,7 +238,7 @@ function generateNextPageHTML(response) {
             $("#all-comments").append(
                 "<hr class='hr'><div class='row'><div class='col-sm-12 col-md-12 col-lg-12 col-xs-12'>" +
                 "<div class='col-sm-2 col-md-2 col-lg-2 col-xs-5'>" +
-                "<img class='img-responsive' src='" + imageSrc + "'>" +
+                "<img class='img-responsive' src='" + imageSrc + "' alt='фото пользователя'>" +
                 "</div><div class='col-sm-10 col-md-10 col-lg-10 col-xs-7 word-wrap'>" +
                 "<div class='word-wrap user-name margin'>" +
                 "<strong>" + username + "</strong>" +

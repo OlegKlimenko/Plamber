@@ -31,7 +31,8 @@
                             <div class="col-sm-3 col-md-3 col-lg-3 col-xs-6">
                                 <div class="thumbnail">
                                     <div class="img-wrapper">
-                                        <img src="{% if book.id_book.photo %}{{ book.id_book.photo.url }}{% endif %}">
+                                        <img src="{% if book.id_book.photo %}{{ book.id_book.photo.url }}{% endif %}"
+                                             alt="{{ book.id_book.book_name }}">
                                         <div class="book-info word-wrap">
                                             <b>{{ book.id_book.book_name }}</b><br>
                                             <i>{{ book.id_book.id_author }}</i>
@@ -58,7 +59,8 @@
                             <div class="col-sm-3 col-md-3 col-lg-3 col-xs-6">
                                 <div class="thumbnail">
                                     <div class="img-wrapper">
-                                        <img src="{% if book.photo %}{{ book.photo.url }}{% endif %}">
+                                        <img src="{% if book.photo %}{{ book.photo.url }}{% endif %}"
+                                             alt="{{ book.book_name }}">
                                         <div class="book-info word-wrap">
                                             <b>{{ book.book_name }}</b><br>
                                             <i>{{ book.id_author }}</i>
