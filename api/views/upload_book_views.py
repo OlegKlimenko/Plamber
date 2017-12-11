@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import json
 import logging
 
 from django.db import transaction
@@ -34,7 +35,7 @@ def upload_book(request):
                                    language=rel_objects['lang'],
                                    book_file=request.data['book_file'],
                                    who_added=user,
-                                   private_book=request.data.get('private_book'))
+                                   private_book=json.loads(request.data.get('private_book')))
 
         AddedBook.objects.create(id_user=user, id_book=book)
 
