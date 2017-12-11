@@ -3,7 +3,7 @@
 import uuid
 
 from django.contrib.auth.models import User
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 
 from .models import TheUser
@@ -19,3 +19,13 @@ def create_additional_data(sender, instance=None, created=False, **kwargs):
         the_user = TheUser.objects.create(id_user=instance,
                                           auth_token=uuid.uuid5(uuid.NAMESPACE_DNS, instance.username))
         the_user.save()
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+@receiver(post_delete, sender=TheUser)
+def remove_user_obj(sender, instance=None, **kwargs):
+    """
+    Removes standard django User model if '.models.TheUser' instance was deleted.
+    """
+    user = instance.id_user
+    user.delete()
