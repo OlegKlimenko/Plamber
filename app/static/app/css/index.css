@@ -2,6 +2,10 @@
     margin-top: 50px;
 }
 
+.align-right {
+    text-align: right;
+}
+
 .intro {
     margin-bottom: 20px;
     margin-top: 30px;

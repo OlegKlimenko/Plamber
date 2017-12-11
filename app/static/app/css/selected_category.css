@@ -2,6 +2,10 @@
     margin-top: 50px;
 }
 
+.align-left {
+    text-align: left;
+}
+
 .header-color {
     color: #31a445;
 }
