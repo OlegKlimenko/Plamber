@@ -11,7 +11,7 @@ from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
 
 from ..serializers import BookSerializer
-from app.models import Author, AddedBook, Book, TheUser
+from app.models import Author, AddedBook, Book, TheUser, Language
 from app.tasks import compress_pdf_task
 
 logger = logging.getLogger('changes')
@@ -75,3 +75,17 @@ def generate_books(request):
     return Response({'status': '200',
                      'detail': 'successful',
                      'data': [BookSerializer(book).data for book in list_of_books]})
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+@api_view(['POST'])
+def generate_languages(request):
+    """
+    Returns the languages list.
+    """
+    get_object_or_404(TheUser, auth_token=request.data.get('user_token'))
+    list_of_languages = Language.objects.all()
+
+    return Response({'status': '200',
+                     'detail': 'successful',
+                     'data': [language.language for language in list_of_languages]})
