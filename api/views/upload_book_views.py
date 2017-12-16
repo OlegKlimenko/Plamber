@@ -10,7 +10,7 @@ from rest_framework.decorators import api_view, parser_classes
 from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
 
-from ..serializers import BookSerializer
+from ..serializers.model_serializers import BookSerializer
 from app.models import Author, AddedBook, Book, TheUser, Language
 from app.tasks import compress_pdf_task
 
