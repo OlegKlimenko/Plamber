@@ -33,6 +33,7 @@ def upload_book(request):
                                    id_category=rel_objects['category'],
                                    description=request.data.get('about'),
                                    language=rel_objects['lang'],
+                                   photo=request.data['photo'],
                                    book_file=request.data['book_file'],
                                    who_added=user,
                                    private_book=json.loads(request.data.get('private_book')))
