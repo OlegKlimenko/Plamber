@@ -8,7 +8,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from ..serializers import BookSerializer, CommentSerializer
+from ..serializers.model_serializers import BookSerializer, CommentSerializer
 from app.models import AddedBook, Book, BookComment, BookRating, TheUser
 
 logger = logging.getLogger('changes')

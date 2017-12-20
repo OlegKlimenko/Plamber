@@ -1,7 +1,7 @@
 {% extends 'main/base.html' %}
 {% load staticfiles %}
 
-{% block title %}Plamber{% endblock %}
+{% block title %}plamber.com.ua{% endblock %}
 
 {% block css %}
     <link rel="stylesheet" href="{% static 'app/css/index.css' %}">
@@ -43,7 +43,7 @@
         <div class="row">
             <div class="col-sm-5 col-md-4 col-lg-4">
                 <div class="intro">
-                    <h2 class="header-color"><strong>Читайте книги онлайн!</strong></h2>
+                    <h1 class="header-color"><strong>Читайте книги онлайн!</strong></h1>
                     <h3 class="header-color header-font">
                         Получи уникальную возможность
                         всегда иметь доступ к своей любимой
@@ -80,7 +80,7 @@
                             <input class="input input-colors margin" placeholder="Пароль"
                                    type="password" maxlength="16" name="passw" autocomplete="off" required>
                         </div>
-                        <div class="margin" align="right">
+                        <div class="margin align-right">
                             {% if invalid_authentication %}
                                 <div class="error-msg error-text"><strong>Логин или пароль введен не верно!</strong></div>
                             {% endif %}
@@ -133,7 +133,7 @@
                         </div>
                         <div class="g-recaptcha margin" data-theme="dark" data-sitekey="6LeCtCYUAAAAAD8qN1gzekUWv28mtfyNdJtnjES-"></div>
                         <div id="no-captcha" class="error-msg error-text">Вы должны доказать что вы не робот!</div>
-                        <div class="margin" align="right">
+                        <div class="margin align-right">
                             <button class="btn enter-button margin" onclick="registerPageHide()">Назад</button>
                             <button type="submit" class="btn register-button margin"
                                     onclick="yaCounter44888053.reachGoal('connect');ga('send', 'event', 'Button_connect', 'click_connect'); return true;">Присоединиться</button>
@@ -157,7 +157,7 @@
                                placeholder="Ваш Email" type="email">
                     </div>
                     <div id="forgot-status" class="header-color header-font margin"></div>
-                    <div class="margin" align="right">
+                    <div class="margin align-right">
                         <button class="btn enter-button margin" onclick="forgotPageHide()">Назад</button>
                         <button class="btn register-button margin" onclick="sendMail()">Отправить</button>
                     </div>

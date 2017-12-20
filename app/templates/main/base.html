@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 {% load staticfiles %}
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="yandex-verification" content="a47c874dc2de855e" />
     <meta name='wmail-verification' content='036d59550baaddc2abb39fd16a1ab6b6' />
+    <meta name="robots" content="all">
 
-    <title>{% block title %}{% endblock %}</title>
+    <meta name="description" content="Plamber - онлайн библиотека и система для чтения книг в различных форматах. Удобно читать с телефона, есть мобильная версия.">
+    <meta name="keywords" content="книги, книги онлайн, читать, читать онлайн, читать книги онлайн, бесплатно, читать бесплатно, читать книги бесплатно, читать удобно, читать книги удобно, библиотека, онлайн библиотека, разные книги, pdf">
+    <meta name="application-name" content="Plamber">
+
+    <title>{% block title %}{% endblock %} | Plamber | Чтение книг онлайн</title>
 
     <link rel="shortcut icon" href="{% static 'app/images/favicon.ico' %}" type="image/x-icon">
     <link rel="stylesheet" href="{% static 'app/css/third_party/bootstrap.css' %}">
@@ -34,7 +39,7 @@
 </head>
 <body>
     <!--Header Area-->
-    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbarCollapse">
@@ -43,7 +48,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/"><img src="{% static 'app/images/logo_beta.jpg' %}"></a>
+                <a class="navbar-brand" href="/"><img src="{% static 'app/images/logo_beta.jpg' %}" alt="logo"></a>
                 {% block header_additional %}{% endblock %}
             </div>
 
@@ -72,7 +77,7 @@
     {% block references %}
       <div id="vk-ref" title="Ссылка на наш паблик вконтакте">
           <a href="https://vk.com/plamber.reading">
-              <img src="{% static 'app/images/references/vk.png' %}" width="50" height="50">
+              <img src="{% static 'app/images/references/vk.png' %}" width="50" height="50" alt="vk.com">
           </a>
       </div>
     {% endblock %}
@@ -80,7 +85,7 @@
     {% block content %}{% endblock %}
 
     <!-- Yandex.Metrika counter -->
-    <script type="text/javascript">
+    <script>
         (function (d, w, c) {
             (w[c] = w[c] || []).push(function() {
                 try {

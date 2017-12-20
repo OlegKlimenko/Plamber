@@ -3,6 +3,14 @@
     margin-bottom: 10px;
 }
 
+.align-center {
+    text-align: center;
+}
+
+.align-left {
+    text-align: left;
+}
+
 .paragraph {
     font-family: 'Lucida Grande', Arial, sans-serif;
 }

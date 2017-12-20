@@ -2,6 +2,10 @@
     margin-top: 50px;
 }
 
+.align-center {
+    text-align: center;
+}
+
 .header-color {
     color: #2e3438;
 }

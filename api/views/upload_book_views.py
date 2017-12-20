@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import json
 import logging
 
 from django.db import transaction
@@ -9,8 +10,8 @@ from rest_framework.decorators import api_view, parser_classes
 from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
 
-from ..serializers import BookSerializer
-from app.models import Author, AddedBook, Book, TheUser
+from ..serializers.model_serializers import BookSerializer
+from app.models import Author, AddedBook, Book, TheUser, Language
 from app.tasks import compress_pdf_task
 
 logger = logging.getLogger('changes')
@@ -32,9 +33,10 @@ def upload_book(request):
                                    id_category=rel_objects['category'],
                                    description=request.data.get('about'),
                                    language=rel_objects['lang'],
+                                   photo=request.data['photo'],
                                    book_file=request.data['book_file'],
                                    who_added=user,
-                                   private_book=request.data.get('private_book'))
+                                   private_book=json.loads(request.data.get('private_book')))
 
         AddedBook.objects.create(id_user=user, id_book=book)
 
@@ -74,3 +76,17 @@ def generate_books(request):
     return Response({'status': '200',
                      'detail': 'successful',
                      'data': [BookSerializer(book).data for book in list_of_books]})
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+@api_view(['POST'])
+def generate_languages(request):
+    """
+    Returns the languages list.
+    """
+    get_object_or_404(TheUser, auth_token=request.data.get('user_token'))
+    list_of_languages = Language.objects.all()
+
+    return Response({'status': '200',
+                     'detail': 'successful',
+                     'data': [language.language for language in list_of_languages]})

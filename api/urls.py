@@ -34,6 +34,7 @@ if settings.DEBUG:
         # Add book urls.
         url(r'generate-authors', upload_book_views.generate_authors),
         url(r'generate-books', upload_book_views.generate_books),
+        url(r'generate-languages', upload_book_views.generate_languages),
         url(r'^upload-book', upload_book_views.upload_book),
 
         # Library urls.

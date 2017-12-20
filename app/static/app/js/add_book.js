@@ -121,6 +121,8 @@ $(document).ready(function() {
         if (txt.length > 30) {
             txt = txt.substring(0, 30) + '...'
         }
+        if (!txt) txt = 'Загрузить книгу';
+
         $('#upload-caption').text(txt);
     });
 });

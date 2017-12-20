@@ -28,6 +28,7 @@ class CategorySerializer(serializers.Serializer):
 class ProfileSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     username = serializers.ReadOnlyField(source='id_user.username')
+    email = serializers.ReadOnlyField(source='id_user.email')
     user_photo = serializers.ImageField()
 
 
