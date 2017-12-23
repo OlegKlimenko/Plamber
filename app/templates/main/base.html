@@ -52,12 +52,6 @@
                 {% block header_additional %}{% endblock %}
             </div>
 
-            {% if not request.user.is_anonymous %}
-                <form id="logout" action="{% url 'logout' %}" method="POST">
-                    {% csrf_token %}
-                </form>
-            {% endif %}
-
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="nav navbar-nav">
                     {% if request.user.is_anonymous %}
@@ -67,7 +61,6 @@
                         <li><a href="{% url 'index' %}">Мои книги</a></li>
                         <li><a href="{% url 'profile' request.user.id %}">Профиль</a></li>
                         <li><a href="{% url 'about' %}">О проекте</a></li>
-                        <li><a href="javascript:;" onclick="logout()">Выйти</a></li>
                     {% endif %}
                 </ul>
             </div>
