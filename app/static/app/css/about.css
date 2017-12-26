@@ -43,3 +43,39 @@
 .footer-margin {
     margin-bottom: 40px;
 }
+
+#send-button {
+    background-color: #31a445;
+    border: solid 2px #31a445;
+    color: #fff;
+}
+
+#send-button:hover {
+    background-color: Transparent;
+    border: solid 2px #31a445;
+    color: #31a445;
+}
+
+#message-text {
+    height: 200px;
+    margin-top: 5px;
+    padding-top: 5px;
+    resize: none;
+}
+
+#error-toast {
+    background-color: #2e3438;
+    border-radius: 2px;
+    color: #fff;
+    display: none;
+    font-family: 'Comfortaa', cursive;
+    font-size: 14px;
+    left: 50%;
+    margin-left: -100px;
+    padding: 10px;
+    position: fixed;
+    text-align: center;
+    top: 60%;
+    width: 200px;
+    z-index: 10000;
+}

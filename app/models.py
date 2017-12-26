@@ -414,4 +414,3 @@ class SupportMessage(models.Model):
     text = models.TextField(max_length=5000)
     posted_date = models.DateTimeField(auto_now_add=True)
     is_checked = models.BooleanField(default=False)
-

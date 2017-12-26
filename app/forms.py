@@ -144,3 +144,10 @@ class ChangePasswordForm(forms.Form):
 class ForgotPasswordForm(forms.Form):
     email = forms.CharField(max_length=320,
                             validators=[EmailValidator()])
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+class SendMessageForm(forms.Form):
+    email = forms.CharField(max_length=320,
+                            validators=[EmailValidator()])
+    text = forms.CharField(max_length=5000)
