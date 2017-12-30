@@ -29,7 +29,8 @@ def open_book(request):
 
     return Response({'status': 200,
                      'detail': 'successful',
-                     'data': {'last_page': added_book.last_page}})
+                     'data': {'last_page': added_book.last_page,
+                              'last_read': added_book.last_read}})
 
 
 # ----------------------------------------------------------------------------------------------------------------------
