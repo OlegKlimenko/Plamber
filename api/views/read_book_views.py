@@ -22,8 +22,6 @@ def open_book(request):
     book = get_object_or_404(Book, id=request.data.get('book_id'))
 
     added_book = get_object_or_404(AddedBook, id_book=book, id_user=user)
-    added_book.last_read = added_book.last_read.now()
-    added_book.save()
 
     logger.info("User '{}' opened book with id: '{}'.".format(user, book.id))
 
