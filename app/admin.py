@@ -15,7 +15,7 @@ class CustomUserAdmin(UserAdmin):
 
 # ----------------------------------------------------------------------------------------------------------------------
 class TheUserAdmin(admin.ModelAdmin):
-    list_display = ('id', 'username', 'email', 'auth_token', 'date_joined')
+    list_display = ('id', 'username', 'email', 'date_joined', 'subscription', 'auth_token')
 
     # ------------------------------------------------------------------------------------------------------------------
     @staticmethod
@@ -96,6 +96,7 @@ class BookCommentAdmin(BookGeneral):
 # ----------------------------------------------------------------------------------------------------------------------
 class AddedBookAdmin(BookGeneral):
     list_display = ('user', 'book', 'last_page', 'last_read')
+    ordering = ('-last_read',)
 
 
 # ----------------------------------------------------------------------------------------------------------------------
