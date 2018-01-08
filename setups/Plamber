@@ -17,6 +17,9 @@ server {
     location = /favicon.ico { access_log off; log_not_found off; }
     location /static/ {
         root /root/Plamber;
+        expires 168h;
+        add_header Pragma public;
+        add_header Expires "public, must-revalidate, proxy-revalidate";
     }
     location /media/ {
         root /root/Plamber;

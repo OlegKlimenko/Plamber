@@ -22,11 +22,6 @@
     <link rel="stylesheet" href="{% static 'app/css/general.css' %}">
     {% block css %}{% endblock %}
 
-    <script src="{% static 'app/js/third_party/jquery.js' %}"></script>
-    <script src="{% static 'app/js/third_party/bootstrap.min.js' %}"></script>
-    <script src="{% static 'app/js/helper/special.js' %}"></script>
-    {% block js %}{% endblock %}
-
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-111515158-1"></script>
     <script>
@@ -76,5 +71,10 @@
     {% endblock %}
 
     {% block content %}{% endblock %}
+
+    <script src="{% static 'app/js/third_party/jquery.js' %}"></script>
+    <script src="{% static 'app/js/third_party/bootstrap.min.js' %}"></script>
+    <script src="{% static 'app/js/helper/special.js' %}"></script>
+    {% block js %}{% endblock %}
 </body>
 </html>
