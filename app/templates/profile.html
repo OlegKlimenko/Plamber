@@ -60,6 +60,13 @@
                         </div>
                         <button class="btn change-button margin" onclick="changePassword()">Поменять</button>
                     </div>
+
+                    <!--Logout area-->
+                    <form id="logout" action="{% url 'logout' %}" method="POST">
+                        {% csrf_token %}
+                    </form>
+
+                    <a class="reference" href="javascript:;" onclick="logout()">Выйти</a>
                 {% endif %}
             </div>
 

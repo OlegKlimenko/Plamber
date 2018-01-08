@@ -5,6 +5,8 @@ import logging
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
+from ..serializers.request_serializers import SaveSupportMessageRequest
+from ..utils import invalid_data_response
 from app.models import SupportMessage
 
 logger = logging.getLogger('changes')
@@ -16,15 +18,15 @@ def save_support_message(request):
     """
     Saves a support message if validated.
     """
-    message = request.data.get('text')
+    request_serializer = SaveSupportMessageRequest(data=request.data)
 
-    if len(message) > 5000:
-        return Response({'status': 400,
-                         'detail': 'message length more than 5000 symbols',
+    if request_serializer.is_valid():
+        message = request.data.get('text')
+
+        SupportMessage.objects.create(email=request.data.get('email'), text=message)
+
+        return Response({'status': 200,
+                         'detail': 'successful',
                          'data': {}})
-
-    SupportMessage.objects.create(email=request.data.get('email'), text=message)
-    
-    return Response({'status': 200,
-                     'detail': 'successful',
-                     'data': {}})
+    else:
+        return invalid_data_response(request_serializer)

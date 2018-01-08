@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
+import json
 
 from django.http import HttpResponse
 from django.shortcuts import render
 
-from ..models import Post
+from ..forms import SendMessageForm
+from ..models import Post, SupportMessage
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -23,21 +25,13 @@ def send_message(request):
     """
     Sends the message to system (moderators of resource).
     """
-#     if request.is_ajax():
-#         send_message_form = SendMessageForm(request.POST)
-#
-#         try:
-#             if send_message_form.is_valid():
-#                 send_mail(
-#                     'To technical support',
-#                     send_message_form.cleaned_data['text'],
-#                     send_message_form.cleaned_data['mailer'],
-#                     ['oleg_klimenko@inbox.ru'],
-#                     fail_silently=True
-#                 )
-#                 return HttpResponse(json.dumps(True), content_type='application/json')
-#         except Exception as e:
-#             import traceback
-#             print(traceback.print_exc())
-#     else:
-#         return HttpResponse(status=404)
+    if request.is_ajax():
+        send_message_form = SendMessageForm(request.POST)
+
+        if send_message_form.is_valid():
+            SupportMessage.objects.create(email=send_message_form.cleaned_data['email'],
+                                          text=send_message_form.cleaned_data['text'])
+
+            return HttpResponse(json.dumps(True), content_type='application/json')
+    else:
+        return HttpResponse(status=404)

@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block js %}
-    <script src="{% static 'app/js/add_book.js' %}"></script>
+    <script src="{% static 'app/js/about.js' %}"></script>
 {% endblock %}
 
 {% block header_special %}
@@ -152,8 +152,13 @@
                         <li>Если у вас есть предложения о том, как можно улучшить работу системы</li>
                         <li>Если у вас есть жалобы</li>
                     </ul>
-                    <p>Пожалуйста, свяжитесь с нами по электронной почте:</p>
-                    <h4 class="feature-head">plamber.reading@gmail.com</h4>
+
+                    <div class="col-sm-6 col-md-6 col-lg-4">
+                        <p>Напишите нам:</p>
+                        <div><input id="user-email" class="input input-colors" type="email" name="email" placeholder="Ваш email..."></div>
+                        <div><textarea id="message-text" class="input input-colors" placeholder="Текст..."></textarea></div>
+                        <button id="send-button" class="btn" onclick="sendMessage()">Отправить</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -185,4 +190,6 @@
             </div>
         </div>
     </div>
+
+    <div id="error-toast">Нет соединения с сервером...</div>
 {% endblock %}

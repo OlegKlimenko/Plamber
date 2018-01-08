@@ -2,7 +2,7 @@
 
 import json
 from django.http import HttpResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import render
 from django.utils.html import escape
 
 from ..forms import SortForm, SearchBookForm

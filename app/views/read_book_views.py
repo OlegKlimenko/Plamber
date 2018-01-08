@@ -3,10 +3,12 @@
 import json
 import logging
 
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
+from .selected_book_views import selected_book
 from ..forms import SetCurrentPageForm
 from ..models import Book, AddedBook, TheUser
 
@@ -22,14 +24,19 @@ def open_book(request, book_id):
         book = Book.objects.get(id=book_id)
         user = TheUser.objects.get(id_user=request.user)
 
-        added_book = AddedBook.objects.get(id_book=book, id_user=user)
-        added_book.last_read = added_book.last_read.now()
-        added_book.save()
+        try:
+            added_book = AddedBook.objects.get(id_book=book, id_user=user)
+            added_book.last_read = added_book.last_read.now()
+            added_book.save()
 
-        logger.info("User '{}' opened book with id: '{}'.".format(user, book.id))
+            logger.info("User '{}' opened book with id: '{}'.".format(user, book.id))
 
-        context = {'book': book, 'book_page': added_book.last_page}
-        return render(request, 'read_book.html', context)
+            context = {'book': book, 'book_page': added_book.last_page}
+            return render(request, 'read_book.html', context)
+
+        except ObjectDoesNotExist:
+            return redirect(selected_book, book_id=book_id)
+
     else:
         return redirect('index')
 
