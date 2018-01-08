@@ -16,6 +16,11 @@
     <title>{% block title %}{% endblock %} | Plamber | Чтение книг онлайн</title>
 
     <link rel="shortcut icon" href="{% static 'app/images/favicon.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'app/css/third_party/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'app/css/third_party/bootstrap-theme.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Comfortaa&subset=cyrillic,cyrillic-ext,latin-ext">
+    <link rel="stylesheet" href="{% static 'app/css/general.css' %}">
+    {% block css %}{% endblock %}
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-111515158-1"></script>
@@ -66,12 +71,6 @@
     {% endblock %}
 
     {% block content %}{% endblock %}
-
-    <link rel="stylesheet" href="{% static 'app/css/third_party/bootstrap.css' %}">
-    <link rel="stylesheet" href="{% static 'app/css/third_party/bootstrap-theme.css' %}">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Comfortaa&subset=cyrillic,cyrillic-ext,latin-ext">
-    <link rel="stylesheet" href="{% static 'app/css/general.css' %}">
-    {% block css %}{% endblock %}
 
     <script src="{% static 'app/js/third_party/jquery.js' %}"></script>
     <script src="{% static 'app/js/third_party/bootstrap.min.js' %}"></script>
