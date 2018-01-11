@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import time
 import uuid
 
 from django.contrib.auth.models import User
