@@ -9,6 +9,5 @@ def invalid_data_response(request_serializer):
     """
     Returns the error message depending on missing/invalid data in serializer.
     """
-    return Response({'status': 400,
-                     'detail': request_serializer.errors,
+    return Response({'detail': request_serializer.errors,
                      'data': {}}, status=status.HTTP_400_BAD_REQUEST)

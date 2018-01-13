@@ -6,6 +6,7 @@ from django.db import transaction
 from django.core.exceptions import ValidationError
 from django.shortcuts import get_object_or_404
 
+from rest_framework import status
 from rest_framework.decorators import api_view, parser_classes
 from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
@@ -33,9 +34,9 @@ def my_profile(request):
     if request_serializer.is_valid():
         the_user = get_object_or_404(TheUser, auth_token=request.data.get('user_token'))
 
-        return Response({'status': 200,
-                         'detail': 'successful',
-                         'data': {'profile': ProfileSerializer(the_user).data}})
+        return Response({'detail': 'successful',
+                         'data': {'profile': ProfileSerializer(the_user).data}},
+                        status=status.HTTP_200_OK)
     else:
         return invalid_data_response(request_serializer)
 
@@ -60,14 +61,14 @@ def change_password(request):
 
                 changed_password.delay(the_user.id_user.username, the_user.id_user.email)
 
-                return Response({'status': 200,
-                                 'detail': 'successful',
-                                 'data': {}})
+                return Response({'detail': 'successful',
+                                 'data': {}},
+                                status=status.HTTP_200_OK)
 
             else:
-                return Response({'status': 200,
-                                 'detail': 'old password didn\'t match',
-                                 'data': {}})
+                return Response({'detail': 'old password didn\'t match',
+                                 'data': {}},
+                                status=status.HTTP_200_OK)
     else:
         return invalid_data_response(request_serializer)
 
@@ -93,15 +94,15 @@ def upload_avatar(request):
                 resize_image(profile_user.user_photo.path, AVATAR_WIDTH)
                 logger.info("Image '{}' successfully resized!".format(profile_user.user_photo.path))
 
-                return Response({'status': 200,
-                                 'detail': 'successful',
-                                 'data': {'profile_image': profile_user.user_photo.url}})
+                return Response({'detail': 'successful',
+                                 'data': {'profile_image': profile_user.user_photo.url}},
+                                status=status.HTTP_200_OK)
 
             except ValidationError:
                 logger.info("User '{}' tried to upload not an image as avatar!".format(profile_user))
 
-                return Response({'status': 404,
-                                 'detail': 'tried to upload not an image',
-                                 'data': {}})
+                return Response({'detail': 'tried to upload not an image',
+                                 'data': {}},
+                                status=status.HTTP_404_NOT_FOUND)
     else:
         return invalid_data_response(request_serializer)

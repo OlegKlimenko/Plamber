@@ -2,6 +2,7 @@
 
 from django.shortcuts import get_object_or_404
 
+from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
@@ -26,9 +27,9 @@ def home(request):
         the_user = get_object_or_404(TheUser, auth_token=request.data.get('user_token'))
         books = [book.id_book for book in AddedBook.get_user_added_books(the_user.id_user)]
 
-        return Response({'status': 200,
-                         'detail': 'successful',
-                         'data': [BookSerializer(book).data for book in books]})
+        return Response({'detail': 'successful',
+                         'data': [BookSerializer(book).data for book in books]},
+                        status=status.HTTP_200_OK)
     else:
         return invalid_data_response(request_serializer)
 
@@ -47,9 +48,9 @@ def recommendations(request):
         added_books = AddedBook.get_user_added_books(the_user.id_user)
         recommend_books = get_recommend(the_user.id_user, added_books, RANDOM_BOOKS_COUNT, [])
 
-        return Response({'status': 200,
-                         'detail': 'successful',
-                         'data': [BookSerializer(book).data for book in recommend_books]})
+        return Response({'detail': 'successful',
+                         'data': [BookSerializer(book).data for book in recommend_books]},
+                        status=status.HTTP_200_OK)
     else:
         return invalid_data_response(request_serializer)
 
@@ -66,8 +67,8 @@ def uploaded_books(request):
         the_user = get_object_or_404(TheUser, auth_token=request.data.get('user_token'))
         user_uploaded_books = Book.objects.filter(who_added=the_user).order_by('-id')
 
-        return Response({'status': 200,
-                         'detail': 'successful',
-                         'data': [BookSerializer(book).data for book in user_uploaded_books]})
+        return Response({'detail': 'successful',
+                         'data': [BookSerializer(book).data for book in user_uploaded_books]},
+                        status=status.HTTP_200_OK)
     else:
         return invalid_data_response(request_serializer)

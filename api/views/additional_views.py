@@ -2,6 +2,7 @@
 
 import logging
 
+from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
@@ -25,8 +26,8 @@ def save_support_message(request):
 
         SupportMessage.objects.create(email=request.data.get('email'), text=message)
 
-        return Response({'status': 200,
-                         'detail': 'successful',
-                         'data': {}})
+        return Response({'detail': 'successful',
+                         'data': {}},
+                        status=status.HTTP_200_OK)
     else:
         return invalid_data_response(request_serializer)

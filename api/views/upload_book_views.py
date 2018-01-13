@@ -6,6 +6,7 @@ import logging
 from django.db import transaction
 from django.shortcuts import get_object_or_404
 
+from rest_framework import status
 from rest_framework.decorators import api_view, parser_classes
 from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
@@ -53,9 +54,9 @@ def upload_book(request):
 
             compress_pdf_task.delay(book.book_file.path)
 
-            return Response({'status': '200',
-                             'detail': 'successful',
-                             'data': {}})
+            return Response({'detail': 'successful',
+                             'data': {}},
+                            status=status.HTTP_200_OK)
     else:
         return invalid_data_response(request_serializer)
 
@@ -72,9 +73,9 @@ def generate_authors(request):
         get_object_or_404(TheUser, auth_token=request.data.get('user_token'))
         list_of_authors = Author.get_authors_list(request.data.get('author_part'))
 
-        return Response({'status': '200',
-                         'detail': 'successful',
-                         'data': list_of_authors})
+        return Response({'detail': 'successful',
+                         'data': list_of_authors},
+                        status=status.HTTP_200_OK)
     else:
         return invalid_data_response(request_serializer)
 
@@ -91,9 +92,9 @@ def generate_books(request):
         get_object_or_404(TheUser, auth_token=request.data.get('user_token'))
         list_of_books = Book.objects.filter(book_name__icontains=request.data.get('book_part'), private_book=False)
 
-        return Response({'status': '200',
-                         'detail': 'successful',
-                         'data': [BookSerializer(book).data for book in list_of_books]})
+        return Response({'detail': 'successful',
+                         'data': [BookSerializer(book).data for book in list_of_books]},
+                        status=status.HTTP_200_OK)
     else:
         return invalid_data_response(request_serializer)
 
@@ -110,8 +111,8 @@ def generate_languages(request):
         get_object_or_404(TheUser, auth_token=request.data.get('user_token'))
         list_of_languages = Language.objects.all()
 
-        return Response({'status': '200',
-                         'detail': 'successful',
-                         'data': [language.language for language in list_of_languages]})
+        return Response({'detail': 'successful',
+                         'data': [language.language for language in list_of_languages]},
+                        status=status.HTTP_200_OK)
     else:
         return invalid_data_response(request_serializer)
