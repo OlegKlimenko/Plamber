@@ -19,7 +19,7 @@
             <!--User info area-->
             <div class="col-sm-4 col-md-4 col-lg-3">
                 {% if profile_user.user_photo %}
-                    <img id="profile-image" class="img-responsive" src="{{ profile_user.user_photo.url }}">
+                    <img id="profile-image" class="img-responsive" src="{{ profile_user.user_photo.url }}?{{ img_random }}">
                 {% else %}
                     <img id="profile-image" class="img-responsive" src="{% static 'app/images/user.png' %}">
                 {% endif %}
