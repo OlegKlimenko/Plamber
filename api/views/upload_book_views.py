@@ -55,7 +55,7 @@ def upload_book(request):
             compress_pdf_task.delay(book.book_file.path)
 
             return Response({'detail': 'successful',
-                             'data': {}},
+                             'data': {'id': book.id}},
                             status=status.HTTP_200_OK)
     else:
         return invalid_data_response(request_serializer)
