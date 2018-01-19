@@ -9,7 +9,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from ..serializers.request_serializers import OpenBookRequest, SetCurrentPageRequest
-from ..utils import invalid_data_response
+from ..utils import invalid_data_response, validate_api_secret_key
 from app.models import Book, AddedBook, TheUser
 
 logger = logging.getLogger('changes')
@@ -21,6 +21,7 @@ def open_book(request):
     """
     Returns the book of last readed page.
     """
+    validate_api_secret_key(request.data.get('app_key'))
     request_serializer = OpenBookRequest(data=request.data)
 
     if request_serializer.is_valid():
@@ -45,6 +46,7 @@ def set_current_page(request):
     """
     Changes current readed page for book of the user.
     """
+    validate_api_secret_key(request.data.get('app_key'))
     request_serializer = SetCurrentPageRequest(data=request.data)
 
     if request_serializer.is_valid():

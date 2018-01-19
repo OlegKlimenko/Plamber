@@ -11,7 +11,7 @@ from rest_framework.response import Response
 
 from ..serializers.model_serializers import BookSerializer, CommentSerializer
 from ..serializers.request_serializers import SelectedBookRequest, ChangeRatingRequest, AddCommentRequest
-from ..utils import invalid_data_response
+from ..utils import invalid_data_response, validate_api_secret_key
 from app.models import AddedBook, Book, BookComment, BookRating, TheUser
 
 logger = logging.getLogger('changes')
@@ -23,6 +23,7 @@ def selected_book(request):
     """
     Returns data for selected book.
     """
+    validate_api_secret_key(request.data.get('app_key'))
     request_serializer = SelectedBookRequest(data=request.data)
 
     if request_serializer.is_valid():
@@ -56,6 +57,7 @@ def add_book_to_home(request):
     """
     Adds book to list of user's added books.
     """
+    validate_api_secret_key(request.data.get('app_key'))
     request_serializer = SelectedBookRequest(data=request.data)
 
     if request_serializer.is_valid():
@@ -84,6 +86,7 @@ def remove_book_from_home(request):
     """
     Removes book from list of user's reading books.
     """
+    validate_api_secret_key(request.data.get('app_key'))
     request_serializer = SelectedBookRequest(data=request.data)
 
     if request_serializer.is_valid():
@@ -105,6 +108,7 @@ def remove_book_from_home(request):
 # ----------------------------------------------------------------------------------------------------------------------
 @api_view(['POST'])
 def change_rating(request):
+    validate_api_secret_key(request.data.get('app_key'))
     request_serializer = ChangeRatingRequest(data=request.data)
 
     if request_serializer.is_valid():
@@ -134,6 +138,7 @@ def change_rating(request):
 # ----------------------------------------------------------------------------------------------------------------------
 @api_view(['POST'])
 def add_comment(request):
+    validate_api_secret_key(request.data.get('app_key'))
     request_serializer = AddCommentRequest(data=request.data)
 
     if request_serializer.is_valid():

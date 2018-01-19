@@ -14,7 +14,7 @@ from rest_framework.response import Response
 from app.models import TheUser
 from app.tasks import restore_account, successful_registration
 from app.utils import generate_password
-from ..utils import invalid_data_response
+from ..utils import invalid_data_response, validate_api_secret_key
 from ..serializers.request_serializers import (UserLoginRequest,
                                                RestoreDataRequest,
                                                UserExistsRequest,
@@ -30,6 +30,7 @@ def user_login(request):
     """
     Authenticates user and returns the token which uses to access to the API.
     """
+    validate_api_secret_key(request.data.get('app_key'))
     request_serializer = UserLoginRequest(data=request.data)
 
     if request_serializer.is_valid():
@@ -58,6 +59,7 @@ def restore_data(request):
     """
     Sends mail to restore user data.
     """
+    validate_api_secret_key(request.data.get('app_key'))
     request_serializer = RestoreDataRequest(data=request.data)
 
     if request_serializer.is_valid():
@@ -91,6 +93,7 @@ def is_user_exists(request):
     """
     Checks if user is exists. If exists return True, else False.
     """
+    validate_api_secret_key(request.data.get('app_key'))
     request_serializer = UserExistsRequest(data=request.data)
 
     if request_serializer.is_valid():
@@ -114,6 +117,7 @@ def is_mail_exists(request):
     """
     Checks if mail is exists. If exists return True, else False.
     """
+    validate_api_secret_key(request.data.get('app_key'))
     request_serializer = EmailExistsRequest(data=request.data)
 
     if request_serializer.is_valid():
@@ -137,6 +141,7 @@ def sign_in(request):
     """
     Creates a new user and returns status.
     """
+    validate_api_secret_key(request.data.get('app_key'))
     request_serializer = SignInRequest(data=request.data)
 
     if request_serializer.is_valid():

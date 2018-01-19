@@ -11,7 +11,7 @@ from rest_framework.response import Response
 
 from ..serializers.model_serializers import CategorySerializer, BookSerializer
 from ..serializers.request_serializers import AllCategoriesRequest, SelectedCategoryRequest, FindBookRequest
-from ..utils import invalid_data_response
+from ..utils import invalid_data_response, validate_api_secret_key
 from app.models import TheUser, Category, Book
 
 OUTPUT_BOOKS_PER_PAGE = 20
@@ -25,6 +25,7 @@ def all_categories(request):
     """
     Generates the categories list.
     """
+    validate_api_secret_key(request.data.get('app_key'))
     request_serializer = AllCategoriesRequest(data=request.data)
 
     if request_serializer.is_valid():
@@ -45,6 +46,7 @@ def selected_category(request):
     """
     Returns books from selected category.
     """
+    validate_api_secret_key(request.data.get('app_key'))
     request_serializer = SelectedCategoryRequest(data=request.data)
 
     if request_serializer.is_valid():
@@ -74,6 +76,7 @@ def find_book(request):
     Generates list with books of data which user entered. At first it check full equality in name,
     after tries to check if contains some part of entered data.
     """
+    validate_api_secret_key(request.data.get('app_key'))
     request_serializer = FindBookRequest(data=request.data)
 
     if request_serializer.is_valid():

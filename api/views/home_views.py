@@ -8,7 +8,7 @@ from rest_framework.response import Response
 
 from ..serializers.model_serializers import BookSerializer
 from ..serializers.request_serializers import HomeRequest
-from ..utils import invalid_data_response
+from ..utils import invalid_data_response, validate_api_secret_key
 from app.models import TheUser, AddedBook, Book
 from app.recommend import get_recommend
 
@@ -21,6 +21,7 @@ def home(request):
     """
     Generates user home data (i.e. user's added books).
     """
+    validate_api_secret_key(request.data.get('app_key'))
     request_serializer = HomeRequest(data=request.data)
 
     if request_serializer.is_valid():
@@ -40,6 +41,7 @@ def recommendations(request):
     """
     Generates recommend books data.
     """
+    validate_api_secret_key(request.data.get('app_key'))
     request_serializer = HomeRequest(data=request.data)
 
     if request_serializer.is_valid():
@@ -61,6 +63,7 @@ def uploaded_books(request):
     """
     Returns the list of books which user uploaded before in system.
     """
+    validate_api_secret_key(request.data.get('app_key'))
     request_serializer = HomeRequest(data=request.data)
 
     if request_serializer.is_valid():

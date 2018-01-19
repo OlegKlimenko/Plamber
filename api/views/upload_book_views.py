@@ -16,7 +16,7 @@ from ..serializers.request_serializers import (UploadBookRequest,
                                                GenerateAuthorsRequest,
                                                GenerateBooksRequest,
                                                GenerateLanguagesRequest)
-from ..utils import invalid_data_response
+from ..utils import invalid_data_response, validate_api_secret_key
 from app.models import Author, AddedBook, Book, TheUser, Language
 from app.tasks import compress_pdf_task
 
@@ -30,6 +30,7 @@ def upload_book(request):
     """
     Handles request and saves uploaded book.
     """
+    validate_api_secret_key(request.data.get('app_key'))
     request_serializer = UploadBookRequest(data=request.data)
 
     if request_serializer.is_valid():
@@ -67,6 +68,7 @@ def generate_authors(request):
     """
     Returns a list of authors which have a substring passed as param.
     """
+    validate_api_secret_key(request.data.get('app_key'))
     request_serializer = GenerateAuthorsRequest(data=request.data)
 
     if request_serializer.is_valid():
@@ -86,6 +88,7 @@ def generate_books(request):
     """
     Returns a list of books which have a substring passed as param.
     """
+    validate_api_secret_key(request.data.get('app_key'))
     request_serializer = GenerateBooksRequest(data=request.data)
 
     if request_serializer.is_valid():
@@ -105,6 +108,7 @@ def generate_languages(request):
     """
     Returns the languages list.
     """
+    validate_api_secret_key(request.data.get('app_key'))
     request_serializer = GenerateLanguagesRequest(data=request.data)
 
     if request_serializer.is_valid():

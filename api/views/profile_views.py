@@ -13,7 +13,7 @@ from rest_framework.response import Response
 
 from ..serializers.model_serializers import ProfileSerializer
 from ..serializers.request_serializers import ProfileRequest, ChangePasswordRequest, UploadAvatarRequest
-from ..utils import invalid_data_response
+from ..utils import invalid_data_response, validate_api_secret_key
 from app.models import TheUser
 from app.tasks import changed_password
 from app.utils import resize_image
@@ -29,6 +29,7 @@ def my_profile(request):
     """
     Generates the user profile data.
     """
+    validate_api_secret_key(request.data.get('app_key'))
     request_serializer = ProfileRequest(data=request.data)
 
     if request_serializer.is_valid():
@@ -47,6 +48,7 @@ def change_password(request):
     """
     Changes user password.
     """
+    validate_api_secret_key(request.data.get('app_key'))
     request_serializer = ChangePasswordRequest(data=request.data)
 
     if request_serializer.is_valid():
@@ -80,6 +82,7 @@ def upload_avatar(request):
     """
     Sets new user's avatar.
     """
+    validate_api_secret_key(request.data.get('app_key'))
     request_serializer = UploadAvatarRequest(data=request.data)
 
     if request_serializer.is_valid():
