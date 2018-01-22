@@ -156,15 +156,15 @@ REST_FRAMEWORK = {
     )
 }
 
-if DEBUG:
-    REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'] = (
-        'rest_framework.renderers.JSONRenderer',
-        'rest_framework.renderers.BrowsableAPIRenderer'
-    )
-else:
-    REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'] = (
-        'rest_framework.renderers.JSONRenderer'
-    )
+# if DEBUG:
+#     REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'] = (
+#         'rest_framework.renderers.JSONRenderer',
+#         'rest_framework.renderers.BrowsableAPIRenderer'
+#     )
+# else:
+#     REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'] = (
+#         'rest_framework.renderers.JSONRenderer'
+#     )
 
 # Mail settings
 
