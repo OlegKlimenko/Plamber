@@ -31,7 +31,10 @@ class ProfileSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     username = serializers.ReadOnlyField(source='id_user.username')
     email = serializers.ReadOnlyField(source='id_user.email')
-    user_photo = serializers.ImageField()
+    user_photo = serializers.SerializerMethodField('get_user_photo_url')
+
+    def get_user_photo_url(self, obj):
+        return obj.user_photo.url if obj.user_photo else static('/app/images/user.png')
 
 
 # ----------------------------------------------------------------------------------------------------------------------

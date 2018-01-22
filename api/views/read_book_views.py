@@ -4,11 +4,12 @@ import logging
 
 from django.shortcuts import get_object_or_404
 
+from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from ..serializers.request_serializers import OpenBookRequest, SetCurrentPageRequest
-from ..utils import invalid_data_response
+from ..utils import invalid_data_response, validate_api_secret_key
 from app.models import Book, AddedBook, TheUser
 
 logger = logging.getLogger('changes')
@@ -20,6 +21,7 @@ def open_book(request):
     """
     Returns the book of last readed page.
     """
+    validate_api_secret_key(request.data.get('app_key'))
     request_serializer = OpenBookRequest(data=request.data)
 
     if request_serializer.is_valid():
@@ -30,10 +32,10 @@ def open_book(request):
 
         logger.info("User '{}' opened book with id: '{}'.".format(user, book.id))
 
-        return Response({'status': 200,
-                         'detail': 'successful',
+        return Response({'detail': 'successful',
                          'data': {'last_page': added_book.last_page,
-                                  'last_read': added_book.last_read}})
+                                  'last_read': added_book.last_read}},
+                        status=status.HTTP_200_OK)
     else:
         return invalid_data_response(request_serializer)
 
@@ -44,6 +46,7 @@ def set_current_page(request):
     """
     Changes current readed page for book of the user.
     """
+    validate_api_secret_key(request.data.get('app_key'))
     request_serializer = SetCurrentPageRequest(data=request.data)
 
     if request_serializer.is_valid():
@@ -58,8 +61,8 @@ def set_current_page(request):
         logger.info("User '{}' on book with id: '{}' changed page to: '{}'."
                     .format(user, book.id, current_page))
 
-        return Response({'status': 200,
-                         'detail': 'successful',
-                         'data': {}})
+        return Response({'detail': 'successful',
+                         'data': {}},
+                        status=status.HTTP_200_OK)
     else:
         return invalid_data_response(request_serializer)

@@ -5,12 +5,13 @@ import logging
 from django.db.models import Avg
 from django.shortcuts import get_object_or_404
 
+from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from ..serializers.model_serializers import BookSerializer, CommentSerializer
 from ..serializers.request_serializers import SelectedBookRequest, ChangeRatingRequest, AddCommentRequest
-from ..utils import invalid_data_response
+from ..utils import invalid_data_response, validate_api_secret_key
 from app.models import AddedBook, Book, BookComment, BookRating, TheUser
 
 logger = logging.getLogger('changes')
@@ -22,6 +23,7 @@ def selected_book(request):
     """
     Returns data for selected book.
     """
+    validate_api_secret_key(request.data.get('app_key'))
     request_serializer = SelectedBookRequest(data=request.data)
 
     if request_serializer.is_valid():
@@ -37,14 +39,14 @@ def selected_book(request):
         book_rating_count = rel_objects['book_rating_count']
         comments = [CommentSerializer(comment).data for comment in rel_objects['comments']]
 
-        return Response({'status': 200,
-                         'detail': 'success',
+        return Response({'detail': 'success',
                          'data': {'book': BookSerializer(rel_objects['book']).data,
                                   'is_added_book': bool(rel_objects['added_book']),
                                   'user_reading_count': AddedBook.get_count_added(book_id),
                                   'book_rating': book_rating if book_rating else 0,
                                   'book_rated_count': book_rating_count if book_rating_count else 0,
-                                  'comments': comments}})
+                                  'comments': comments}},
+                        status=status.HTTP_200_OK)
     else:
         return invalid_data_response(request_serializer)
 
@@ -55,6 +57,7 @@ def add_book_to_home(request):
     """
     Adds book to list of user's added books.
     """
+    validate_api_secret_key(request.data.get('app_key'))
     request_serializer = SelectedBookRequest(data=request.data)
 
     if request_serializer.is_valid():
@@ -70,9 +73,9 @@ def add_book_to_home(request):
         AddedBook.objects.create(id_user=user, id_book=book)
         logger.info("User '{}' added book with id: '{}' to his own library.".format(user.id_user.id, book.id))
 
-        return Response({'status': 200,
-                         'detail': 'success',
-                         'data': {}})
+        return Response({'detail': 'success',
+                         'data': {}},
+                        status=status.HTTP_200_OK)
     else:
         return invalid_data_response(request_serializer)
 
@@ -83,6 +86,7 @@ def remove_book_from_home(request):
     """
     Removes book from list of user's reading books.
     """
+    validate_api_secret_key(request.data.get('app_key'))
     request_serializer = SelectedBookRequest(data=request.data)
 
     if request_serializer.is_valid():
@@ -94,9 +98,9 @@ def remove_book_from_home(request):
         logger.info("User '{}' removed book with id: '{}' from his own library."
                     .format(request.user, request.data.get('book_id')))
 
-        return Response({'status': 200,
-                         'detail': 'success',
-                         'data': {}})
+        return Response({'detail': 'success',
+                         'data': {}},
+                        status=status.HTTP_200_OK)
     else:
         return invalid_data_response(request_serializer)
 
@@ -104,6 +108,7 @@ def remove_book_from_home(request):
 # ----------------------------------------------------------------------------------------------------------------------
 @api_view(['POST'])
 def change_rating(request):
+    validate_api_secret_key(request.data.get('app_key'))
     request_serializer = ChangeRatingRequest(data=request.data)
 
     if request_serializer.is_valid():
@@ -122,10 +127,10 @@ def change_rating(request):
 
         logger.info("User '{}' set rating '{}' to book with id: '{}'.".format(user, rating, book.id))
 
-        return Response({'status': 200,
-                         'detail': 'success',
+        return Response({'detail': 'success',
                          'data': {'book_rating': round(book_ratings.aggregate(Avg('rating'))['rating__avg'], 1),
-                                  'book_rated_count': book_ratings.count()}})
+                                  'book_rated_count': book_ratings.count()}},
+                        status=status.HTTP_200_OK)
     else:
         return invalid_data_response(request_serializer)
 
@@ -133,6 +138,7 @@ def change_rating(request):
 # ----------------------------------------------------------------------------------------------------------------------
 @api_view(['POST'])
 def add_comment(request):
+    validate_api_secret_key(request.data.get('app_key'))
     request_serializer = AddCommentRequest(data=request.data)
 
     if request_serializer.is_valid():
@@ -145,8 +151,8 @@ def add_comment(request):
         logger.info("User '{}' left comment with id: '{}' on book with id: '{}'."
                     .format(the_user.id_user.id, comment.id, comment.id_book.id))
 
-        return Response({'status': 200,
-                         'detail': 'success',
-                         'data': CommentSerializer(comment).data})
+        return Response({'detail': 'success',
+                         'data': CommentSerializer(comment).data},
+                        status=status.HTTP_200_OK)
     else:
         return invalid_data_response(request_serializer)
