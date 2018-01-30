@@ -46,13 +46,16 @@
     word-wrap: break-word;
 }
 
-#vk-ref {
-    opacity: 0.3;
+#left-ref-panel {
     position: fixed;
-    top: 40%;
+    top: 30%;
     z-index: 9999;
 }
 
-#vk-ref:hover {
+.left-ref {
+    opacity: 0.3;
+}
+
+.left-ref:hover {
     opacity: 1;
 }
