@@ -2,7 +2,7 @@
 
 import json
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.utils.html import escape
 
 from ..forms import SortForm, SearchBookForm
@@ -30,7 +30,7 @@ def selected_category(request, category_id):
     Returns page with selected category.
     """
     if request.method == 'GET':
-        category = Category.objects.get(id=category_id)
+        category = get_object_or_404(Category, id=category_id)
         books = Book.objects.filter(id_category=category).order_by('book_name')
 
         filtered_books = Book.exclude_private_books(request.user, books)

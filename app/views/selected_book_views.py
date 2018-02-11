@@ -10,7 +10,7 @@ from django.core.files.base import ContentFile
 from django.db import transaction
 from django.db.models import Avg
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.utils.html import escape
 
 from ..forms import BookHomeForm, AddCommentForm, ChangeRatingForm, StoreBookImageForm, LoadCommentsForm
@@ -31,6 +31,7 @@ def selected_book(request, book_id):
     """
     Returns a page with selected book.
     """
+    get_object_or_404(Book, id=book_id)
     rel_objects = Book.get_related_objects_selected_book(request.user, book_id)
 
     if not request.user.is_anonymous:
