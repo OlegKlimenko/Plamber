@@ -34,8 +34,11 @@ def selected_book(request, book_id):
     get_object_or_404(Book, id=book_id)
     rel_objects = Book.get_related_objects_selected_book(request.user, book_id)
 
+    user_rated = None
+
     if not request.user.is_anonymous:
         user = TheUser.objects.get(id_user=request.user)
+        user_rated = BookRating.objects.filter(id_book__id=book_id, id_user=user)
     else:
         user = request.user
 
@@ -61,7 +64,8 @@ def selected_book(request, book_id):
                'book_rating_count': '({})'.format(book_rating_count) if book_rating_count else '',
                'estimation_count': range(1, 11),
                'user': user,
-               'recommend_books': recommend_books}
+               'recommend_books': recommend_books,
+               'user_rated': user_rated[0] if user_rated else None}
 
     return render(request, 'selected_book.html', context)
 
