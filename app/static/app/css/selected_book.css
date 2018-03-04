@@ -72,6 +72,17 @@
     background-color: #31a445;
 }
 
+.estimate-selected {
+    background-color: #31a445;
+    border-radius: 2px;
+    color: #fff;
+    cursor: pointer;
+    float: left;
+    margin-right: 2px;
+    text-align: center;
+    width: 21px;
+}
+
 #remove-book {
     background-color: #9aa6ad;
     border: solid 2px #9aa6ad;

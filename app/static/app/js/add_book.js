@@ -94,24 +94,6 @@ function selectedAuthor(name) {
 
 // ---------------------------------------------------------------------------------------------------------------------
 /**
- * Checks if book is chosen. Generates HTML elements depending this check.
- *
- * @param {Object} event
- */
-function isBookChosen(event) {
-    $("#invalid-book").hide();
-    if ($("#upload-book").val()) {
-        $("#missing-book-warn").css("display", "none");
-        $("#file-uploading").css("display", "block");
-        event.submit();
-    }
-    else {
-        $("#missing-book-warn").css("display", "block");
-    }
-}
-
-// ---------------------------------------------------------------------------------------------------------------------
-/**
  * Specifies the input button, when file is selected.
  */
 $(document).ready(function() {
@@ -124,6 +106,48 @@ $(document).ready(function() {
         if (!txt) txt = 'Загрузить книгу';
 
         $('#upload-caption').text(txt);
+    });
+
+    $('form').on('submit', function(event) {
+        event.preventDefault();
+
+        var upload_book = $("#upload-book");
+
+        $("#invalid-book").hide();
+
+        if (upload_book.val()) {
+            $("#missing-book-warn").css("display", "none");
+            $("#file-uploading").css("display", "block");
+
+            var formData = new FormData($(this)[0]);
+            var file = upload_book[0].files[0];
+
+            formData.set('bookfile', file, Date.now() + '.pdf');
+
+            $.ajax({
+                url: $('form').attr('action'),
+                type: 'POST',
+                data: formData,
+                async: true,
+                cache: false,
+                contentType: false,
+                processData: false,
+
+                success: function(response) {
+                    window.location.href = response;
+                },
+
+                error: function(jqXHR, errorThrown) {
+                    alert('Вы попытались загрузить не PDF файл\n' +
+                          'или он поврежден. Попробуйте другой файл.');
+                    $("#file-uploading").css("display", "none");
+                }
+            });
+        }
+
+        else {
+            $("#missing-book-warn").css("display", "block");
+        }
     });
 });
 

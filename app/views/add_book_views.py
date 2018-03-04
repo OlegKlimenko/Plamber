@@ -5,7 +5,7 @@ import logging
 
 from django.db import transaction
 from django.http import HttpResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, reverse
 from django.utils.html import escape
 
 from ..forms import GenerateAuthorsForm, AddBookForm, GenerateBooksForm
@@ -93,16 +93,9 @@ def add_book_successful(request):
 
                 compress_pdf_task.delay(book.book_file.path)
 
-                return redirect('book/{0}/'.format(book.id))
+                return HttpResponse(reverse('book', kwargs={'book_id': book.id}), status=200) ## redirect('book/{0}/'.format(book.id))
 
         else:
-            categories = Category.objects.all()
-            languages = Language.objects.all()
-
-            logger.info("User '{}' tried to upload book not as PDF document!".format(request.user))
-
-            return render(request, 'add_book.html', {'categories': categories,
-                                                     'languages': languages,
-                                                     'error': True})
+            return HttpResponse(status=404)
     else:
         return HttpResponse(status=404)
