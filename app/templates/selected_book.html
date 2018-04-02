@@ -1,7 +1,11 @@
 {% extends 'main/base.html' %}
 {% load staticfiles %}
 
-{% block title %}{{ book.book_name }}{% endblock %}
+{% block title %}Читать Книгу {{ book.book_name }} - {{ book.id_author }} Онлайн Бесплатно в PDF{% endblock %}
+
+{% block description %}
+    <meta name="description" content="Книга: {{ book.book_name }}, Автор: {{ book.id_author }}, Рейтинг книги: {{ book_rating|floatformat }} - Добавляйте и читайте удобно на всех устройствах.">
+{% endblock %}
 
 {% block css %}
     <link rel="stylesheet" href="{% static 'app/css/selected_book.css' %}">

@@ -1,7 +1,7 @@
 {% extends 'main/base.html' %}
 {% load staticfiles %}
 
-{% block title %}Мой профиль{% endblock %}
+{% block title %}Профиль пользователя {{ profile_user }}{% endblock %}
 
 {% block css %}
     <link rel="stylesheet" href="{% static 'app/css/profile.css' %}">

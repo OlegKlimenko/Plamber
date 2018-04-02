@@ -9,11 +9,11 @@
     <meta name='wmail-verification' content='036d59550baaddc2abb39fd16a1ab6b6' />
     <meta name="robots" content="all">
 
-    <meta name="description" content="Plamber - онлайн библиотека и система для чтения книг в различных форматах. Удобно читать с телефона, есть мобильная версия.">
+    {% block description %}{% endblock %}
     <meta name="keywords" content="книги, книги онлайн, читать, читать онлайн, читать книги онлайн, бесплатно, читать бесплатно, читать книги бесплатно, читать удобно, читать книги удобно, библиотека, онлайн библиотека, разные книги, pdf">
     <meta name="application-name" content="Plamber">
 
-    <title>{% block title %}{% endblock %} | Plamber | Чтение книг онлайн</title>
+    <title>{% block title %}{% endblock %} | Plamber</title>
 
     <link rel="shortcut icon" href="{% static 'app/images/favicon.ico' %}" type="image/x-icon">
     <link rel="stylesheet" href="{% static 'app/css/third_party/bootstrap.css' %}">
