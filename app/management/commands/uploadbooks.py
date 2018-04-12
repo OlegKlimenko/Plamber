@@ -8,10 +8,14 @@ from django.db import transaction
 
 from .helpers.categories_mapper import mapper
 from ...models import Book, Author, Category, Language, TheUser
+from app.tasks import compress_pdf_task
+from app.utils import resize_image
 
 MAX_AUTHOR_NAME_LENGTH = 96
 MAX_BOOK_NAME_LENGTH = 146
 MAX_DESCRIPTION_LENGTH = 996
+
+BOOK_COVER_HEIGHT = 350
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -55,13 +59,14 @@ class Command(BaseCommand):
                             language=Language.objects.get(id=1),
                             who_added=TheUser.objects.get(id=1)
                         )
-
                         book.book_file.save(os.path.basename(book_path), File(open(book_path, 'rb')))
-
                         if book_cover:
                             book.photo.save(os.path.basename(book_cover), File(open(book_cover, 'rb')))
+                            resize_image(book.photo.path, BOOK_COVER_HEIGHT)
 
                         book.save()
+
+                        compress_pdf_task.delay(book.book_file.path)
 
                         print('Book with ID: "{}" name: "{}" uploaded successfully!'.format(
                             book.id, book.book_name))
