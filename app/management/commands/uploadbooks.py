@@ -33,7 +33,8 @@ class Command(BaseCommand):
 
         for root, dirs, files in os.walk(options['path']):
             if current_iteration > 1:
-
+                print('Folder "{}" processing'.format(root))
+                
                 with open('{}/{}'.format(root, 'meta.json')) as json_file:
                     data = json.loads(json_file.read())
 
