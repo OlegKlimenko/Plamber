@@ -53,7 +53,7 @@ def upload_book(request):
             logger.info("User '{}' uploaded book with id: '{}' and name: '{}' on category: '{}'."
                         .format(user, book.id, book.book_name, rel_objects['category']))
 
-            compress_pdf_task.delay(book.book_file.path)
+            compress_pdf_task.delay(book.book_file.path, book.id)
 
             return Response({'detail': 'successful',
                              'data': {'book': BookSerializer(book).data}},

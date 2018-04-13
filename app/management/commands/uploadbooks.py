@@ -67,7 +67,7 @@ class Command(BaseCommand):
 
                         book.save()
 
-                        compress_pdf_task.delay(book.book_file.path)
+                        compress_pdf_task.delay(book.book_file.path, book.id)
 
                         print('Book with ID: "{}" name: "{}" uploaded successfully!'.format(
                             book.id, book.book_name))
