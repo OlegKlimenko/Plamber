@@ -6,4 +6,3 @@ media
 Plamber/settings.json
 celerybeat-schedule
 venv
-Plamber/*.txt

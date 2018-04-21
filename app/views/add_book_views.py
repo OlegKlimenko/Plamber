@@ -93,7 +93,7 @@ def add_book_successful(request):
 
                 compress_pdf_task.delay(book.book_file.path, book.id)
 
-                return HttpResponse(reverse('book', kwargs={'book_id': book.id}), status=200) ## redirect('book/{0}/'.format(book.id))
+                return HttpResponse(reverse('book', kwargs={'book_id': book.id}), status=200)
 
         else:
             return HttpResponse(status=404)

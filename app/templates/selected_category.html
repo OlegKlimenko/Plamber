@@ -1,7 +1,11 @@
 {% extends 'main/base.html' %}
 {% load staticfiles %}
 
-{% block title %}{{ category.category_name }}{% endblock %}
+{% block title %}Категория {{ category.category_name }} Книг В Онлайн Библиотеке{% endblock %}
+
+{% block description %}
+    <meta name="description" content="Заходите к нам, выбирайте и читайте большое количество классных книг в нашей библиотеке!">
+{% endblock %}
 
 {% block css %}
     <link rel="stylesheet" href="{% static 'app/css/selected_category.css' %}">
