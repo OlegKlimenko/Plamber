@@ -192,6 +192,10 @@ function updateOffsets() {
     renderPages(CURRENT_PAGE);
 }
 
+function progressCallBack(progress) {
+    $('#loading-percent').text(parseInt(100 * progress.loaded / progress.total) + '%');
+}
+
 // ---------------------------------------------------------------------------------------------------------------------
 /**
  * Sets settings for open PDF document; opens document and generates starting point elements.
@@ -201,7 +205,7 @@ function loadPages() {
 
     PDFJS.workerSrc = "/static/app/js/third_party/pdf_js/pdf.worker.js";
 
-    PDFJS.getDocument(url).then(function (pdf) {
+    PDFJS.getDocument(url, null, null, progressCallBack).then(function (pdf) {
         PDF_DOCUMENT = pdf;
 
         DESIRED_WIDTH = $('#container-width').width();
@@ -288,6 +292,7 @@ window.addEventListener("resize", function() {
  */
 function loadDisplay() {
     $("#loading").css('display', 'block');
+    $("#loading-percent").css('display', 'block');
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -296,6 +301,7 @@ function loadDisplay() {
  */
 function loadHide() {
     $("#loading").css('display', 'none');
+    $("#loading-percent").css('display', 'none');
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
