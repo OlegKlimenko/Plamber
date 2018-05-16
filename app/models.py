@@ -3,7 +3,7 @@
 import logging
 
 from django.db import models
-from django.db.models import Avg, Count, Q, Sum
+from django.db.models import Avg, Count, Q
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.validators import MaxValueValidator, MinValueValidator
@@ -260,7 +260,10 @@ class Book(models.Model):
 
         sorted_books = []
         for annotation in annotations:
-            sorted_books.append(filtered_books.get(id=annotation['id_book']))
+            compared_book = filtered_books.filter(id=annotation['id_book'])
+
+            if compared_book:
+                sorted_books.append(filtered_books.get(id=compared_book[0].id))
 
         generated_books = [
             {'id': item.id,
@@ -329,12 +332,13 @@ class Book(models.Model):
 
         :return django.db.models.query.QuerySet[.models.Book]/list[.models.Book]: List of books.
         """
-        the_user = user if user.is_anonymous else TheUser.objects.get(id_user=user)
-
         if isinstance(books, list):
-            filtered_books = [book for book in books if not book.private_book or book.who_added == the_user]
+            filtered_books = [book for book in books if not book.private_book or book.who_added.id_user == user]
         else:
-            filtered_books = books.filter(Q(private_book=False) | Q(who_added=the_user))
+            if not user.is_anonymous:
+                filtered_books = books.filter(Q(private_book=False) | Q(who_added__id_user=user))
+            else:
+                filtered_books = books.filter(Q(private_book=False))
 
         return filtered_books
 
