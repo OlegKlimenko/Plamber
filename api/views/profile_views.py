@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import logging
+import random
 
 from django.db import transaction
 from django.core.exceptions import ValidationError
@@ -98,7 +99,8 @@ def upload_avatar(request):
                 logger.info("Image '{}' successfully resized!".format(profile_user.user_photo.path))
 
                 return Response({'detail': 'successful',
-                                 'data': {'profile_image': profile_user.user_photo.url}},
+                                 'data': {'profile_image': '{}?{}'.format(profile_user.user_photo.url,
+                                                                          random.randint(1000))}},
                                 status=status.HTTP_200_OK)
 
             except ValidationError:

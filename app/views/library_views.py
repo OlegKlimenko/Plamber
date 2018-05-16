@@ -8,6 +8,8 @@ from django.utils.html import escape
 from ..forms import SortForm, SearchBookForm
 from ..models import Category, Book
 
+MOST_READ_BOOKS_COUNT = 9
+
 
 # ----------------------------------------------------------------------------------------------------------------------
 def all_categories(request):
@@ -16,10 +18,10 @@ def all_categories(request):
     """
     if request.method == "GET":
         categories = Category.objects.all().order_by('category_name')
-        # most_readable_books = Book.sort_by_readable(request.user)
+        most_readable_books = Book.sort_by_readable(request.user, count=MOST_READ_BOOKS_COUNT)
 
-        return render(request, 'categories.html', {'categories': categories})
-                                                   # 'most_readable_books': most_readable_books[:9]})
+        return render(request, 'categories.html', {'categories': categories,
+                                                   'most_readable_books': most_readable_books[:9]})
     else:
         return HttpResponse(status=404)
 
@@ -53,11 +55,15 @@ def sort(request):
         if sort_form.is_valid():
             criterion_dict = {'book_name': Book.sort_by_book_name,
                               'author': Book.sort_by_author,
-                              'estimation': Book.sort_by_estimation,
-                              'most_readable': Book.sort_by_readable}
+                              'estimation': Book.sort_by_estimation}
 
             category = Category.objects.get(id=sort_form.cleaned_data['category'])
-            books = criterion_dict[sort_form.cleaned_data['criterion']](request.user, category)
+            books_count = Book.objects.filter(id_category=category).count()
+
+            if sort_form.cleaned_data['criterion'] == 'most_readable':
+                books = Book.sort_by_readable(request.user, category, books_count)
+            else:
+                books = criterion_dict[sort_form.cleaned_data['criterion']](request.user, category)
 
             for book in books:
                 book['name'] = escape(book['name'])

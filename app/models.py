@@ -3,7 +3,7 @@
 import logging
 
 from django.db import models
-from django.db.models import Avg, Count
+from django.db.models import Avg, Count, Q
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.validators import MaxValueValidator, MinValueValidator
@@ -235,31 +235,44 @@ class Book(models.Model):
 
     # ------------------------------------------------------------------------------------------------------------------
     @staticmethod
-    def sort_by_readable(user, category=None):
+    def sort_by_readable(user, category=None, count=9):
         """
         Sorts books by most readable criterion. Uses aggregate 'count' function.
 
         :param django.contrib.auth.models.User  user:     The request user.
         :param app.models.Category              category: The category.
+        :param int                              count:    The count of books which must be returned.
 
         :return: The list with sorted books.
         """
-        books = []
         if category:
             filtered_books = Book.exclude_private_books(user, Book.objects.filter(id_category=category))
+            added_books = AddedBook.objects.filter(id_book__id_category=category).values('id_book')
         else:
             filtered_books = Book.exclude_private_books(user, Book.objects.all())
+            added_books = AddedBook.objects.values('id_book')
 
-        for item in filtered_books:
-            book_read_count = AddedBook.objects.filter(id_book=item).aggregate(Count('id_user'))
-            book = {'id': item.id,
-                    'name': item.book_name,
-                    'author': item.id_author.author_name,
-                    'url': item.photo.url if item.photo else '',
-                    'read_count': book_read_count['id_user__count']}
-            books.append(book)
+        annotations = added_books.annotate(read_count=Count('id_book')).order_by('-read_count')[:count]
 
-        return sorted(books, key=lambda info: info['read_count'], reverse=True)
+        filtered_books = filtered_books.filter(
+            id__in=[annotation['id_book'] for annotation in annotations]
+        )
+
+        sorted_books = []
+        for annotation in annotations:
+            compared_book = filtered_books.filter(id=annotation['id_book'])
+
+            if compared_book:
+                sorted_books.append(filtered_books.get(id=compared_book[0].id))
+
+        generated_books = [
+            {'id': item.id,
+             'name': item.book_name,
+             'author': item.id_author.author_name,
+             'url': item.photo.url if item.photo else ''} for item in sorted_books
+        ]
+
+        return generated_books
 
     # ------------------------------------------------------------------------------------------------------------------
     @staticmethod
@@ -312,25 +325,20 @@ class Book(models.Model):
     @staticmethod
     def exclude_private_books(user, books):
         """
-        Returns the list of books without private books which not depend to current user
+        Returns the list of books without private books which not depend to current user.
 
-        :param django.contrib.auth.models.User               user:         The request user.
-        :param django.db.models.query.QuerySet[.models.Book] books:        The given list of books.
+        :param django.contrib.auth.models.User                                  user:  The request user.
+        :param django.db.models.query.QuerySet[.models.Book]/list[.models.Book] books: The given list of books.
 
-        :return list[.models.Book]: List of books.
+        :return django.db.models.query.QuerySet[.models.Book]/list[.models.Book]: List of books.
         """
-        if user.is_anonymous:
-            the_user = user
+        if isinstance(books, list):
+            filtered_books = [book for book in books if not book.private_book or book.who_added.id_user == user]
         else:
-            the_user = TheUser.objects.get(id_user=user)
-
-        filtered_books = []
-
-        for book in books:
-            if book.private_book and book.who_added != the_user:
-                continue
-
-            filtered_books.append(book)
+            if not user.is_anonymous:
+                filtered_books = books.filter(Q(private_book=False) | Q(who_added__id_user=user))
+            else:
+                filtered_books = books.filter(Q(private_book=False))
 
         return filtered_books
 

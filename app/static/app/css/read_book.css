@@ -70,6 +70,21 @@
     z-index: 9999;
 }
 
+#loading-percent {
+    color: #31a445;
+    display: none;
+    font-size: 16pt;
+    left: 50%;
+    margin-left: -50px;
+    margin-top: 40px;
+    position: fixed;
+    top: 50%;
+    text-align: center;
+    width: 100px;
+    z-index: 9999;
+
+}
+
 #error-toast {
     background-color: #2e3438;
     border-radius: 2px;
