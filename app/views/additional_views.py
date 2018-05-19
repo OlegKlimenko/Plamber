@@ -35,7 +35,8 @@ def share_txt(request, file):
     """
     with open(settings.BASE_DIR + '/Plamber/additional/{}'.format(file), 'r') as data:
         return HttpResponse(data.read(), content_type='text/plain')
-      
+
+
 # ----------------------------------------------------------------------------------------------------------------------      
 def share_xml(request, file):
     """
