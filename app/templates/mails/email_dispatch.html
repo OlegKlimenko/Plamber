@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    {% autoescape off %}
+        {{ text }}
+    {% endautoescape %}
+
+    Ваш <a href="https://plamber.com.ua">plamber.com.ua</a>
+
+    <p style="font-size: 8pt; color: gray;">
+        Если вы не хотите получать рассылку от нас,
+        отпишитесь от рассылки перейдя по этой ссылке:
+        <a href="https://plamber.com.ua{% url 'unsubscribe' token=token %}">Отписаться</a>
+    </p>
+</body>
+</html>

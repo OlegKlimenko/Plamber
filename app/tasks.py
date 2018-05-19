@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import time
 import logging
 
 from celery import shared_task
@@ -8,6 +9,7 @@ from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 
 from .utils import compress_pdf
+from .models import TheUser
 
 logger = logging.getLogger('changes')
 
@@ -81,3 +83,28 @@ def compress_pdf_task(filename, book_id):
     compress_pdf(filename)
 
     logger.info("Book with id: '{}' compressed successfully!".format(book_id))
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+@shared_task
+def email_dispatch(heading, text):
+    """
+    Dispatches new project post data to multiple subscribed users.
+    """
+    recipients = TheUser.objects.filter(subscription=True)
+
+    logger.info('Found {} subscribed users. Starting sending emails...'.format(len(recipients)))
+
+    for recipient in recipients:
+        unsubscribe_token = '{}-{}'.format(recipient.id_user.username,
+                                           int(time.mktime(recipient.id_user.date_joined.timetuple())))
+
+        html_content = render_to_string('mails/email_dispatch.html', {'text': text, 'token': unsubscribe_token})
+        text_content = strip_tags(html_content)
+        subject = '{} - plamber.com.ua'.format(heading)
+
+        email = EmailMultiAlternatives(subject, text_content, to=[recipient.id_user.email])
+        email.attach_alternative(html_content, 'text/html')
+        email.send()
+
+    logger.info('Email dispatching has been finished.')

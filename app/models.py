@@ -23,6 +23,7 @@ class TheUser(models.Model):
     id_user = models.OneToOneField(User)
     user_photo = models.ImageField(blank=True, upload_to='user', storage=OverwriteStorage())
     auth_token = models.CharField(max_length=50, null=True, blank=True)
+    subscription = models.BooleanField(default=True)
 
     # ------------------------------------------------------------------------------------------------------------------
     def __str__(self):
