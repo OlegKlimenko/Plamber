@@ -63,7 +63,7 @@ urlpatterns = [
 
     # Additional urls.
     url(r'logout', additional_views.user_logout, name='logout'),
-    url(r'unsubscribe/(?P<token>[-0-9a-zA-Z]+)/', additional_views.unsubscribe, name='unsubscribe'),
+    url(r'unsubscribe/(?P<token>[_-0-9a-zA-Z]+)/', additional_views.unsubscribe, name='unsubscribe'),
     url(r'(?P<file>[%&+ \w]+.txt)', additional_views.share_txt, name='share_txt'),
     url(r'(?P<file>[%&+ \w]+.xml)', additional_views.share_xml, name='share_xml')
 
