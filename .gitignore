@@ -4,6 +4,6 @@ app/migrations
 media
 *.log
 Plamber/settings.json
+Plamber/additional/sitemap.xml
 celerybeat-schedule
 venv
-Plamber/*.txt

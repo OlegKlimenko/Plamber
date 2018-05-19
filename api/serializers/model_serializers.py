@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from django.contrib.staticfiles.templatetags.staticfiles import static
+
 from rest_framework import serializers
 
 
@@ -29,12 +31,18 @@ class ProfileSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     username = serializers.ReadOnlyField(source='id_user.username')
     email = serializers.ReadOnlyField(source='id_user.email')
-    user_photo = serializers.ImageField()
+    user_photo = serializers.SerializerMethodField('get_user_photo_url')
+
+    def get_user_photo_url(self, obj):
+        return obj.user_photo.url if obj.user_photo else static('/app/images/user.png')
 
 
 # ----------------------------------------------------------------------------------------------------------------------
 class CommentSerializer(serializers.Serializer):
     user = serializers.ReadOnlyField(source='id_user.id_user.username')
-    user_photo = serializers.ReadOnlyField(source='id_user.user_photo.url')
+    user_photo = serializers.SerializerMethodField('get_user_photo_url')
     text = serializers.CharField(max_length=500)
     posted_date = serializers.DateField()
+
+    def get_user_photo_url(self, obj):
+        return obj.id_user.user_photo.url if obj.id_user.user_photo else static('/app/images/user.png')

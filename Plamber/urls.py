@@ -65,5 +65,7 @@ urlpatterns = [
     url(r'logout', additional_views.user_logout, name='logout'),
     url(r'(?P<file>[%&+ \w]+.txt)', additional_views.verification_token, name='verification_token'),
     url(r'unsubscribe/(?P<token>[-0-9a-zA-Z]+)/', additional_views.unsubscribe, name='unsubscribe')
+    url(r'(?P<file>[%&+ \w]+.txt)', additional_views.share_txt, name='share_txt'),
+    url(r'(?P<file>[%&+ \w]+.xml)', additional_views.share_xml, name='share_xml')
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

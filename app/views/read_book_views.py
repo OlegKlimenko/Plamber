@@ -6,7 +6,7 @@ import logging
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 from django.http import HttpResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 
 from .selected_book_views import selected_book
 from ..forms import SetCurrentPageForm
@@ -21,7 +21,7 @@ def open_book(request, book_id):
     Returns a page for reading book.
     """
     if request.user.is_authenticated():
-        book = Book.objects.get(id=book_id)
+        book = get_object_or_404(Book, id=book_id)
         user = TheUser.objects.get(id_user=request.user)
 
         try:

@@ -1,7 +1,11 @@
 {% extends 'main/base.html' %}
 {% load staticfiles %}
 
-{% block title %}{{ book.book_name }}{% endblock %}
+{% block title %}Читать Книгу {{ book.book_name }} - {{ book.id_author }} Онлайн Бесплатно в PDF{% endblock %}
+
+{% block description %}
+    <meta name="description" content="Книга: {{ book.book_name }}, Автор: {{ book.id_author }}, Рейтинг книги: {{ book_rating|floatformat }} - Добавляйте и читайте удобно на всех устройствах.">
+{% endblock %}
 
 {% block css %}
     <link rel="stylesheet" href="{% static 'app/css/selected_book.css' %}">
@@ -9,6 +13,7 @@
 
 {% block js %}
     <script src="{% static 'app/js/third_party/pdf_js/pdf.js' %}"></script>
+    <script>var prev_estimate = {% if user_rated %}{{ user_rated.rating }}{% else %}0{% endif %};</script>
     <script src="{% static 'app/js/selected_book.js' %}"></script>
 {% endblock %}
 
@@ -53,8 +58,13 @@
                         {% else %}
                             <div><strong>Оценить книгу</strong></div>
                             {% for estimation in estimation_count %}
-                            <div class="estimate"
-                                 onclick="changeEstimation({{ book.id }}, {{ estimation }})">{{ estimation }}</div>
+                                {% if estimation == user_rated.rating %}
+                                    <div id="estimate-{{ estimation }}" class="estimate-selected"
+                                         onclick="changeEstimation({{ book.id }}, {{ estimation }})">{{ estimation }}</div>
+                                {% else %}
+                                    <div id="estimate-{{ estimation }}" class="estimate"
+                                         onclick="changeEstimation({{ book.id }}, {{ estimation }})">{{ estimation }}</div>
+                                {% endif %}
                             {% endfor %}
                         {% endif %}
                     </div>

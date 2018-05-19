@@ -26,6 +26,7 @@ with open(BASE_DIR + '/Plamber/settings.json') as file:
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = settings['SECRET_KEY']
+API_SECRET_KEY = settings['API_SECRET_KEY']
 GOOGLE_RECAPTCHA_SECRET_KEY = settings['GOOGLE_RECAPTCHA_SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -154,6 +155,16 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     )
 }
+
+if DEBUG:
+    REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'] = (
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer'
+    )
+else:
+    REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'] = (
+        'rest_framework.renderers.JSONRenderer',
+    )
 
 # Mail settings
 

@@ -7,13 +7,14 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 
+from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from app.models import TheUser
 from app.tasks import restore_account, successful_registration
 from app.utils import generate_password
-from ..utils import invalid_data_response
+from ..utils import invalid_data_response, validate_api_secret_key
 from ..serializers.request_serializers import (UserLoginRequest,
                                                RestoreDataRequest,
                                                UserExistsRequest,
@@ -29,6 +30,7 @@ def user_login(request):
     """
     Authenticates user and returns the token which uses to access to the API.
     """
+    validate_api_secret_key(request.data.get('app_key'))
     request_serializer = UserLoginRequest(data=request.data)
 
     if request_serializer.is_valid():
@@ -40,13 +42,13 @@ def user_login(request):
             login(request, user)
             logger.info("User '{}' logged in.".format(user.username))
 
-            return Response({'status': 200,
-                             'detail': 'successful',
-                             'data': {'token': user_token}})
+            return Response({'detail': 'successful',
+                             'data': {'token': user_token}},
+                            status=status.HTTP_200_OK)
 
-        return Response({'status': 404,
-                         'detail': 'not authenticated',
-                         'data': {'token': None}})
+        return Response({'detail': 'not authenticated',
+                         'data': {'token': None}},
+                        status=status.HTTP_404_NOT_FOUND)
     else:
         return invalid_data_response(request_serializer)
 
@@ -57,6 +59,7 @@ def restore_data(request):
     """
     Sends mail to restore user data.
     """
+    validate_api_secret_key(request.data.get('app_key'))
     request_serializer = RestoreDataRequest(data=request.data)
 
     if request_serializer.is_valid():
@@ -72,14 +75,14 @@ def restore_data(request):
 
                 logger.info("The password for user: '{}' restored successfully.".format(user))
 
-                return Response({'status': 200,
-                                 'detail': 'successful',
-                                 'data': {}})
+                return Response({'detail': 'successful',
+                                 'data': {}},
+                                status=status.HTTP_200_OK)
 
             except ObjectDoesNotExist:
-                return Response({'status': 404,
-                                 'detail': 'not exists',
-                                 'data': {}})
+                return Response({'detail': 'not exists',
+                                 'data': {}},
+                                status=status.HTTP_404_NOT_FOUND)
     else:
         return invalid_data_response(request_serializer)
 
@@ -90,19 +93,20 @@ def is_user_exists(request):
     """
     Checks if user is exists. If exists return True, else False.
     """
+    validate_api_secret_key(request.data.get('app_key'))
     request_serializer = UserExistsRequest(data=request.data)
 
     if request_serializer.is_valid():
         try:
             User.objects.get(username=request.data.get('username'))
-            return Response({'status': 200,
-                             'detail': 'successful',
-                             'data': {'user': True}})
+            return Response({'detail': 'successful',
+                             'data': {'user': True}},
+                            status=status.HTTP_200_OK)
 
         except ObjectDoesNotExist:
-            return Response({'status': 200,
-                             'detail': 'successful',
-                             'data': {'user': False}})
+            return Response({'detail': 'successful',
+                             'data': {'user': False}},
+                            status=status.HTTP_200_OK)
     else:
         return invalid_data_response(request_serializer)
 
@@ -113,19 +117,20 @@ def is_mail_exists(request):
     """
     Checks if mail is exists. If exists return True, else False.
     """
+    validate_api_secret_key(request.data.get('app_key'))
     request_serializer = EmailExistsRequest(data=request.data)
 
     if request_serializer.is_valid():
         try:
             User.objects.get(email=request.data.get('email'))
-            return Response({'status': 200,
-                             'detail': 'successful',
-                             'data': {'email': True}})
+            return Response({'detail': 'successful',
+                             'data': {'email': True}},
+                            status=status.HTTP_200_OK)
 
         except ObjectDoesNotExist:
-            return Response({'status': 200,
-                             'detail': 'successful',
-                             'data': {'email': False}})
+            return Response({'detail': 'successful',
+                             'data': {'email': False}},
+                            status=status.HTTP_200_OK)
     else:
         return invalid_data_response(request_serializer)
 
@@ -136,14 +141,15 @@ def sign_in(request):
     """
     Creates a new user and returns status.
     """
+    validate_api_secret_key(request.data.get('app_key'))
     request_serializer = SignInRequest(data=request.data)
 
     if request_serializer.is_valid():
         with transaction.atomic():
             if 'admin' in request.data.get('username'):
-                return Response({'status': 400,
-                                 'detail': 'not allowed username',
-                                 'data': {}})
+                return Response({'detail': 'not allowed username',
+                                 'data': {}},
+                                status=status.HTTP_400_BAD_REQUEST)
 
             user = User.objects.create_user(username=request.data.get('username'),
                                             email=request.data.get('email'),
@@ -155,8 +161,8 @@ def sign_in(request):
 
             successful_registration.delay(user.username, user.email)
 
-            return Response({'status': 200,
-                             'detail': 'successful',
-                             'data': {'token': user_token}})
+            return Response({'detail': 'successful',
+                             'data': {'token': user_token}},
+                            status=status.HTTP_200_OK)
     else:
         return invalid_data_response(request_serializer)

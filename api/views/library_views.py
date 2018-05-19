@@ -5,12 +5,13 @@ import logging
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404
 
+from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from ..serializers.model_serializers import CategorySerializer, BookSerializer
 from ..serializers.request_serializers import AllCategoriesRequest, SelectedCategoryRequest, FindBookRequest
-from ..utils import invalid_data_response
+from ..utils import invalid_data_response, validate_api_secret_key
 from app.models import TheUser, Category, Book
 
 OUTPUT_BOOKS_PER_PAGE = 20
@@ -24,16 +25,17 @@ def all_categories(request):
     """
     Generates the categories list.
     """
+    validate_api_secret_key(request.data.get('app_key'))
     request_serializer = AllCategoriesRequest(data=request.data)
 
     if request_serializer.is_valid():
         get_object_or_404(TheUser, auth_token=request.data.get('user_token'))
         categories = Category.objects.all().order_by('category_name')
 
-        return Response({'status': 200,
-                         'detail': 'successful',
+        return Response({'detail': 'successful',
                          'data': [CategorySerializer(category, context={'request': request}).data
-                                  for category in categories]})
+                                  for category in categories]},
+                        status=status.HTTP_200_OK)
     else:
         return invalid_data_response(request_serializer)
 
@@ -44,6 +46,7 @@ def selected_category(request):
     """
     Returns books from selected category.
     """
+    validate_api_secret_key(request.data.get('app_key'))
     request_serializer = SelectedCategoryRequest(data=request.data)
 
     if request_serializer.is_valid():
@@ -58,10 +61,10 @@ def selected_category(request):
         next_page = page.has_next()
         page_books = page.object_list
 
-        return Response({'status': 200,
-                         'detail': 'successful',
+        return Response({'detail': 'successful',
                          'data': {'books': [BookSerializer(book).data for book in page_books],
-                                  'next_page': page.next_page_number() if next_page else 0}})
+                                  'next_page': page.next_page_number() if next_page else 0}},
+                        status=status.HTTP_200_OK)
     else:
         return invalid_data_response(request_serializer)
 
@@ -73,6 +76,7 @@ def find_book(request):
     Generates list with books of data which user entered. At first it check full equality in name,
     after tries to check if contains some part of entered data.
     """
+    validate_api_secret_key(request.data.get('app_key'))
     request_serializer = FindBookRequest(data=request.data)
 
     if request_serializer.is_valid():
@@ -86,9 +90,9 @@ def find_book(request):
         next_page = page.has_next()
         page_books = page.object_list
 
-        return Response({'status': 200,
-                         'detail': 'successful',
+        return Response({'detail': 'successful',
                          'data': {'books': [BookSerializer(book).data for book in page_books],
-                                  'next_page': page.next_page_number() if next_page else 0}})
+                                  'next_page': page.next_page_number() if next_page else 0}},
+                        status=status.HTTP_200_OK)
     else:
         return invalid_data_response(request_serializer)

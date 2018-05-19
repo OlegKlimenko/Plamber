@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import time
 import uuid
 
 from django.contrib.auth.models import User
@@ -20,7 +19,7 @@ def create_additional_data(sender, instance=None, created=False, **kwargs):
     if created:
         the_user = TheUser.objects.create(id_user=instance,
                                           auth_token=uuid.uuid5(uuid.NAMESPACE_DNS,
-                                                                instance.username + str(time.time())))
+                                                                instance.username + str(instance.date_joined)))
         the_user.save()
 
 

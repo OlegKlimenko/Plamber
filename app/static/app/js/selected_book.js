@@ -144,6 +144,11 @@ function changeEstimation(idBook, newRating) {
         success: function result(json) {
             $("#rating").text(json['avg_rating']);
             $("#rating-count").text(json['rating_count']);
+
+            $("#estimate-" + prev_estimate).attr('class', 'estimate');
+            $("#estimate-" + newRating).attr('class', 'estimate-selected');
+
+            prev_estimate = newRating;
         }
     });
 }

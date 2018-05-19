@@ -4,4 +4,6 @@ pypdf2==1.26.0
 celery==4.0.2
 requests==2.18.1
 djangorestframework==3.6.3
-Pillow-4.2.1
+Pillow==4.2.1
+redis==2.10.5
+coverage==4.5.1

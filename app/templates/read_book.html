@@ -3,6 +3,10 @@
 
 {% block title %}{{ book.book_name }}{% endblock %}
 
+{% block description %}
+    <meta name="description" content="Чтение книги {{ book.book_name }}">
+{% endblock %}
+
 {% block css %}
     <link rel="stylesheet" href="{% static 'app/css/read_book.css' %}">
 {% endblock %}
@@ -30,6 +34,7 @@
     </div>
 
     <img id="loading" src="{% static 'app/images/loading.gif' %}">
+    <div id="loading-percent"></div>
 
     <!--Main info area-->
     <div id="page-nav-bar" align="center">

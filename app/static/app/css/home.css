@@ -45,24 +45,16 @@
     opacity: 0.9;
 }
 
-.decoration {
-    text-decoration: none;
+#upload-button {
+    bottom: 30px;
+    position: fixed;
+    right: 30px;
+    z-index: 9999;
 }
 
-.decoration:hover {
-    text-decoration: none;
-}
-
-.action-button {
-    background-color: #31a445;
-    border: solid 2px #31a445;
-    color: #fff;
-}
-
-.action-button:hover {
-    background-color: Transparent;
-    border: solid 2px #31a445;
-    color: #31a445;
+#upload-button-img {
+    height: 75px;
+    width: 75px;
 }
 
 .margin {

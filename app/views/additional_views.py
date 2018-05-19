@@ -29,12 +29,20 @@ def user_logout(request):
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-def verification_token(request, file):
+def share_txt(request, file):
     """
-    Handles the request for SSL token.
+    Returns the shared .txt files.
     """
-    with open(settings.BASE_DIR + '/Plamber/{}'.format(file), 'r') as data:
+    with open(settings.BASE_DIR + '/Plamber/additional/{}'.format(file), 'r') as data:
         return HttpResponse(data.read(), content_type='text/plain')
+      
+# ----------------------------------------------------------------------------------------------------------------------      
+def share_xml(request, file):
+    """
+    Returns the shared .xml files.
+    """
+    with open(settings.BASE_DIR + '/Plamber/additional/{}'.format(file), 'r') as data:
+        return HttpResponse(data.read(), content_type='application/xml')      
 
 
 # ----------------------------------------------------------------------------------------------------------------------

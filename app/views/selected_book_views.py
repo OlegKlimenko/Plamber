@@ -10,7 +10,7 @@ from django.core.files.base import ContentFile
 from django.db import transaction
 from django.db.models import Avg
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.utils.html import escape
 
 from ..forms import BookHomeForm, AddCommentForm, ChangeRatingForm, StoreBookImageForm, LoadCommentsForm
@@ -31,10 +31,14 @@ def selected_book(request, book_id):
     """
     Returns a page with selected book.
     """
+    get_object_or_404(Book, id=book_id)
     rel_objects = Book.get_related_objects_selected_book(request.user, book_id)
+
+    user_rated = None
 
     if not request.user.is_anonymous:
         user = TheUser.objects.get(id_user=request.user)
+        user_rated = BookRating.objects.filter(id_book__id=book_id, id_user=user)
     else:
         user = request.user
 
@@ -60,7 +64,8 @@ def selected_book(request, book_id):
                'book_rating_count': '({})'.format(book_rating_count) if book_rating_count else '',
                'estimation_count': range(1, 11),
                'user': user,
-               'recommend_books': recommend_books}
+               'recommend_books': recommend_books,
+               'user_rated': user_rated[0] if user_rated else None}
 
     return render(request, 'selected_book.html', context)
 

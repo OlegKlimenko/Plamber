@@ -71,17 +71,18 @@ def changed_password(username, recipient):
 
 # ----------------------------------------------------------------------------------------------------------------------
 @shared_task
-def compress_pdf_task(filename):
+def compress_pdf_task(filename, book_id):
     """
     Celery task for compressing the PDF file.
 
     :param str filename: The file name of document which will be compressed.
+    :param int book_id:  The unique identifier of the book stored in DB.
     """
     logger.info("Started compressing book with name: {}".format(filename))
 
     compress_pdf(filename)
 
-    logger.info("Book with id: '{}' compressed successfully!".format(filename))
+    logger.info("Book with id: '{}' compressed successfully!".format(book_id))
 
 
 # ----------------------------------------------------------------------------------------------------------------------

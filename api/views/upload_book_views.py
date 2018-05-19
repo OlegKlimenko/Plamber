@@ -6,6 +6,7 @@ import logging
 from django.db import transaction
 from django.shortcuts import get_object_or_404
 
+from rest_framework import status
 from rest_framework.decorators import api_view, parser_classes
 from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
@@ -15,7 +16,7 @@ from ..serializers.request_serializers import (UploadBookRequest,
                                                GenerateAuthorsRequest,
                                                GenerateBooksRequest,
                                                GenerateLanguagesRequest)
-from ..utils import invalid_data_response
+from ..utils import invalid_data_response, validate_api_secret_key
 from app.models import Author, AddedBook, Book, TheUser, Language
 from app.tasks import compress_pdf_task
 
@@ -29,6 +30,7 @@ def upload_book(request):
     """
     Handles request and saves uploaded book.
     """
+    validate_api_secret_key(request.data.get('app_key'))
     request_serializer = UploadBookRequest(data=request.data)
 
     if request_serializer.is_valid():
@@ -51,11 +53,11 @@ def upload_book(request):
             logger.info("User '{}' uploaded book with id: '{}' and name: '{}' on category: '{}'."
                         .format(user, book.id, book.book_name, rel_objects['category']))
 
-            compress_pdf_task.delay(book.book_file.path)
+            compress_pdf_task.delay(book.book_file.path, book.id)
 
-            return Response({'status': '200',
-                             'detail': 'successful',
-                             'data': {}})
+            return Response({'detail': 'successful',
+                             'data': {'book': BookSerializer(book).data}},
+                            status=status.HTTP_200_OK)
     else:
         return invalid_data_response(request_serializer)
 
@@ -66,15 +68,16 @@ def generate_authors(request):
     """
     Returns a list of authors which have a substring passed as param.
     """
+    validate_api_secret_key(request.data.get('app_key'))
     request_serializer = GenerateAuthorsRequest(data=request.data)
 
     if request_serializer.is_valid():
         get_object_or_404(TheUser, auth_token=request.data.get('user_token'))
         list_of_authors = Author.get_authors_list(request.data.get('author_part'))
 
-        return Response({'status': '200',
-                         'detail': 'successful',
-                         'data': list_of_authors})
+        return Response({'detail': 'successful',
+                         'data': list_of_authors},
+                        status=status.HTTP_200_OK)
     else:
         return invalid_data_response(request_serializer)
 
@@ -85,15 +88,16 @@ def generate_books(request):
     """
     Returns a list of books which have a substring passed as param.
     """
+    validate_api_secret_key(request.data.get('app_key'))
     request_serializer = GenerateBooksRequest(data=request.data)
 
     if request_serializer.is_valid():
         get_object_or_404(TheUser, auth_token=request.data.get('user_token'))
         list_of_books = Book.objects.filter(book_name__icontains=request.data.get('book_part'), private_book=False)
 
-        return Response({'status': '200',
-                         'detail': 'successful',
-                         'data': [BookSerializer(book).data for book in list_of_books]})
+        return Response({'detail': 'successful',
+                         'data': [BookSerializer(book).data for book in list_of_books]},
+                        status=status.HTTP_200_OK)
     else:
         return invalid_data_response(request_serializer)
 
@@ -104,14 +108,15 @@ def generate_languages(request):
     """
     Returns the languages list.
     """
+    validate_api_secret_key(request.data.get('app_key'))
     request_serializer = GenerateLanguagesRequest(data=request.data)
 
     if request_serializer.is_valid():
         get_object_or_404(TheUser, auth_token=request.data.get('user_token'))
         list_of_languages = Language.objects.all()
 
-        return Response({'status': '200',
-                         'detail': 'successful',
-                         'data': [language.language for language in list_of_languages]})
+        return Response({'detail': 'successful',
+                         'data': [language.language for language in list_of_languages]},
+                        status=status.HTTP_200_OK)
     else:
         return invalid_data_response(request_serializer)

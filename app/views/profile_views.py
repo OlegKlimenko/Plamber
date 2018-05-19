@@ -2,6 +2,7 @@
 
 import json
 import logging
+import random
 
 from django.contrib.auth.models import User
 from django.db import transaction
@@ -31,7 +32,10 @@ def profile(request, profile_id):
             added_books = AddedBook.objects.filter(id_user=profile_user)
             uploaded_books = Book.objects.filter(who_added=profile_user).order_by('-id')
 
-            context = {'profile_user': profile_user, 'added_books': added_books, 'uploaded_books': uploaded_books}
+            context = {'profile_user': profile_user,
+                       'added_books': added_books,
+                       'uploaded_books': uploaded_books,
+                       'img_random': random.randint(0, 1000)}
 
             if request.user.username == profile_user.id_user.username:
                 context['owner'] = True
