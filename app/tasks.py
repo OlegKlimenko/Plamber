@@ -96,15 +96,18 @@ def email_dispatch(heading, text):
     logger.info('Found {} subscribed users. Starting sending emails...'.format(len(recipients)))
 
     for recipient in recipients:
-        unsubscribe_token = '{}-{}'.format(recipient.id_user.username,
-                                           int(time.mktime(recipient.id_user.date_joined.timetuple())))
+        try:
+            unsubscribe_token = '{}-{}'.format(recipient.id_user.username,
+                                               int(time.mktime(recipient.id_user.date_joined.timetuple())))
 
-        html_content = render_to_string('mails/email_dispatch.html', {'text': text, 'token': unsubscribe_token})
-        text_content = strip_tags(html_content)
-        subject = '{} - plamber.com.ua'.format(heading)
+            html_content = render_to_string('mails/email_dispatch.html', {'text': text, 'token': unsubscribe_token})
+            text_content = strip_tags(html_content)
+            subject = '{} - plamber.com.ua'.format(heading)
 
-        email = EmailMultiAlternatives(subject, text_content, to=[recipient.id_user.email])
-        email.attach_alternative(html_content, 'text/html')
-        email.send()
+            email = EmailMultiAlternatives(subject, text_content, to=[recipient.id_user.email])
+            email.attach_alternative(html_content, 'text/html')
+            email.send()
+        except:
+            logger.info('Error on {} recipient'.format(recipient))
 
     logger.info('Email dispatching has been finished.')
