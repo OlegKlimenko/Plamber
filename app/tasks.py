@@ -112,7 +112,8 @@ def email_dispatch(heading, text):
 
             count_processed += 1
             logger.info('Successful processed "{}", sent to: "{}"'.format(count_processed, recipient.id_user.username))
-            
+            time.sleep(10)
+
         except NoReverseMatch:
             logger.info('Unexpected username: "{}"'.format(recipient.id_user.username))
 
