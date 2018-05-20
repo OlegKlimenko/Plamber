@@ -6,6 +6,7 @@ import logging
 from celery import shared_task
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
+from django.urls.exceptions import NoReverseMatch
 from django.utils.html import strip_tags
 
 from .utils import compress_pdf
@@ -95,16 +96,24 @@ def email_dispatch(heading, text):
 
     logger.info('Found {} subscribed users. Starting sending emails...'.format(len(recipients)))
 
+    count_processed = 0
     for recipient in recipients:
-        unsubscribe_token = '{}-{}'.format(recipient.id_user.username,
-                                           int(time.mktime(recipient.id_user.date_joined.timetuple())))
+        try:
+            unsubscribe_token = '{}-{}'.format(recipient.id_user.username,
+                                               int(time.mktime(recipient.id_user.date_joined.timetuple())))
 
-        html_content = render_to_string('mails/email_dispatch.html', {'text': text, 'token': unsubscribe_token})
-        text_content = strip_tags(html_content)
-        subject = '{} - plamber.com.ua'.format(heading)
+            html_content = render_to_string('mails/email_dispatch.html', {'text': text, 'token': unsubscribe_token})
+            text_content = strip_tags(html_content)
+            subject = '{} - plamber.com.ua'.format(heading)
 
-        email = EmailMultiAlternatives(subject, text_content, to=[recipient.id_user.email])
-        email.attach_alternative(html_content, 'text/html')
-        email.send()
+            email = EmailMultiAlternatives(subject, text_content, to=[recipient.id_user.email])
+            email.attach_alternative(html_content, 'text/html')
+            email.send()
+
+            count_processed += 1
+            logger.info('Successful processed "{}", sent to: "{}"'.format(count_processed, recipient.id_user.username))
+            
+        except NoReverseMatch:
+            logger.info('Unexpected username: "{}"'.format(recipient.id_user.username))
 
     logger.info('Email dispatching has been finished.')
