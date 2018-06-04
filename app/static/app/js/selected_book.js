@@ -6,12 +6,7 @@ var BOOK_IMAGE;
  */
 function fetchData() {
     var canvas = document.getElementById("book-image");
-    var dataURL = canvas.toDataURL();
-
-    $("#loading").css("display", "none");
-    $("#the-book-image").attr("src", dataURL);
-
-    BOOK_IMAGE = dataURL;
+    BOOK_IMAGE = canvas.toDataURL();
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -72,7 +67,10 @@ function storeImage() {
             csrfmiddlewaretoken: getCookie("csrftoken")
         },
 
-        success: function result(json) {}
+        success: function result(json) {
+            $("#loading").css("display", "none");
+            $("#the-book-image").attr("src", BOOK_IMAGE);
+        }
     });
 }
 
