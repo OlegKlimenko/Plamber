@@ -13,8 +13,8 @@ from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.utils.html import escape
 
-from ..forms import BookHomeForm, AddCommentForm, ChangeRatingForm, StoreBookImageForm, LoadCommentsForm
-from ..models import AddedBook, Book, BookRating, BookComment, TheUser
+from ..forms import BookHomeForm, AddCommentForm, ChangeRatingForm, StoreBookImageForm, LoadCommentsForm, ReportForm
+from ..models import AddedBook, Book, BookRating, BookComment, TheUser, SupportMessage
 from ..recommend import get_recommend
 from ..utils import resize_image
 
@@ -65,7 +65,8 @@ def selected_book(request, book_id):
                'estimation_count': range(1, 11),
                'user': user,
                'recommend_books': recommend_books,
-               'user_rated': user_rated[0] if user_rated else None}
+               'user_rated': user_rated[0] if user_rated else None,
+               'report_form': ReportForm()}
 
     return render(request, 'selected_book.html', context)
 
@@ -241,3 +242,23 @@ def load_comments(request):
             return HttpResponse(json.dumps(response_data), content_type='application/json')
     else:
         return HttpResponse(status=404)
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+def report_book(request):
+    """
+    Creates a report of incorrect entered data.
+    """
+    if request.method == 'POST':
+        form = ReportForm(request.POST)
+
+        if form.is_valid():
+            SupportMessage.objects.create(
+                email=request.user.email,
+                text=form.cleaned_data['text']
+            )
+
+            return HttpResponse(status=200)
+
+        else:
+            return HttpResponse(status=400)

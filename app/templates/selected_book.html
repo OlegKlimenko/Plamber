@@ -13,7 +13,11 @@
 
 {% block js %}
     <script src="{% static 'app/js/third_party/pdf_js/pdf.js' %}"></script>
-    <script>var prev_estimate = {% if user_rated %}{{ user_rated.rating }}{% else %}0{% endif %};</script>
+    <script>
+        var prev_estimate = {% if user_rated %}{{ user_rated.rating }}{% else %}0{% endif %};
+        var REPORT_URL = "{% url 'report-book' %}";
+        var BOOK_ID = {{ book.id }}
+    </script>
     <script src="{% static 'app/js/selected_book.js' %}"></script>
 {% endblock %}
 
@@ -117,7 +121,17 @@
                                     {% endif %}
                                 </td>
                             </tr>
-                            <tr><th id="about-book"><strong>Про книгу</strong></th><td></td></tr>
+                            <tr>
+                                <th id="about-book">
+                                    <strong>Про книгу</strong>
+                                </th>
+                                <td>
+                                    {% if not request.user.is_anonymous %}
+                                        <img id="report-icon" src="{% static 'app/images/exclamation.png' %}" onclick="reportBookShow()"
+                                             width="20" title="Если вы обнаружили некорректные данные о книге, напишите нам, и мы исправим их...">
+                                    {% endif %}
+                                </td>
+                            </tr>
                         </table>
                     </div>
                     <div id="about-text" class="word-wrap">
@@ -226,5 +240,21 @@
                 {% endif %}
             </div>
         </div>
+    </div>
+
+    <!--Report book sub window-->
+    <div id="report-book-sub">
+        <h4>Сообщить о неверных данных о книге</h4>
+
+        <form id="report-book-submit" method="POST">
+            {% csrf_token %}
+
+            {{ report_form.text }}
+
+            <div align="center">
+                <a id="report-back" class="btn report-button" onclick="reportBookHide();">Назад</a>
+                <button id="report-do" class="btn report-button">Отправить</button>
+            </div>
+        </form>
     </div>
 {% endblock %}

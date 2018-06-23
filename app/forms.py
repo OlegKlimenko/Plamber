@@ -151,3 +151,16 @@ class SendMessageForm(forms.Form):
     email = forms.CharField(max_length=320,
                             validators=[EmailValidator()])
     text = forms.CharField(max_length=5000)
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+class ReportForm(forms.Form):
+    text = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                'class': 'input input-colors',
+                'id': 'report-text',
+                'placeholder': 'Название, автор, категория, все что угодно...'}
+        ),
+        max_length=5000
+    )
