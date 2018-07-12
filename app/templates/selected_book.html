@@ -101,7 +101,7 @@
                     <div id="book-name" class="word-wrap"><h2><strong>{{ book.book_name }}</strong></h2></div>
                     <div>
                         <table>
-                            <tr><th>Автор</th><td class="word-wrap"><strong>{{ book.id_author }}</strong></td></tr>
+                            <tr><th>Автор</th><td class="word-wrap"><strong><a class="reference" href="{% url 'author' book.id_author.id %}">{{ book.id_author }}</a></strong></td></tr>
                             <tr>
                                 <th>Категория</th>
                                 <td class="word-wrap">

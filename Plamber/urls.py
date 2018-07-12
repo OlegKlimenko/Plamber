@@ -52,6 +52,7 @@ urlpatterns = [
     url(r'^category/(?P<category_id>\d+)/$', library_views.selected_category, name='category'),
     url(r'sort', library_views.sort),
     url(r'search-book', library_views.find_books),
+    url(r'^author/(?P<author_id>\d+)/$', library_views.selected_author, name='author'),
 
     # Profile urls.
     url(r'profile/(?P<profile_id>\d+)/$', profile_views.profile, name='profile'),
