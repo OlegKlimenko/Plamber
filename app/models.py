@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import json
 import logging
 
 from django.db import models
@@ -20,14 +21,57 @@ class TheUser(models.Model):
     """
     Class for user objects in database.
     """
+    REMINDER_TEMPLATE = json.dumps({
+        "common": {
+            "fb_page": True,
+            "fb_group": True,
+            "twitter": True,
+            "vk": True,
+            "disabled_all": False
+        },
+        "api": {
+            "app_rate": True
+        },
+        "web": {
+            "app_download": True,
+        },
+    })
+
     id_user = models.OneToOneField(User)
     user_photo = models.ImageField(blank=True, upload_to='user', storage=OverwriteStorage())
     auth_token = models.CharField(max_length=50, null=True, blank=True)
     subscription = models.BooleanField(default=True)
+    reminder = models.CharField(max_length=256, null=False, default=REMINDER_TEMPLATE)
 
     # ------------------------------------------------------------------------------------------------------------------
     def __str__(self):
         return str(self.id_user)
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def get_api_reminders(self):
+        """
+        Returns the reminders only necessary for API endpoints.
+        """
+        data = json.loads(self.reminder)
+
+        mobile_data = dict(data['common'])
+        mobile_data.update(data['api'])
+
+        return json.dumps(mobile_data)
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def update_reminder(self, field, value):
+        """
+        Updates the reminder status.
+        """
+        data = json.loads(self.reminder)
+
+        for key in data:
+            if field in data[key]:
+                data[key][field] = value
+
+        self.reminder = json.dumps(data)
+        self.save()
 
 
 # ----------------------------------------------------------------------------------------------------------------------
