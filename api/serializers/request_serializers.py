@@ -152,3 +152,14 @@ class UploadBookRequest(TokenSerializer):
     category = serializers.CharField(max_length=30)
     about = serializers.CharField(max_length=1000)
     language = serializers.CharField(max_length=30)
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+class GetReminderRequest(TokenSerializer):
+    pass
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+class UpdateReminderRequest(TokenSerializer):
+    field = serializers.CharField(max_length=16)
+    value = serializers.BooleanField()

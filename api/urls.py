@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from django.conf.urls import url
-from django.conf import settings
 
 from .views import (index_views,
                     home_views,
@@ -10,7 +9,8 @@ from .views import (index_views,
                     selected_book_views,
                     read_book_views,
                     upload_book_views,
-                    additional_views)
+                    additional_views,
+                    reminder_views)
 
 urlpatterns = [
     # Start page urls.
@@ -53,5 +53,7 @@ urlpatterns = [
     url(r'^upload-avatar', profile_views.upload_avatar),
 
     # Other urls.
-    url(r'send-support-message', additional_views.save_support_message)
+    url(r'send-support-message', additional_views.save_support_message),
+    url(r'^get-reminders$', reminder_views.get_reminders),
+    url(r'^update-reminder$', reminder_views.update_reminder)
 ]
