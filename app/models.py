@@ -57,7 +57,7 @@ class TheUser(models.Model):
         mobile_data = dict(data['common'])
         mobile_data.update(data['api'])
 
-        return json.dumps(mobile_data)
+        return mobile_data
 
     # ------------------------------------------------------------------------------------------------------------------
     def update_reminder(self, field, value):
