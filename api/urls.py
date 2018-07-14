@@ -55,5 +55,5 @@ urlpatterns = [
     # Other urls.
     url(r'send-support-message', additional_views.save_support_message),
     url(r'^get-reminders$', reminder_views.get_reminders),
-    url(r'^update-reminder$', reminder_views.update_reminder)
+    url(r'^update-reminder', reminder_views.update_reminder)
 ]
