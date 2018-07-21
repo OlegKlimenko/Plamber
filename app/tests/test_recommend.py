@@ -17,6 +17,9 @@ TEST_DATA_DIR = os.path.join(TEST_DIR, 'fixtures')
 # ----------------------------------------------------------------------------------------------------------------------
 class RecommendTest(TestCase):
 
+    # @todo NOT FINISHED TESTS
+    # @todo NOT FINISHED TESTS
+
     # ------------------------------------------------------------------------------------------------------------------
     def setUp(self):
         self.setup_users()

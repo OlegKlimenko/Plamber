@@ -14,6 +14,8 @@ TEST_DATA_DIR = os.path.join(TEST_DIR, 'fixtures')
 
 # ----------------------------------------------------------------------------------------------------------------------
 class UtilsTest(TestCase):
+    # @TODO NOT FINISHED TESTS
+    # @TODO NOT FINISHED TESTS
 
     # ------------------------------------------------------------------------------------------------------------------
     def test_generate_password(self):
