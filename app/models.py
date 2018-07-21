@@ -60,6 +60,18 @@ class TheUser(models.Model):
         return mobile_data
 
     # ------------------------------------------------------------------------------------------------------------------
+    def get_web_reminders(self):
+        """
+        Returns the reminders only necessary for web part.
+        """
+        data = json.loads(self.reminder)
+        
+        web_data = dict(data['common'])
+        web_data.update(data['web'])
+
+        return web_data
+
+    # ------------------------------------------------------------------------------------------------------------------
     def update_reminder(self, field, value):
         """
         Updates the reminder status.

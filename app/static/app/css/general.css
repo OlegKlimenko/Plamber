@@ -59,3 +59,83 @@
 .left-ref:hover {
     opacity: 1;
 }
+
+#reminder-background {
+    background: #2e3438;
+    bottom: 0;
+    display: none;
+    left: 0;
+    opacity: 0.9;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 9998;
+}
+
+.reminder {
+    background-color: #fff;
+    border: 1px solid black;
+    border-radius: 2px;
+    color: #2e3438;
+    display: none;
+    font-family: 'Lucida Grande', Arial, sans-serif;
+    left: 30%;
+    right: 30%;
+    margin-top: -65px;
+    position: fixed;
+    padding: 20px;
+    top: 40%;
+    z-index: 9999;
+}
+
+@media screen and (max-width: 720px) {
+    .reminder {
+        left: 10%;
+        right: 10%;
+    }
+}
+
+.reminder-hide {
+    background-color: #9aa6ad;
+    border: solid 2px #9aa6ad;
+    border-radius: 2px;
+    color: #fff;
+    outline: none;
+    margin-bottom: 1px;
+}
+
+.reminder-text {
+    margin-top: 10px;
+}
+
+.reminder-hide:hover {
+    background-color: #2e3438;
+    border: solid 2px #2e3438;
+}
+
+.reminder-button {
+    border-radius: 2px;
+    color: #fff;
+    margin-top: 5px;
+    outline: none;
+}
+
+.reminder-button:hover {
+    background-color: #2e3438;
+    border: solid 2px #2e3438;
+}
+
+.button-go {
+    background-color: #ff8f0c;
+    border: solid 2px #ff8f0c;
+}
+
+.button-later {
+    background-color: #31a445;
+    border: solid 2px #31a445;
+}
+
+.button-skip {
+    background-color: #9aa6ad;
+    border: solid 2px #9aa6ad;
+}

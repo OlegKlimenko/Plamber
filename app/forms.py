@@ -164,3 +164,9 @@ class ReportForm(forms.Form):
         ),
         max_length=5000
     )
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+class UpdateReminderForm(forms.Form):
+    field = forms.CharField(max_length=16)
+    value = forms.BooleanField(required=False)
