@@ -37,6 +37,8 @@ class ReminderMiddleware:
             if request.session['reminder_counter'] >= SHOW_REMINDER_COUNT:
                 request.session['reminder_counter'] = 0
                 self.select_reminder(request)
+            else:
+                request.session['reminder'] = None
 
     def increment_counter(self, request):
         """
@@ -58,5 +60,7 @@ class ReminderMiddleware:
 
             if possible_reminders:
                 request.session['reminder'] = random.choice(possible_reminders)
+            else:
+                request.session['reminder'] = None
         else:
             request.session['reminder'] = None
