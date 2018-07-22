@@ -6,7 +6,7 @@ from django.conf import settings
 
 from ..models import TheUser
 
-SHOW_REMINDER_COUNT = 5
+SHOW_REMINDER_COUNT = 150
 
 
 # ----------------------------------------------------------------------------------------------------------------------
