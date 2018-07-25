@@ -249,3 +249,55 @@ td {
     border: solid 2px #31a445;
     color: #31a445;
 }
+
+#report-icon {
+    cursor: pointer;
+}
+
+#report-book-sub {
+    background-color: #fff;
+    border: 1px solid black;
+    border-radius: 2px;
+    color: #2e3438;
+    display: none;
+    font-family: 'Lucida Grande', Arial, sans-serif;
+    left: 50%;
+    margin-left: -150px;
+    margin-top: -65px;
+    min-height: 300px;
+    position: fixed;
+    padding: 20px;
+    top: 30%;
+    width: 300px;
+}
+
+#report-back {
+    background-color: #9aa6ad;
+    border: 2px solid #9aa6ad;
+    color: #fff;
+}
+
+#report-back:hover {
+    background-color: #2e3438;
+    border: 2px solid #2e3438;
+    color: #fff;
+}
+
+#report-do {
+    background-color: #31a445;
+    border: 2px solid #31a445;
+    color: #fff;
+}
+
+#report-do:hover {
+    background-color: #2e3438;
+    border: 2px solid #2e3438;
+    color: #fff;
+}
+
+#report-text {
+    height: 150px;
+    padding-top: 5px;
+    margin-bottom: 10px;
+    resize: none;
+}

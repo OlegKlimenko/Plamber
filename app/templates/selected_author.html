@@ -1,0 +1,58 @@
+{% extends 'main/base.html' %}
+{% load staticfiles %}
+
+{% block title %}Автор {{ author.author_name }} Книг В Онлайн Библиотеке {% endblock %}
+
+{% block description %}
+    <meta name="description" content="Заходите к нам, выбирайте и читайте большое количество классных книг в нашей библиотеке!">
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'app/css/selected_category.css' %}">
+{% endblock %}
+
+{% block header_special %}
+    <li><a href="{% url 'categories' %}">Библиотека</a></li>
+    <li><a href="{% url 'about' %}">О проекте</a></li>
+{% endblock %}
+
+{% block content %}
+    <!--Main info Area-->
+    <div id="main" class="container container-margin footer-margin">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+
+                <!--Header part of main area-->
+                <h1 class="header-color"><strong>{{ author.author_name }}</strong></h1>
+
+                <!--Area with books list-->
+                <div class="col-sm-16 col-md-16 col-lg-16 books-area">
+
+                    {% if books %}
+                        {% for book in books %}
+                            <a href="{% url 'book' book.id %}">
+                                <div class="col-sm-3 col-md-3 col-lg-2 col-xs-6">
+                                    <div class="thumbnail">
+                                        <div class="img-wrapper">
+                                            <img src="{% if book.photo %}{{ book.photo.url }}{% endif %}"
+                                                 alt="{{ book.book_name }}">
+                                            <div class="book-info word-wrap">
+                                                <strong>{{ book.book_name }}</strong><br>
+                                                <i>{{ book.id_author }}</i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        {% endfor %}
+                    {% else %}
+                        <h3 class="paragraph">Мы не обнаружили книг этого автора в нашей библиотеке =((</h3>
+                        <h3 class="paragraph">
+                            <i>Что бы добавить, нажмите здесь:</i>
+                            <a href="{% url 'add_book' %}" class="active-reference">Добавить книгу</a></h3>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

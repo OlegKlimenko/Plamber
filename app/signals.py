@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 
+import os
 import uuid
 
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 
-from .models import TheUser, Post
+from .models import TheUser, Post, Book
 from .tasks import email_dispatch
 
 
@@ -31,6 +32,19 @@ def remove_user_obj(sender, instance=None, **kwargs):
     """
     user = instance.id_user
     user.delete()
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+@receiver(post_delete, sender=Book)
+def remove_book_media(sender, instance=None, **kwargs):
+    """
+    Removes book file and book cover after deleting '.models.Book' object.
+    """
+    if os.path.exists(instance.book_file.path):
+        os.remove(instance.book_file.path)
+
+    if instance.photo and os.path.exists(instance.photo.path):
+        os.remove(instance.photo.path)
 
 
 # ----------------------------------------------------------------------------------------------------------------------

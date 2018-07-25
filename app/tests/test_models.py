@@ -9,16 +9,8 @@ from django.db.models import QuerySet
 from django.test import TestCase, Client
 from django.urls import reverse
 
-from ..models import (TheUser,
-                      Category,
-                      Author,
-                      Language,
-                      Book,
-                      AddedBook,
-                      BookRating,
-                      BookComment,
-                      Post,
-                      SupportMessage)
+from ..models import (TheUser, Category, Author, Language, Book,
+                      AddedBook, BookRating, BookComment, Post, SupportMessage)
 
 from .utils import Utils
 

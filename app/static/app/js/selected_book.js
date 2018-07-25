@@ -6,12 +6,7 @@ var BOOK_IMAGE;
  */
 function fetchData() {
     var canvas = document.getElementById("book-image");
-    var dataURL = canvas.toDataURL();
-
-    $("#loading").css("display", "none");
-    $("#the-book-image").attr("src", dataURL);
-
-    BOOK_IMAGE = dataURL;
+    BOOK_IMAGE = canvas.toDataURL();
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -72,7 +67,10 @@ function storeImage() {
             csrfmiddlewaretoken: getCookie("csrftoken")
         },
 
-        success: function result(json) {}
+        success: function result(json) {
+            $("#loading").css("display", "none");
+            $("#the-book-image").attr("src", BOOK_IMAGE);
+        }
     });
 }
 
@@ -262,3 +260,45 @@ function generateNextPageHTML(response) {
             '</div>')
     }
 }
+
+// ---------------------------------------------------------------------------------------------------------------------
+function reportBookShow() {
+    $('#report-book-sub').css('display', 'block');
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+function reportBookHide() {
+    $('#report-book-sub').css('display', 'none');
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+$(document).ready(function() {
+    $('#report-book-submit').submit(function(e) {
+        e.preventDefault();
+
+        var formData = new FormData($(this)[0]);
+        var extendedText = 'Book id:' + BOOK_ID + '\n' + formData.get('text');
+
+        formData.append('text', extendedText);
+
+        $.ajax({
+            url: REPORT_URL,
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+
+            success: function(response) {
+                alert('Успешно отправлено!');
+                $('#report-text').val('');
+                reportBookHide();
+            },
+
+            error: function(response) {
+                alert('Произошла ошибка...');
+            }
+        });
+
+        return false;
+    })
+});

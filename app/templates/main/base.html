@@ -91,9 +91,74 @@
 
     {% block content %}{% endblock %}
 
+    <div id="reminder-background"></div>
+
+    <div id="fb_page" class="reminder">
+        <div><button class="reminder-hide pull-right" onclick="hideReminder('fb_page')">x</button></div>
+        <img src="{% static 'app/images/references/facebook.png' %}" width="50" height="50" alt="facebook.com">
+        <p class="reminder-text">Поставьте Like нашей странице на Facebook</p>
+
+        <div class="pull-right">
+            <button class="reminder-button button-go" onclick="hideReminder('fb_page'); updateReminder('fb_page', false)">Перейти</button>
+            <button class="reminder-button button-later" onclick="hideReminder('fb_page')">Напомнить позже</button>
+            <button class="reminder-button button-skip" onclick="hideReminder('fb_page'); updateReminder('disabled_all', true)">Больше не показывать</button>
+        </div>
+    </div>
+
+    <div id="fb_group" class="reminder">
+        <div><button class="reminder-hide pull-right" onclick="hideReminder('fb_group')">x</button></div>
+        <img src="{% static 'app/images/references/facebook.png' %}" width="50" height="50" alt="facebook.com">
+        <p class="reminder-text">В нашей группе на Facebook много интересного!</p>
+
+        <div class="pull-right" align="right">
+            <button class="reminder-button button-go" onclick="hideReminder('fb_group'); updateReminder('fb_group', false)">Перейти</button>
+            <button class="reminder-button button-later" onclick="hideReminder('fb_group');">Напомнить позже</button>
+            <button class="reminder-button button-skip" onclick="hideReminder('fb_group'); updateReminder('disabled_all', true)">Больше не показывать</button>
+        </div>
+    </div>
+
+    <div id="twitter" class="reminder">
+        <div><button class="reminder-hide pull-right" onclick="hideReminder('twitter')">x</button></div>
+        <img src="{% static 'app/images/references/twitter.png' %}" width="50" height="50" alt="twitter.com">
+        <p class="reminder-text">Читайте нас в Twitter!</p>
+
+        <div class="pull-right" align="right">
+            <button class="reminder-button button-go" onclick="hideReminder('twitter'); updateReminder('twitter', false)">Перейти</button>
+            <button class="reminder-button button-later" onclick="hideReminder('twitter')">Напомнить позже</button>
+            <button class="reminder-button button-skip" onclick="hideReminder('twitter'); updateReminder('disabled_all', true)">Больше не показывать</button>
+        </div>
+    </div>
+
+    <div id="vk" class="reminder">
+        <div><button class="reminder-hide pull-right" onclick="hideReminder('vk')">x</button></div>
+        <img src="{% static 'app/images/references/vk.png' %}" width="50" height="50" alt="vk.com">
+        <p class="reminder-text">Наша группа Вконтакте ждет именно Вас!</p>
+
+        <div class="pull-right" align="right">
+            <button class="reminder-button button-go" onclick="hideReminder('vk'); updateReminder('vk', false)">Перейти</button>
+            <button class="reminder-button button-later" onclick="hideReminder('vk')">Напомнить позже</button>
+            <button class="reminder-button button-skip" onclick="hideReminder('vk'); updateReminder('disabled_all', true)">Больше не показывать</button>
+        </div>
+    </div>
+
+    <div id="app_download" class="reminder">
+        <div><button class="reminder-hide pull-right" onclick="hideReminder('app_download')">x</button></div>
+        <img src="{% static 'app/images/references/google_play.png' %}" width="50" height="50" alt="play.google.com">
+        <p class="reminder-text">А вы уже пробовали наше Android приложение?</p>
+
+        <div class="pull-right" align="right">
+            <button class="reminder-button button-go" onclick="hideReminder('app_download'); updateReminder('app_download', false)" >Перейти</button>
+            <button class="reminder-button button-later" onclick="hideReminder('app_download')">Напомнить позже</button>
+            <button class="reminder-button button-skip" onclick="hideReminder('app_download'); updateReminder('disabled_all', true)">Больше не показывать</button>
+        </div>
+    </div>
+
+    <script>var reminder = '{{ request.session.reminder|default:"false" }}';</script>
+
     <script src="{% static 'app/js/third_party/jquery.js' %}"></script>
     <script src="{% static 'app/js/third_party/bootstrap.min.js' %}"></script>
     <script src="{% static 'app/js/helper/special.js' %}"></script>
+    <script src="{% static 'app/js/helper/reminder.js' %}"></script>
     {% block js %}{% endblock %}
 </body>
 </html>

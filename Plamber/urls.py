@@ -6,7 +6,7 @@ from django.conf import settings
 from django.contrib import admin
 
 from app.views import (index_views, additional_views, add_book_views, selected_book_views, library_views,
-                       read_book_views, profile_views, about_views)
+                       read_book_views, profile_views, about_views, reminder_views)
 
 
 handler404 = 'app.views.error_views.not_found_404'
@@ -45,12 +45,14 @@ urlpatterns = [
     url(r'change-rating', selected_book_views.change_rating),
     url(r'comment-add', selected_book_views.add_comment),
     url(r'load-comments', selected_book_views.load_comments),
+    url(r'report-book', selected_book_views.report_book, name='report-book'),
 
     # Library urls.
     url(r'library', library_views.all_categories, name='categories'),
     url(r'^category/(?P<category_id>\d+)/$', library_views.selected_category, name='category'),
     url(r'sort', library_views.sort),
     url(r'search-book', library_views.find_books),
+    url(r'^author/(?P<author_id>\d+)/$', library_views.selected_author, name='author'),
 
     # Profile urls.
     url(r'profile/(?P<profile_id>\d+)/$', profile_views.profile, name='profile'),
@@ -65,6 +67,7 @@ urlpatterns = [
     url(r'logout', additional_views.user_logout, name='logout'),
     url(r'unsubscribe/(?P<token>[0-9a-zA-Z_-]+)/', additional_views.unsubscribe, name='unsubscribe'),
     url(r'(?P<file>[%&+ \w]+.txt)', additional_views.share_txt, name='share_txt'),
-    url(r'(?P<file>[%&+ \w]+.xml)', additional_views.share_xml, name='share_xml')
+    url(r'(?P<file>[%&+ \w]+.xml)', additional_views.share_xml, name='share_xml'),
+    url(r'^update-reminder', reminder_views.update_reminder, name='update_reminder')
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

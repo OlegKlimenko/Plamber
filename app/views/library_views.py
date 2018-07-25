@@ -6,7 +6,7 @@ from django.shortcuts import render, get_object_or_404
 from django.utils.html import escape
 
 from ..forms import SortForm, SearchBookForm
-from ..models import Category, Book
+from ..models import Category, Book, Author
 
 MOST_READ_BOOKS_COUNT = 9
 
@@ -39,6 +39,24 @@ def selected_category(request, category_id):
 
         context = {'category': category, 'books': filtered_books, 'category_number': category_id}
         return render(request, 'selected_category.html', context)
+
+    else:
+        return HttpResponse(status=404)
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+def selected_author(request, author_id):
+    """
+    Returns a page with a list of books of a selected author.
+    """
+    if request.method == 'GET':
+        author = get_object_or_404(Author, id=author_id)
+        books = Book.objects.filter(id_author=author).order_by('book_name')
+
+        filtered_books = Book.exclude_private_books(request.user, books)
+
+        context = {'author': author, 'books': filtered_books}
+        return render(request, 'selected_author.html', context)
 
     else:
         return HttpResponse(status=404)
