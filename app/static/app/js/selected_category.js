@@ -103,3 +103,15 @@ function loadDisplay() {
 function loadHide() {
     $("#loading").css('display', 'none');
 }
+
+// ---------------------------------------------------------------------------------------------------------------------
+/**
+ * Returns the state back to output elements instead of found books.
+ */
+function returnState(searchCategory) {
+    var searchData = $('#search-input').val();
+
+    if (!searchData) {
+        sort(searchCategory, "book_name");
+    }
+}

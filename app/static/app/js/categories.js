@@ -71,3 +71,16 @@ function searchBooks(searchCategory) {
         $('.books-area').empty();
     }
 }
+
+// ---------------------------------------------------------------------------------------------------------------------
+/**
+ * Returns the state back to output elements instead of found books.
+ */
+function returnState() {
+    var searchData = $('#search-input').val();
+
+    if (!searchData) {
+        $('#categories').css('display', 'block');
+        $('.books-area').empty();
+    }
+}

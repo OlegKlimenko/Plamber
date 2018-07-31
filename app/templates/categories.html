@@ -27,8 +27,8 @@
             <div class="col-sm-12 col-md-12 col-lg-12">
                 <h1 class="header-color"><strong>Категории</strong></h1>
                 <input id="search-input" class="input input-colors margin" placeholder="Поиск книг..."
-                       title="Вводите любую информацию: название книги, автора..."
-                       oninput="searchBooks({{ category.id }});" maxlength="255">
+                       title="Вводите любую информацию: название книги, автора..." oninput="returnState()" maxlength="255">
+                <a id="search-button" class="btn" onclick="searchBooks({{ category.id }})">Искать</a>
 
                 <!--Books-->
                 <div class="col-sm-16 col-md-16 col-lg-16 books-area"></div>
