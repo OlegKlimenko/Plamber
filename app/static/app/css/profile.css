@@ -164,6 +164,19 @@ table {
     padding: 20px;
     top: 50%;
     width: 300px;
+    z-index: 9999;
+}
+
+#popup-background {
+    background: #2e3438;
+    bottom: 0;
+    display: none;
+    left: 0;
+    opacity: 0.9;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 9998;
 }
 
 .footer-margin {
