@@ -42,8 +42,8 @@ def share_xml(request, file):
     """
     Returns the shared .xml files.
     """
-    with open(settings.BASE_DIR + '/Plamber/additional/{}'.format(file), 'r') as data:
-        return HttpResponse(data.read(), content_type='application/xml')      
+    with open(settings.BASE_DIR + '/Plamber/additional/{}'.format(file), 'r', encoding='utf-8') as data:
+        return HttpResponse(data.read(), content_type='application/xml')
 
 
 # ----------------------------------------------------------------------------------------------------------------------
