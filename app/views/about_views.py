@@ -33,5 +33,7 @@ def send_message(request):
                                           text=send_message_form.cleaned_data['text'])
 
             return HttpResponse(json.dumps(True), content_type='application/json')
+        else:
+            return HttpResponse(status=400)
     else:
         return HttpResponse(status=404)
