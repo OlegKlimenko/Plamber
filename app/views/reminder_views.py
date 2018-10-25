@@ -12,7 +12,7 @@ def update_reminder(request):
     """
     Changes the reminder status.
     """
-    if request.method == 'POST':
+    if request.method == 'POST' and request.user.is_authenticated():
         form = UpdateReminderForm(request.POST)
 
         if form.is_valid():
@@ -20,5 +20,5 @@ def update_reminder(request):
             the_user.update_reminder(form.cleaned_data['field'], form.cleaned_data['value'])
 
             return HttpResponse(status=200)
-
         return HttpResponse(status=404)
+    return HttpResponse(status=404)
