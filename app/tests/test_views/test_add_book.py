@@ -3,7 +3,6 @@
 import json
 import os
 
-from django.contrib import auth
 from django.contrib.auth.models import User
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase, Client
@@ -17,7 +16,7 @@ TEST_DATA_DIR = os.path.join(TEST_DIR, '../fixtures')
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-class AddBookTest(TestCase):
+class AddBookViewsTest(TestCase):
 
     # ------------------------------------------------------------------------------------------------------------------
     @classmethod
@@ -40,9 +39,6 @@ class AddBookTest(TestCase):
         cls.anonymous_client = Client()
         cls.logged_client = Client()
         cls.logged_client.login(username='test_user1', password='Dummy#password')
-
-        cls.anonymous_user = auth.get_user(cls.anonymous_client)
-        cls.logged_user = auth.get_user(cls.logged_client)
 
         cls.generate_books()
 
