@@ -33,8 +33,8 @@ urlpatterns = [
 
     # Add book urls.
     url(r'^add-book', add_book_views.add_book, name='add_book'),
-    url(r'generate-authors', add_book_views.generate_authors),
-    url(r'generate-books', add_book_views.generate_books),
+    url(r'generate-authors', add_book_views.generate_authors, name='generate_authors'),
+    url(r'generate-books', add_book_views.generate_books, name='generate_books'),
     url(r'book-successful', add_book_views.add_book_successful, name='book_successful'),
 
     # Selected book urls.

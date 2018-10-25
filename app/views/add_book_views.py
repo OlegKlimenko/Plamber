@@ -43,6 +43,8 @@ def generate_authors(request):
                                Author.get_authors_list(authors_form.cleaned_data['part'])]
 
             return HttpResponse(json.dumps(list_of_authors), content_type='application/json')
+        else:
+            return HttpResponse(status=404)
     else:
         return HttpResponse(status=404)
 
@@ -59,6 +61,8 @@ def generate_books(request):
             list_of_books = Book.generate_existing_books(book_list_form.cleaned_data['part'])
 
             return HttpResponse(json.dumps(list_of_books), content_type='application/json')
+        else:
+            return HttpResponse(status=404)
 
     else:
         return HttpResponse(status=404)
