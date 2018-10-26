@@ -37,7 +37,7 @@ def share_txt(request, file):
     path = settings.BASE_DIR + '/Plamber/additional/{}'.format(file)
 
     if os.path.exists(path):
-        with open(path, 'r') as data:
+        with open(path, 'r', encoding='utf-8') as data:
             return HttpResponse(data.read(), content_type='text/plain')
 
     return HttpResponse(status=404)
@@ -51,7 +51,7 @@ def share_xml(request, file):
     path = settings.BASE_DIR + '/Plamber/additional/{}'.format(file)
 
     if os.path.exists(path):
-        with open(path, 'r') as data:
+        with open(path, 'r', encoding='utf-8') as data:
             return HttpResponse(data.read(), content_type='application/xml')
 
     return HttpResponse(status=404)
