@@ -29,7 +29,7 @@ urlpatterns = [
 
     # Read book urls.
     url(r'read-book/(?P<book_id>\d+)/$', read_book_views.open_book, name='read_book'),
-    url(r'set-current-page', read_book_views.set_current_page),
+    url(r'set-current-page', read_book_views.set_current_page, name='set_current_page'),
 
     # Add book urls.
     url(r'^add-book', add_book_views.add_book, name='add_book'),

@@ -119,7 +119,7 @@ class SearchBookForm(forms.Form):
 
 # ----------------------------------------------------------------------------------------------------------------------
 class SetCurrentPageForm(forms.Form):
-    page = forms.IntegerField()
+    page = forms.IntegerField(validators=[MinValueValidator(1)])
     book = forms.CharField(max_length=500)
 
 
