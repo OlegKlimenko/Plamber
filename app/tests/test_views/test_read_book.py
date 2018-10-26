@@ -20,9 +20,7 @@ class ReadBookViewsTest(TestCase):
     # ------------------------------------------------------------------------------------------------------------------
     @classmethod
     def setUpTestData(cls):
-
         cls.xhr = 'XMLHttpRequest'
-
         cls.user = User.objects.create_user(username='read_book_user', email='read_book@user.com',
                                             password='Dummy#password')
         cls.the_user = TheUser.objects.get(id_user=cls.user)
@@ -36,7 +34,6 @@ class ReadBookViewsTest(TestCase):
         cls.logged_client.login(username='read_book_user', password='Dummy#password')
 
         cls.generate_books()
-
         cls.added_book = AddedBook.objects.create(id_user=cls.the_user, id_book=cls.book)
 
     # ------------------------------------------------------------------------------------------------------------------
