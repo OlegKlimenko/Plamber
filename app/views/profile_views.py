@@ -90,7 +90,6 @@ def change_password(request):
 
         if change_password_form.is_valid():
             with transaction.atomic():
-
                 if request.user.check_password(change_password_form.cleaned_data['prev_password']):
                     request.user.set_password(change_password_form.cleaned_data['new_password'])
                     request.user.save()
@@ -98,11 +97,12 @@ def change_password(request):
                     logger.info("User '{}' changed his password successfully.".format(request.user))
 
                     changed_password.delay(request.user.username, request.user.email)
-
                     return HttpResponse(json.dumps('Пароль успешно изменен!'), content_type='application/json')
 
                 else:
                     return HttpResponse(json.dumps('Старый пароль не совпадает. Проверьте на наличие ошибок.'),
                                         content_type='application/json')
+        return HttpResponse(status=400)
+
     else:
         return HttpResponse(status=404)
