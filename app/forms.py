@@ -42,6 +42,9 @@ class SignInForm(forms.Form):
         """
         cleaned_data = super(SignInForm, self).clean()
 
+        if not all(item in cleaned_data for item in ['passw1', 'passw2', 'username']):
+            raise ValidationError('Password or username is missing')
+
         if cleaned_data['passw1'] != cleaned_data['passw2']:
             raise ValidationError('Passwords are not matching!')
 

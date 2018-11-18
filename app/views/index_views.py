@@ -65,6 +65,8 @@ def user_login(request):
         else:
             return render(request, 'index.html', {'invalid_authentication': True})
 
+    return render(request, 'index.html', {'invalid_authentication': True})
+
 
 # ----------------------------------------------------------------------------------------------------------------------
 def is_user_exists(request):
@@ -81,8 +83,9 @@ def is_user_exists(request):
 
             except ObjectDoesNotExist:
                 return HttpResponse(json.dumps(False), content_type='application/json')
-    else:
+
         return HttpResponse(status=404)
+    return HttpResponse(status=404)
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -100,8 +103,9 @@ def is_mail_exists(request):
 
             except ObjectDoesNotExist:
                 return HttpResponse(json.dumps(False), content_type='application/json')
-    else:
+
         return HttpResponse(status=404)
+    return HttpResponse(status=404)
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -128,6 +132,8 @@ def sign_in(request):
                     successful_registration.delay(user.username, user.email)
 
             return redirect('/')
+        return HttpResponse(status=400)
+    return HttpResponse(status=404)
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -151,3 +157,6 @@ def restore_data(request):
                 logger.info("The password for user: '{}' restored successfully.".format(user))
 
                 return HttpResponse(json.dumps(True), content_type='application/json')
+
+        return HttpResponse(status=400)
+    return HttpResponse(status=404)

@@ -22,8 +22,8 @@ urlpatterns = [
 
     # Index urls.
     url(r'^$', index_views.index, name='index'),
-    url(r'is-user-exists', index_views.is_user_exists),
-    url(r'is-mail-exists', index_views.is_mail_exists),
+    url(r'is-user-exists', index_views.is_user_exists, name='is_user_exists'),
+    url(r'is-mail-exists', index_views.is_mail_exists, name='is_mail_exists'),
     url(r'sign-in', index_views.sign_in, name='sign_in'),
     url(r'send-mail', index_views.restore_data, name='restore_data'),
 
