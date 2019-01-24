@@ -59,7 +59,11 @@ class IndexViewsTest(TestCase):
     # ------------------------------------------------------------------------------------------------------------------
     @classmethod
     def tearDownClass(cls):
-        pass
+        for book in Book.objects.all():
+            if os.path.exists(book.book_file.path):
+                os.remove(book.book_file.path)
+            if book.photo and os.path.exists(book.photo.path):
+                os.remove(book.photo.path)
 
     # ------------------------------------------------------------------------------------------------------------------
     def test_index_get_not_logged_user(self):

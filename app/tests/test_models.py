@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import copy
 import os
 
 from django.contrib import auth
@@ -9,6 +10,7 @@ from django.db.models import QuerySet
 from django.test import TestCase, Client
 from django.urls import reverse
 
+from ..forms import AddBookForm
 from ..models import (TheUser, Category, Author, Language, Book,
                       AddedBook, BookRating, BookComment, Post, SupportMessage)
 
@@ -189,6 +191,11 @@ class ModelTest(TestCase):
         SupportMessage.objects.create(email='test_email23@mail.co', text='Test text4')
 
     # ------------------------------------------------------------------------------------------------------------------
+    def test_the_user_str(self):
+        self.assertEqual(str(self.the_user1), 'user1')
+        self.assertEqual(str(self.the_user2), 'user2')
+
+    # ------------------------------------------------------------------------------------------------------------------
     def test_creating_the_user_objects(self):
         """
         Must create 'app.models.TheUser' instance after django User instance was created.
@@ -197,6 +204,38 @@ class ModelTest(TestCase):
         self.assertEqual(User.objects.all().count(), TheUser.objects.all().count())
         self.assertNotEqual(self.the_user1.auth_token, '')
         self.assertNotEqual(self.the_user1.auth_token, self.the_user2.auth_token)
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_the_user_get_api_reminders(self):
+        reminders = self.the_user1.get_api_reminders()
+        reminders_keys_correct = ['vk', 'fb_group', 'fb_page', 'twitter', 'disabled_all', 'app_rate']
+
+        self.assertTrue(isinstance(reminders, dict))
+        self.assertEqual(sorted(list(reminders.keys())), sorted(reminders_keys_correct))
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_the_user_get_web_reminders(self):
+        reminders = self.the_user1.get_web_reminders()
+        reminders_keys_correct = ['vk', 'fb_group', 'fb_page', 'twitter', 'disabled_all', 'app_download']
+
+        self.assertTrue(isinstance(reminders, dict))
+        self.assertEqual(sorted(list(reminders.keys())), sorted(reminders_keys_correct))
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_the_user_update_reminder(self):
+        reminders = self.the_user1.get_web_reminders()
+
+        self.assertTrue(isinstance(reminders, dict))
+        self.assertEqual(reminders['vk'], True)
+        self.assertEqual(reminders['app_download'], True)
+
+        self.the_user1.update_reminder('vk', False)
+        self.the_user1.update_reminder('app_download', False)
+
+        updated_reminders = self.the_user1.get_web_reminders()
+        self.assertTrue(isinstance(updated_reminders, dict))
+        self.assertEqual(updated_reminders['vk'], False)
+        self.assertEqual(updated_reminders['app_download'], False)
 
     # ------------------------------------------------------------------------------------------------------------------
     def test_removing_user_objects(self):
@@ -216,6 +255,11 @@ class ModelTest(TestCase):
     def test_created_categories(self):
         self.assertEqual(Category.objects.all().count(), 2)
         self.assertNotEqual(self.category1, self.category2)
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_categories_str(self):
+        self.assertEqual(str(self.category1), 'category1')
+        self.assertEqual(str(self.category2), 'category2')
 
     # ------------------------------------------------------------------------------------------------------------------
     def test_created_authors(self):
@@ -267,8 +311,40 @@ class ModelTest(TestCase):
 
     # ------------------------------------------------------------------------------------------------------------------
     def test_get_related_objects_for_create(self):
-        # @TODO finish this tests
-        pass
+        test_book_path = os.path.join(TEST_DATA_DIR, 'test_book.pdf')
+
+        form_data = {
+            'bookname': 'The new book',
+            'author': 'trueAuthorNew',
+            'category': 'category1',
+            'language': 'English',
+            'about': 'about book',
+            'bookfile': SimpleUploadedFile('test_book.pdf', open(test_book_path, 'rb').read()),
+        }
+
+        form_data_new_author = copy.deepcopy(form_data)
+        form_data_new_author['author'] = 'super new author'
+
+        self.assertEqual(Author.objects.all().count(), 3)
+
+        form = AddBookForm(data=form_data)
+        form.is_valid()
+        form_with_new_author = AddBookForm(data=form_data_new_author)
+        form_with_new_author.is_valid()
+
+        related_data = Book.get_related_objects_for_create(self.user1.id, form)
+
+        self.assertTrue(isinstance(related_data, dict))
+        self.assertEqual(len(related_data), 4)
+        self.assertEqual(related_data['author'], Author.objects.get(author_name='trueAuthorNew'))
+        self.assertEqual(Author.objects.all().count(), 3)
+
+        related_data_new_author = Book.get_related_objects_for_create(self.user1.id, form_with_new_author)
+
+        self.assertTrue(isinstance(related_data, dict))
+        self.assertEqual(len(related_data_new_author), 4)
+        self.assertEqual(related_data_new_author['author'], Author.objects.get(author_name='super new author'))
+        self.assertEqual(Author.objects.all().count(), 4)
 
     # ------------------------------------------------------------------------------------------------------------------
     def test_get_related_objects_create_api(self):
@@ -774,14 +850,8 @@ class ModelTest(TestCase):
 
     # ------------------------------------------------------------------------------------------------------------------
     def tearDown(self):
-        books = Book.objects.all()
-
-        for book in books:
-            self.clean_book_file(book)
-
-    # ------------------------------------------------------------------------------------------------------------------
-    def clean_book_file(self, book):
-        os.remove(book.book_file.path)
-
-        if book.photo and os.path.exists(book.photo.path):
-            os.remove(book.photo.path)
+        for book in Book.objects.all():
+            if os.path.exists(book.book_file.path):
+                os.remove(book.book_file.path)
+            if book.photo and os.path.exists(book.photo.path):
+                os.remove(book.photo.path)

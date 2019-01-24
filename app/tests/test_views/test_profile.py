@@ -50,8 +50,11 @@ class ProfileViewsTest(TestCase):
             if book.photo and os.path.exists(book.photo.path):
                 os.remove(book.photo.path)
 
-        if cls.the_user1.user_photo and os.path.exists(cls.the_user1.user_photo.path):
-            os.remove(cls.the_user1.user_photo.path)
+        for user in TheUser.objects.all():
+            avatar_path = os.path.join(settings.MEDIA_ROOT, 'user', 'user_{}.png'.format(user.id))
+
+            if os.path.exists(avatar_path):
+                os.remove(avatar_path)
 
     # ------------------------------------------------------------------------------------------------------------------
     @classmethod

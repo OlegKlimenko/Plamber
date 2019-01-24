@@ -58,8 +58,7 @@ class AddBookViewsTest(TestCase):
             )
 
     # ------------------------------------------------------------------------------------------------------------------
-    @classmethod
-    def tearDownClass(cls):
+    def tearDown(self):
         for book in Book.objects.all():
             if os.path.exists(book.book_file.path):
                 os.remove(book.book_file.path)
