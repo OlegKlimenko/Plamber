@@ -15,7 +15,7 @@ handler403 = 'app.views.error_views.permission_denied_403'
 handler500 = 'app.views.error_views.internal_error_500'
 
 urlpatterns = [
-    url(r'^not/an/admin/url/', include(admin.site.urls)),
+    url(settings.ADMIN_URL, include(admin.site.urls)),
 
     # API urls
     url(r'^api/v1/', include('api.urls')),
