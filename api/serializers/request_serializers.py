@@ -42,7 +42,13 @@ class HomeRequest(TokenSerializer):
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-class UserLoginRequest(UsernameSerializer):
+class UserLoginUsernameRequest(UsernameSerializer):
+    password = serializers.CharField(max_length=16)
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+class UserLoginEmailRequest(serializers.Serializer):
+    username = serializers.EmailField()
     password = serializers.CharField(max_length=16)
 
 
