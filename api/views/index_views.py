@@ -58,18 +58,16 @@ def user_login(request):
     username_request_serializer = UserLoginUsernameRequest(data=request.data)
     email_request_serializer = UserLoginEmailRequest(data=request.data)
 
-    if not email_request_serializer.is_valid() and not username_request_serializer.is_valid():
-        return invalid_data_response(username_request_serializer)
-
     if email_request_serializer.is_valid():
         user_obj = User.objects.filter(email=request.data.get('username'))
-
         username = user_obj[0] if len(user_obj) else None
 
         return login_response(request, username)
 
     elif username_request_serializer.is_valid():
         return login_response(request, request.data.get('username'))
+
+    return invalid_data_response(username_request_serializer)
 
 
 # ----------------------------------------------------------------------------------------------------------------------
