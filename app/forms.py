@@ -53,9 +53,16 @@ class SignInForm(forms.Form):
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-class LogInForm(forms.Form):
+class LogInUsernameForm(forms.Form):
     username = forms.CharField(max_length=30,
                                validators=[RegexValidator(regex='^[a-zA-Z0-9_]{2,30}')])
+    passw = forms.CharField(max_length=16)
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+class LogInEmailForm(forms.Form):
+    username = forms.CharField(max_length=320,
+                               validators=[EmailValidator()])
     passw = forms.CharField(max_length=16)
 
 

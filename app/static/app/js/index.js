@@ -67,9 +67,10 @@ function forgotPageHide() {
  */
 function usernameSignInMessage(input) {
     if (input.validity.patternMismatch) {
-        input.setCustomValidity("Имя пользователя (не EMAIL!) должно содержать только\n" +
+        input.setCustomValidity("Имя пользователя должно содержать только\n" +
                                 "латинские буквы, цифры, знаки подчеркивания\n" +
-                                "и быть длиной не менее 2 и не более 30 символов");
+                                "и быть длиной не менее 2 и не более 30 символов.\n" +
+                                "Если вы логинетесь используя Email, то формат стандартный для Email");
     } else {
         input.setCustomValidity("");
     }

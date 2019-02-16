@@ -115,14 +115,36 @@ class IndexViewsTest(TestCase):
         self.assertTrue(response.context['invalid_authentication'])
 
     # ------------------------------------------------------------------------------------------------------------------
-    def test_user_login_invalid_symbols_username_param(self):
-        response = self.anonymous_client.post(reverse('index'), {'username': 'notallowedsymbols#$%%@*(*)',
-                                                                 'passw': 'DummyPassword'})
-        self.assertEqual(response.resolver_match.func, index)
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'index.html')
-        self.assertTrue('invalid_authentication' in response.context)
-        self.assertTrue(response.context['invalid_authentication'])
+    def test_user_login_invalid_regex_username(self):
+        username_patterns = [
+            'ab#$@cdev', '#$@username', 'username%#&#&', 'db24!!!db34', '#$@234234', '#123dkf%'
+        ]
+
+        for pattern in username_patterns:
+            with self.subTest(pattern=pattern):
+                response = self.anonymous_client.post(reverse('index'), {'username': pattern,
+                                                                         'passw': 'DummyPassword'})
+                self.assertEqual(response.resolver_match.func, index)
+                self.assertEqual(response.status_code, 200)
+                self.assertTemplateUsed(response, 'index.html')
+                self.assertTrue('invalid_authentication' in response.context)
+                self.assertTrue(response.context['invalid_authentication'])
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_user_login_invalid_regex_email(self):
+        email_patterns = [
+            'no_extension@ddd', '@first.missing', 'after_at_miss@', '$%#@474**.om', 'em#$@ail@m.com', '#em@ail@m.com'
+        ]
+
+        for pattern in email_patterns:
+            with self.subTest(pattern=pattern):
+                response = self.anonymous_client.post(reverse('index'), {'username': pattern,
+                                                                         'passw': 'DummyPassword'})
+                self.assertEqual(response.resolver_match.func, index)
+                self.assertEqual(response.status_code, 200)
+                self.assertTemplateUsed(response, 'index.html')
+                self.assertTrue('invalid_authentication' in response.context)
+                self.assertTrue(response.context['invalid_authentication'])
 
     # ------------------------------------------------------------------------------------------------------------------
     def test_user_login_very_long_password_param(self):
@@ -135,7 +157,7 @@ class IndexViewsTest(TestCase):
         self.assertTrue(response.context['invalid_authentication'])
 
     # ------------------------------------------------------------------------------------------------------------------
-    def test_user_login_not_existing_user(self):
+    def test_user_login_valid_username_not_existing_user(self):
         response = self.anonymous_client.post(reverse('index'), {'username': 'not_existing_username',
                                                                  'passw': 'DummyPassword'})
         self.assertEqual(response.resolver_match.func, index)
@@ -145,7 +167,17 @@ class IndexViewsTest(TestCase):
         self.assertTrue(response.context['invalid_authentication'])
 
     # ------------------------------------------------------------------------------------------------------------------
-    def test_user_login_success(self):
+    def test_user_login_valid_email_not_existing_user(self):
+        response = self.anonymous_client.post(reverse('index'), {'username': 'test@email.com',
+                                                                 'passw': 'DummyPassword'})
+        self.assertEqual(response.resolver_match.func, index)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'index.html')
+        self.assertTrue('invalid_authentication' in response.context)
+        self.assertTrue(response.context['invalid_authentication'])
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_user_login_with_username_success(self):
         response = self.anonymous_client.post(reverse('index'), {'username': 'index_user',
                                                                  'passw': 'password'})
         self.assertEqual(response.resolver_match.func, index)
@@ -157,6 +189,21 @@ class IndexViewsTest(TestCase):
         self.assertTemplateUsed(response, 'home.html')
         self.assertEqual(len(response.context['books']), 2)
         self.assertFalse(len(response.context['recommend_books']))
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_user_login_with_email_success(self):
+        response = self.anonymous_client.post(reverse('index'), {'username': 'index@user.com',
+                                                                 'passw': 'password'})
+        self.assertEqual(response.resolver_match.func, index)
+        self.assertRedirects(response, reverse('index'), status_code=302, target_status_code=200)
+
+        response = self.anonymous_client.get(reverse('index'))
+        self.assertEqual(response.resolver_match.func, index)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'home.html')
+        self.assertEqual(len(response.context['books']), 2)
+        self.assertFalse(len(response.context['recommend_books']))
+
 
     # ------------------------------------------------------------------------------------------------------------------
     def test_is_user_exists_not_ajax(self):

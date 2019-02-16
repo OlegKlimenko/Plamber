@@ -60,7 +60,7 @@
         </div>
         <div class="row">
             <div class="col-sm-6 col-md-5 col-lg-5 margin">
-                <button class="btn enter-button margin" onclick="logInPageShow()">Bойти</button>
+                <button class="btn enter-button margin" onclick="logInPageShow()">Войти</button>
                 <button class="btn register-button margin" onclick="registerPageShow()">Зарегистрироваться</button>
             </div>
         </div>
@@ -71,13 +71,14 @@
         <div class="container container-margin footer-margin">
             <div class="row">
                 <div class="col-sm-6 col-md-5 col-lg-5">
-                    <div class="margin-header header-color"><h2><strong>Bход</strong></h2></div>
+                    <div class="margin-header header-color"><h2><strong>Вход</strong></h2></div>
 
                     <form action="/" method="POST">
                         {% csrf_token %}
                         <div>
-                            <input class="input input-colors margin" placeholder="Имя пользователя"
-                                   type="text" maxlength="30" pattern="^[a-zA-Z0-9_]{2,30}"
+                            <input class="input input-colors margin" placeholder="Имя пользователя или Email"
+                                   type="text" maxlength="30"
+                                   pattern="(^[a-zA-Z0-9_]{2,30}|^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})"
                                    name="username" oninvalid="usernameSignInMessage(this)" required>
                         </div>
                         <div>
@@ -86,7 +87,7 @@
                         </div>
                         <div class="margin align-right">
                             {% if invalid_authentication %}
-                                <div class="error-msg error-text"><strong>Логин или пароль введен не верно!</strong></div>
+                                <div class="error-msg error-text"><strong>Логин/Email или пароль введен не верно!</strong></div>
                             {% endif %}
                             <a href="#" class="auth-msg reference" onclick="forgotPageShow()">Забыли пароль?</a>
                             <button class="btn enter-button margin" onclick="logInPageHide()">Назад</button>
