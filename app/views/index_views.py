@@ -10,7 +10,8 @@ from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 
-from ..forms import LogInForm, IsUserExistsForm, IsMailExistsForm, SignInForm, ForgotPasswordForm
+from ..forms import (LogInUsernameForm, LogInEmailForm, IsUserExistsForm, IsMailExistsForm,
+                     SignInForm, ForgotPasswordForm)
 from ..models import AddedBook
 from ..recommend import get_recommend
 from ..tasks import restore_account, successful_registration
@@ -48,22 +49,38 @@ def home(request):
 
 
 # ----------------------------------------------------------------------------------------------------------------------
+def login_response(request, username, password):
+    """
+    Authenticates user and redirects with the appropriate state.
+    """
+    user = authenticate(username=username, password=password)
+
+    if user:
+        login(request, user)
+        logger.info("User '{}' logged in.".format(user.username))
+
+        return redirect('index')
+    return render(request, 'index.html', {'invalid_authentication': True})
+
+
+# ----------------------------------------------------------------------------------------------------------------------
 def user_login(request):
     """
-    Logins user if he passed authentication.
+    Validates request data and logs user.
     """
-    log_in_form = LogInForm(request.POST)
+    email_form = LogInEmailForm(request.POST)
+    username_form = LogInUsernameForm(request.POST)
 
-    if log_in_form.is_valid():
-        user = authenticate(username=log_in_form.cleaned_data['username'],
-                            password=log_in_form.cleaned_data['passw'])
-        if user:
-            login(request, user)
-            logger.info("User '{}' logged in.".format(user.username))
+    if email_form.is_valid():
+        user_obj = User.objects.filter(email=email_form.cleaned_data['username'])
+        username = user_obj[0] if len(user_obj) else None
 
-            return redirect('index')
-        else:
-            return render(request, 'index.html', {'invalid_authentication': True})
+        return login_response(request, username, email_form.cleaned_data['passw'])
+
+    elif username_form.is_valid():
+        return login_response(request, username_form.cleaned_data['username'], username_form.cleaned_data['passw'])
+
+    return render(request, 'index.html', {'invalid_authentication': True})
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -81,8 +98,9 @@ def is_user_exists(request):
 
             except ObjectDoesNotExist:
                 return HttpResponse(json.dumps(False), content_type='application/json')
-    else:
+
         return HttpResponse(status=404)
+    return HttpResponse(status=404)
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -100,8 +118,9 @@ def is_mail_exists(request):
 
             except ObjectDoesNotExist:
                 return HttpResponse(json.dumps(False), content_type='application/json')
-    else:
+
         return HttpResponse(status=404)
+    return HttpResponse(status=404)
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -128,6 +147,8 @@ def sign_in(request):
                     successful_registration.delay(user.username, user.email)
 
             return redirect('/')
+        return HttpResponse(status=400)
+    return HttpResponse(status=404)
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -151,3 +172,6 @@ def restore_data(request):
                 logger.info("The password for user: '{}' restored successfully.".format(user))
 
                 return HttpResponse(json.dumps(True), content_type='application/json')
+
+        return HttpResponse(status=400)
+    return HttpResponse(status=404)

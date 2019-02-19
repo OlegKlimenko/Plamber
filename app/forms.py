@@ -42,6 +42,9 @@ class SignInForm(forms.Form):
         """
         cleaned_data = super(SignInForm, self).clean()
 
+        if not all(item in cleaned_data for item in ['passw1', 'passw2', 'username']):
+            raise ValidationError('Password or username is missing')
+
         if cleaned_data['passw1'] != cleaned_data['passw2']:
             raise ValidationError('Passwords are not matching!')
 
@@ -50,9 +53,16 @@ class SignInForm(forms.Form):
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-class LogInForm(forms.Form):
+class LogInUsernameForm(forms.Form):
     username = forms.CharField(max_length=30,
                                validators=[RegexValidator(regex='^[a-zA-Z0-9_]{2,30}')])
+    passw = forms.CharField(max_length=16)
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+class LogInEmailForm(forms.Form):
+    username = forms.CharField(max_length=320,
+                               validators=[EmailValidator()])
     passw = forms.CharField(max_length=16)
 
 
@@ -119,7 +129,7 @@ class SearchBookForm(forms.Form):
 
 # ----------------------------------------------------------------------------------------------------------------------
 class SetCurrentPageForm(forms.Form):
-    page = forms.IntegerField()
+    page = forms.IntegerField(validators=[MinValueValidator(1)])
     book = forms.CharField(max_length=500)
 
 

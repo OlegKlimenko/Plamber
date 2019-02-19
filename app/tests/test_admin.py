@@ -66,14 +66,8 @@ class AdminTest(TestCase):
 
     # ------------------------------------------------------------------------------------------------------------------
     def tearDown(self):
-        books = Book.objects.all()
-
-        for book in books:
-            self.clean_book_file(book)
-
-    # ------------------------------------------------------------------------------------------------------------------
-    def clean_book_file(self, book):
-        os.remove(book.book_file.path)
-
-        if book.photo and os.path.exists(book.photo.path):
-            os.remove(book.photo.path)
+        for book in Book.objects.all():
+            if os.path.exists(book.book_file.path):
+                os.remove(book.book_file.path)
+            if book.photo and os.path.exists(book.photo.path):
+                os.remove(book.photo.path)

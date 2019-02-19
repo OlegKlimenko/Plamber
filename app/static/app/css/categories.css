@@ -2,6 +2,43 @@
     margin-top: 50px;
 }
 
+#search-button {
+    background-color: #ff8f0c;
+    border: solid 2px #ff8f0c;
+    color: #fff;
+    position: absolute;
+    margin-left: 5px;
+    width: 13%;
+}
+
+#search-button:hover {
+    background-color: Transparent;
+    border: solid 2px #ff8f0c;
+    color: #ff8f0c;
+}
+
+#search-input {
+    width: 85%;
+}
+
+@media screen and (max-width: 480px) {
+    #search-button {
+        width: 37%;
+    }
+    #search-input {
+        width: 58%;
+    }
+}
+
+@media screen and (min-width: 481px) and (max-width: 1024px) {
+    #search-button {
+        width: 25%;
+    }
+    #search-input {
+        width: 73%;
+    }
+}
+
 .align-center {
     text-align: center;
 }

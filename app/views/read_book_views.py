@@ -62,5 +62,6 @@ def set_current_page(request):
                             .format(user, book.id, pages_form.cleaned_data['page']))
 
                 return HttpResponse(json.dumps(True), content_type='application/json')
+        return HttpResponse(status=404)
     else:
         return HttpResponse(status=404)

@@ -87,6 +87,8 @@
     background-color: #9aa6ad;
     border: solid 2px #9aa6ad;
     color: #fff;
+    margin-bottom: 5px;
+    width: 100%;
 }
 
 #remove-book:hover {
@@ -95,10 +97,25 @@
     color: #9aa6ad;
 }
 
+#read-book {
+    background-color: #ff8f0c;
+    border: solid 2px #ff8f0c;
+    color: #fff;
+    margin-bottom: 5px;
+    width: 100%
+}
+
+#read-book:hover {
+    background-color: Transparent;
+    border: solid 2px #ff8f0c;
+    color: #ff8f0c;
+}
+
 #add-book {
     background-color: #31a445;
     border: solid 2px #31a445;
     color: #fff;
+    width: 100%;
 }
 
 #add-book:hover {
@@ -269,6 +286,19 @@ td {
     padding: 20px;
     top: 30%;
     width: 300px;
+    z-index: 9999;
+}
+
+#popup-background {
+    background: #2e3438;
+    bottom: 0;
+    display: none;
+    left: 0;
+    opacity: 0.9;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 9998;
 }
 
 #report-back {

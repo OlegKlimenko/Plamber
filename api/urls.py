@@ -14,7 +14,7 @@ from .views import (index_views,
 
 urlpatterns = [
     # Start page urls.
-    url('^user-login', index_views.user_login),
+    url('^user-login', index_views.user_login, name='user_login_api'),
     url(r'send-mail', index_views.restore_data),
     url(r'is-user-exists', index_views.is_user_exists),
     url(r'is-mail-exists', index_views.is_mail_exists),

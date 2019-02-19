@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import logging
+import os
 from datetime import datetime
 
 from django.conf import settings
@@ -33,8 +34,13 @@ def share_txt(request, file):
     """
     Returns the shared .txt files.
     """
-    with open(settings.BASE_DIR + '/Plamber/additional/{}'.format(file), 'r') as data:
-        return HttpResponse(data.read(), content_type='text/plain')
+    path = settings.BASE_DIR + '/Plamber/additional/{}'.format(file)
+
+    if os.path.exists(path):
+        with open(path, 'r', encoding='utf-8') as data:
+            return HttpResponse(data.read(), content_type='text/plain')
+
+    return HttpResponse(status=404)
 
 
 # ----------------------------------------------------------------------------------------------------------------------      
@@ -42,8 +48,13 @@ def share_xml(request, file):
     """
     Returns the shared .xml files.
     """
-    with open(settings.BASE_DIR + '/Plamber/additional/{}'.format(file), 'r', encoding='utf-8') as data:
-        return HttpResponse(data.read(), content_type='application/xml')
+    path = settings.BASE_DIR + '/Plamber/additional/{}'.format(file)
+
+    if os.path.exists(path):
+        with open(path, 'r', encoding='utf-8') as data:
+            return HttpResponse(data.read(), content_type='application/xml')
+
+    return HttpResponse(status=404)
 
 
 # ----------------------------------------------------------------------------------------------------------------------

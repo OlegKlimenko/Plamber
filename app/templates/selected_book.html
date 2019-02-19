@@ -79,8 +79,9 @@
                         {% if not request.user.is_anonymous %}
                             {% if added_book %}
                                 <div id="remove-book-div">
+                                    <a class="btn" id="read-book" href="{% url 'read_book' added_book.id_book.id %}">Читать книгу</a>
                                     <button class="btn" id="remove-book"
-                                            onclick="removeBookHome()">Перестать читать</button>
+                                            onclick="removeBookHome()">Убрать из читаемых</button>
                                     <div class="word-wrap add-book-text">Сейчас книга в списке читаемых вами.</div>
                                 </div>
                             {% else %}
@@ -257,4 +258,5 @@
             </div>
         </form>
     </div>
+    <div id="popup-background"></div>
 {% endblock %}

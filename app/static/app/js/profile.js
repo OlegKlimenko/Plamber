@@ -12,6 +12,7 @@ function showRemoveSub(id, name) {
 
     $('#book-name').text(name);
     $('#remove-book-sub').css('display', 'block');
+    $('#reminder-background').css('display', 'block');
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -20,6 +21,7 @@ function showRemoveSub(id, name) {
  */
 function hideRemoveSub() {
     $('#remove-book-sub').css('display', 'none');
+    $('#reminder-background').css('display', 'none');
 }
 
 // ---------------------------------------------------------------------------------------------------------------------

@@ -15,26 +15,26 @@ handler403 = 'app.views.error_views.permission_denied_403'
 handler500 = 'app.views.error_views.internal_error_500'
 
 urlpatterns = [
-    url(r'^not/an/admin/url/', include(admin.site.urls)),
+    url(settings.ADMIN_URL, include(admin.site.urls)),
 
     # API urls
     url(r'^api/v1/', include('api.urls')),
 
     # Index urls.
     url(r'^$', index_views.index, name='index'),
-    url(r'is-user-exists', index_views.is_user_exists),
-    url(r'is-mail-exists', index_views.is_mail_exists),
+    url(r'is-user-exists', index_views.is_user_exists, name='is_user_exists'),
+    url(r'is-mail-exists', index_views.is_mail_exists, name='is_mail_exists'),
     url(r'sign-in', index_views.sign_in, name='sign_in'),
     url(r'send-mail', index_views.restore_data, name='restore_data'),
 
     # Read book urls.
     url(r'read-book/(?P<book_id>\d+)/$', read_book_views.open_book, name='read_book'),
-    url(r'set-current-page', read_book_views.set_current_page),
+    url(r'set-current-page', read_book_views.set_current_page, name='set_current_page'),
 
     # Add book urls.
     url(r'^add-book', add_book_views.add_book, name='add_book'),
-    url(r'generate-authors', add_book_views.generate_authors),
-    url(r'generate-books', add_book_views.generate_books),
+    url(r'generate-authors', add_book_views.generate_authors, name='generate_authors'),
+    url(r'generate-books', add_book_views.generate_books, name='generate_books'),
     url(r'book-successful', add_book_views.add_book_successful, name='book_successful'),
 
     # Selected book urls.
