@@ -12,6 +12,8 @@ from django.utils.html import strip_tags
 from .utils import compress_pdf
 from .models import TheUser
 
+DAY_IN_SECONDS = 86400
+
 logger = logging.getLogger('changes')
 
 
@@ -111,6 +113,10 @@ def email_dispatch(heading, text):
             email.send()
 
             count_processed += 1
+            if count_processed >= 400:
+                logger.info('Sent "{}" emails. Stop sending for 24 hours..."'.format(count_processed))
+                time.sleep(DAY_IN_SECONDS)
+
             logger.info('Successful processed "{}", sent to: "{}"'.format(count_processed, recipient.id_user.username))
             time.sleep(10)
 
