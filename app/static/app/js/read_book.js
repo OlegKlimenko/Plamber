@@ -67,7 +67,9 @@ function renderPage(pdf, pageNumber) {
         };
 
         page.render(renderContext).then(function() {
-            renderPage(PDF_DOCUMENT, PAGES_TO_RENDER.pop());
+            if (PAGES_TO_RENDER.length) {
+                renderPage(PDF_DOCUMENT, PAGES_TO_RENDER.pop());
+            }
             loadHide();
         })
     });
@@ -80,7 +82,11 @@ function renderPage(pdf, pageNumber) {
  * @param {number} pageNum The number of a page.
  */
 function renderPages(pageNum) {
-    PAGES_TO_RENDER.push(CURRENT_PAGE + 1);
+    var prevPageToRender = CURRENT_PAGE > 1 ? CURRENT_PAGE - 1 : null;
+    var nextPageToRender = CURRENT_PAGE < PDF_DOCUMENT.numPages ? CURRENT_PAGE + 1 : null;
+
+    if (prevPageToRender) PAGES_TO_RENDER.push(prevPageToRender);
+    if (nextPageToRender) PAGES_TO_RENDER.push(nextPageToRender);
     renderPage(PDF_DOCUMENT, pageNum);
 }
 
@@ -152,29 +158,78 @@ function loadPage(pageNum) {
 
 // ---------------------------------------------------------------------------------------------------------------------
 /**
+ * Adjusts offset if document scroll passed multiple pages in one time for scroll down action.
+ *
+ * @param {number} documentScroll
+ */
+function scrollDownOffset(documentScroll) {
+    var found_page = false;
+
+    while (!found_page) {
+        var page = $('#page' + CURRENT_PAGE)
+
+        if (page.length) {
+            var offset = page.offset().top;
+        }
+        else {
+            CURRENT_PAGE -= 1;
+            return;
+        }
+
+        if (offset <= documentScroll + HEADER_MARGIN) {
+            CURRENT_PAGE += 1;
+        }
+        else {
+            found_page = true;
+        }
+    }
+    CURRENT_PAGE -= 1
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+/**
+ * Adjusts offset if document scroll passed multiple pages in one time for scroll up action.
+ *
+ * @param {number} documentScroll
+ */
+function scrollUpOffset(documentScroll) {
+    while (true) {
+        var offset = $('#page' + CURRENT_PAGE).offset().top;
+
+        if (offset > documentScroll + HEADER_MARGIN) {
+            CURRENT_PAGE -= 1;
+        }
+        else {
+            return;
+        }
+    }
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+/**
  * Renders pages when page was scrolled.
  */
 $(document).scroll(function() {
-    if (RELOAD) {
-        RELOAD = false;
-    }
-    else {
-        var document_scroll = $(document).scrollTop();
+    clearTimeout($.data(this, 'scrollTimer'));
 
-        if (document_scroll + HEADER_MARGIN > NEXT_OFFSET) {
-            if (CURRENT_PAGE < PDF_DOCUMENT.numPages) {
-                CURRENT_PAGE += 1;
+    $.data(this, 'scrollTimer', setTimeout(function() {
+        if (RELOAD) {
+            RELOAD = false;
+        }
+        else {
+            var documentScroll = $(document).scrollTop();
+
+            if ((documentScroll + HEADER_MARGIN > NEXT_OFFSET) && (CURRENT_PAGE < PDF_DOCUMENT.numPages)) {
+                scrollDownOffset(documentScroll);
+                updateOffsets();
+            }
+
+            else if ((documentScroll + HEADER_MARGIN < PREVIOUS_OFFSET + DESIRED_HEIGHT) && (CURRENT_PAGE > 1)) {
+                scrollUpOffset(documentScroll);
                 updateOffsets();
             }
         }
-
-        else if (document_scroll + HEADER_MARGIN < PREVIOUS_OFFSET + DESIRED_HEIGHT) {
-            if (CURRENT_PAGE > 1) {
-                CURRENT_PAGE -= 1;
-                updateOffsets();
-            }
-        }
-    }
+    }, 50));
 });
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -192,6 +247,7 @@ function updateOffsets() {
     renderPages(CURRENT_PAGE);
 }
 
+// ---------------------------------------------------------------------------------------------------------------------
 function progressCallBack(progress) {
     $('#loading-percent').text(parseInt(100 * progress.loaded / progress.total) + '%');
 }
@@ -201,20 +257,24 @@ function progressCallBack(progress) {
  * Sets settings for open PDF document; opens document and generates starting point elements.
  */
 function loadPages() {
-    var url = $("#book-url").text();
+    clearTimeout($.data(this, 'scrollTimer'));
 
-    PDFJS.workerSrc = "/static/app/js/third_party/pdf_js/pdf.worker.js";
+    $.data(this, 'scrollTimer', setTimeout(function() {
+        var url = $("#book-url").text();
 
-    PDFJS.getDocument(url, null, null, progressCallBack).then(function (pdf) {
-        PDF_DOCUMENT = pdf;
+        PDFJS.workerSrc = "/static/app/js/third_party/pdf_js/pdf.worker.js";
 
-        DESIRED_WIDTH = $('#container-width').width();
+        PDFJS.getDocument(url, null, null, progressCallBack).then(function (pdf) {
+            PDF_DOCUMENT = pdf;
 
-        $('#main').empty();
-        TOTAL_HEIGHT = 0;
+            DESIRED_WIDTH = $('#container-width').width();
 
-        calculateHeight(PDF_DOCUMENT, 1);
-    });
+            $('#main').empty();
+            TOTAL_HEIGHT = 0;
+
+            calculateHeight(PDF_DOCUMENT, 1);
+        });
+    }, 50));
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
