@@ -27,7 +27,6 @@ def open_book(request):
     if request_serializer.is_valid():
         user = get_object_or_404(TheUser, auth_token=request.data.get('user_token'))
         book = get_object_or_404(Book, id=request.data.get('book_id'))
-
         added_book = get_object_or_404(AddedBook, id_book=book, id_user=user)
 
         logger.info("User '{}' opened book with id: '{}'.".format(user, book.id))
