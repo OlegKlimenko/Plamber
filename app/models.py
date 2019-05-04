@@ -141,6 +141,10 @@ class Book(models.Model):
     """
     Class for book objects in database.
     """
+    EXT_CHOICES = (
+        ('PDF', 'PDF'),
+        ('FB2', 'FB2'),
+    )
     book_name = models.CharField(max_length=150)
     id_author = models.ForeignKey(Author)
     id_category = models.ForeignKey(Category)
@@ -151,10 +155,11 @@ class Book(models.Model):
     who_added = models.ForeignKey(TheUser)
     upload_date = models.DateTimeField(auto_now=True)
     private_book = models.BooleanField(default=False)
+    extension = models.CharField(blank=False, null=False, max_length=8, default=None, choices=EXT_CHOICES)
 
     # ------------------------------------------------------------------------------------------------------------------
     def __str__(self):
-        return "{0}, {1}, язык({2})".format(self.book_name, self.id_author, self.language)
+        return "{}, {}, ({}), язык({})".format(self.book_name, self.id_author, self.extension, self.language)
 
     # ------------------------------------------------------------------------------------------------------------------
     @staticmethod

@@ -34,7 +34,8 @@ class AdminTest(TestCase):
             id_category=self.category,
             language=self.language,
             book_file=SimpleUploadedFile('test_book.pdf', open(TEST_BOOK_PATH, 'rb').read()),
-            who_added=self.the_user1
+            who_added=self.the_user1,
+            extension=Book.EXT_CHOICES[0][0]
         )
 
         self.rating_obj = BookRating.objects.create(id_user=self.the_user1, id_book=self.book, rating=5)

@@ -42,7 +42,8 @@ class IndexViewsTest(TestCase):
             id_category=cls.category,
             language=cls.language,
             book_file=SimpleUploadedFile('test_book.pdf', open(test_book_path, 'rb').read()),
-            who_added=cls.the_user
+            who_added=cls.the_user,
+            extension=Book.EXT_CHOICES[0][0]
         )
         cls.book2 = Book.objects.create(
             book_name='index_book_test2',
@@ -50,7 +51,8 @@ class IndexViewsTest(TestCase):
             id_category=cls.category,
             language=cls.language,
             book_file=SimpleUploadedFile('test_book.pdf', open(test_book_path, 'rb').read()),
-            who_added=cls.the_user
+            who_added=cls.the_user,
+            extension=Book.EXT_CHOICES[0][0]
         )
 
         AddedBook.objects.create(id_user=cls.the_user, id_book=cls.book1)
