@@ -122,7 +122,7 @@ $(document).ready(function() {
             var formData = new FormData($(this)[0]);
             var file = upload_book[0].files[0];
 
-            formData.set('bookfile', file, Date.now() + '.pdf');
+            formData.set('bookfile', file, Date.now() + '.' + file.name.split('.').pop());
 
             $.ajax({
                 url: $('form').attr('action'),
@@ -138,8 +138,10 @@ $(document).ready(function() {
                 },
 
                 error: function(jqXHR, errorThrown) {
-                    alert('Вы попытались загрузить не PDF файл\n' +
-                          'или он поврежден. Попробуйте другой файл.');
+                    alert(
+                        'Вы попытались загрузить не PDF/FB2 файл\n' +
+                        'или он поврежден. Попробуйте другой файл.'
+                    );
                     $("#file-uploading").css("display", "none");
                 }
             });

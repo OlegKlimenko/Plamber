@@ -6,7 +6,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.core.validators import MinLengthValidator, MaxLengthValidator
 from django.core.validators import RegexValidator, EmailValidator
 
-from .validators import validate_image, validate_pdf
+from .validators import validate_image, validate_book, validate_pdf
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -83,8 +83,13 @@ class AddBookForm(forms.Form):
     category = forms.CharField(max_length=30)
     language = forms.CharField(max_length=30)
     about = forms.CharField(widget=forms.Textarea)
-    bookfile = forms.FileField(validators=[validate_pdf])
+    bookfile = forms.FileField()
     private = forms.BooleanField(required=False)
+
+    def clean_bookfile(self):
+        self.extension = validate_book(self.cleaned_data['bookfile'])
+
+        return self.cleaned_data['bookfile']
 
 
 # ----------------------------------------------------------------------------------------------------------------------
