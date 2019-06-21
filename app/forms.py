@@ -6,7 +6,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.core.validators import MinLengthValidator, MaxLengthValidator
 from django.core.validators import RegexValidator, EmailValidator
 
-from .validators import validate_image, validate_book, validate_pdf
+from .validators import validate_image, validate_book
 
 
 # ----------------------------------------------------------------------------------------------------------------------

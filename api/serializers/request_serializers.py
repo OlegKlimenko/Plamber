@@ -4,6 +4,8 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 from rest_framework import serializers
 
+from app.validators import validate_book
+
 
 # ----------------------------------------------------------------------------------------------------------------------
 class TokenSerializer(serializers.Serializer):
@@ -158,6 +160,10 @@ class UploadBookRequest(TokenSerializer):
     category = serializers.CharField(max_length=30)
     about = serializers.CharField(max_length=1000)
     language = serializers.CharField(max_length=30)
+    book_file = serializers.FileField(allow_empty_file=False)
+
+    def validate_book_file(self, value):
+        self.extension = validate_book(value)
 
 
 # ----------------------------------------------------------------------------------------------------------------------

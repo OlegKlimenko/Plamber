@@ -29,7 +29,7 @@ urlpatterns = [
     url(r'read-book', read_book_views.open_book),
     url(r'set-current-page', read_book_views.set_current_page),
 
-    # Add book urls.
+    # Upload book urls.
     url(r'generate-authors', upload_book_views.generate_authors),
     url(r'generate-books', upload_book_views.generate_books),
     url(r'generate-languages', upload_book_views.generate_languages),
