@@ -1,10 +1,10 @@
 {% extends 'main/base.html' %}
 {% load staticfiles %}
 
-{% block title %}Читать Книгу {{ book.book_name }} - {{ book.id_author }} Онлайн Бесплатно в PDF{% endblock %}
+{% block title %}Читать Книгу {{ book.book_name }} - {{ book.id_author }} Онлайн Бесплатно в {{ book.extension }}{% endblock %}
 
 {% block description %}
-    <meta name="description" content="Книга: {{ book.book_name }}, Автор: {{ book.id_author }}, Рейтинг книги: {{ book_rating|floatformat }} - Добавляйте и читайте удобно на всех устройствах.">
+    <meta name="description" content="Книга: {{ book.book_name }}, Автор: {{ book.id_author }}, Формат: {{ book.extension }}, Рейтинг книги: {{ book_rating|floatformat }} - Добавляйте и читайте удобно на всех устройствах.">
 {% endblock %}
 
 {% block css %}
@@ -102,7 +102,7 @@
                     <div id="book-name" class="word-wrap"><h2><strong>{{ book.book_name }}</strong></h2></div>
                     <div>
                         <table>
-                            <tr><th>Автор</th><td class="word-wrap"><strong><a class="reference" href="{% url 'author' book.id_author.id %}">{{ book.id_author }}</a></strong></td></tr>
+                            <tr><th>Автор</th><td class="word-wrap"><a class="reference" href="{% url 'author' book.id_author.id %}">{{ book.id_author }}</a></td></tr>
                             <tr>
                                 <th>Категория</th>
                                 <td class="word-wrap">
@@ -111,6 +111,7 @@
                                 </td>
                             </tr>
                             <tr><th>Язык</th><td class="word-wrap">{{ book.language }}</td></tr>
+                            <tr><th>Формат</th><td class="word-wrap">{{ book.extension }}</td></tr>
                             <tr>
                                 <th>Кто загрузил</th>
                                 <td class="word-wrap">

@@ -70,94 +70,102 @@
                 {% endif %}
             </div>
 
-            <!--Reading book list area-->
             <div class="col-sm-8 col-md-8 col-lg-9">
-                <hr class="hr">
-                <h2 id="read-books-header">Читаемые книги</h2>
-                <hr class="hr">
-                {% if added_books %}
-                    <table id="book-list" class="margin">
-                        <colgroup>
-                            <col width="43%">
-                            <col width="43%">
-                            <col width="10%">
-                            <col width="3%">
-                        </colgroup>
-                        <thead>
-                            <tr align="left">
-                                <th>Название книги</th>
-                                <th>Автор</th>
-                                <th class="page">Cтр</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-font">
-                            {% for book in added_books %}
-                                <tr id="book_{{ book.id_book.id }}">
-                                    <td class="word-wrap">
-                                       <a href="{% url 'book' book.id_book.id %}"
-                                           class="reference">{{ book.id_book.book_name }}</a></td>
-                                    <td class="word-wrap">
-                                        <a href="{% url 'book' book.id_book.id %}"
-                                           class="reference">{{ book.id_book.id_author }}</a>
-                                    </td>
-                                    <td class="page-number word-wrap">
-                                        <a href="{% url 'book' book.id_book.id %}"
-                                           class="reference">{{ book.last_page }}</a>
-                                    </td>
-                                    {% if owner %}
-                                        <td title="Удалить книгу из списка читаемых вами">
-                                            <button class="remove-book-button"
-                                                    onclick="showRemoveSub({{ book.id_book.id }}, '{{ book.id_book.book_name }}');">x</button>
-                                        </td>
-                                    {% endif %}
+
+                <!--Reading book list area-->
+                <div class="col-sm-12 col-md-12 col-lg-12">
+                    <hr class="hr">
+                    <h2 class="read-books-header">Читаемые книги</h2>
+                    <hr class="hr">
+                    {% if added_books %}
+                        <table class="book-list margin">
+                            <colgroup>
+                                <col width="37%">
+                                <col width="37%">
+                                <col width="13%">
+                                <col width="10%">
+                                <col width="3%">
+                            </colgroup>
+                            <thead>
+                                <tr align="left">
+                                    <th>Название книги</th>
+                                    <th>Автор</th>
+                                    <th>Форм</th>
+                                    <th class="page">Cтр</th>
                                 </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                {% else %}
-                    Пока еще нет читаемых книг =(
+                            </thead>
+                            <tbody class="text-font">
+                                {% for book in added_books %}
+                                    <tr id="book_{{ book.id_book.id }}">
+                                        <td class="word-wrap">
+                                           <a href="{% url 'book' book.id_book.id %}"
+                                               class="reference">{{ book.id_book.book_name }}</a></td>
+                                        <td class="word-wrap">
+                                            <a href="{% url 'book' book.id_book.id %}"
+                                               class="reference">{{ book.id_book.id_author }}</a>
+                                        </td>
+                                        <td>
+                                            <span>PDF</span>
+                                        </td>
+                                        <td class="page-number word-wrap">
+                                            <a href="{% url 'book' book.id_book.id %}"
+                                               class="reference">{{ book.last_page }}</a>
+                                        </td>
+                                        {% if owner %}
+                                            <td title="Удалить книгу из списка читаемых вами">
+                                                <button class="remove-book-button"
+                                                        onclick="showRemoveSub({{ book.id_book.id }}, '{{ book.id_book.book_name }}');">x</button>
+                                            </td>
+                                        {% endif %}
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        Пока еще нет читаемых книг =(
+                    {% endif %}
+                </div>
+
+                <!--Added book list area-->
+                {% if uploaded_books %}
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <hr class="hr">
+                        <h2 class="read-books-header">Загруженные книги</h2>
+                        <hr class="hr">
+                        <table class="book-list margin">
+                            <colgroup>
+                                <col width="43%">
+                                <col width="43%">
+                                <col width="14%">
+                            </colgroup>
+                            <thead>
+                                <tr align="left">
+                                    <th>Название книги</th>
+                                    <th>Автор</th>
+                                    <th>Дата загрузки</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-font">
+                                {% for book in uploaded_books %}
+                                    <tr>
+                                        <td class="word-wrap">
+                                           <a href="{% url 'book' book.id %}"
+                                               class="reference">{{ book.book_name }}</a></td>
+                                        <td class="word-wrap">
+                                            <a href="{% url 'book' book.id %}"
+                                               class="reference">{{ book.id_author }}</a>
+                                        </td>
+                                        <td class="word-wrap">
+                                            <a href="{% url 'book' book.id %}"
+                                               class="reference">{{ book.upload_date|date:"d-m-Y" }}</a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 {% endif %}
             </div>
-
-            <!--Added book list area-->
-            {% if uploaded_books %}
-                <div class="col-sm-8 col-md-8 col-lg-9">
-                    <hr class="hr">
-                    <h2 id="read-books-header">Загруженные книги</h2>
-                    <hr class="hr">
-                    <table id="book-list" class="margin">
-                        <colgroup>
-                            <col width="43%">
-                            <col width="43%">
-                            <col width="14%">
-                        </colgroup>
-                        <thead>
-                            <tr align="left">
-                                <th>Название книги</th>
-                                <th>Автор</th>
-                                <th>Дата загрузки</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-font">
-                            {% for book in uploaded_books %}
-                                <tr>
-                                    <td class="word-wrap">
-                                       <a href="{% url 'book' book.id %}"
-                                           class="reference">{{ book.book_name }}</a></td>
-                                    <td class="word-wrap">
-                                        <a href="{% url 'book' book.id %}"
-                                           class="reference">{{ book.id_author }}</a>
-                                    </td>
-                                    <td class="word-wrap">
-                                        <a href="{% url 'book' book.id %}"
-                                           class="reference">{{ book.upload_date|date:"d-m-Y" }}</a>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            {% endif %}
         </div>
     </div>
 
