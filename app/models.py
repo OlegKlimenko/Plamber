@@ -290,7 +290,8 @@ class Book(models.Model):
                     'name': item.book_name,
                     'author': item.id_author.author_name,
                     'url': item.photo.url if item.photo else '',
-                    'rating': book_rating['rating__avg']}
+                    'rating': book_rating['rating__avg'],
+                    'extension': item.extension}
             books.append(book)
 
         return sorted(books, key=lambda info: (info['rating'] is not None, info['rating']), reverse=True)
@@ -331,7 +332,8 @@ class Book(models.Model):
             {'id': item.id,
              'name': item.book_name,
              'author': item.id_author.author_name,
-             'url': item.photo.url if item.photo else ''} for item in sorted_books
+             'url': item.photo.url if item.photo else '',
+             'extension': item.extension} for item in sorted_books
         ]
 
         return generated_books
@@ -349,7 +351,8 @@ class Book(models.Model):
             {'id': item.id,
              'name': item.book_name,
              'author': item.id_author.author_name,
-             'url': item.photo.url if item.photo else ''} for item in filtered_books
+             'url': item.photo.url if item.photo else '',
+             'extension': item.extension} for item in filtered_books
         ]
 
         return books

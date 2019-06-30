@@ -168,6 +168,10 @@ td {
     border: 1px solid #31a445;
 }
 
+.thumbnail {
+    overflow: hidden;
+}
+
 .thumbnail img{
     max-width: 100%;
 }

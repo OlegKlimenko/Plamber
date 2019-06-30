@@ -60,6 +60,11 @@
                                 <div class="col-sm-3 col-md-3 col-lg-2 col-xs-6">
                                     <div class="thumbnail">
                                         <div class="img-wrapper">
+                                            {% if book.extension == "PDF" %}
+                                                <div class="ribbon ribbon-pdf">{{ book.extension }}</div>
+                                            {% elif book.extension == "FB2" %}
+                                                <div class="ribbon ribbon-fb2">{{ book.extension }}</div>
+                                            {% endif %}
                                             <img src="{% if book.photo %}{{ book.photo.url }}{% endif %}"
                                                  alt="{{ book.book_name }}">
                                             <div class="book-info word-wrap">

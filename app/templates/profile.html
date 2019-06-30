@@ -105,7 +105,11 @@
                                                class="reference">{{ book.id_book.id_author }}</a>
                                         </td>
                                         <td>
-                                            <span>PDF</span>
+                                            {% if book.id_book.extension == "PDF" %}
+                                                <span class="label label-danger ribbon-pdf">{{ book.id_book.extension }}</span>
+                                            {% elif book.id_book.extension == "FB2" %}
+                                                <span class="label label-warning ribbon-fb2">{{ book.id_book.extension }}</span>
+                                            {% endif %}
                                         </td>
                                         <td class="page-number word-wrap">
                                             <a href="{% url 'book' book.id_book.id %}"
