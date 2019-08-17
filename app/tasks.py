@@ -6,33 +6,16 @@ import requests
 
 from celery import shared_task
 from django.conf import settings
+from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.urls.exceptions import NoReverseMatch
+from django.utils.html import strip_tags
 
 from .utils import compress_pdf
 from .models import TheUser
 
 logger = logging.getLogger('changes')
 
-
-# ----------------------------------------------------------------------------------------------------------------------
-def send_message(recipient, subject, html_content):
-    """
-    Sends the post request to MAILGUN api to push email.
-
-    :param str recipient:    Email of the recipient.
-    :param str subject:      Email subject.
-    :param str html_content: Email content in HTML format.
-    :return:
-    """
-    return requests.post(
-        settings.MAILGUN_DOMAIN,
-        auth=('api', settings.MAILGUN_API_KEY),
-        data={'from': settings.MAILGUN_FROM_MAIL,
-              'to': [recipient],
-              'subject': subject,
-              'html': html_content}
-    )
 
 # ----------------------------------------------------------------------------------------------------------------------
 @shared_task
@@ -45,9 +28,13 @@ def successful_registration(username, recipient):
     """
     html_content = render_to_string('mails/registration_success.html', {'username': username})
     subject = 'Успешная регистрация - plamber.com.ua'
+    text_content = strip_tags(html_content)
 
-    resp = send_message(recipient, subject, html_content)
-    logger.info("Sent successful registration message to '{}' with message '{}'".format(recipient, resp.text))
+    email = EmailMultiAlternatives(subject, text_content, to=[recipient])
+    email.attach_alternative(html_content, 'text/html')
+    email.send()
+
+    logger.info("Sent successful registration message to '{}'.".format(recipient))
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -64,10 +51,14 @@ def restore_account(username, temp_password, recipient):
         'mails/account_restore.html',
         {'username': username, 'password': temp_password, 'email_host_user': settings.EMAIL_HOST_USER}
     )
+    text_content = strip_tags(html_content)
     subject = 'Восстановление аккаунта - plamber.com.ua'
 
-    resp = send_message(recipient, subject, html_content)
-    logger.info("Sent successful registration message to '{}' with message '{}'".format(recipient, resp.text))
+    email = EmailMultiAlternatives(subject, text_content, to=[recipient])
+    email.attach_alternative(html_content, 'text/html')
+    email.send()
+
+    logger.info("Sent successful registration message to '{}'.".format(recipient))
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -81,10 +72,14 @@ def changed_password(username, recipient):
     """
     html_content = render_to_string('mails/password_changed.html',
                                     {'username': username, 'email_host_user': settings.EMAIL_HOST_USER})
+    text_content = strip_tags(html_content)
     subject = 'Изменение пароля аккаунта - plamber.com.ua'
 
-    resp = send_message(recipient, subject, html_content)
-    logger.info("Sent successful registration message to '{}' with message '{}'".format(recipient, resp.text))
+    email = EmailMultiAlternatives(subject, text_content, to=[recipient])
+    email.attach_alternative(html_content, 'text/html')
+    email.send()
+
+    logger.info("Sent successful registration message to '{}'.".format(recipient))
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -125,7 +120,14 @@ def email_dispatch(heading, text):
                 )
                 subject = '{} - plamber.com.ua'.format(heading)
 
-                resp = send_message(recipient.id_user.email, subject, html_content)
+                resp = requests.post(
+                    settings.MAILGUN_DOMAIN,
+                    auth=('api', settings.MAILGUN_API_KEY),
+                    data={'from': settings.MAILGUN_FROM_MAIL,
+                          'to': [recipient.id_user.email],
+                          'subject': subject,
+                          'html': html_content}
+                )
 
                 logger.info('Successful processed "{}", sent to: "{}"'.format(number, recipient.id_user.username))
                 logger.info('Mailgun response {}'.format(resp.text))
