@@ -175,6 +175,12 @@ EMAIL_HOST_USER = settings['EMAIL']['USER']
 EMAIL_HOST_PASSWORD = settings['EMAIL']['PASSWORD']
 EMAIL_USE_TLS = True
 
+# Mailgun settings
+
+MAILGUN_DOMAIN = settings['MAILGUN']['DOMAIN']
+MAILGUN_API_KEY = settings['MAILGUN']['API_KEY']
+MAILGUN_FROM_MAIL = settings['MAILGUN']['FROM']
+
 # Celery settings
 
 CELERY_BROKER_URL = settings['CELERY']['BROKER_URL']

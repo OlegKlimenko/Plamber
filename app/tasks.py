@@ -1,21 +1,38 @@
 # -*- coding: utf-8 -*-
 
-import time
 import logging
+import time
+import requests
 
 from celery import shared_task
-from django.core.mail import EmailMultiAlternatives
+from django.conf import settings
 from django.template.loader import render_to_string
 from django.urls.exceptions import NoReverseMatch
-from django.utils.html import strip_tags
 
 from .utils import compress_pdf
 from .models import TheUser
 
-DAY_IN_SECONDS = 86400
-
 logger = logging.getLogger('changes')
 
+
+# ----------------------------------------------------------------------------------------------------------------------
+def send_message(recipient, subject, html_content):
+    """
+    Sends the post request to MAILGUN api to push email.
+
+    :param str recipient:    Email of the recipient.
+    :param str subject:      Email subject.
+    :param str html_content: Email content in HTML format.
+    :return:
+    """
+    return requests.post(
+        settings.MAILGUN_DOMAIN,
+        auth=('api', settings.MAILGUN_API_KEY),
+        data={'from': settings.MAILGUN_FROM_MAIL,
+              'to': [recipient],
+              'subject': subject,
+              'html': html_content}
+    )
 
 # ----------------------------------------------------------------------------------------------------------------------
 @shared_task
@@ -27,12 +44,10 @@ def successful_registration(username, recipient):
     :param str recipient:  The mail recipient.
     """
     html_content = render_to_string('mails/registration_success.html', {'username': username})
-    text_content = strip_tags(html_content)
-    subject = 'Успешная регистрация на plamber.com.ua'
+    subject = 'Успешная регистрация - plamber.com.ua'
 
-    email = EmailMultiAlternatives(subject, text_content, to=[recipient])
-    email.attach_alternative(html_content, 'text/html')
-    email.send()
+    resp = send_message(recipient, subject, html_content)
+    logger.info("Sent successful registration message to '{}' with message '{}'".format(recipient, resp.text))
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -45,13 +60,14 @@ def restore_account(username, temp_password, recipient):
     :param str temp_password:  The temporary password for restored username.
     :param str recipient:      The mail recipient.
     """
-    html_content = render_to_string('mails/account_restore.html', {'username': username, 'password': temp_password})
-    text_content = strip_tags(html_content)
-    subject = 'Восстановление аккаунта'
+    html_content = render_to_string(
+        'mails/account_restore.html',
+        {'username': username, 'password': temp_password, 'email_host_user': settings.EMAIL_HOST_USER}
+    )
+    subject = 'Восстановление аккаунта - plamber.com.ua'
 
-    email = EmailMultiAlternatives(subject, text_content, to=[recipient])
-    email.attach_alternative(html_content, 'text/html')
-    email.send()
+    resp = send_message(recipient, subject, html_content)
+    logger.info("Sent successful registration message to '{}' with message '{}'".format(recipient, resp.text))
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -63,13 +79,12 @@ def changed_password(username, recipient):
     :param str username:   The restored username.
     :param str recipient:  The mail recipient.
     """
-    html_content = render_to_string('mails/password_changed.html', {'username': username})
-    text_content = strip_tags(html_content)
-    subject = 'Изменение пароля аккаунта'
+    html_content = render_to_string('mails/password_changed.html',
+                                    {'username': username, 'email_host_user': settings.EMAIL_HOST_USER})
+    subject = 'Изменение пароля аккаунта - plamber.com.ua'
 
-    email = EmailMultiAlternatives(subject, text_content, to=[recipient])
-    email.attach_alternative(html_content, 'text/html')
-    email.send()
+    resp = send_message(recipient, subject, html_content)
+    logger.info("Sent successful registration message to '{}' with message '{}'".format(recipient, resp.text))
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -98,29 +113,24 @@ def email_dispatch(heading, text):
 
     logger.info('Found {} subscribed users. Starting sending emails...'.format(len(recipients)))
 
-    count_processed = 0
-    for recipient in recipients:
-        try:
-            unsubscribe_token = '{}-{}'.format(recipient.id_user.username,
-                                               int(time.mktime(recipient.id_user.date_joined.timetuple())))
+    for number, recipient in enumerate(recipients):
+        if recipient.id_user.email:
+            try:
+                unsubscribe_token = '{}-{}'.format(recipient.id_user.username,
+                                                   int(time.mktime(recipient.id_user.date_joined.timetuple())))
 
-            html_content = render_to_string('mails/email_dispatch.html', {'text': text, 'token': unsubscribe_token})
-            text_content = strip_tags(html_content)
-            subject = '{} - plamber.com.ua'.format(heading)
+                html_content = render_to_string(
+                    'mails/email_dispatch.html',
+                    {'text': text, 'token': unsubscribe_token, 'email_host_user': settings.EMAIL_HOST_USER}
+                )
+                subject = '{} - plamber.com.ua'.format(heading)
 
-            email = EmailMultiAlternatives(subject, text_content, to=[recipient.id_user.email])
-            email.attach_alternative(html_content, 'text/html')
-            email.send()
+                resp = send_message(recipient.id_user.email, subject, html_content)
 
-            count_processed += 1
-            if count_processed >= 400:
-                logger.info('Sent "{}" emails. Stop sending for 24 hours..."'.format(count_processed))
-                time.sleep(DAY_IN_SECONDS)
+                logger.info('Successful processed "{}", sent to: "{}"'.format(number, recipient.id_user.username))
+                logger.info('Mailgun response {}'.format(resp.text))
 
-            logger.info('Successful processed "{}", sent to: "{}"'.format(count_processed, recipient.id_user.username))
-            time.sleep(10)
-
-        except NoReverseMatch:
-            logger.info('Unexpected username: "{}"'.format(recipient.id_user.username))
+            except NoReverseMatch:
+                logger.info('Unexpected username: "{}"'.format(recipient.id_user.username))
 
     logger.info('Email dispatching has been finished.')
