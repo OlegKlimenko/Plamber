@@ -130,7 +130,7 @@ def email_dispatch(heading, text):
                 logger.info('Successful processed "{}", sent to: "{}"'.format(number, recipient.id_user.username))
                 logger.info('Mailgun response {}'.format(resp.text))
 
-                time.sleep(10)
+                time.sleep(60)
 
             except NoReverseMatch:
                 logger.info('Unexpected username: "{}"'.format(recipient.id_user.username))
