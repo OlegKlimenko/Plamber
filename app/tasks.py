@@ -58,7 +58,7 @@ def restore_account(username, temp_password, recipient):
     email.attach_alternative(html_content, 'text/html')
     email.send()
 
-    logger.info("Sent successful registration message to '{}'.".format(recipient))
+    logger.info("Sent restore account message to '{}'.".format(recipient))
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -79,7 +79,7 @@ def changed_password(username, recipient):
     email.attach_alternative(html_content, 'text/html')
     email.send()
 
-    logger.info("Sent successful registration message to '{}'.".format(recipient))
+    logger.info("Sent changed password message to '{}'.".format(recipient))
 
 
 # ----------------------------------------------------------------------------------------------------------------------
