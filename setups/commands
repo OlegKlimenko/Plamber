@@ -21,4 +21,15 @@ service gunicorn restart
 #######################################################
 CELERY
 
-celery -A Plamber worker -l info
+celery -A Plamber worker -l info --max-tasks-per-child 16 --max-memory-per-child 64
+
+#######################################################
+Server harddrive usage:
+df -m / df -h
+
+
+#######################################################
+sudo service mysql start
+sudo service redis-server start
+
+CREATE DATABASE proj_schema CHARACTER SET utf8 COLLATE utf8_general_ci;

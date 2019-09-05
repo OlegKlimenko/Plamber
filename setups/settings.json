@@ -1,5 +1,6 @@
 {
   "SECRET_KEY": "",
+  "API_SECRET_KEY": "",
   "DEBUG": true,
   "CSRF_COOKIE_SECURE": false,
   "SESSION_COOKIE_SECURE": false,
@@ -16,6 +17,11 @@
     "USER": "",
     "PASSWORD": ""
   },
+  "MAILGUN": {
+    "DOMAIN": "",
+    "API_KEY": "",
+    "FROM": ""
+  },
   "CELERY": {
     "BROKER_URL": "redis://localhost:6379",
     "RESULT_BACKEND": "redis://localhost:6379",
@@ -23,5 +29,6 @@
     "TASK_SERIALIZER": "json",
     "RESULT_SERIALIZER": "json"
   },
-  "GOOGLE_RECAPTCHA_SECRET_KEY": ""
+  "GOOGLE_RECAPTCHA_SECRET_KEY": "",
+  "ADMIN_URL": ""
 }
