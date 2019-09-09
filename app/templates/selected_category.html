@@ -4,7 +4,7 @@
 {% block title %}Категория {{ category.category_name }} Книг В Онлайн Библиотеке{% endblock %}
 
 {% block description %}
-    <meta name="description" content="Заходите к нам, выбирайте и читайте большое количество классных книг в нашей библиотеке!">
+    <meta name="description" content="Заходите к нам, выбирайте и читайте большое количество классных книг в нашей библиотеке! В категории {{ category.category_name }} {{ books.count }} книг">
 {% endblock %}
 
 {% block css %}
@@ -27,7 +27,10 @@
             <div class="col-sm-12 col-md-12 col-lg-12">
 
                 <!--Header part of main area-->
-                <h1 class="header-color"><strong>{{ category.category_name }}</strong></h1>
+                <h1 class="header-color">
+                    <strong>{{ category.category_name }}</strong>
+                    <label class="btn-xs book-count">Всего книг: {{ books.count }}</label>
+                </h1>
                 {% if books %}
                     <input id="search-input" class="input input-colors margin" placeholder="Поиск книг..."
                        title="Вводите любую информацию: название книги, автора..." oninput="returnState({{ category.id }})" maxlength="255">

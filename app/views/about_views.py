@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 
 from ..forms import SendMessageForm
-from ..models import Post, SupportMessage
+from ..models import Post, SupportMessage, Book
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -14,7 +14,8 @@ def about(request):
     Returns the about project main page.
     """
     if request.method == 'GET':
-        return render(request, 'about.html', {'posts': Post.objects.all().order_by('-id')})
+        return render(request, 'about.html', {'posts': Post.objects.all().order_by('-id'),
+                                              'books_count': Book.objects.all().count()})
 
     else:
         return HttpResponse(status=404)

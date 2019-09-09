@@ -3,12 +3,12 @@
 from django.shortcuts import reverse
 from django.test import TestCase, Client
 
-from ...models import Post, SupportMessage
+from ...models import Post, SupportMessage, Book
 from ...views.about_views import about, send_message
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-class AboutViewsTest(TestCase):
+class AboutViewsTestCase(TestCase):
 
     # ------------------------------------------------------------------------------------------------------------------
     def setUp(self):
@@ -24,6 +24,7 @@ class AboutViewsTest(TestCase):
         response_get = self.client.get(reverse('about'))
         self.assertEqual(response_post.resolver_match.func, about)
         self.assertEqual(response_get.status_code, 200)
+        self.assertEqual(response_get.context['books_count'], Book.objects.all().count())
         self.assertEqual(response_get.context['posts'].count(), Post.objects.all().count())
         self.assertTemplateUsed(response_get, 'about.html')
 

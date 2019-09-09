@@ -17,7 +17,7 @@ TEST_DATA_DIR = os.path.join(TEST_DIR, '../fixtures')
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-class IndexViewsTest(TestCase):
+class IndexViewsTestCase(TestCase):
 
     # ------------------------------------------------------------------------------------------------------------------
     @classmethod
@@ -64,6 +64,16 @@ class IndexViewsTest(TestCase):
                 os.remove(book.book_file.path)
             if book.photo and os.path.exists(book.photo.path):
                 os.remove(book.photo.path)
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_index(self):
+        response = self.anonymous_client.get(reverse('index'))
+
+        self.assertEqual(response.resolver_match.func, index)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'index.html')
+        self.assertTrue('books_count' in response.context)
+        self.assertTrue(response.context['books_count'], Book.objects.all().count())
 
     # ------------------------------------------------------------------------------------------------------------------
     def test_index_get_not_logged_user(self):
@@ -469,7 +479,7 @@ class IndexViewsTest(TestCase):
 
     # ------------------------------------------------------------------------------------------------------------------
     @patch('app.views.index_views.restore_account', Mock())
-    def test_restore_data_not_existing_user(self):
+    def test_restore_data_existing_user(self):
         response = self.anonymous_client.post(reverse('restore_data'), {'email': 'index@user.com'})
         response_data = json.loads(response.content.decode('utf-8'))
 

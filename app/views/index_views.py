@@ -12,7 +12,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from ..forms import (LogInUsernameForm, LogInEmailForm, IsUserExistsForm, IsMailExistsForm,
                      SignInForm, ForgotPasswordForm)
-from ..models import AddedBook
+from ..models import AddedBook, Book
 from ..recommend import get_recommend
 from ..tasks import restore_account, successful_registration
 from ..utils import generate_password, validate_captcha
@@ -31,7 +31,7 @@ def index(request):
         if request.user.is_authenticated():
             return home(request)
         else:
-            return render(request, 'index.html')
+            return render(request, 'index.html', {'books_count': Book.objects.all().count()})
 
     elif request.method == 'POST':
         return user_login(request)

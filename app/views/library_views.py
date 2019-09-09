@@ -19,9 +19,11 @@ def all_categories(request):
     if request.method == "GET":
         categories = Category.objects.all().order_by('category_name')
         most_readable_books = Book.sort_by_readable(request.user, count=MOST_READ_BOOKS_COUNT)
+        books_count = Book.objects.all().count()
 
         return render(request, 'categories.html', {'categories': categories,
-                                                   'most_readable_books': most_readable_books[:9]})
+                                                   'most_readable_books': most_readable_books[:9],
+                                                   'books_count': books_count})
     else:
         return HttpResponse(status=404)
 

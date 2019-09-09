@@ -206,9 +206,9 @@ class Book(models.Model):
         """
         Returns the related objects of selected book
 
-        :param app.models.TheUser user: The request for selecting book.
-        :param int book_id:             The ID of selected book.
-        :param str user_key:            The key which is used to get user if it's an API call.
+        :param django.db.models.User user: The request for selecting book.
+        :param int book_id:                The ID of selected book.
+        :param str user_key:               The key which is used to get user if it's an API call.
 
         :return: Related objects.
         """
@@ -437,7 +437,7 @@ class AddedBook(models.Model):
         """
         Returns the list of books which user added in his home library
 
-        :param app.models.TheUser user: The user instance.
+        :param django.db.models.User user: The user instance.
 
         :return list[app.models.Book]:
         """

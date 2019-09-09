@@ -4,7 +4,7 @@
 {% block title %}Автор {{ author.author_name }} Книг В Онлайн Библиотеке {% endblock %}
 
 {% block description %}
-    <meta name="description" content="Заходите к нам, выбирайте и читайте большое количество классных книг в нашей библиотеке!">
+    <meta name="description" content="Заходите к нам, выбирайте и читайте большое количество классных книг в нашей библиотеке! У автора {{ author.author_name }} {{ books.count }} книг.">
 {% endblock %}
 
 {% block css %}
@@ -23,7 +23,10 @@
             <div class="col-sm-12 col-md-12 col-lg-12">
 
                 <!--Header part of main area-->
-                <h1 class="header-color"><strong>{{ author.author_name }}</strong></h1>
+                <h1 class="header-color">
+                    <strong>{{ author.author_name }}</strong>
+                    <label class="btn-xs book-count">Всего книг: {{ books.count }}</label>
+                </h1>
 
                 <!--Area with books list-->
                 <div class="col-sm-16 col-md-16 col-lg-16 books-area">
