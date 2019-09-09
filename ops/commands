@@ -21,7 +21,7 @@ service gunicorn restart
 #######################################################
 CELERY
 
-celery -A Plamber worker -l info --max-tasks-per-child 16 --max-memory-per-child 64
+celery -A Plamber worker -l info --max-tasks-per-child 16 --max-memory-per-child 64 -Q default,high_priority
 
 #######################################################
 Server harddrive usage:
