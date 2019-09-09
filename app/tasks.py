@@ -2,7 +2,6 @@
 
 import logging
 import time
-import requests
 
 from celery import shared_task
 from django.conf import settings
@@ -114,25 +113,16 @@ def email_dispatch(heading, text):
                 unsubscribe_token = '{}-{}'.format(recipient.id_user.username,
                                                    int(time.mktime(recipient.id_user.date_joined.timetuple())))
 
-                html_content = render_to_string(
-                    'mails/email_dispatch.html',
-                    {'text': text, 'token': unsubscribe_token, 'email_host_user': settings.EMAIL_HOST_USER}
-                )
+                html_content = render_to_string('mails/email_dispatch.html', {'text': text, 'token': unsubscribe_token})
+                text_content = strip_tags(html_content)
                 subject = '{} - plamber.com.ua'.format(heading)
 
-                resp = requests.post(
-                    settings.MAILGUN_DOMAIN,
-                    auth=('api', settings.MAILGUN_API_KEY),
-                    data={'from': settings.MAILGUN_FROM_MAIL,
-                          'to': [recipient.id_user.email],
-                          'subject': subject,
-                          'html': html_content}
-                )
+                email = EmailMultiAlternatives(subject, text_content, to=[recipient.id_user.email])
+                email.attach_alternative(html_content, 'text/html')
+                email.send()
 
                 logger.info('Successful processed "{}", sent to: "{}"'.format(number, recipient.id_user.username))
-                logger.info('Mailgun response {}'.format(resp.text))
-
-                time.sleep(60)
+                time.sleep(300)
 
             except NoReverseMatch:
                 logger.info('Unexpected username: "{}"'.format(recipient.id_user.username))
