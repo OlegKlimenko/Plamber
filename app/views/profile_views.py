@@ -9,6 +9,7 @@ from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import redirect, render, get_object_or_404
 
+from ..constants import Queues
 from ..forms import UploadAvatarForm, ChangePasswordForm
 from ..models import AddedBook, Book, TheUser
 from ..tasks import changed_password
@@ -95,8 +96,10 @@ def change_password(request):
                     request.user.save()
 
                     logger.info("User '{}' changed his password successfully.".format(request.user))
+                    changed_password.apply_async(
+                        args=(request.user.username, request.user.email), queue=Queues.high_priority
+                    )
 
-                    changed_password.delay(request.user.username, request.user.email)
                     return HttpResponse(json.dumps('Пароль успешно изменен!'), content_type='application/json')
 
                 else:

@@ -8,6 +8,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, render, reverse
 from django.utils.html import escape
 
+from ..constants import Queues
 from ..forms import GenerateAuthorsForm, AddBookForm, GenerateBooksForm
 from ..models import AddedBook, Author, Book, Category, Language
 from ..tasks import compress_pdf_task
@@ -95,10 +96,9 @@ def add_book_successful(request):
                 logger.info("User '{}' uploaded book with id: '{}' and name: '{}' on category: '{}'."
                             .format(rel_objects['user'], book.id, book.book_name, rel_objects['category']))
 
-                compress_pdf_task.delay(book.book_file.path, book.id)
+                compress_pdf_task.apply_async(args=(book.book_file.path, book.id), queue=Queues.default)
 
                 return HttpResponse(reverse('book', kwargs={'book_id': book.id}), status=200)
-
         else:
             return HttpResponse(status=404)
     else:

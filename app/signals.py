@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 
+from .constants import Queues
 from .models import TheUser, Post, Book
 from .tasks import email_dispatch
 
@@ -54,4 +55,4 @@ def dispatch_post_emails(sender, instance=None, created=False, **kwargs):
     Sends multiple emails with new project post data to subscribed users.
     """
     if created:
-        email_dispatch.delay(instance.heading, instance.text)
+        email_dispatch.apply_async(args=(instance.heading, instance.text), queue=Queues.default)
