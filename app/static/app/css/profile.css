@@ -80,7 +80,7 @@
     color: #9aa6ad;
 }
 
-#read-books-header {
+.read-books-header {
     color: #2e3438;
 }
 
@@ -96,7 +96,7 @@ table {
     font-family: 'Lucida Grande', Arial, sans-serif;
 }
 
-#book-list {
+.book-list {
     width: 96%;
 }
 

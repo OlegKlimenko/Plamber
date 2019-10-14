@@ -139,3 +139,52 @@
     background-color: #9aa6ad;
     border: solid 2px #9aa6ad;
 }
+
+.ribbon {
+  margin: 0;
+  padding: 0;
+  color:white;
+  padding-top: 5px;
+  position: absolute;
+  top:0;
+  right:0;
+  transform: translateX(30%) translateY(0%) rotate(45deg);
+  transform-origin: top left;
+  z-index: 1000;
+}
+
+.ribbon:before,
+.ribbon:after {
+  content: '';
+  position: absolute;
+  top:0;
+  margin: 0 -1px; /* tweak */
+  width: 300px;
+  height: 100%;
+}
+
+.ribbon:before {
+  right:100%;
+}
+
+.ribbon:after {
+  left:100%;
+}
+
+.ribbon-pdf {
+    background: red;
+}
+
+.ribbon-pdf:after,
+.ribbon-pdf:before {
+    background: red;
+}
+
+.ribbon-fb2 {
+    background: blue;
+}
+
+.ribbon-fb2:after,
+.ribbon-fb2:before {
+    background: blue;
+}

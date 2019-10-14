@@ -47,7 +47,8 @@ class ReadBookViewsTest(TestCase):
             id_category=cls.category,
             language=cls.language,
             book_file=SimpleUploadedFile('test_book.pdf', open(test_book_path, 'rb').read()),
-            who_added=cls.the_user
+            who_added=cls.the_user,
+            extension=Book.EXT_CHOICES[0][0]
         )
         cls.not_added_book = Book.objects.create(
             book_name='not_added_book',
@@ -55,7 +56,8 @@ class ReadBookViewsTest(TestCase):
             id_category=cls.category,
             language=cls.language,
             book_file=SimpleUploadedFile('test_book.pdf', open(test_book_path, 'rb').read()),
-            who_added=cls.the_user
+            who_added=cls.the_user,
+            extension=Book.EXT_CHOICES[0][0]
         )
 
     # ------------------------------------------------------------------------------------------------------------------

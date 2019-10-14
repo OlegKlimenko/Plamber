@@ -87,6 +87,10 @@
     margin-top: 10px;
 }
 
+.thumbnail {
+    overflow: hidden;
+}
+
 .thumbnail img{
     max-height: 100%;
     max-width: 100%;

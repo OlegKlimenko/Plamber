@@ -201,7 +201,8 @@ Success response status `200`. Response data example:
       "book_file": "/media/book_file/berezina_n_a_vyshaya_matematika_kl_aORmYFV.pdf",
       "who_added": "admin",
       "upload_date": "2017-08-10T11:06:55.383732",
-      "private_book": false
+      "private_book": false,
+      "extension": "FB2"
     },
     {
       "id": 12,
@@ -214,7 +215,8 @@ Success response status `200`. Response data example:
       "book_file": "/media/book_file/smert-bezbiletniku_YupcOlr.pdf",
       "who_added": "admin",
       "upload_date": "2017-08-10T09:49:17.289792",
-      "private_book": true
+      "private_book": true,
+      "extension": "PDF"
     }
   ]
 }
@@ -257,7 +259,8 @@ Success response status `200`. Response data example:
       "book_file": "/media/book_file/berezina_n_a_vyshaya_matematika_kl_aORmYFV.pdf",
       "who_added": "admin",
       "upload_date": "2017-08-10T11:06:55.383732",
-      "private_book": false
+      "private_book": false,
+      "extension": "FB2"
     },
     {
       "id": 10,
@@ -270,7 +273,8 @@ Success response status `200`. Response data example:
       "book_file": "/media/book_file/smert-bezbiletniku_YupcOlr.pdf",
       "who_added": "admin",
       "upload_date": "2017-08-10T09:49:17.289792",
-      "private_book": true
+      "private_book": true,
+      "extension": "PDF"
     }
   ]
 }
@@ -313,7 +317,8 @@ Success response status `200`. Response data example:
       "book_file": "/media/book_file/berezina_n_a_vyshaya_matematika_kl_aORmYFV.pdf",
       "who_added": "admin",
       "upload_date": "2017-08-10T11:06:55.383732",
-      "private_book": false
+      "private_book": false,
+      "extension": "PDF"
     },
     {
       "id": 12,
@@ -326,7 +331,8 @@ Success response status `200`. Response data example:
       "book_file": "/media/book_file/smert-bezbiletniku_YupcOlr.pdf",
       "who_added": "admin",
       "upload_date": "2017-08-10T09:49:17.289792",
-      "private_book": true
+      "private_book": true,
+      "extension": "PDF"
     }
   ]
 }
@@ -490,7 +496,8 @@ Success response status `200`. Response data example:
       "book_file": "/media/book_file/berezina_n_a_vyshaya_matematika_kl_aORmYFV.pdf",
       "who_added": "admin",
       "upload_date": "2017-08-10T11:06:55.383732",
-      "private_book": false
+      "private_book": false,
+      "extension": "FB2"
     },
     {
       "id": 10,
@@ -503,7 +510,8 @@ Success response status `200`. Response data example:
       "book_file": "/media/book_file/smert-bezbiletniku_YupcOlr.pdf",
       "who_added": "admin",
       "upload_date": "2017-08-10T09:49:17.289792",
-      "private_book": true
+      "private_book": true,
+      "extension": "PDF"
     }
   ]
 }
@@ -586,7 +594,8 @@ Success response status `200`. Response data example:
       "book_file": "/media/book_file/smert-bezbiletniku_YupcOlr.pdf",
       "who_added": "admin",
       "upload_date": "2017-08-10T09:49:17.289792",
-      "private_book": true
+      "private_book": true,
+      "extension": "PDF"
     }
   }
 }
@@ -674,7 +683,8 @@ Success response status `200`. Response data example:
         "book_file": "/media/book_file/Evgeniy_Leonidovich_Tverdohlebov_Idealizm_i_nacional-kommunizm_jvH0EXy.pdf",
         "who_added": "admin",
         "upload_date": "2017-08-10T10:08:58.435996",
-        "private_book": false
+        "private_book": false,
+        "extension": "PDF"
       },
       {
         "id": 10,
@@ -687,7 +697,8 @@ Success response status `200`. Response data example:
         "book_file": "/media/book_file/polnyj-ahtung-ili-velikaya-tajnaya-kniga-ni-o-chem-i-obo-vsem-srazu_RNLsjR3.pdf",
         "who_added": "admin",
         "upload_date": "2017-08-10T09:50:57.081944",
-        "private_book": false
+        "private_book": false,
+        "extension": "FB2"
       }
     ]
   }
@@ -739,7 +750,8 @@ Success response status `200`. Response data example:
         "book_file": "/media/book_file/Evgeniy_Leonidovich_Tverdohlebov_Idealizm_i_nacional-kommunizm_jvH0EXy.pdf",
         "who_added": "admin",
         "upload_date": "2017-08-10T10:08:58.435996",
-        "private_book": false
+        "private_book": false,
+        "extension": "PDF"
       },
       {
         "id": 10,
@@ -752,7 +764,8 @@ Success response status `200`. Response data example:
         "book_file": "/media/book_file/polnyj-ahtung-ili-velikaya-tajnaya-kniga-ni-o-chem-i-obo-vsem-srazu_RNLsjR3.pdf",
         "who_added": "admin",
         "upload_date": "2017-08-10T09:50:57.081944",
-        "private_book": false
+        "private_book": false,
+        "extension": "FB2"
       }
     ]
   }
@@ -826,7 +839,8 @@ Success response status `200`. Response data example:
       "book_file": "/media/book_file/smert-bezbiletniku_YupcOlr.pdf",
       "who_added": "admin",
       "upload_date": "2017-08-10T09:49:17.289792",
-      "private_book": false
+      "private_book": false,
+      "extension": "PDF"
     }
   }
 }

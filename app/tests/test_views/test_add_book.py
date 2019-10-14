@@ -54,7 +54,8 @@ class AddBookViewsTest(TestCase):
                 id_category=cls.category1,
                 language=cls.language_en,
                 book_file=SimpleUploadedFile('test_book.pdf', open(test_book_path, 'rb').read()),
-                who_added=cls.the_user
+                who_added=cls.the_user,
+                extension=Book.EXT_CHOICES[0][0]
             )
 
     # ------------------------------------------------------------------------------------------------------------------

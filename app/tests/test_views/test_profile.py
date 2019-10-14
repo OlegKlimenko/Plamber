@@ -67,7 +67,8 @@ class ProfileViewsTest(TestCase):
             id_category=cls.category,
             language=cls.language,
             book_file=SimpleUploadedFile('test_book.pdf', open(test_book_path, 'rb').read()),
-            who_added=cls.the_user1
+            who_added=cls.the_user1,
+            extension=Book.EXT_CHOICES[0][0]
         )
         cls.book2 = Book.objects.create(
             book_name='Profile_test_book_2',
@@ -75,7 +76,8 @@ class ProfileViewsTest(TestCase):
             id_category=cls.category,
             language=cls.language,
             book_file=SimpleUploadedFile('test_book.pdf', open(test_book_path, 'rb').read()),
-            who_added=cls.the_user2
+            who_added=cls.the_user2,
+            extension=Book.EXT_CHOICES[0][0]
         )
 
     # ------------------------------------------------------------------------------------------------------------------

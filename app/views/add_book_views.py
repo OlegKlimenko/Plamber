@@ -63,7 +63,6 @@ def generate_books(request):
             return HttpResponse(json.dumps(list_of_books), content_type='application/json')
         else:
             return HttpResponse(status=404)
-
     else:
         return HttpResponse(status=404)
 
@@ -80,25 +79,27 @@ def add_book_successful(request):
             with transaction.atomic():
                 rel_objects = Book.get_related_objects_for_create(request.user.id, book_form)
 
-                book = Book.objects.create(book_name=book_form.cleaned_data['bookname'],
-                                           id_author=rel_objects['author'],
-                                           id_category=rel_objects['category'],
-                                           description=book_form.cleaned_data['about'],
-                                           language=rel_objects['lang'],
-                                           book_file=book_form.cleaned_data['bookfile'],
-                                           who_added=rel_objects['user'],
-                                           private_book=book_form.cleaned_data['private'])
+                book = Book.objects.create(
+                    book_name=book_form.cleaned_data['bookname'],
+                    id_author=rel_objects['author'],
+                    id_category=rel_objects['category'],
+                    description=book_form.cleaned_data['about'],
+                    language=rel_objects['lang'],
+                    book_file=book_form.cleaned_data['bookfile'],
+                    who_added=rel_objects['user'],
+                    private_book=book_form.cleaned_data['private'],
+                    extension=book_form.extension.upper()
+                )
 
-                AddedBook.objects.create(id_user=rel_objects['user'],
-                                         id_book=book)
+                AddedBook.objects.create(id_user=rel_objects['user'], id_book=book)
 
                 logger.info("User '{}' uploaded book with id: '{}' and name: '{}' on category: '{}'."
                             .format(rel_objects['user'], book.id, book.book_name, rel_objects['category']))
 
-                compress_pdf_task.delay(book.book_file.path, book.id)
+                if book.extension.upper() == Book.EXT_CHOICES[0][0]:
+                    compress_pdf_task.delay(book.book_file.path, book.id)
 
                 return HttpResponse(reverse('book', kwargs={'book_id': book.id}), status=200)
-
         else:
             return HttpResponse(status=404)
     else:

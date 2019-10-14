@@ -32,11 +32,18 @@ function insertBooks(books) {
         var bookName = books[book]["name"];
         var author = books[book]["author"];
         var url = books[book]["url"];
+        var extension = books[book]["extension"]
 
-        $(".books-area").append("<a href='book/" + id + "/'><div class='col-sm-3 col-md-3 col-lg-2 col-xs-6'" +
-                                " align='left'><div class='thumbnail'><div class='img-wrapper'>" +
-                                "<img src='" + url + "' alt='" + bookName + "'><div class='book-info word-wrap'>" +
-                                "<strong>" + bookName + "</strong><br><i>" + author + "</i></div></div></div></div></a>");
+        element = "<a href='book/" + id + "/'><div class='col-sm-3 col-md-3 col-lg-2 col-xs-6'" +
+                  " align='left'><div class='thumbnail'><div class='img-wrapper'>"
+
+        if (extension == "PDF") element += '<div class="ribbon ribbon-pdf">' + extension + '</div>'
+        else if (extension == "FB2") element += '<div class="ribbon ribbon-fb2">' + extension + '</div>'
+
+        element += "<img src='" + url + "' alt='" + bookName + "'><div class='book-info word-wrap'>" +
+                   "<strong>" + bookName + "</strong><br><i>" + author + "</i></div></div></div></div></a>"
+
+        $(".books-area").append(element);
     }
 }
 

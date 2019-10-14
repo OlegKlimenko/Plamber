@@ -74,6 +74,8 @@ class ModelTest(TestCase):
         test_book_path = os.path.join(TEST_DATA_DIR, 'test_book.pdf')
         test_book_image_path = os.path.join(TEST_DATA_DIR, 'test_book_image.png')
 
+        self.possible_extensions = set(extension[0] for extension in Book.EXT_CHOICES)
+
         books_setup = [
             {
                 'name': 'First Book',
@@ -142,7 +144,8 @@ class ModelTest(TestCase):
                 book_file=book['file'],
                 photo=book.get('photo', False),
                 who_added=book['who_added'],
-                private_book=book.get('private', False)
+                private_book=book.get('private', False),
+                extension=Book.EXT_CHOICES[0][0]
             )
 
     # ------------------------------------------------------------------------------------------------------------------
@@ -308,6 +311,13 @@ class ModelTest(TestCase):
                                       id_author=self.author2,
                                       language=self.language_ru,
                                       who_added=self.the_user2).count(), 0)
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_created_books_have_valid_extension(self):
+        books = Book.objects.all()
+
+        for book in books:
+            self.assertIn(book.extension, self.possible_extensions)
 
     # ------------------------------------------------------------------------------------------------------------------
     def test_get_related_objects_for_create(self):
