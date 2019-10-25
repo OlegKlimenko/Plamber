@@ -67,6 +67,9 @@ def add_book_to_home(request):
         if book.private_book and book.who_added != user:
             return Response({}, status=404)
 
+        if book.blocked_book:
+            return Response({'detail': 'This book is blocked'}, status=400)
+
         if AddedBook.objects.filter(id_user=user, id_book=book).exists():
             return Response({}, status=404)
 

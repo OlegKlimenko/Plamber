@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from unittest.mock import Mock, patch
-
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.shortcuts import reverse
-from django.test import TestCase, Client
+from django.test import TestCase
 
 from rest_framework.test import APIClient
 

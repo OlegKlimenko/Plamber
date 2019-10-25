@@ -151,6 +151,7 @@ class Book(models.Model):
     who_added = models.ForeignKey(TheUser)
     upload_date = models.DateTimeField(auto_now=True)
     private_book = models.BooleanField(default=False)
+    blocked_book = models.BooleanField(default=False)
 
     # ------------------------------------------------------------------------------------------------------------------
     def __str__(self):
@@ -341,10 +342,13 @@ class Book(models.Model):
         :return list[dict[str, str]]: list of books with data.
         """
         books = [
-            {'id': item.id,
-             'name': item.book_name,
-             'author': item.id_author.author_name,
-             'url': item.photo.url if item.photo else ''} for item in filtered_books
+            {
+                'id': item.id,
+                'name': item.book_name,
+                'author': item.id_author.author_name,
+                'url': item.photo.url if item.photo else ''
+            }
+            for item in filtered_books
         ]
 
         return books

@@ -24,112 +24,120 @@ TEST_DATA_DIR = os.path.join(TEST_DIR, 'fixtures')
 class ModelTest(TestCase):
 
     # ------------------------------------------------------------------------------------------------------------------
-    def setUp(self):
-        self.setup_users()
-        self.setup_categories()
-        self.setup_authors()
-        self.setup_languages()
-        self.setup_books()
-        self.setup_added_books()
-        self.setup_book_rating()
-        self.setup_book_comment()
-        self.setup_post_messages()
-        self.setup_support_messages()
+    @classmethod
+    def setUpTestData(cls):
+        cls.setup_users()
+        cls.setup_categories()
+        cls.setup_authors()
+        cls.setup_languages()
+        cls.setup_books()
+        cls.setup_added_books()
+        cls.setup_book_rating()
+        cls.setup_book_comment()
+        cls.setup_post_messages()
+        cls.setup_support_messages()
 
     # ------------------------------------------------------------------------------------------------------------------
-    def setup_users(self):
+    @classmethod
+    def setup_users(cls):
         client = Client()
-        self.anonymous_user = auth.get_user(client)
+        cls.anonymous_user = auth.get_user(client)
 
-        self.user1 = User.objects.create_user('user1', 'user1@user1.com', 'testpassword1')
-        self.user2 = User.objects.create_user('user2', 'user2@user2.com', 'testpassword2')
-        self.user3 = User.objects.create_user('user3', 'user3@user3.com', 'testpassword3')
-        self.user4 = User.objects.create_user('user4', 'user4@user4.com', 'testpassword4')
-        self.user5 = User.objects.create_user('user5', 'user5@user5.com', 'testpassword5')
-        self.user6 = User.objects.create_user('user6', 'user6@user6.com', 'testpassword6')
+        cls.user1 = User.objects.create_user('user1', 'user1@user1.com', 'testpassword1')
+        cls.user2 = User.objects.create_user('user2', 'user2@user2.com', 'testpassword2')
+        cls.user3 = User.objects.create_user('user3', 'user3@user3.com', 'testpassword3')
+        cls.user4 = User.objects.create_user('user4', 'user4@user4.com', 'testpassword4')
+        cls.user5 = User.objects.create_user('user5', 'user5@user5.com', 'testpassword5')
+        cls.user6 = User.objects.create_user('user6', 'user6@user6.com', 'testpassword6')
 
-        self.the_user1 = TheUser.objects.get(id_user=self.user1)
-        self.the_user2 = TheUser.objects.get(id_user=self.user2)
-        self.the_user5 = TheUser.objects.get(id_user=self.user5)
-        self.the_user6 = TheUser.objects.get(id_user=self.user6)
-
-    # ------------------------------------------------------------------------------------------------------------------
-    def setup_categories(self):
-        self.category1 = Category.objects.create(category_name='category1')
-        self.category2 = Category.objects.create(category_name='category2')
+        cls.the_user1 = TheUser.objects.get(id_user=cls.user1)
+        cls.the_user2 = TheUser.objects.get(id_user=cls.user2)
+        cls.the_user5 = TheUser.objects.get(id_user=cls.user5)
+        cls.the_user6 = TheUser.objects.get(id_user=cls.user6)
 
     # ------------------------------------------------------------------------------------------------------------------
-    def setup_authors(self):
-        self.author1 = Author.objects.create(author_name='Best Author 1')
-        self.author2 = Author.objects.create(author_name='trueAuthorNew')
-        self.author3 = Author.objects.create(author_name='zlast author')
+    @classmethod
+    def setup_categories(cls):
+        cls.category1 = Category.objects.create(category_name='category1')
+        cls.category2 = Category.objects.create(category_name='category2')
 
     # ------------------------------------------------------------------------------------------------------------------
-    def setup_languages(self):
-        self.language_en = Language.objects.create(language='English')
-        self.language_ru = Language.objects.create(language='Russian')
+    @classmethod
+    def setup_authors(cls):
+        cls.author1 = Author.objects.create(author_name='Best Author 1')
+        cls.author2 = Author.objects.create(author_name='trueAuthorNew')
+        cls.author3 = Author.objects.create(author_name='zlast author')
 
     # ------------------------------------------------------------------------------------------------------------------
-    def setup_books(self):
+    @classmethod
+    def setup_languages(cls):
+        cls.language_en = Language.objects.create(language='English')
+        cls.language_ru = Language.objects.create(language='Russian')
+
+    # ------------------------------------------------------------------------------------------------------------------
+    @classmethod
+    def setup_books(cls):
         test_book_path = os.path.join(TEST_DATA_DIR, 'test_book.pdf')
         test_book_image_path = os.path.join(TEST_DATA_DIR, 'test_book_image.png')
 
         books_setup = [
             {
                 'name': 'First Book',
-                'author': self.author1,
-                'category': self.category1,
-                'language': self.language_en,
+                'author': cls.author1,
+                'category': cls.category1,
+                'language': cls.language_en,
                 'file': SimpleUploadedFile('test_book.pdf', open(test_book_path, 'rb').read()),
                 'photo': SimpleUploadedFile('test_book_image.png', open(test_book_image_path, 'rb').read()),
-                'who_added': self.the_user1,
+                'who_added': cls.the_user1,
                 'private': True
             },
             {
                 'name': 'Second Book',
-                'author': self.author2,
-                'category': self.category1,
-                'language': self.language_en,
+                'author': cls.author2,
+                'category': cls.category1,
+                'language': cls.language_en,
                 'file': SimpleUploadedFile('test_book.pdf', open(test_book_path, 'rb').read()),
-                'who_added': self.the_user2
+                'who_added': cls.the_user2,
+                'blocked_book': True
             },
             {
                 'name': 'Third Book',
-                'author': self.author2,
-                'category': self.category1,
-                'language': self.language_ru,
+                'author': cls.author2,
+                'category': cls.category1,
+                'language': cls.language_ru,
                 'file': SimpleUploadedFile('test_book.pdf', open(test_book_path, 'rb').read()),
                 'photo': SimpleUploadedFile('test_book_image.png', open(test_book_image_path, 'rb').read()),
-                'who_added': self.the_user1
+                'who_added': cls.the_user1,
+                'blocked_book': True
             },
             {
                 'name': 'Fourth Book',
-                'author': self.author1,
-                'category': self.category1,
-                'language': self.language_ru,
+                'author': cls.author1,
+                'category': cls.category1,
+                'language': cls.language_ru,
                 'file': SimpleUploadedFile('test_book.pdf', open(test_book_path, 'rb').read()),
                 'photo': SimpleUploadedFile('test_book_image.png', open(test_book_image_path, 'rb').read()),
-                'who_added': self.the_user2
+                'who_added': cls.the_user2,
+                'blocked_book': True
             },
             {
                 'name': 'Fifth Book',
-                'author': self.author1,
-                'category': self.category2,
-                'language': self.language_ru,
+                'author': cls.author1,
+                'category': cls.category2,
+                'language': cls.language_ru,
                 'file': SimpleUploadedFile('test_book.pdf', open(test_book_path, 'rb').read()),
-                'who_added': self.the_user1,
+                'who_added': cls.the_user1,
                 'private': True
             },
             {
                 'name': 'Sixth Book',
-                'author': self.author2,
-                'category': self.category2,
-                'language': self.language_en,
+                'author': cls.author2,
+                'category': cls.category2,
+                'language': cls.language_en,
                 'file': SimpleUploadedFile('test_book.pdf', open(test_book_path, 'rb').read()),
                 'photo': SimpleUploadedFile('test_book_image.png', open(test_book_image_path, 'rb').read()),
-                'who_added': self.the_user2
+                'who_added': cls.the_user2
             }
-
         ]
 
         for book in books_setup:
@@ -142,49 +150,55 @@ class ModelTest(TestCase):
                 book_file=book['file'],
                 photo=book.get('photo', False),
                 who_added=book['who_added'],
-                private_book=book.get('private', False)
+                private_book=book.get('private', False),
+                blocked_book=book.get('blocked_book', False)
             )
 
     # ------------------------------------------------------------------------------------------------------------------
-    def setup_added_books(self):
-        AddedBook.objects.create(id_user=self.the_user1, id_book=Book.objects.get(book_name='Third Book'))
-        AddedBook.objects.create(id_user=self.the_user1, id_book=Book.objects.get(book_name='Sixth Book'))
-        AddedBook.objects.create(id_user=self.the_user1, id_book=Book.objects.get(book_name='Fourth Book'))
-        AddedBook.objects.create(id_user=self.the_user2, id_book=Book.objects.get(book_name='Third Book'))
-        AddedBook.objects.create(id_user=self.the_user2, id_book=Book.objects.get(book_name='Sixth Book'))
-        AddedBook.objects.create(id_user=self.the_user2, id_book=Book.objects.get(book_name='Second Book'))
-        AddedBook.objects.create(id_user=self.the_user5, id_book=Book.objects.get(book_name='Sixth Book'))
-        AddedBook.objects.create(id_user=self.the_user6, id_book=Book.objects.get(book_name='Sixth Book'))
+    @classmethod
+    def setup_added_books(cls):
+        AddedBook.objects.create(id_user=cls.the_user1, id_book=Book.objects.get(book_name='Third Book'))
+        AddedBook.objects.create(id_user=cls.the_user1, id_book=Book.objects.get(book_name='Sixth Book'))
+        AddedBook.objects.create(id_user=cls.the_user1, id_book=Book.objects.get(book_name='Fourth Book'))
+        AddedBook.objects.create(id_user=cls.the_user2, id_book=Book.objects.get(book_name='Third Book'))
+        AddedBook.objects.create(id_user=cls.the_user2, id_book=Book.objects.get(book_name='Sixth Book'))
+        AddedBook.objects.create(id_user=cls.the_user2, id_book=Book.objects.get(book_name='Second Book'))
+        AddedBook.objects.create(id_user=cls.the_user5, id_book=Book.objects.get(book_name='Sixth Book'))
+        AddedBook.objects.create(id_user=cls.the_user6, id_book=Book.objects.get(book_name='Sixth Book'))
 
     # ------------------------------------------------------------------------------------------------------------------
-    def setup_book_rating(self):
-        BookRating.objects.create(id_book=Book.objects.get(book_name='Third Book'), id_user=self.the_user1, rating=10)
-        BookRating.objects.create(id_book=Book.objects.get(book_name='Third Book'), id_user=self.the_user2, rating=5)
-        BookRating.objects.create(id_book=Book.objects.get(book_name='Third Book'), id_user=self.the_user5, rating=3)
-        BookRating.objects.create(id_book=Book.objects.get(book_name='Fourth Book'), id_user=self.the_user1, rating=7)
-        BookRating.objects.create(id_book=Book.objects.get(book_name='Sixth Book'), id_user=self.the_user1, rating=4)
-        BookRating.objects.create(id_book=Book.objects.get(book_name='Second Book'), id_user=self.the_user2, rating=7)
+    @classmethod
+    def setup_book_rating(cls):
+        BookRating.objects.create(id_book=Book.objects.get(book_name='Third Book'), id_user=cls.the_user1, rating=10)
+        BookRating.objects.create(id_book=Book.objects.get(book_name='Third Book'), id_user=cls.the_user2, rating=5)
+        BookRating.objects.create(id_book=Book.objects.get(book_name='Third Book'), id_user=cls.the_user5, rating=3)
+        BookRating.objects.create(id_book=Book.objects.get(book_name='Fourth Book'), id_user=cls.the_user1, rating=7)
+        BookRating.objects.create(id_book=Book.objects.get(book_name='Sixth Book'), id_user=cls.the_user1, rating=4)
+        BookRating.objects.create(id_book=Book.objects.get(book_name='Second Book'), id_user=cls.the_user2, rating=7)
 
     # ------------------------------------------------------------------------------------------------------------------
-    def setup_book_comment(self):
+    @classmethod
+    def setup_book_comment(cls):
         second_book = Book.objects.get(book_name='Second Book')
         third_book = Book.objects.get(book_name='Third Book')
         fourth_book = Book.objects.get(book_name='Fourth Book')
 
-        BookComment.objects.create(id_book=second_book, id_user=self.the_user1, text='Test book 2 user 1')
-        BookComment.objects.create(id_book=second_book, id_user=self.the_user2, text='Test book 2 user 2')
-        BookComment.objects.create(id_book=third_book, id_user=self.the_user1, text='Test book 3 user 1')
-        BookComment.objects.create(id_book=fourth_book, id_user=self.the_user1, text='Test book 4 user 1')
-        BookComment.objects.create(id_book=fourth_book, id_user=self.the_user5, text='Test book 4 user 5')
+        BookComment.objects.create(id_book=second_book, id_user=cls.the_user1, text='Test book 2 user 1')
+        BookComment.objects.create(id_book=second_book, id_user=cls.the_user2, text='Test book 2 user 2')
+        BookComment.objects.create(id_book=third_book, id_user=cls.the_user1, text='Test book 3 user 1')
+        BookComment.objects.create(id_book=fourth_book, id_user=cls.the_user1, text='Test book 4 user 1')
+        BookComment.objects.create(id_book=fourth_book, id_user=cls.the_user5, text='Test book 4 user 5')
 
     # ------------------------------------------------------------------------------------------------------------------
-    def setup_post_messages(self):
-        Post.objects.create(user=self.the_user1, heading='post 1', text='Posted test text 1')
-        Post.objects.create(user=self.the_user1, heading='post 2', text='Posted test text 2')
-        Post.objects.create(user=self.the_user2, heading='post 3', text='Posted test text 3')
+    @classmethod
+    def setup_post_messages(cls):
+        Post.objects.create(user=cls.the_user1, heading='post 1', text='Posted test text 1')
+        Post.objects.create(user=cls.the_user1, heading='post 2', text='Posted test text 2')
+        Post.objects.create(user=cls.the_user2, heading='post 3', text='Posted test text 3')
 
     # ------------------------------------------------------------------------------------------------------------------
-    def setup_support_messages(self):
+    @classmethod
+    def setup_support_messages(cls):
         SupportMessage.objects.create(email='testemail1@mail.co', text='Test text1')
         SupportMessage.objects.create(email='testemail1@mail.co', text='Test text2')
         SupportMessage.objects.create(email='test_email22@mail.co', text='Test text3')
@@ -308,6 +322,7 @@ class ModelTest(TestCase):
                                       id_author=self.author2,
                                       language=self.language_ru,
                                       who_added=self.the_user2).count(), 0)
+        self.assertEqual(books.filter(blocked_book=True).count(), 3)
 
     # ------------------------------------------------------------------------------------------------------------------
     def test_get_related_objects_for_create(self):

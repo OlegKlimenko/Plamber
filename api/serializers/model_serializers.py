@@ -18,6 +18,7 @@ class BookSerializer(serializers.Serializer):
     who_added = serializers.ReadOnlyField(source='who_added.id_user.username')
     upload_date = serializers.DateTimeField()
     private_book = serializers.BooleanField()
+    blocked_book = serializers.BooleanField()
 
 
 # ----------------------------------------------------------------------------------------------------------------------

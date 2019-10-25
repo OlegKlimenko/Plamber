@@ -49,7 +49,17 @@ class LanguageAdmin(admin.ModelAdmin):
 
 # ----------------------------------------------------------------------------------------------------------------------
 class BookAdmin(admin.ModelAdmin):
-    list_display = ('id', 'book_name', 'author', 'category', 'language', 'private_book', 'who_added', 'upload_date')
+    list_display = (
+        'id',
+        'book_name',
+        'author',
+        'category',
+        'language',
+        'private_book',
+        'blocked_book',
+        'who_added',
+        'upload_date'
+    )
 
     # ------------------------------------------------------------------------------------------------------------------
     @staticmethod
