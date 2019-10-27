@@ -7,6 +7,10 @@
     <meta name="description" content="Книга: {{ book.book_name }}, Автор: {{ book.id_author }}, Рейтинг книги: {{ book_rating|floatformat }} - Добавляйте и читайте удобно на всех устройствах.">
 {% endblock %}
 
+{% block keywords %}
+    <meta name="keywords" content="Читать {{ book.book_name }} онлайн, Книга {{ book.book_name }} pdf, Чтение {{ book.book_name }} книги автора {{ book.id_author }}, Книга {{ book.book_name }} бесплатно онлайн">
+{% endblock %}
+
 {% block css %}
     <link rel="stylesheet" href="{% static 'app/css/selected_book.css' %}">
 {% endblock %}

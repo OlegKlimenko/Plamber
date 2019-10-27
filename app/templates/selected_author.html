@@ -7,6 +7,10 @@
     <meta name="description" content="Заходите к нам, выбирайте и читайте большое количество классных книг в нашей библиотеке!">
 {% endblock %}
 
+{% block keywords %}
+    <meta name="keywords" content="Читать {{ author.author_name }} онлайн, Читать книги автора {{ author.author_name }}, Чтение {{ author.author_name }} бесплатно, Книги автора {{ author.author_name }} pdf">
+{% endblock %}
+
 {% block css %}
     <link rel="stylesheet" href="{% static 'app/css/selected_category.css' %}">
 {% endblock %}
