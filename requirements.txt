@@ -1,4 +1,4 @@
-Django==1.10.4
+Django==1.11.23
 mysql-connector-python-rf
 pypdf2==1.26.0
 celery==4.0.2
