@@ -232,8 +232,9 @@ function getNextPage(currentPage, bookId) {
 function generateNextPageHTML(response) {
     for (var elem in response["comments"]) {
         if (response["comments"].hasOwnProperty(elem)) {
+            var user_photo = response["comments"][elem]['user_photo'];
 
-            var imageSrc = response["comments"][elem]['user_photo'];
+            var imageSrc = user_photo ? user_photo : "/static/app/images/user.png";
             var username = response["comments"][elem]['username'];
             var postedDate = response["comments"][elem]['posted_date'];
             var text = response["comments"][elem]['text'];
