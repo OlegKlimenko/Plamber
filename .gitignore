@@ -2,9 +2,10 @@
 .coverage
 app/migrations
 *__pycache__*
-media
 *.log
 Plamber/settings.json
 Plamber/additional/sitemap.xml
 celerybeat-schedule
 venv
+media
+static

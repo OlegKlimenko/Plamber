@@ -50,8 +50,9 @@ urlpatterns = [
     # Library urls.
     url(r'library', library_views.all_categories, name='categories'),
     url(r'^category/(?P<category_id>\d+)/$', library_views.selected_category, name='category'),
-    url(r'sort', library_views.sort),
-    url(r'search-book', library_views.find_books),
+    url(r'^category/(?P<category_id>\d+)/load-books/$', library_views.load_books, name='load_books'),
+    url(r'sort', library_views.sort, name='book_sort'),
+    url(r'search-book', library_views.find_books, name='search_book_app'),
     url(r'^author/(?P<author_id>\d+)/$', library_views.selected_author, name='author'),
 
     # Profile urls.

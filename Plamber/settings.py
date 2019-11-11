@@ -203,3 +203,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 ADMIN_URL = settings['ADMIN_URL']
+
+# Additional app settings
+
+BOOKS_PER_PAGE = 48

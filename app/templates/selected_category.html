@@ -29,25 +29,25 @@
                 <!--Header part of main area-->
                 <h1 class="header-color">
                     <strong>{{ category.category_name }}</strong>
-                    <label class="btn-xs book-count">Всего книг: {{ books.count }}</label>
+                    <label class="btn-xs book-count">Всего книг: {{ total_books_count }}</label>
                 </h1>
                 {% if books %}
                     <input id="search-input" class="input input-colors margin" placeholder="Поиск книг..."
                        title="Вводите любую информацию: название книги, автора..." oninput="returnState({{ category.id }})" maxlength="255">
-                    <a id="search-button" class="btn" onclick="searchBooks({{ category.id }})">Искать</a>
+                    <a id="search-button" class="btn" onclick="sortAreaHide(); clearBooksArea(); searchBooks({{ category.id }}, 1)">Искать</a>
 
                     <!--Sort part of main area-->
-                    <div class="sort-area align-left">
-                        <span id="sort-header">Фильтровать по</span>
+                    <div class="sort-area">
+                        <span id="sort-header">Фильтровать все книги по</span>
                         <div class="sort-buttons">
-                            <button class="btn selected-button-color margin"
-                                    onclick="sort({{ category_number }}, 'book_name'); changeBtnColor(this);">Алфавиту</button>
+                            <button class="btn selected-button-color margin" id="default-sort-btn"
+                                    onclick="clearBooksArea(); sort({{ category.id }}, 'book_name', 1); changeBtnColor(this);">Алфавиту</button>
                             <button class="btn button-color margin"
-                                    onclick="sort({{ category_number }}, 'author'); changeBtnColor(this);">Автору</button>
+                                    onclick="clearBooksArea(); sort({{ category.id }}, 'author', 1); changeBtnColor(this);">Автору</button>
                             <button class="btn button-color margin"
-                                    onclick="sort({{ category_number }}, 'estimation'); changeBtnColor(this);">Оценкам</button>
+                                    onclick="clearBooksArea(); sort({{ category.id }}, 'estimation', 1); changeBtnColor(this);">Оценкам</button>
                             <button class="btn button-color margin"
-                                    onclick="sort({{ category_number }}, 'most_readable'); changeBtnColor(this);">Самым читаемым</button>
+                                    onclick="clearBooksArea(); sort({{ category.id }}, 'most_readable', 1); changeBtnColor(this);">Самым читаемым</button>
                         </div>
                     </div>
                 {% endif %}
@@ -56,7 +56,6 @@
 
                 <!--Area with books list-->
                 <div class="col-sm-16 col-md-16 col-lg-16 books-area">
-
                     {% if books %}
                         {% for book in books %}
                             <a href="{% url 'book' book.id %}">
@@ -74,6 +73,11 @@
                                 </div>
                             </a>
                         {% endfor %}
+                        {% if has_next %}
+                            <div id="load-books-area" class="align-center col-sm-12 col-md-12 col-lg-12">
+                                <button class="btn load-books" onclick="loadNextBooks({{ category.id }}, 2)">Загрузить еще</button>
+                            </div>
+                        {% endif %}
                     {% else %}
                         <h3 class="paragraph">В этой категории пока нет книг =((</h3>
                         <h3 class="paragraph">
