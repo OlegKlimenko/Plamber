@@ -346,7 +346,8 @@ class Book(models.Model):
                 'id': item.id,
                 'name': item.book_name,
                 'author': item.id_author.author_name,
-                'url': item.photo.url if item.photo else ''
+                'url': item.photo.url if item.photo else '',
+                'upload_date': item.upload_date.strftime('%d-%m-%Y')
             }
             for item in filtered_books
         ]

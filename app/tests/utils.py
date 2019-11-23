@@ -10,7 +10,10 @@ class Utils:
     # ------------------------------------------------------------------------------------------------------------------
     @staticmethod
     def generate_sort_dict(book):
-        return {'id': book.id,
-                'name': book.book_name,
-                'author': book.id_author.author_name,
-                'url': book.photo.url if book.photo else ''}
+        return {
+            'id': book.id,
+            'name': book.book_name,
+            'author': book.id_author.author_name,
+            'url': book.photo.url if book.photo else '',
+            'upload_date': book.upload_date.strftime('%d-%m-%Y')
+        }

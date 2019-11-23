@@ -57,6 +57,7 @@ urlpatterns = [
 
     # Profile urls.
     url(r'profile/(?P<profile_id>\d+)/$', profile_views.profile, name='profile'),
+    url(r'profile/(?P<profile_id>\d+)/load-books/$', profile_views.load_uploaded_books, name='load_uploaded_books_app'),
     url(r'upload-avatar', profile_views.upload_avatar, name='upload_avatar'),
     url(r'change-password', profile_views.change_password, name='change_password'),
 

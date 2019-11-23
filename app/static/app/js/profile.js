@@ -201,6 +201,67 @@ function hidePasswords(src) {
 
 // ---------------------------------------------------------------------------------------------------------------------
 /**
+ * Inserts books after ajax request.
+ *
+ * @param {Object<Object>} books The list of books.
+ */
+function insertBooks(books) {
+    for (var book = 0; book < books.length; book++) {
+        var bookName = books[book]["name"];
+        var author = books[book]["author"];
+        var url = books[book]["url"];
+        var uploadDate = books[book]["upload_date"];
+
+        $("#uploaded-book-list").append(
+            "<tr>" +
+            "<td class='word-wrap'><a href='" + url + "' class='reference'>" + bookName +"</a></td>" +
+            "<td class='word-wrap'><a href='" + url + "' class='reference'>" + author +"</a></td>" +
+            "<td class='word-wrap'><a href='" + url + "' class='reference'>" + uploadDate +"</a></td>" +
+            "</tr>"
+        );
+    }
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+/**
+ * Loads the books with paging.
+ *
+ * @param {number} profileId   The user profile identifier.
+ * @param {number} currentPage The current page to output identifier.
+ */
+function loadNextBooks(profileId, currentPage) {
+    $.ajax({
+        url: "/profile/" + profileId + "/load-books/",
+        type: "GET",
+        data: {'page': currentPage},
+
+        success: function result(response) {
+            removeNextBookBtn();
+            insertBooks(response['books']);
+
+            if (response['has_next']) {
+                addNextBookBtn(response['profile_id'], response['next_page']);
+            }
+        }
+    });
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+function addNextBookBtn(profile_id, page) {
+    $('#uploaded-books-area').append(
+        '<div id="load-books-area" class="align-center col-sm-12 col-md-12 col-lg-12 margin-top">' +
+        '<button class="btn load-books" ' +
+        'onclick="loadNextBooks(' + profile_id + ',' + page + ')">Загрузить еще</button></div>'
+    )
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+function removeNextBookBtn() {
+    $('#load-books-area').remove();
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+/**
  * Specifies the input button, when file is selected.
  */
 $(document).ready(function() {

@@ -10,6 +10,7 @@ from django.test import TestCase, Client, override_settings
 
 from ...models import Author, Book, AddedBook, Category, Language, TheUser, BookRating
 from ...views.library_views import all_categories, selected_category, selected_author, sort, find_books, load_books
+from ..utils import Utils
 
 TEST_DIR = os.path.dirname(os.path.abspath(__file__))
 TEST_DATA_DIR = os.path.join(TEST_DIR, '../fixtures')
@@ -371,18 +372,8 @@ class LibraryViewsTestCase(TestCase):
         response_data = json.loads(response.content.decode('utf-8'))
         expected_response = {
             'books': [
-                {
-                    'id': self.book1.id,
-                    'name': self.book1.book_name,
-                    'author': self.book1.id_author.author_name,
-                    'url': ''
-                },
-                {
-                    'id': self.book2.id,
-                    'name': self.book2.book_name,
-                    'author': self.book2.id_author.author_name,
-                    'url': ''
-                }
+                Utils.generate_sort_dict(self.book1),
+                Utils.generate_sort_dict(self.book2)
             ],
             'has_next': True,
             'next_page': 2
@@ -403,12 +394,7 @@ class LibraryViewsTestCase(TestCase):
 
         expected_response = {
             'books': [
-                {
-                    'id': self.book3.id,
-                    'name': self.book3.book_name,
-                    'author': self.book3.id_author.author_name,
-                    'url': ''
-                }
+                Utils.generate_sort_dict(self.book3)
             ],
             'has_next': False,
             'next_page': 2
@@ -457,12 +443,7 @@ class LibraryViewsTestCase(TestCase):
         response_data = json.loads(response.content.decode('utf-8'))
 
         expected_books = [
-            {
-                'id': self.book3.id,
-                'name': self.book3.book_name,
-                'author': self.book3.id_author.author_name,
-                'url': ''
-            }
+            Utils.generate_sort_dict(self.book3)
         ]
 
         self.assertEqual(response.resolver_match.func, load_books)
@@ -475,5 +456,3 @@ class LibraryViewsTestCase(TestCase):
         self.assertEqual(list(response_data['books']), expected_books)
         self.assertEqual(response_data['has_next'], False)
         self.assertEqual(response_data['next_page'], 2)
-
-

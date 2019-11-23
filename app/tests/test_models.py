@@ -595,7 +595,7 @@ class ModelTest(TestCase):
 
         self.assertTrue(isinstance(Book.generate_books(books), list))
         self.assertEqual(len(Book.generate_books(books)), 6)
-        self.assertEqual(len(Book.generate_books(books)[0].keys()), 4)
+        self.assertEqual(len(Book.generate_books(books)[0].keys()), 5)
         self.assertEqual(Book.generate_books(books)[0], Utils.generate_sort_dict(books[0]))
 
     # ------------------------------------------------------------------------------------------------------------------

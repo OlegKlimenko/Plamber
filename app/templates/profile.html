@@ -74,10 +74,13 @@
                 <!--Reading book list area-->
                 <div class="col-sm-12 col-md-12 col-lg-12">
                     <hr class="hr">
-                    <h2 id="read-books-header">Читаемые книги</h2>
+                    <h2 id="read-books-header">
+                        Читаемые книги
+                        <label class="btn-xs book-count">Всего книг: {{ added_books.count }}</label>
+                    </h2>
                     <hr class="hr">
                     {% if added_books %}
-                        <table id="book-list" class="margin">
+                        <table class="margin book-list">
                             <colgroup>
                                 <col width="43%">
                                 <col width="43%">
@@ -122,11 +125,13 @@
 
                 <!--Added book list area-->
                 {% if uploaded_books %}
-                    <div class="col-sm-12 col-md-12 col-lg-12">
+                    <div id="uploaded-books-area" class="col-sm-12 col-md-12 col-lg-12">
                         <hr class="hr">
-                        <h2 id="read-books-header">Загруженные книги</h2>
+                        <h2 id="read-books-header">
+                            Загруженные книги <label class="btn-xs book-count">Всего книг: {{ uploaded_books_count }}</label>
+                        </h2>
                         <hr class="hr">
-                        <table id="book-list" class="margin">
+                        <table id="uploaded-book-list" class="margin book-list">
                             <colgroup>
                                 <col width="43%">
                                 <col width="43%">
@@ -157,6 +162,11 @@
                                 {% endfor %}
                             </tbody>
                         </table>
+                        {% if has_next %}
+                            <div id="load-books-area" class="align-center col-sm-12 col-md-12 col-lg-12 margin-top">
+                                <button class="btn load-books" onclick="loadNextBooks({{ profile_user.id }}, 2)">Загрузить еще</button>
+                            </div>
+                        {% endif %}
                     </div>
                 {% endif %}
             </div>
