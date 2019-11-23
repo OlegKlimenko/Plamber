@@ -118,13 +118,20 @@ class LoadCommentsForm(forms.Form):
 
 # ----------------------------------------------------------------------------------------------------------------------
 class SortForm(forms.Form):
-    category = forms.IntegerField()
+    category = forms.IntegerField(required=False)
     criterion = forms.CharField(max_length=30)
+    page = forms.IntegerField(validators=[MinValueValidator(1)])
 
 
 # ----------------------------------------------------------------------------------------------------------------------
 class SearchBookForm(forms.Form):
     data = forms.CharField(max_length=255)
+    page = forms.IntegerField(validators=[MinValueValidator(1)])
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+class BookPagingForm(forms.Form):
+    page = forms.IntegerField(validators=[MinValueValidator(1)])
 
 
 # ----------------------------------------------------------------------------------------------------------------------

@@ -1,4 +1,3 @@
-// ---------------------------------------------------------------------------------------------------------------------
 /**
  * Displays the loading spinner
  */
@@ -21,7 +20,6 @@ function loadHide() {
  * @param {Object<Object>} books The list of books.
  */
 function insertBooks(books) {
-    $(".books-area").empty();
 
     if (!books.length) {
         $(".books-area").append("<h4>По вашему запросу книг не найдено :(</h4>")
@@ -44,9 +42,9 @@ function insertBooks(books) {
 /**
  * Sends ajax request for search books depending in entered data in the input.
  *
- * @param {number} searchCategory The number of a category.
+ * @param {number} pageNum        The current page number.
  */
-function searchBooks(searchCategory) {
+function searchBooks(pageNum) {
     var searchData = $("#search-input").val();
 
     if (searchData) {
@@ -54,22 +52,57 @@ function searchBooks(searchCategory) {
         $.ajax({
             url: "search-book",
             type: "GET",
-            data: {data: searchData,
-                   category: searchCategory},
+            data: {
+                data: searchData,
+                page: pageNum
+            },
 
-            success: function result(books) {
+            success: function result(response) {
                 if ($("#search-input").val()) {
-                    insertBooks(books);
-                    $('#categories').css('display', 'none');
+                    removeNextBookBtn();
+                    insertBooks(response['books']);
+
+                    if (response['has_next']) {
+                        addNextBookBtn(response['next_page']);
+                    }
                 }
                 loadHide();
             }
         });
     }
     else {
-        $('#categories').css('display', 'block');
-        $('.books-area').empty();
+        showCategories();
+        clearBooksArea();
     }
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+function clearBooksArea() {
+    $(".books-area").empty();
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+function addNextBookBtn(page) {
+    $('.books-area').append(
+        '<div id="load-books-area" class="align-center col-sm-12 col-md-12 col-lg-12">' +
+        '<button class="btn load-books" ' +
+        'onclick="searchBooks(' + page + ')">Загрузить еще</button></div>'
+    )
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+function removeNextBookBtn() {
+    $('#load-books-area').remove();
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+function showCategories() {
+    $('#categories').css('display', 'block');
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+function hideCategories() {
+    $('#categories').css('display', 'none');
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -80,7 +113,7 @@ function returnState() {
     var searchData = $('#search-input').val();
 
     if (!searchData) {
-        $('#categories').css('display', 'block');
-        $('.books-area').empty();
+        showCategories();
+        clearBooksArea();
     }
 }

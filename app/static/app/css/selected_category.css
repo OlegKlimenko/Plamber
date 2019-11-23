@@ -127,6 +127,12 @@
     opacity: 0.9;
 }
 
+.book-count {
+    background-color: #9aa6ad;
+    border: solid 2px #9aa6ad;
+    color: #fff;
+}
+
 .paragraph {
     font: 14pt 'Lucida Grande', Arial, sans-serif;
 }
@@ -141,4 +147,21 @@
     margin-left: -32px;
     position: fixed;
     z-index: 9999;
+}
+
+.align-center {
+    text-align: center;
+}
+
+.load-books {
+    background-color: #31a445;
+    border: solid 2px #31a445;
+    color: #fff;
+    width: 200px
+}
+
+.load-books:hover {
+    background-color: Transparent;
+    border: solid 2px #31a445;
+    color: #31a445;
 }

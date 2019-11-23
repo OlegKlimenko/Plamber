@@ -89,14 +89,28 @@
                                     <div class="word-wrap add-book-text">Сейчас книга в списке читаемых вами.</div>
                                 </div>
                             {% else %}
-                                <div id="add-book-div">
-                                    <button class="btn" id="add-book" onclick="addBookHome()">Начать читать</button>
-                                </div>
+                                {% if book.blocked_book %}
+                                    <button class="btn" id="add-book-blocked"
+                                            title="Эта книга была заблокирована администратором Plamber. Если вы считаете что здесь ошибка, напишите нам!">Книга заблокирована
+                                    </button>
+                                {% else %}
+                                    <div id="add-book-div">
+                                        <button class="btn" id="add-book" onclick="addBookHome()">Начать читать</button>
+                                    </div>
+                                {% endif %}
                             {% endif %}
                         {% else %}
-                            <div id="add-book-div">
-                                <a href="{% url 'index' %}"><button class="btn" id="add-book">Начать читать</button></a>
-                            </div>
+                            {% if book.blocked_book %}
+                                <div id="add-book-div">
+                                    <button class="btn" id="add-book-blocked"
+                                            title="Эта книга была заблокирована администратором Plamber. Если вы считаете что здесь ошибка, напишите нам!">Книга заблокирована
+                                    </button>
+                                </div>
+                            {% else %}
+                                <div id="add-book-div">
+                                    <a href="{% url 'index' %}"><button class="btn" id="add-book">Начать читать</button></a>
+                                </div>
+                            {% endif %}
                         {% endif %}
                     </div>
                 </div>

@@ -124,6 +124,19 @@
     color: #31a445;
 }
 
+#add-book-blocked {
+    background-color: red;
+    border: solid 2px red;
+    color: #fff;
+    width: 100%
+}
+
+#add-book-blocked:hover {
+    background-color: Transparent;
+    border: solid 2px red;
+    color: red;
+}
+
 .add-book-text {
     color: #2e3438;
     font-family: 'Lucida Grande', Arial, sans-serif;

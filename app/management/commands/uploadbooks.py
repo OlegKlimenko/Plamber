@@ -8,6 +8,8 @@ from django.db import transaction
 
 from .helpers.categories_mapper import mapper
 from ...models import Book, Author, Category, Language, TheUser
+
+from app.constants import Queues
 from app.tasks import compress_pdf_task
 from app.utils import resize_image
 
@@ -67,7 +69,7 @@ class Command(BaseCommand):
 
                         book.save()
 
-                        compress_pdf_task.delay(book.book_file.path, book.id)
+                        compress_pdf_task.apply_async(args=(book.book_file.path, book.id), queue=Queues.default)
 
                         print('Book with ID: "{}" name: "{}" uploaded successfully!'.format(
                             book.id, book.book_name))

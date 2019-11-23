@@ -4,7 +4,7 @@
 {% block title %}Категории Книг В Онлайн Библиотеке{% endblock %}
 
 {% block description %}
-    <meta name="description" content="Выбирайте книги на Plamber в различных категориях из более чем 10000 книг.">
+    <meta name="description" content="Выбирайте книги на Plamber в различных категориях. У нас {{ books_count }} книг.">
 {% endblock %}
 
 {% block keywords %}
@@ -29,10 +29,13 @@
     <div id="main" class="container container-margin footer-margin">
         <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-12">
-                <h1 class="header-color"><strong>Категории</strong></h1>
+                <h1 class="header-color">
+                    <strong>Категории</strong>
+                    <label class="btn-xs book-count">Всего книг: {{ books_count }}</label>
+                </h1>
                 <input id="search-input" class="input input-colors margin" placeholder="Поиск книг..."
                        title="Вводите любую информацию: название книги, автора..." oninput="returnState()" maxlength="255">
-                <a id="search-button" class="btn" onclick="searchBooks({{ category.id }})">Искать</a>
+                <a id="search-button" class="btn" onclick="clearBooksArea(); hideCategories(); searchBooks(1)">Искать</a>
 
                 <!--Books-->
                 <div class="col-sm-16 col-md-16 col-lg-16 books-area"></div>

@@ -1,0 +1,35 @@
+#######################################################
+NGINX
+
+service nginx restart
+
+sudo nginx -t
+
+/etc/nginx/sites-available/Plamber
+/etc/nginx/nginx.conf
+/var/log/nginx/access.log
+/var/log/nginx/error.log
+
+#######################################################
+GUNICORN
+
+service gunicorn restart
+
+/etc/init/gunicorn.conf
+/var/log/upstart/gunicorn.log
+
+#######################################################
+CELERY
+
+celery -A Plamber worker -l info --max-tasks-per-child 16 --max-memory-per-child 64 -Q default,high_priority
+
+#######################################################
+Server harddrive usage:
+df -m / df -h
+
+
+#######################################################
+sudo service mysql start
+sudo service redis-server start
+
+CREATE DATABASE proj_schema CHARACTER SET utf8 COLLATE utf8_general_ci;

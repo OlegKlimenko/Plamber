@@ -25,7 +25,10 @@ def successful_registration(username, recipient):
     :param str username:   The restored username.
     :param str recipient:  The mail recipient.
     """
-    html_content = render_to_string('mails/registration_success.html', {'username': username})
+    html_content = render_to_string(
+        'mails/registration_success.html',
+        {'username': username, 'email_host_user': settings.EMAIL_HOST_USER}
+    )
     subject = 'Успешная регистрация - plamber.com.ua'
     text_content = strip_tags(html_content)
 
@@ -69,8 +72,10 @@ def changed_password(username, recipient):
     :param str username:   The restored username.
     :param str recipient:  The mail recipient.
     """
-    html_content = render_to_string('mails/password_changed.html',
-                                    {'username': username, 'email_host_user': settings.EMAIL_HOST_USER})
+    html_content = render_to_string(
+        'mails/password_changed.html',
+        {'username': username, 'email_host_user': settings.EMAIL_HOST_USER}
+    )
     text_content = strip_tags(html_content)
     subject = 'Изменение пароля аккаунта - plamber.com.ua'
 
@@ -113,7 +118,10 @@ def email_dispatch(heading, text):
                 unsubscribe_token = '{}-{}'.format(recipient.id_user.username,
                                                    int(time.mktime(recipient.id_user.date_joined.timetuple())))
 
-                html_content = render_to_string('mails/email_dispatch.html', {'text': text, 'token': unsubscribe_token})
+                html_content = render_to_string(
+                    'mails/email_dispatch.html',
+                    {'text': text, 'token': unsubscribe_token, 'email_host_user': settings.EMAIL_HOST_USER}
+                )
                 text_content = strip_tags(html_content)
                 subject = '{} - plamber.com.ua'.format(heading)
 

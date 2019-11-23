@@ -1,0 +1,34 @@
+{
+  "SECRET_KEY": "",
+  "API_SECRET_KEY": "",
+  "DEBUG": true,
+  "CSRF_COOKIE_SECURE": false,
+  "SESSION_COOKIE_SECURE": false,
+  "DATABASE": {
+    "NAME": "",
+    "USER": "",
+    "PASSWORD": "",
+    "HOST": "localhost"
+  },
+  "ALLOWED_HOSTS": ["*"],
+  "EMAIL": {
+    "HOST": "",
+    "PORT": "" ,
+    "USER": "",
+    "PASSWORD": ""
+  },
+  "MAILGUN": {
+    "DOMAIN": "",
+    "API_KEY": "",
+    "FROM": ""
+  },
+  "CELERY": {
+    "BROKER_URL": "redis://localhost:6379",
+    "RESULT_BACKEND": "redis://localhost:6379",
+    "ACCEPT_CONTENT": ["application/json"],
+    "TASK_SERIALIZER": "json",
+    "RESULT_SERIALIZER": "json"
+  },
+  "GOOGLE_RECAPTCHA_SECRET_KEY": "",
+  "ADMIN_URL": ""
+}

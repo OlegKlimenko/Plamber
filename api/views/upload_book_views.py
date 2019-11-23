@@ -17,6 +17,8 @@ from ..serializers.request_serializers import (UploadBookRequest,
                                                GenerateBooksRequest,
                                                GenerateLanguagesRequest)
 from ..utils import invalid_data_response, validate_api_secret_key
+
+from app.constants import Queues
 from app.models import Author, AddedBook, Book, TheUser, Language
 from app.tasks import compress_pdf_task
 
@@ -53,7 +55,7 @@ def upload_book(request):
             logger.info("User '{}' uploaded book with id: '{}' and name: '{}' on category: '{}'."
                         .format(user, book.id, book.book_name, rel_objects['category']))
 
-            compress_pdf_task.delay(book.book_file.path, book.id)
+            compress_pdf_task.apply_async(args=(book.book_file.path, book.id), queue=Queues.default)
 
             return Response({'detail': 'successful',
                              'data': {'book': BookSerializer(book).data}},

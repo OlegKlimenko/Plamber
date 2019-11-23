@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 
 import json
+from django.conf import settings
+from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.utils.html import escape
 
-from ..forms import SortForm, SearchBookForm
+from ..forms import SortForm, SearchBookForm, BookPagingForm
 from ..models import Category, Book, Author
 
 MOST_READ_BOOKS_COUNT = 9
@@ -19,9 +21,11 @@ def all_categories(request):
     if request.method == "GET":
         categories = Category.objects.all().order_by('category_name')
         most_readable_books = Book.sort_by_readable(request.user, count=MOST_READ_BOOKS_COUNT)
+        books_count = Book.objects.all().count()
 
         return render(request, 'categories.html', {'categories': categories,
-                                                   'most_readable_books': most_readable_books[:9]})
+                                                   'most_readable_books': most_readable_books[:9],
+                                                   'books_count': books_count})
     else:
         return HttpResponse(status=404)
 
@@ -34,10 +38,17 @@ def selected_category(request, category_id):
     if request.method == 'GET':
         category = get_object_or_404(Category, id=category_id)
         books = Book.objects.filter(id_category=category).order_by('book_name')
-
         filtered_books = Book.exclude_private_books(request.user, books)
 
-        context = {'category': category, 'books': filtered_books, 'category_number': category_id}
+        paginator = Paginator(filtered_books, settings.BOOKS_PER_PAGE)
+        page = paginator.page(1)
+
+        context = {
+            'category': category,
+            'books': page.object_list,
+            'total_books_count': books.count(),
+            'has_next': page.has_next()
+        }
         return render(request, 'selected_category.html', context)
 
     else:
@@ -87,7 +98,20 @@ def sort(request):
                 book['name'] = escape(book['name'])
                 book['author'] = escape(book['author'])
 
-            return HttpResponse(json.dumps(books), content_type='application/json')
+            paginator = Paginator(books, settings.BOOKS_PER_PAGE)
+            page = paginator.page(sort_form.cleaned_data['page'])
+
+            context = {
+                'category': category.id,
+                'criterion': sort_form.cleaned_data['criterion'],
+                'books': page.object_list,
+                'has_next': page.has_next(),
+                'next_page': page.next_page_number() if page.has_next() else paginator.num_pages
+            }
+
+            return HttpResponse(json.dumps(context), content_type='application/json')
+        else:
+            return HttpResponse(status=400)
     else:
         return HttpResponse(status=404)
 
@@ -103,14 +127,58 @@ def find_books(request):
 
         if search_book_form.is_valid():
             search_data = search_book_form.cleaned_data['data']
-
             filtered_books = Book.exclude_private_books(request.user, Book.fetch_books(search_data))
-            books = Book.generate_books(filtered_books)
 
+            paginator = Paginator(filtered_books, settings.BOOKS_PER_PAGE)
+            page = paginator.page(search_book_form.cleaned_data['page'])
+
+            books = Book.generate_books(page.object_list)
             for book in books:
                 book['name'] = escape(book['name'])
                 book['author'] = escape(book['author'])
 
-            return HttpResponse(json.dumps(books), content_type='application/json')
+            response = {
+                'books': books,
+                'has_next': page.has_next(),
+                'next_page': page.next_page_number() if page.has_next() else paginator.num_pages
+            }
+            return HttpResponse(json.dumps(response), content_type='application/json')
+        else:
+            return HttpResponse(status=400)
+    else:
+        return HttpResponse(status=404)
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+def load_books(request, category_id):
+    """
+    Ajax request handler for outputting books page by page.
+    """
+    if request.is_ajax():
+        form = BookPagingForm(request.GET)
+
+        if form.is_valid():
+            category = get_object_or_404(Category, id=category_id)
+            books = Book.objects.filter(id_category=category).order_by('book_name')
+            filtered_books = Book.exclude_private_books(request.user, books)
+
+            paginator = Paginator(filtered_books, settings.BOOKS_PER_PAGE)
+            page = paginator.page(form.cleaned_data['page'])
+
+            books = Book.generate_books(page.object_list)
+            for book in books:
+                book['name'] = escape(book['name'])
+                book['author'] = escape(book['author'])
+
+            response = {
+                'category_id': category_id,
+                'books': books,
+                'has_next': page.has_next(),
+                'next_page': page.next_page_number() if page.has_next() else paginator.num_pages
+            }
+            return HttpResponse(json.dumps(response), content_type='application/json')
+
+        else:
+            return HttpResponse(status=400)
     else:
         return HttpResponse(status=404)

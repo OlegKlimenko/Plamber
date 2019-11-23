@@ -45,8 +45,9 @@ def selected_book(request, book_id):
     if rel_objects['book'].private_book and rel_objects['book'].who_added != user:
         return HttpResponse(status=404)
 
-    recommend_books = get_recommend(request.user, AddedBook.get_user_added_books(request.user),
-                                    RANDOM_BOOKS_COUNT, [book_id])
+    recommend_books = get_recommend(
+        request.user, AddedBook.get_user_added_books(request.user), RANDOM_BOOKS_COUNT, [book_id]
+    )
     book_rating = rel_objects['avg_book_rating']['rating__avg']
     book_rating_count = rel_objects['book_rating_count']
 
@@ -54,19 +55,21 @@ def selected_book(request, book_id):
     comments_paginator = Paginator(comments, COMMENTS_PER_PAGE)
     page = comments_paginator.page(COMMENTS_START_PAGE)
 
-    context = {'book': rel_objects['book'],
-               'added_book': rel_objects['added_book'],
-               'added_book_count': AddedBook.get_count_added(book_id),
-               'comments': page.object_list,
-               'comments_page': COMMENTS_START_PAGE,
-               'comments_has_next_page': page.has_next(),
-               'book_rating': book_rating if book_rating else '-',
-               'book_rating_count': '({})'.format(book_rating_count) if book_rating_count else '',
-               'estimation_count': range(1, 11),
-               'user': user,
-               'recommend_books': recommend_books,
-               'user_rated': user_rated[0] if user_rated else None,
-               'report_form': ReportForm()}
+    context = {
+        'book': rel_objects['book'],
+        'added_book': rel_objects['added_book'],
+        'added_book_count': AddedBook.get_count_added(book_id),
+        'comments': page.object_list,
+        'comments_page': COMMENTS_START_PAGE,
+        'comments_has_next_page': page.has_next(),
+        'book_rating': book_rating if book_rating else '-',
+        'book_rating_count': '({})'.format(book_rating_count) if book_rating_count else '',
+        'estimation_count': range(1, 11),
+        'user': user,
+        'recommend_books': recommend_books,
+        'user_rated': user_rated[0] if user_rated else None,
+        'report_form': ReportForm()
+    }
 
     return render(request, 'selected_book.html', context)
 
@@ -112,6 +115,9 @@ def add_book_to_home(request):
             if book.private_book and book.who_added != user:
                 return HttpResponse(status=404)
 
+            if book.blocked_book:
+                return HttpResponse(status=400)
+
             if AddedBook.objects.filter(id_user=user, id_book=book).exists():
                 return HttpResponse(status=404)
 
@@ -134,11 +140,14 @@ def remove_book_from_home(request):
         book_form = BookHomeForm(request.POST)
 
         if book_form.is_valid():
-            AddedBook.objects.get(id_user=TheUser.objects.get(id_user=request.user),
-                                  id_book=Book.objects.get(id=book_form.cleaned_data['book'])).delete()
+            book = Book.objects.get(id=book_form.cleaned_data['book'])
 
+            AddedBook.objects.get(id_user=TheUser.objects.get(id_user=request.user), id_book=book).delete()
             logger.info("User '{}' removed book with id: '{}' from his own library."
                         .format(request.user, book_form.cleaned_data['book']))
+
+            if book.blocked_book:
+                return HttpResponse(json.dumps(False), content_type='application/json')
 
             return HttpResponse(json.dumps(True), content_type='application/json')
     else:
@@ -257,7 +266,6 @@ def report_book(request):
                 email=request.user.email,
                 text=form.cleaned_data['text']
             )
-
             return HttpResponse(status=200)
 
         else:

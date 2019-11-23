@@ -15,6 +15,8 @@ from rest_framework.response import Response
 from ..serializers.model_serializers import ProfileSerializer
 from ..serializers.request_serializers import ProfileRequest, ChangePasswordRequest, UploadAvatarRequest
 from ..utils import invalid_data_response, validate_api_secret_key
+
+from app.constants import Queues
 from app.models import TheUser
 from app.tasks import changed_password
 from app.utils import resize_image
@@ -62,12 +64,13 @@ def change_password(request):
 
                 logger.info("User '{}' changed his password successfully.".format(the_user.id_user))
 
-                changed_password.delay(the_user.id_user.username, the_user.id_user.email)
+                changed_password.apply_async(
+                    args=(the_user.id_user.username, the_user.id_user.email), queue=Queues.high_priority
+                )
 
                 return Response({'detail': 'successful',
                                  'data': {}},
                                 status=status.HTTP_200_OK)
-
             else:
                 return Response({'detail': 'old password didn\'t match',
                                  'data': {}},

@@ -11,6 +11,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
+from app.constants import Queues
 from app.models import TheUser
 from app.tasks import restore_account, successful_registration
 from app.utils import generate_password
@@ -88,7 +89,9 @@ def restore_data(request):
                 user.set_password(temp_password)
                 user.save()
 
-                restore_account.delay(user.username, temp_password, request.data.get('email'))
+                restore_account.apply_async(
+                    args=(user.username, temp_password, request.data.get('email')), queue=Queues.high_priority
+                )
 
                 logger.info("The password for user: '{}' restored successfully.".format(user))
 
@@ -173,10 +176,12 @@ def sign_in(request):
                                             password=request.data.get('passw1'))
             user_token = TheUser.objects.get(id_user=user).auth_token
 
-            logger.info("Created user with name: '{}' mail: '{}' and id: '{}'".format(user.username, user.email, user.id))
+            logger.info(
+                "Created user with name: '{}' mail: '{}' and id: '{}'".format(user.username, user.email, user.id)
+            )
             login(request, user)
 
-            successful_registration.delay(user.username, user.email)
+            successful_registration.apply_async(args=(user.username, user.email), queue=Queues.default)
 
             return Response({'detail': 'successful',
                              'data': {'token': user_token}},

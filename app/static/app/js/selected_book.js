@@ -100,6 +100,16 @@ function addBookHome() {
 
         success: function result(json) {
             window.location.replace('/read-book/' + json['book_id'] + '/');
+        },
+
+        error: function result(json) {
+            $("#add-book-div").remove();
+            $("#btn-area").append(
+                '<button class="btn" id="add-book-blocked" ' +
+                'title="Эта книга была заблокирована администратором Plamber. ' +
+                'Если вы считаете что здесь ошибка, напишите нам!">Книга заблокирована' +
+                '</button>'
+            );
         }
     });
 }
@@ -116,10 +126,23 @@ function removeBookHome() {
                csrfmiddlewaretoken: getCookie("csrftoken")},
 
         success: function result(json) {
+            data = JSON.parse(json);
             $("#remove-book-div").remove();
-            $("#btn-area").append("<div id='add-book-div'><button class='btn' " +
-                                  "id='add-book'>Начать читать</button></div>");
-            $("#add-book").attr("onClick", "addBookHome()");
+
+            if (data === true) {
+                $("#btn-area").append(
+                    "<div id='add-book-div'><button class='btn' id='add-book'>Начать читать</button></div>"
+                );
+                $("#add-book").attr("onClick", "addBookHome()");
+            }
+            else {
+                $("#btn-area").append(
+                    '<button class="btn" id="add-book-blocked" ' +
+                    'title="Эта книга была заблокирована администратором Plamber. ' +
+                    'Если вы считаете что здесь ошибка, напишите нам!">Книга заблокирована' +
+                    '</button>'
+                );
+            }
         }
     });
 }

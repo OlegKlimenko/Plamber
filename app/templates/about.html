@@ -4,7 +4,7 @@
 {% block title %}О проекте Plamber{% endblock %}
 
 {% block description %}
-    <meta name="description" content="Plamber - онлайн библиотека и система для чтения книг в различных форматах. Удобно читать с телефона, планшета и компьютера.">
+    <meta name="description" content="Plamber - онлайн библиотека и система для чтения книг в различных форматах. Удобно читать с телефона, планшета и компьютера. У нас {{ books_count }} книг.">
 {% endblock %}
 
 {% block keywords %}
@@ -142,7 +142,8 @@
                     </div>
                     <div class="col-sm-8 col-md-8 col-lg-8 align-left">
                         <h3 class="feature-head">Хранилище книг</h3>
-                        <p class="paragraph">Большое хранилище книг с удобными функциями поиска и сортировки</p>
+                        <p class="paragraph">Большое хранилище книг с удобными функциями поиска и сортировки
+                        (<strong>{{ books_count }} книг</strong>)</p>
                     </div>
                 </div>
             </div>

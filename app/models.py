@@ -151,6 +151,7 @@ class Book(models.Model):
     who_added = models.ForeignKey(TheUser)
     upload_date = models.DateTimeField(auto_now=True)
     private_book = models.BooleanField(default=False)
+    blocked_book = models.BooleanField(default=False)
 
     # ------------------------------------------------------------------------------------------------------------------
     def __str__(self):
@@ -206,9 +207,9 @@ class Book(models.Model):
         """
         Returns the related objects of selected book
 
-        :param app.models.TheUser user: The request for selecting book.
-        :param int book_id:             The ID of selected book.
-        :param str user_key:            The key which is used to get user if it's an API call.
+        :param django.db.models.User user: The request for selecting book.
+        :param int book_id:                The ID of selected book.
+        :param str user_key:               The key which is used to get user if it's an API call.
 
         :return: Related objects.
         """
@@ -341,10 +342,14 @@ class Book(models.Model):
         :return list[dict[str, str]]: list of books with data.
         """
         books = [
-            {'id': item.id,
-             'name': item.book_name,
-             'author': item.id_author.author_name,
-             'url': item.photo.url if item.photo else ''} for item in filtered_books
+            {
+                'id': item.id,
+                'name': item.book_name,
+                'author': item.id_author.author_name,
+                'url': item.photo.url if item.photo else '',
+                'upload_date': item.upload_date.strftime('%d-%m-%Y')
+            }
+            for item in filtered_books
         ]
 
         return books
@@ -437,7 +442,7 @@ class AddedBook(models.Model):
         """
         Returns the list of books which user added in his home library
 
-        :param app.models.TheUser user: The user instance.
+        :param django.db.models.User user: The user instance.
 
         :return list[app.models.Book]:
         """

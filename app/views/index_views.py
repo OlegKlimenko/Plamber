@@ -10,9 +10,10 @@ from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 
+from ..constants import Queues
 from ..forms import (LogInUsernameForm, LogInEmailForm, IsUserExistsForm, IsMailExistsForm,
                      SignInForm, ForgotPasswordForm)
-from ..models import AddedBook
+from ..models import AddedBook, Book
 from ..recommend import get_recommend
 from ..tasks import restore_account, successful_registration
 from ..utils import generate_password, validate_captcha
@@ -31,7 +32,7 @@ def index(request):
         if request.user.is_authenticated():
             return home(request)
         else:
-            return render(request, 'index.html')
+            return render(request, 'index.html', {'books_count': Book.objects.all().count()})
 
     elif request.method == 'POST':
         return user_login(request)
@@ -144,7 +145,7 @@ def sign_in(request):
                                 .format(user.username, user.email, user.id))
                     login(request, user)
 
-                    successful_registration.delay(user.username, user.email)
+                    successful_registration.apply_async(args=(user.username, user.email), queue=Queues.default)
 
             return redirect('/')
         return HttpResponse(status=400)
@@ -167,8 +168,9 @@ def restore_data(request):
                 user.set_password(temp_password)
                 user.save()
 
-                restore_account.delay(user.username, temp_password, forgot_form.cleaned_data['email'])
-
+                restore_account.apply_async(
+                    args=(user.username, temp_password, forgot_form.cleaned_data['email']), queue=Queues.high_priority
+                )
                 logger.info("The password for user: '{}' restored successfully.".format(user))
 
                 return HttpResponse(json.dumps(True), content_type='application/json')

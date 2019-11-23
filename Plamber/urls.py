@@ -40,7 +40,7 @@ urlpatterns = [
     # Selected book urls.
     url(r'book/(?P<book_id>\d+)/$', selected_book_views.selected_book, name='book'),
     url(r'store-book-image', selected_book_views.store_image, name='store_image'),
-    url(r'home-add-book', selected_book_views.add_book_to_home),
+    url(r'home-add-book', selected_book_views.add_book_to_home, name='add_book_home_app'),
     url(r'home-remove-book', selected_book_views.remove_book_from_home),
     url(r'change-rating', selected_book_views.change_rating),
     url(r'comment-add', selected_book_views.add_comment),
@@ -50,12 +50,14 @@ urlpatterns = [
     # Library urls.
     url(r'library', library_views.all_categories, name='categories'),
     url(r'^category/(?P<category_id>\d+)/$', library_views.selected_category, name='category'),
-    url(r'sort', library_views.sort),
-    url(r'search-book', library_views.find_books),
+    url(r'^category/(?P<category_id>\d+)/load-books/$', library_views.load_books, name='load_books'),
+    url(r'sort', library_views.sort, name='book_sort'),
+    url(r'search-book', library_views.find_books, name='search_book_app'),
     url(r'^author/(?P<author_id>\d+)/$', library_views.selected_author, name='author'),
 
     # Profile urls.
     url(r'profile/(?P<profile_id>\d+)/$', profile_views.profile, name='profile'),
+    url(r'profile/(?P<profile_id>\d+)/load-books/$', profile_views.load_uploaded_books, name='load_uploaded_books_app'),
     url(r'upload-avatar', profile_views.upload_avatar, name='upload_avatar'),
     url(r'change-password', profile_views.change_password, name='change_password'),
 

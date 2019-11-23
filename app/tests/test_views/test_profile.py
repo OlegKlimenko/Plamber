@@ -7,15 +7,16 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.shortcuts import reverse
-from django.test import TestCase, Client
+from django.test import TestCase, Client, override_settings
 
 from ...models import Book, TheUser, Category, Language, Author, AddedBook
-from ...views.profile_views import profile, upload_avatar, change_password
+from ...views.profile_views import profile, upload_avatar, change_password, load_uploaded_books
+from ..utils import Utils
 
 TEST_DIR = os.path.dirname(os.path.abspath(__file__))
 TEST_DATA_DIR = os.path.join(TEST_DIR, '../fixtures')
 
-
+@override_settings(BOOKS_PER_PAGE=2)
 # ----------------------------------------------------------------------------------------------------------------------
 class ProfileViewsTest(TestCase):
 
@@ -26,8 +27,10 @@ class ProfileViewsTest(TestCase):
 
         cls.user1 = User.objects.create_user(username='profile_user1', email='profile_user1@user.com', password='Dummy')
         cls.user2 = User.objects.create_user(username='profile_user2', email='profile_user2@user.com', password='Dummy')
+        cls.user3 = User.objects.create_user(username='profile_user3', email='profile_user3@user.com', password='Dummy')
         cls.the_user1 = TheUser.objects.get(id_user=cls.user1)
         cls.the_user2 = TheUser.objects.get(id_user=cls.user2)
+        cls.the_user3 = TheUser.objects.get(id_user=cls.user3)
 
         cls.category = Category.objects.create(category_name='Category_name')
         cls.language = Language.objects.create(language='English')
@@ -77,6 +80,22 @@ class ProfileViewsTest(TestCase):
             book_file=SimpleUploadedFile('test_book.pdf', open(test_book_path, 'rb').read()),
             who_added=cls.the_user2
         )
+        cls.book3 = Book.objects.create(
+            book_name='Profile_test_book_3',
+            id_author=cls.author,
+            id_category=cls.category,
+            language=cls.language,
+            book_file=SimpleUploadedFile('test_book.pdf', open(test_book_path, 'rb').read()),
+            who_added=cls.the_user1
+        )
+        cls.book4 = Book.objects.create(
+            book_name='Profile_test_book_4',
+            id_author=cls.author,
+            id_category=cls.category,
+            language=cls.language,
+            book_file=SimpleUploadedFile('test_book.pdf', open(test_book_path, 'rb').read()),
+            who_added=cls.the_user1
+        )
 
     # ------------------------------------------------------------------------------------------------------------------
     def test_profile_not_get_method(self):
@@ -111,8 +130,11 @@ class ProfileViewsTest(TestCase):
         self.assertEqual(len(response.context['added_books']), 2)
         self.assertEqual(response.context['added_books'][0].id_book, self.book1)
         self.assertEqual(response.context['added_books'][1].id_book, self.book2)
-        self.assertEqual(len(response.context['uploaded_books']), 1)
-        self.assertEqual(response.context['uploaded_books'][0], self.book1)
+        self.assertEqual(len(response.context['uploaded_books']), 2)
+        self.assertEqual(response.context['uploaded_books_count'], 3)
+        self.assertEqual(response.context['uploaded_books'][0], self.book4)
+        self.assertEqual(response.context['uploaded_books'][1], self.book3)
+        self.assertTrue(response.context['has_next'])
         self.assertTrue(isinstance(response.context['img_random'], int))
         self.assertTrue(1000 >= response.context['img_random'] >= 0)
 
@@ -127,9 +149,71 @@ class ProfileViewsTest(TestCase):
         self.assertEqual(response.context['profile_user'], self.the_user2)
         self.assertEqual(len(response.context['added_books']), 0)
         self.assertEqual(len(response.context['uploaded_books']), 1)
+        self.assertEqual(response.context['uploaded_books_count'], 1)
         self.assertEqual(response.context['uploaded_books'][0], self.book2)
+        self.assertFalse(response.context['has_next'])
         self.assertTrue(isinstance(response.context['img_random'], int))
         self.assertTrue(1000 >= response.context['img_random'] >= 0)
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_load_uploaded_books_no_page_param(self):
+        response = self.logged_client.get(
+            reverse('load_uploaded_books_app', kwargs={'profile_id': self.the_user1.id}),
+            {},
+            HTTP_X_REQUESTED_WITH=self.xhr
+        )
+        self.assertEqual(response.resolver_match.func, load_uploaded_books)
+        self.assertEqual(response.status_code, 400)
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_load_uploaded_books_type_post(self):
+        response = self.logged_client.post(
+            reverse('load_uploaded_books_app', kwargs={'profile_id': self.the_user1.id}),
+            {},
+            HTTP_X_REQUESTED_WITH=self.xhr
+        )
+        self.assertEqual(response.resolver_match.func, load_uploaded_books)
+        self.assertEqual(response.status_code, 404)
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_load_uploaded_books_success(self):
+        response = self.logged_client.get(
+            reverse('load_uploaded_books_app', kwargs={'profile_id': self.the_user1.id}),
+            {'page': 2},
+            HTTP_X_REQUESTED_WITH=self.xhr
+        )
+        response_data = json.loads(response.content.decode('utf-8'))
+
+        expected_response = {
+            'profile_id': str(self.the_user1.id),
+            'books': [
+                Utils.generate_sort_dict(self.book1)
+            ],
+            'has_next': False,
+            'next_page': 2
+        }
+        self.assertEqual(response.resolver_match.func, load_uploaded_books)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response_data, expected_response)
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_load_uploaded_books_success_zero_books(self):
+        response = self.logged_client.get(
+            reverse('load_uploaded_books_app', kwargs={'profile_id': self.the_user3.id}),
+            {'page': 1},
+            HTTP_X_REQUESTED_WITH=self.xhr
+        )
+        response_data = json.loads(response.content.decode('utf-8'))
+
+        expected_response = {
+            'profile_id': str(self.the_user3.id),
+            'books': [],
+            'has_next': False,
+            'next_page': 1
+        }
+        self.assertEqual(response.resolver_match.func, load_uploaded_books)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response_data, expected_response)
 
     # ------------------------------------------------------------------------------------------------------------------
     def test_change_avatar_not_ajax(self):
