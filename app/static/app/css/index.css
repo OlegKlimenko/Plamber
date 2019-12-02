@@ -1,7 +1,3 @@
-.container-margin {
-    margin-top: 50px;
-}
-
 .align-right {
     text-align: right;
 }
@@ -84,10 +80,25 @@
     display: none;
 }
 
-.footer-margin {
-    margin-bottom: 40px;
-}
-
 #no-captcha {
     display: none;
+}
+
+#about-subpage {
+    padding-top: 30px;
+    padding-bottom: 40px;
+    background: rgba(255, 255, 255, 0.8);
+}
+
+#read-book {
+    background-color: #ff8f0c;
+    border: solid 2px #ff8f0c;
+    color: #fff;
+    width: 312px;
+}
+
+#read-book:hover {
+    background-color: Transparent;
+    border: solid 2px #ff8f0c;
+    color: #ff8f0c;
 }

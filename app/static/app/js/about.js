@@ -46,8 +46,10 @@ function errorHandler(jqXHR, errorThrown) {
 
     if (jqXHR.status === 0) {
         msg = 'Не удалось соединиться с сервером...\nПроверьте подключение к интернету.';
-    } else if (jqXHR.status == 500) {
-        msg = 'Вы ввели некорректный email.\nВведите снова и попробуйте еще раз';
+    } else if (jqXHR.status === 400) {
+        msg = 'Вы ввели некорректный email.\nВведите снова и попробуйте еще раз.'
+    } else if (jqXHR.status === 500) {
+        msg = 'Произошла внутренняя ошибка сервера. Попробуйте еще раз или свяжитесь с нами.';
     }
 
     showToast(msg);

@@ -3,7 +3,6 @@
  * Displays sub page for log in.
  */
 function logInPageShow() {
-    fitLogin();
     $("#log-in-sub-page").css("display", "block");
     $("#main").css("display", "none");
 }
@@ -13,7 +12,6 @@ function logInPageShow() {
  * Hides sub page for log in.
  */
 function logInPageHide() {
-    fitMain();
     $("#log-in-sub-page").css("display", "none");
     $("#main").css("display", "block");
 }
@@ -23,7 +21,6 @@ function logInPageHide() {
  * Displays sub page for registration new user.
  */
 function registerPageShow() {
-    fitRegister();
     $("#register-sub-page").css("display", "block");
     $("#main").css("display", "none");
 }
@@ -33,7 +30,6 @@ function registerPageShow() {
  * Hides sub page for registration new user.
  */
 function registerPageHide() {
-    fitMain();
     $("#register-sub-page").css("display", "none");
     $("#main").css("display", "block");
 }
@@ -44,7 +40,6 @@ function registerPageHide() {
  */
 function forgotPageShow() {
     $("#forgot-status").text("");
-    fitForgot();
     $("#forgot-sub-page").css("display", "block");
     $("#log-in-sub-page").css("display", "none");
 }
@@ -54,7 +49,6 @@ function forgotPageShow() {
  * Hides sub page for forgotten password.
  */
 function forgotPageHide() {
-    fitForgot();
     $("#forgot-sub-page").css("display", "none");
     $("#log-in-sub-page").css("display", "block");
 }
@@ -196,8 +190,10 @@ function sendMail() {
         },
 
         error: function(response) {
-            if (response.status == 404) {
+            if (response.status === 404) {
                 $("#forgot-status").text("Такого Email не обнаружено. Перепроверьте данные.");
+            } else if (response.status === 400) {
+                $("#forgot-status").text("Формат Email неправильный. Введите правильный еще раз, пожалуйста.");
             }
             else {
                 $("#forgot-status").text("Произошла ошибка. Попробуйте снова или обратитесь к администрации.");
@@ -205,45 +201,3 @@ function sendMail() {
         }
     });
 }
-
-// ---------------------------------------------------------------------------------------------------------------------
-/**
- * Creates artificial margin for fitting up the background image at main sub page.
- */
-function fitMain() {
-    $("#main").css("margin-bottom", $(window).height() - $("#main").height() + 6);
-}
-
-// ---------------------------------------------------------------------------------------------------------------------
-/**
- * Creates artificial margin for fitting up the background image at login sub page.
- */
-function fitLogin() {
-    $("#log-in-sub-page").css("margin-bottom", $(window).height() - $("#log-in-sub-page").height() + 6);
-}
-
-// ---------------------------------------------------------------------------------------------------------------------
-/**
- * Creates artificial margin for fitting up the background image at register sub page.
- */
-function fitRegister() {
-    $("#register-sub-page").css("margin-bottom", $(window).height() - $("#register-sub-page").height() + 6);
-}
-
-// ---------------------------------------------------------------------------------------------------------------------
-/**
- * Creates artificial margin for fitting up the background image at forgot sub page.
- */
-function fitForgot() {
-    $("#forgot-sub-page").css("margin-bottom", $(window).height() - $("#register-sub-page").height() + 6);
-}
-
-// ---------------------------------------------------------------------------------------------------------------------
-/**
- * Fits up the background image which depends on resize event.
- */
-window.addEventListener("resize", function() {
-    if ($("#main").css("display") == "block") fitMain();
-    else if ($("#log-in-sub-page").css("display") == "block") fitLogin();
-    else fitRegister();
-});
