@@ -15,6 +15,10 @@
     background-color: Transparent;
     border: solid 2px #ff8f0c;
     color: #ff8f0c;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
 
 #search-input {
@@ -62,6 +66,10 @@
 .button-color:hover {
     background-color: #fff;
     color: #2e3438;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
 
 .selected-button-color {
@@ -73,6 +81,10 @@
 .selected-button-color:hover {
     background-color: #fff;
     color: #31a445;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
 
 .sort-buttons {
@@ -87,7 +99,7 @@
     margin-top: 10px;
 }
 
-.thumbnail img{
+.thumbnail img {
     max-height: 100%;
     max-width: 100%;
     min-width: 100%;
@@ -119,6 +131,16 @@
     padding: 5px;
     right: 0;
     top: 0;
+}
+
+.thumbnail:hover {
+    -webkit-transform: scale(1.2);
+    -ms-transform: scale(1.2);
+    transform: scale(1.2);
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
 
 .thumbnail:hover .book-info {
@@ -164,4 +186,8 @@
     background-color: Transparent;
     border: solid 2px #31a445;
     color: #31a445;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }

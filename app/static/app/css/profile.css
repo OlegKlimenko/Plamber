@@ -20,6 +20,10 @@
 .manage-button:hover {
     background-color: #31a445;
     border: solid 2px #31a445;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
 
 #user-name {
@@ -59,6 +63,10 @@
 .select-button:hover {
     border: solid 2px #2e3438;
     color: #2e3438;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
 
 .change-button {
@@ -70,6 +78,10 @@
 .change-button:hover {
     background-color: #9aa6ad;
     border: solid 2px #9aa6ad;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
 
 #change-password {
@@ -121,6 +133,10 @@ table {
     background-color: Transparent;
     border: solid 2px #31a445;
     color: #31a445;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
 
 .align-center {
@@ -143,6 +159,10 @@ table {
 .remove-book-button:hover {
     background-color: #2e3438;
     border: solid 2px #2e3438;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
 
 #book-name {
@@ -163,6 +183,10 @@ table {
 #no-button:hover {
     background-color: #2e3438;
     border: solid 2px #2e3438;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
 
 #yes-button {
@@ -174,6 +198,10 @@ table {
 #yes-button:hover {
     background-color: #2e3438;
     border: solid 2px #2e3438;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
 
 #remove-book-sub {

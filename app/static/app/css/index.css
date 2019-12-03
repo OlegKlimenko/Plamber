@@ -30,6 +30,10 @@
     background-color: #fff;
     border: solid 2px #fff;
     color: #2e3438;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
 
 .register-button {
@@ -42,6 +46,10 @@
     background-color: Transparent;
     border: solid 2px #31a445;
     color: #31a445;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
 
 .margin {
@@ -101,4 +109,8 @@
     background-color: Transparent;
     border: solid 2px #ff8f0c;
     color: #ff8f0c;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }

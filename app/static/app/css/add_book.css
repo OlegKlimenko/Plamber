@@ -76,6 +76,10 @@
 .upload-button:hover {
     border: solid 2px #2e3438;
     color: #2e3438;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
 
 #missing-book-warn {
@@ -98,6 +102,10 @@
 .add-book-button:hover {
     background-color: #fff;
     color: #31a445;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
 
 .footer-margin {

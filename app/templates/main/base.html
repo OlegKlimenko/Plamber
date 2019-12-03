@@ -58,10 +58,10 @@
                     {% if request.user.is_anonymous %}
                         {% block header_special %}{% endblock %}
                     {% else %}
-                        <li><a href="{% url 'categories' %}">Библиотека</a></li>
-                        <li><a href="{% url 'index' %}">Мои книги</a></li>
-                        <li><a href="{% url 'profile' request.user.id %}">Профиль</a></li>
-                        <li><a href="{% url 'about' %}">О проекте</a></li>
+                        <li><a href="{% url 'categories' %}" class="header-animation">Библиотека</a></li>
+                        <li><a href="{% url 'index' %}" class="header-animation">Мои книги</a></li>
+                        <li><a href="{% url 'profile' request.user.id %}" class="header-animation">Профиль</a></li>
+                        <li><a href="{% url 'about' %}" class="header-animation">О проекте</a></li>
                     {% endif %}
                 </ul>
             </div>

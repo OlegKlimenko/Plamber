@@ -12,7 +12,7 @@
     min-width: 100%;
 }
 
-.img-wrapper{
+.img-wrapper {
 	width: 100%;
 	padding-bottom: 150%;
 	position: relative;
@@ -39,6 +39,16 @@
     top: 0;
 }
 
+.thumbnail:hover {
+    -webkit-transform: scale(1.2);
+    -ms-transform: scale(1.2);
+    transform: scale(1.2);
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
 .thumbnail:hover .book-info {
     display: block;
     background: #2e3438;
@@ -55,6 +65,15 @@
 #upload-button-img {
     height: 75px;
     width: 75px;
+}
+
+#upload-button-img:hover {
+    height: 100px;
+    width: 100px;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
 
 .margin {
