@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from django.shortcuts import render_to_response
-from django.template import RequestContext
+from django.shortcuts import render
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -9,9 +8,7 @@ def error_output(request, code):
     """
     Returns the HTML page as output on error, depending on the code.
     """
-    response = render_to_response('error_status_page.html',
-                                  context=RequestContext(request, {'status_code': code,
-                                                                   'request': request}))
+    response = render(request, 'error_status_page.html', {'status_code': code, 'request': request})
     response.status_code = code
     return response
 
