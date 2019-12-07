@@ -8,4 +8,4 @@ Plamber/additional/sitemap.xml
 celerybeat-schedule
 venv
 media
-static
+static/*
