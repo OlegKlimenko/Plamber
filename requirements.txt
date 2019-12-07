@@ -1,7 +1,7 @@
 celery==4.0.2
 coverage==4.5.1
 Django==1.11.23
-djangorestframework==3.6.3
+djangorestframework==3.9.1
 kombu==4.0.2
 mysql-connector-python-rf
 Pillow==6.2.0
