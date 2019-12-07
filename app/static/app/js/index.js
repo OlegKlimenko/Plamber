@@ -107,12 +107,14 @@ function checkEqualPassLines() {
  * Sends ajax request to check if the user is already exists.
  */
 function checkUserNotExists() {
+    var usernameInput = $("#username-input");
+
     // Send request only if 'Input' is not empty.
-    if ($("#username-input").val()) {
+    if (usernameInput.val()) {
         $.ajax({
             url: "is-user-exists",
             type: "GET",
-            data: {username: $("#username-input").val()},
+            data: {username: usernameInput.val()},
 
             success: function result(json) {
                 if (json) {
@@ -121,6 +123,10 @@ function checkUserNotExists() {
                 else {
                     document.getElementById("user-exists").style.display = "none";
                 }
+            },
+
+            error: function result(response) {
+                 document.getElementById("user-exists").style.display = "block";
             }
         });
     }
