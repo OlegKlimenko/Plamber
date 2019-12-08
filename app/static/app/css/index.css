@@ -92,12 +92,6 @@
     display: none;
 }
 
-#about-subpage {
-    padding-top: 30px;
-    padding-bottom: 40px;
-    background: rgba(255, 255, 255, 0.8);
-}
-
 #read-book {
     background-color: #ff8f0c;
     border: solid 2px #ff8f0c;

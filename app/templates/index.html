@@ -16,12 +16,33 @@
     <link rel="stylesheet" href="{% static 'app/css/about.css' %}">
 
     <style>
-        body {
-            background: url({% static 'app/images/background.jpg' %}) no-repeat center center fixed;
+        .books-background {
+            position: relative;
+        }
+
+        .books-background:after {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            content: '';
+            background-image: url({% static 'app/images/background.jpg' %});
+            background-size: cover;
             -webkit-background-size: cover;
             -moz-background-size: cover;
             -o-background-size: cover;
-            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+        }
+
+        #about-subpage {
+            padding-top: 30px;
+            padding-bottom: 40px;
+            background: rgba(255, 255, 255, 0.8);
+            top: 0;
+            left: 0;
+            position: relative;
         }
     </style>
 {% endblock %}
@@ -48,6 +69,8 @@
 {% endblock %}
 
 {% block content %}
+    <div class="books-background"></div>
+
     <!--Main info area-->
     <div id="main" class="container container-margin footer-margin">
         <div class="row">
