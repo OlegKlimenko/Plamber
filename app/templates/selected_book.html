@@ -83,10 +83,11 @@
                         {% if not request.user.is_anonymous %}
                             {% if added_book %}
                                 <div id="remove-book-div">
-                                    <a class="btn" id="read-book" href="{% url 'read_book' added_book.id_book.id %}">Читать книгу</a>
+                                    <a class="btn" id="read-book" href="{% url 'read_book' added_book.id_book.id %}">Читать на сайте</a>
                                     <button class="btn" id="remove-book"
                                             onclick="removeBookHome()">Убрать из читаемых</button>
                                     <div class="word-wrap add-book-text">Сейчас книга в списке читаемых вами.</div>
+                                    <a class="btn" id="read-book-app" target="_blank" href="https://play.google.com/store/apps/details?id=com.ua.plamber_android">Читать на телефоне</a>
                                 </div>
                             {% else %}
                                 {% if book.blocked_book %}
@@ -95,7 +96,8 @@
                                     </button>
                                 {% else %}
                                     <div id="add-book-div">
-                                        <button class="btn" id="add-book" onclick="addBookHome()">Начать читать</button>
+                                        <button class="btn" id="read-book" onclick="addBookHome()">Читать на сайте</button>
+                                        <a class="btn" id="read-book-app" target="_blank" href="https://play.google.com/store/apps/details?id=com.ua.plamber_android">Читать на телефоне</a>
                                     </div>
                                 {% endif %}
                             {% endif %}
@@ -108,7 +110,8 @@
                                 </div>
                             {% else %}
                                 <div id="add-book-div">
-                                    <a href="{% url 'index' %}"><button class="btn" id="add-book">Начать читать</button></a>
+                                    <a class="btn" id="read-book" href="{% url 'read_book' book.id %}">Читать на сайте</a>
+                                    <a class="btn" id="read-book-app" target="_blank" href="https://play.google.com/store/apps/details?id=com.ua.plamber_android">Читать на телефоне</a>
                                 </div>
                             {% endif %}
                         {% endif %}

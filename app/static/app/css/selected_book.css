@@ -123,14 +123,14 @@
     transition: all 0.5s ease;
 }
 
-#add-book {
+#read-book-app {
     background-color: #31a445;
     border: solid 2px #31a445;
     color: #fff;
     width: 100%;
 }
 
-#add-book:hover {
+#read-book-app:hover {
     background-color: Transparent;
     border: solid 2px #31a445;
     color: #31a445;

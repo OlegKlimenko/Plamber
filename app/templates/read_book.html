@@ -12,6 +12,9 @@
 {% endblock %}
 
 {% block js %}
+    <script>
+        var anonymousUser = {% if request.user.is_anonymous %}true{% else %}false{% endif %};
+    </script>
     <script src="{% static 'app/js/third_party/pdf_js/pdf.js' %}"></script>
     <script src="{% static 'app/js/read_book.js' %}"></script>
 {% endblock %}
@@ -21,6 +24,11 @@
         <input id="small-page-num" class="input input-colors page-number">
         <button id="small-btn" class="btn action-button" onclick="goToPageSmall();">➤</button>
     </div>
+{% endblock %}
+
+{% block header_special %}
+    <li><a href="{% url 'categories' %}" class="header-animation">Библиотека</a></li>
+    <li><a href="{% url 'about' %}" class="header-animation">О проекте</a></li>
 {% endblock %}
 
 {% block references %}{% endblock %}
@@ -42,7 +50,11 @@
         <div><button class="btn action-button margin-top" onclick="goToPageBig();">➤</button></div>
     </div>
 
-    <div id="error-toast">Нет соединения с сервером...</div>
+    <div id="error-toast" class="toast">Нет соединения с сервером...</div>
+    <div id="anonymous-user-toast" class="toast">
+        Вы не вошли в систему, по-этому данные не синхронизируются и страницы не запоминаются.
+        <a href="{% url 'index' %}" class="reference">Войдите в систему или зарегистрируйтесь</a> для использования полной функциональности.
+    </div>
 
     <div id="container-width" class="container container-margin">
         <div class="row">

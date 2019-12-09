@@ -72,7 +72,7 @@ class ReadBookViewsTest(TestCase):
         response = self.anonymous_client.get(reverse('read_book', kwargs={'book_id': self.book.id}))
 
         self.assertEqual(response.resolver_match.func, open_book)
-        self.assertRedirects(response, reverse('index'), status_code=302, target_status_code=200)
+        self.assertEqual(response.status_code, 200)
 
     # ------------------------------------------------------------------------------------------------------------------
     def test_open_book_book_not_exist(self):
