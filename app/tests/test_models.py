@@ -67,6 +67,8 @@ class ModelTest(TestCase):
         cls.author1 = Author.objects.create(author_name='Best Author 1')
         cls.author2 = Author.objects.create(author_name='trueAuthorNew')
         cls.author3 = Author.objects.create(author_name='zlast author')
+        cls.author4 = Author.objects.create(author_name='<AuthorSpecialSymbols>&"')
+        cls.author5 = Author.objects.create(author_name="O'Connor")
 
     # ------------------------------------------------------------------------------------------------------------------
     @classmethod
@@ -277,7 +279,7 @@ class ModelTest(TestCase):
 
     # ------------------------------------------------------------------------------------------------------------------
     def test_created_authors(self):
-        self.assertEqual(Author.objects.all().count(), 3)
+        self.assertEqual(Author.objects.all().count(), 5)
         self.assertNotEqual(self.author1, self.author2)
 
     # ------------------------------------------------------------------------------------------------------------------
@@ -293,9 +295,36 @@ class ModelTest(TestCase):
         self.assertEqual(Author.get_authors_list('Best Author 1'), ['Best Author 1'])
         self.assertEqual(Author.get_authors_list('trueAuthorNew'), ['trueAuthorNew'])
 
-        self.assertEqual(Author.get_authors_list('b'), ['Best Author 1'])
-        self.assertEqual(Author.get_authors_list('e'), ['Best Author 1', 'trueAuthorNew'])
-        self.assertEqual(Author.get_authors_list('author'), ['Best Author 1', 'trueAuthorNew', 'zlast author'])
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_get_authors_list_with_escaping(self):
+        self.assertEqual(Author.get_authors_list("'", True), ['O&#39;Connor'])
+        self.assertEqual(Author.get_authors_list("Connor", True), ['O&#39;Connor'])
+        self.assertEqual(
+            Author.get_authors_list('b', True),
+            ['Best Author 1', '&lt;AuthorSpecialSymbols&gt;&amp;&quot;']
+        )
+        self.assertEqual(
+            Author.get_authors_list('e', True),
+            ['Best Author 1', 'trueAuthorNew', '&lt;AuthorSpecialSymbols&gt;&amp;&quot;']
+        )
+        self.assertEqual(
+            Author.get_authors_list('author', True),
+            ['Best Author 1', 'trueAuthorNew', 'zlast author', '&lt;AuthorSpecialSymbols&gt;&amp;&quot;']
+        )
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_get_authors_list_without_escaping(self):
+        self.assertEqual(Author.get_authors_list("'"), ["O'Connor"])
+        self.assertEqual(Author.get_authors_list("Connor", False), ["O'Connor"])
+        self.assertEqual(Author.get_authors_list('b'), ['Best Author 1', '<AuthorSpecialSymbols>&"'])
+        self.assertEqual(
+            Author.get_authors_list('e'),
+            ['Best Author 1', 'trueAuthorNew', '<AuthorSpecialSymbols>&"']
+        )
+        self.assertEqual(
+            Author.get_authors_list('author', False),
+            ['Best Author 1', 'trueAuthorNew', 'zlast author', '<AuthorSpecialSymbols>&"']
+        )
 
     # ------------------------------------------------------------------------------------------------------------------
     def test_created_language(self):
@@ -340,7 +369,7 @@ class ModelTest(TestCase):
         form_data_new_author = copy.deepcopy(form_data)
         form_data_new_author['author'] = 'super new author'
 
-        self.assertEqual(Author.objects.all().count(), 3)
+        self.assertEqual(Author.objects.all().count(), 5)
 
         form = AddBookForm(data=form_data)
         form.is_valid()
@@ -352,14 +381,14 @@ class ModelTest(TestCase):
         self.assertTrue(isinstance(related_data, dict))
         self.assertEqual(len(related_data), 4)
         self.assertEqual(related_data['author'], Author.objects.get(author_name='trueAuthorNew'))
-        self.assertEqual(Author.objects.all().count(), 3)
+        self.assertEqual(Author.objects.all().count(), 5)
 
         related_data_new_author = Book.get_related_objects_for_create(self.user1.id, form_with_new_author)
 
         self.assertTrue(isinstance(related_data, dict))
         self.assertEqual(len(related_data_new_author), 4)
         self.assertEqual(related_data_new_author['author'], Author.objects.get(author_name='super new author'))
-        self.assertEqual(Author.objects.all().count(), 4)
+        self.assertEqual(Author.objects.all().count(), 6)
 
     # ------------------------------------------------------------------------------------------------------------------
     def test_get_related_objects_create_api(self):
@@ -372,13 +401,13 @@ class ModelTest(TestCase):
 
         self.assertEqual(Book.get_related_objects_create_api(self.the_user1, test_data),
                          {'author': self.author2, 'category': self.category2, 'lang': self.language_ru})
-        self.assertEqual(Author.objects.all().count(), 3)
+        self.assertEqual(Author.objects.all().count(), 5)
 
         self.assertEqual(Book.get_related_objects_create_api(self.the_user1, test_data_new_author),
                          {'author': Author.objects.get(author_name='NEW AUTHOR'),
                           'category': self.category1,
                           'lang': self.language_en})
-        self.assertEqual(Author.objects.all().count(), 4)
+        self.assertEqual(Author.objects.all().count(), 6)
 
     # ------------------------------------------------------------------------------------------------------------------
     def test_get_related_objects_selected_book_unknown_user(self):

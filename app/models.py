@@ -111,17 +111,17 @@ class Author(models.Model):
 
     # ------------------------------------------------------------------------------------------------------------------
     @staticmethod
-    def get_authors_list(author_part):
+    def get_authors_list(author_part, do_escape=False):
         """
         Returns a list of authors.
 
-        :param str author_part: The part of author name
+        :param str  author_part: The part of author name.
+        :param bool do_escape:   Defines if special symbols of author names must be escaped.
 
         :return list[str]:
         """
-        return list(
-            Author.objects.filter(author_name__icontains=author_part)[:10].values_list('author_name', flat=True)
-        )
+        authors = Author.objects.filter(author_name__icontains=author_part)[:10].values_list('author_name', flat=True)
+        return [escape(author) for author in authors] if do_escape else list(authors)
 
 
 # ----------------------------------------------------------------------------------------------------------------------
