@@ -35,6 +35,7 @@ class ProfileViewsTest(TestCase):
         cls.category = Category.objects.create(category_name='Category_name')
         cls.language = Language.objects.create(language='English')
         cls.author = Author.objects.create(author_name='Author_name')
+        cls.author2 = Author.objects.create(author_name='<AuthorSpecialSymbols>&"')
 
         cls.generate_books()
         cls.added_book1 = AddedBook.objects.create(id_book=cls.book1, id_user=cls.the_user1)
@@ -65,8 +66,8 @@ class ProfileViewsTest(TestCase):
         test_book_path = os.path.join(TEST_DATA_DIR, 'test_book.pdf')
 
         cls.book1 = Book.objects.create(
-            book_name='Profile_test_book_1',
-            id_author=cls.author,
+            book_name='Profile_test_book_1<>&"with_escape_symbols',
+            id_author=cls.author2,
             id_category=cls.category,
             language=cls.language,
             book_file=SimpleUploadedFile('test_book.pdf', open(test_book_path, 'rb').read()),
@@ -90,6 +91,14 @@ class ProfileViewsTest(TestCase):
         )
         cls.book4 = Book.objects.create(
             book_name='Profile_test_book_4',
+            id_author=cls.author,
+            id_category=cls.category,
+            language=cls.language,
+            book_file=SimpleUploadedFile('test_book.pdf', open(test_book_path, 'rb').read()),
+            who_added=cls.the_user1
+        )
+        cls.book5 = Book.objects.create(
+            book_name='Profile_test_book_5',
             id_author=cls.author,
             id_category=cls.category,
             language=cls.language,
@@ -128,12 +137,12 @@ class ProfileViewsTest(TestCase):
         self.assertTrue('owner' in response.context)
         self.assertEqual(response.context['profile_user'], self.the_user1)
         self.assertEqual(len(response.context['added_books']), 2)
-        self.assertEqual(response.context['added_books'][0].id_book, self.book1)
-        self.assertEqual(response.context['added_books'][1].id_book, self.book2)
+        self.assertEqual(response.context['added_books'][0].id_book, self.book2)
+        self.assertEqual(response.context['added_books'][1].id_book, self.book1)
         self.assertEqual(len(response.context['uploaded_books']), 2)
-        self.assertEqual(response.context['uploaded_books_count'], 3)
-        self.assertEqual(response.context['uploaded_books'][0], self.book4)
-        self.assertEqual(response.context['uploaded_books'][1], self.book3)
+        self.assertEqual(response.context['uploaded_books_count'], 4)
+        self.assertEqual(response.context['uploaded_books'][0], self.book5)
+        self.assertEqual(response.context['uploaded_books'][1], self.book4)
         self.assertTrue(response.context['has_next'])
         self.assertTrue(isinstance(response.context['img_random'], int))
         self.assertTrue(1000 >= response.context['img_random'] >= 0)
@@ -187,6 +196,7 @@ class ProfileViewsTest(TestCase):
         expected_response = {
             'profile_id': str(self.the_user1.id),
             'books': [
+                Utils.generate_sort_dict(self.book3),
                 Utils.generate_sort_dict(self.book1)
             ],
             'has_next': False,

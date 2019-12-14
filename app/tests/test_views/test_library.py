@@ -37,7 +37,7 @@ class LibraryViewsTestCase(TestCase):
         cls.category = Category.objects.create(category_name='CustomCategoryName')
         cls.language = Language.objects.create(language='French')
         cls.author1 = Author.objects.create(author_name='SomeAuthorCategoryName')
-        cls.author2 = Author.objects.create(author_name='SomeOtherCategoryNameAuthor')
+        cls.author2 = Author.objects.create(author_name='SomeOtherCategoryNameAuthor<>&"')
 
         cls.book1 = Book.objects.create(
             book_name='category_book_test1',
@@ -48,7 +48,7 @@ class LibraryViewsTestCase(TestCase):
             who_added=cls.the_user
         )
         cls.book2 = Book.objects.create(
-            book_name='category_book_test2',
+            book_name='category_book_test2<>&"',
             id_author=cls.author2,
             id_category=cls.category,
             language=cls.language,
@@ -56,7 +56,7 @@ class LibraryViewsTestCase(TestCase):
             who_added=cls.the_user
         )
         cls.book3 = Book.objects.create(
-            book_name='category_book_test3',
+            book_name='category_book_test3<>&"',
             id_author=cls.author2,
             id_category=cls.category,
             language=cls.language,
@@ -217,8 +217,8 @@ class LibraryViewsTestCase(TestCase):
                 },
                 {
                     'id': self.book2.id,
-                    'name': self.book2.book_name,
-                    'author': self.book2.id_author.author_name,
+                    'name': 'category_book_test2&lt;&gt;&amp;&quot;',
+                    'author': 'SomeOtherCategoryNameAuthor&lt;&gt;&amp;&quot;',
                     'url': ''
                 }
             ],
@@ -244,15 +244,15 @@ class LibraryViewsTestCase(TestCase):
             'books': [
                 {
                     'id': self.book3.id,
-                    'name': self.book3.book_name,
-                    'author': self.book3.id_author.author_name,
+                    'name': 'category_book_test3&lt;&gt;&amp;&quot;',
+                    'author': 'SomeOtherCategoryNameAuthor&lt;&gt;&amp;&quot;',
                     'url': '',
                     'rating': 10.0
                 },
                 {
                     'id': self.book2.id,
-                    'name': self.book2.book_name,
-                    'author': self.book2.id_author.author_name,
+                    'name': 'category_book_test2&lt;&gt;&amp;&quot;',
+                    'author': 'SomeOtherCategoryNameAuthor&lt;&gt;&amp;&quot;',
                     'url': '',
                     'rating': 7.0
                 }

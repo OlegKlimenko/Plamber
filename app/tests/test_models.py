@@ -139,6 +139,15 @@ class ModelTest(TestCase):
                 'file': SimpleUploadedFile('test_book.pdf', open(test_book_path, 'rb').read()),
                 'photo': SimpleUploadedFile('test_book_image.png', open(test_book_image_path, 'rb').read()),
                 'who_added': cls.the_user2
+            },
+            {
+                'name': 'Seventh Book<>&"',
+                'author': cls.author4,
+                'category': cls.category2,
+                'language': cls.language_en,
+                'file': SimpleUploadedFile('test_book.pdf', open(test_book_path, 'rb').read()),
+                'photo': SimpleUploadedFile('test_book_image.png', open(test_book_image_path, 'rb').read()),
+                'who_added': cls.the_user2
             }
         ]
 
@@ -335,11 +344,11 @@ class ModelTest(TestCase):
     def test_created_books(self):
         books = Book.objects.all()
 
-        self.assertEqual(books.count(), 6)
+        self.assertEqual(books.count(), 7)
         self.assertEqual(books.filter(private_book=True).count(), 2)
         self.assertEqual(books.filter(id_category=self.category1).count(), 4)
         self.assertEqual(books.filter(id_author=self.author1).count(), 3)
-        self.assertEqual(books.filter(language=self.language_en).count(), 3)
+        self.assertEqual(books.filter(language=self.language_en).count(), 4)
         self.assertEqual(books.filter(photo=False).count(), 2)
         self.assertEqual(books.filter(who_added=self.the_user1).count(), 3)
         self.assertEqual(books.filter(id_category=self.category2, id_author=self.author2).count(), 1)
@@ -500,20 +509,20 @@ class ModelTest(TestCase):
         Testing first category.
         """
         fifth_book = Book.objects.get(book_name='Fifth Book')
-        sixth_book = Book.objects.get(book_name='Sixth Book')
+        seventh_book = Book.objects.get(book_name='Seventh Book<>&"')
 
         fifth_book_dict = Utils.generate_sort_dict(fifth_book)
-        sixth_book_dict = Utils.generate_sort_dict(sixth_book)
+        seventh_book_dict = Utils.generate_sort_dict(seventh_book)
 
-        self.assertEqual(len(Book.sort_by_book_name(self.anonymous_user, self.category2)), 1)
-        self.assertEqual(Book.sort_by_book_name(self.anonymous_user, self.category2)[0], sixth_book_dict)
+        self.assertEqual(len(Book.sort_by_book_name(self.anonymous_user, self.category2)), 2)
+        self.assertEqual(Book.sort_by_book_name(self.anonymous_user, self.category2)[0], seventh_book_dict)
 
-        self.assertEqual(len(Book.sort_by_book_name(self.the_user2.id_user, self.category2)), 1)
-        self.assertEqual(Book.sort_by_book_name(self.the_user2.id_user, self.category2)[0], sixth_book_dict)
+        self.assertEqual(len(Book.sort_by_book_name(self.the_user2.id_user, self.category2)), 2)
+        self.assertEqual(Book.sort_by_book_name(self.the_user2.id_user, self.category2)[0], seventh_book_dict)
 
-        self.assertEqual(len(Book.sort_by_book_name(self.the_user1.id_user, self.category2)), 2)
+        self.assertEqual(len(Book.sort_by_book_name(self.the_user1.id_user, self.category2)), 3)
         self.assertEqual(Book.sort_by_book_name(self.the_user1.id_user, self.category2)[0], fifth_book_dict)
-        self.assertEqual(Book.sort_by_book_name(self.the_user1.id_user, self.category2)[1], sixth_book_dict)
+        self.assertEqual(Book.sort_by_book_name(self.the_user1.id_user, self.category2)[1], seventh_book_dict)
 
     # ------------------------------------------------------------------------------------------------------------------
     def test_sort_by_author_category1(self):
@@ -546,19 +555,18 @@ class ModelTest(TestCase):
         Must generate correct dictionaries for anonymous users, users with private books and without.
         Testing returned book authors at second category.
         """
-        self.assertEqual(len(Book.sort_by_author(self.anonymous_user, self.category2)), 1)
-        self.assertEqual(Book.sort_by_author(self.anonymous_user, self.category2)[0]['author'],
-                         self.author2.author_name)
+        escaped_author_name = '&lt;AuthorSpecialSymbols&gt;&amp;&quot;'
 
-        self.assertEqual(len(Book.sort_by_author(self.the_user2.id_user, self.category2)), 1)
-        self.assertEqual(Book.sort_by_author(self.the_user2.id_user, self.category2)[0]['author'],
-                         self.author2.author_name)
+        self.assertEqual(len(Book.sort_by_author(self.anonymous_user, self.category2)), 2)
+        self.assertEqual(Book.sort_by_author(self.anonymous_user, self.category2)[0]['author'], escaped_author_name)
 
-        self.assertEqual(len(Book.sort_by_author(self.the_user1.id_user, self.category2)), 2)
-        self.assertEqual(Book.sort_by_author(self.the_user1.id_user, self.category2)[0]['author'],
-                         self.author1.author_name)
+        self.assertEqual(len(Book.sort_by_author(self.the_user2.id_user, self.category2)), 2)
+        self.assertEqual(Book.sort_by_author(self.the_user2.id_user, self.category2)[0]['author'], escaped_author_name)
+
+        self.assertEqual(len(Book.sort_by_author(self.the_user1.id_user, self.category2)), 3)
+        self.assertEqual(Book.sort_by_author(self.the_user1.id_user, self.category2)[0]['author'], escaped_author_name)
         self.assertEqual(Book.sort_by_author(self.the_user1.id_user, self.category2)[1]['author'],
-                         self.author2.author_name)
+                         self.author1.author_name)
 
     # ------------------------------------------------------------------------------------------------------------------
     def test_sort_by_estimation_category1(self):
@@ -585,13 +593,13 @@ class ModelTest(TestCase):
         Must generate correct dictionaries for anonymous users, users with private books and without.
         Testing returned book rating at second category.
         """
-        self.assertEqual(len(Book.sort_by_estimation(self.anonymous_user, self.category2)), 1)
+        self.assertEqual(len(Book.sort_by_estimation(self.anonymous_user, self.category2)), 2)
         self.assertEqual(Book.sort_by_estimation(self.anonymous_user, self.category2)[0]['rating'], 4)
 
-        self.assertEqual(len(Book.sort_by_estimation(self.the_user2.id_user, self.category2)), 1)
+        self.assertEqual(len(Book.sort_by_estimation(self.the_user2.id_user, self.category2)), 2)
         self.assertEqual(Book.sort_by_estimation(self.the_user2.id_user, self.category2)[0]['rating'], 4)
 
-        self.assertEqual(len(Book.sort_by_estimation(self.the_user1.id_user, self.category2)), 2)
+        self.assertEqual(len(Book.sort_by_estimation(self.the_user1.id_user, self.category2)), 3)
         self.assertEqual(Book.sort_by_estimation(self.the_user1.id_user, self.category2)[0]['rating'], 4)
         self.assertEqual(Book.sort_by_estimation(self.the_user1.id_user, self.category2)[1]['rating'], None)
 
@@ -623,9 +631,10 @@ class ModelTest(TestCase):
         books = Book.objects.all()
 
         self.assertTrue(isinstance(Book.generate_books(books), list))
-        self.assertEqual(len(Book.generate_books(books)), 6)
+        self.assertEqual(len(Book.generate_books(books)), 7)
         self.assertEqual(len(Book.generate_books(books)[0].keys()), 5)
         self.assertEqual(Book.generate_books(books)[0], Utils.generate_sort_dict(books[0]))
+        self.assertEqual(Book.generate_books(books)[6], Utils.generate_sort_dict(books[6]))
 
     # ------------------------------------------------------------------------------------------------------------------
     def test_fetch_books(self):
@@ -635,10 +644,10 @@ class ModelTest(TestCase):
         self.assertTrue(isinstance(Book.fetch_books('book'), list))
 
         self.assertEqual(len(Book.fetch_books('Second Book')), 1)
-        self.assertEqual(len(Book.fetch_books('book')), 6)
-        self.assertEqual(len(Book.fetch_books('ook')), 6)
+        self.assertEqual(len(Book.fetch_books('book')), 7)
+        self.assertEqual(len(Book.fetch_books('ook')), 7)
         self.assertEqual(len(Book.fetch_books('trueAuthorNew')), 3)
-        self.assertEqual(len(Book.fetch_books('author')), 6)
+        self.assertEqual(len(Book.fetch_books('author')), 7)
         self.assertEqual(len(Book.fetch_books('new')), 3)
         self.assertEqual(len(Book.fetch_books('True')), 3)
 
@@ -648,9 +657,9 @@ class ModelTest(TestCase):
         Must generate list of dicts with Books data depending on different criteria and excluding private books.
         """
         self.assertTrue(isinstance(Book.generate_existing_books('book'), list))
-        self.assertEqual(len(Book.generate_existing_books('book')), 4)
-        self.assertEqual(len(Book.generate_existing_books('Book')), 4)
-        self.assertEqual(len(Book.generate_existing_books('bOoK')), 4)
+        self.assertEqual(len(Book.generate_existing_books('book')), 5)
+        self.assertEqual(len(Book.generate_existing_books('Book')), 5)
+        self.assertEqual(len(Book.generate_existing_books('bOoK')), 5)
 
         fourth_book = Book.objects.get(book_name='Fourth Book')
         test_book = Book.generate_existing_books('fourth')
@@ -672,19 +681,19 @@ class ModelTest(TestCase):
         all_books = Book.objects.all()
         list_all_books = list(all_books)
 
-        self.assertEqual(Book.exclude_private_books(self.the_user1.id_user, all_books).count(), 6)
-        self.assertEqual(Book.exclude_private_books(self.the_user2.id_user, all_books).count(), 4)
+        self.assertEqual(Book.exclude_private_books(self.the_user1.id_user, all_books).count(), 7)
+        self.assertEqual(Book.exclude_private_books(self.the_user2.id_user, all_books).count(), 5)
         self.assertTrue(isinstance(Book.exclude_private_books(self.the_user1.id_user, all_books), QuerySet))
         self.assertTrue(isinstance(Book.exclude_private_books(self.the_user2.id_user, all_books), QuerySet))
 
-        self.assertEqual(len(Book.exclude_private_books(self.the_user1.id_user, list_all_books)), 6)
-        self.assertEqual(len(Book.exclude_private_books(self.the_user2.id_user, list_all_books)), 4)
+        self.assertEqual(len(Book.exclude_private_books(self.the_user1.id_user, list_all_books)), 7)
+        self.assertEqual(len(Book.exclude_private_books(self.the_user2.id_user, list_all_books)), 5)
         self.assertTrue(isinstance(Book.exclude_private_books(self.the_user1.id_user, list_all_books), list))
         self.assertTrue(isinstance(Book.exclude_private_books(self.the_user2.id_user, list_all_books), list))
 
         self.assertTrue(self.anonymous_user.is_anonymous)
-        self.assertEqual(Book.exclude_private_books(self.anonymous_user, all_books).count(), 4)
-        self.assertEqual(len(Book.exclude_private_books(self.anonymous_user, list_all_books)), 4)
+        self.assertEqual(Book.exclude_private_books(self.anonymous_user, all_books).count(), 5)
+        self.assertEqual(len(Book.exclude_private_books(self.anonymous_user, list_all_books)), 5)
         self.assertTrue(isinstance(Book.exclude_private_books(self.anonymous_user, all_books), QuerySet))
         self.assertTrue(isinstance(Book.exclude_private_books(self.anonymous_user, list_all_books), list))
 

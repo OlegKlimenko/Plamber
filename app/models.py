@@ -282,11 +282,13 @@ class Book(models.Model):
 
         for item in filtered_books:
             book_rating = BookRating.objects.filter(id_book=item).aggregate(Avg('rating'))
-            book = {'id': item.id,
-                    'name': item.book_name,
-                    'author': item.id_author.author_name,
-                    'url': item.photo.url if item.photo else '',
-                    'rating': book_rating['rating__avg']}
+            book = {
+                'id': item.id,
+                'name': escape(item.book_name),
+                'author': escape(item.id_author.author_name),
+                'url': item.photo.url if item.photo else '',
+                'rating': book_rating['rating__avg']
+            }
             books.append(book)
 
         return sorted(books, key=lambda info: (info['rating'] is not None, info['rating']), reverse=True)
@@ -324,10 +326,13 @@ class Book(models.Model):
                 sorted_books.append(filtered_books.get(id=compared_book[0].id))
 
         generated_books = [
-            {'id': item.id,
-             'name': item.book_name,
-             'author': item.id_author.author_name,
-             'url': item.photo.url if item.photo else ''} for item in sorted_books
+            {
+                'id': item.id,
+                'name': escape(item.book_name),
+                'author': escape(item.id_author.author_name),
+                'url': item.photo.url if item.photo else ''
+            }
+            for item in sorted_books
         ]
 
         return generated_books
@@ -344,8 +349,8 @@ class Book(models.Model):
         books = [
             {
                 'id': item.id,
-                'name': item.book_name,
-                'author': item.id_author.author_name,
+                'name': escape(item.book_name),
+                'author': escape(item.id_author.author_name),
                 'url': item.photo.url if item.photo else '',
                 'upload_date': item.upload_date.strftime('%d-%m-%Y')
             }
