@@ -93,6 +93,10 @@
     font: 14pt 'Comfortaa', cursive;
 }
 
+.text-private {
+    color: #ff8f0c;
+}
+
 .add-book-button {
     background-color: #31a445;
     border: solid 2px #31a445;
