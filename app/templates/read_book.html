@@ -1,10 +1,14 @@
 {% extends 'main/base.html' %}
 {% load staticfiles %}
 
-{% block title %}{{ book.book_name }}{% endblock %}
+{% block title %}Читать Книгу {{ book.book_name }} - {{ book.id_author }} Онлайн Бесплатно в PDF без регистрации{% endblock %}
 
 {% block description %}
-    <meta name="description" content="Чтение книги {{ book.book_name }}">
+    <meta name="description" content="Книга: {{ book.book_name }}, Автор: {{ book.id_author }} - Чтение в режиме онлайн без регистрации.">
+{% endblock %}
+
+{% block keywords %}
+    <meta name="keywords" content="Читать {{ book.book_name }} онлайн, Книга {{ book.book_name }} pdf, Чтение {{ book.book_name }} книги автора {{ book.id_author }}, Книга {{ book.book_name }} бесплатно онлайн">
 {% endblock %}
 
 {% block css %}
