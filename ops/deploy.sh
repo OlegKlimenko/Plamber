@@ -1,3 +1,5 @@
+cd ..
+
 service nginx stop
 service gunicorn stop
 
