@@ -246,6 +246,26 @@ class IndexViewsTestCase(TestCase):
         self.assertEqual(response.resolver_match.func, is_user_exists)
         self.assertEqual(response.status_code, 404)
 
+        response = self.logged_client.get(reverse('is_user_exists'), {'username': 'admin'},  # Not valid name full
+                                          HTTP_X_REQUESTED_WITH=self.xhr)
+        self.assertEqual(response.resolver_match.func, is_user_exists)
+        self.assertEqual(response.status_code, 404)
+
+        response = self.logged_client.get(reverse('is_user_exists'), {'username': 'test_admin'},  # Not valid name
+                                          HTTP_X_REQUESTED_WITH=self.xhr)
+        self.assertEqual(response.resolver_match.func, is_user_exists)
+        self.assertEqual(response.status_code, 404)
+
+        response = self.logged_client.get(reverse('is_user_exists'), {'username': 'admin_test'},  # Not valid name
+                                          HTTP_X_REQUESTED_WITH=self.xhr)
+        self.assertEqual(response.resolver_match.func, is_user_exists)
+        self.assertEqual(response.status_code, 404)
+
+        response = self.logged_client.get(reverse('is_user_exists'), {'username': 'test_admin_test'},  # Not valid name
+                                          HTTP_X_REQUESTED_WITH=self.xhr)
+        self.assertEqual(response.resolver_match.func, is_user_exists)
+        self.assertEqual(response.status_code, 404)
+
     # ------------------------------------------------------------------------------------------------------------------
     def test_user_exists_successful_no_user_match(self):
         response = self.logged_client.get(reverse('is_user_exists'), {'username': 'test_name'},

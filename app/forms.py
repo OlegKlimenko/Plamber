@@ -14,6 +14,15 @@ class IsUserExistsForm(forms.Form):
     username = forms.CharField(max_length=30,
                                validators=[RegexValidator(regex='^[a-zA-Z0-9_]{2,30}')])
 
+    def clean(self):
+        """
+        Additional validation.
+        """
+        cleaned_data = super(IsUserExistsForm, self).clean()
+
+        if 'admin' in cleaned_data.get('username', {}):
+            raise ValidationError('Not allowed username!')
+
 
 # ----------------------------------------------------------------------------------------------------------------------
 class IsMailExistsForm(forms.Form):
@@ -38,7 +47,7 @@ class SignInForm(forms.Form):
 
     def clean(self):
         """
-        Checks if two of the passwords are the same. If not, raises an error.
+        Creates additional validations.
         """
         cleaned_data = super(SignInForm, self).clean()
 

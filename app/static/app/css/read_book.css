@@ -49,10 +49,18 @@
     background-color: Transparent;
     border: solid 2px #31a445;
     color: #31a445;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
 
 #page-nav-bar:hover {
     opacity: 1;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
 
 .page-number {
@@ -85,20 +93,51 @@
 
 }
 
-#error-toast {
+.toast {
     background-color: #2e3438;
     border-radius: 2px;
     color: #fff;
     display: none;
     font-family: 'Comfortaa', cursive;
     font-size: 14px;
-    height: 60px;
     left: 50%;
-    margin-left: -100px;
     padding: 10px;
     position: fixed;
     text-align: center;
-    top: 85%;
-    width: 200px;
     z-index: 10000;
 }
+
+#error-toast {
+    height: 60px;
+    margin-left: -100px;
+    top: 85%;
+    width: 200px;
+}
+
+@media (max-width: 500px) {
+    #anonymous-user-toast {
+        height: 160px;
+        margin-left: -140px;
+        top: 60%;
+        width: 280px;
+    }
+}
+
+@media (min-width: 500px) and (max-width: 768px) {
+    #anonymous-user-toast {
+        height: 120px;
+        margin-left: -200px;
+        top: 50%;
+        width: 400px;
+    }
+}
+
+@media (min-width: 770px) {
+    #anonymous-user-toast {
+        height: 120px;
+        margin-left: -200px;
+        top: 70%;
+        width: 400px;
+    }
+}
+

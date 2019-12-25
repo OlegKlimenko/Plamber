@@ -131,9 +131,13 @@ function removeBookHome() {
 
             if (data === true) {
                 $("#btn-area").append(
-                    "<div id='add-book-div'><button class='btn' id='add-book'>Начать читать</button></div>"
+                    "<div id='add-book-div'>" +
+                    "<button class='btn' id='read-book'>Читать на сайте</button>" +
+                    "<a class='btn' id='read-book-app' target='_blank' " +
+                    "href='https://play.google.com/store/apps/details?id=com.ua.plamber_android'>Читать на телефоне</a>" +
+                    "</div>"
                 );
-                $("#add-book").attr("onClick", "addBookHome()");
+                $("#read-book").attr("onClick", "addBookHome()");
             }
             else {
                 $("#btn-area").append(

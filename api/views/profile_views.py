@@ -103,7 +103,7 @@ def upload_avatar(request):
 
                 return Response({'detail': 'successful',
                                  'data': {'profile_image': '{}?{}'.format(profile_user.user_photo.url,
-                                                                          random.randint(1000))}},
+                                                                          random.randint(0, 1000))}},
                                 status=status.HTTP_200_OK)
 
             except ValidationError:

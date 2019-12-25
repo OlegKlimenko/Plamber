@@ -18,7 +18,7 @@ from ..recommend import get_recommend
 from ..tasks import restore_account, successful_registration
 from ..utils import generate_password, validate_captcha
 
-RANDOM_BOOKS_COUNT = 4
+RANDOM_BOOKS_COUNT = 6
 
 logger = logging.getLogger('changes')
 

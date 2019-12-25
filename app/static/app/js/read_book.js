@@ -100,26 +100,28 @@ function setCurrentPage(pageNum) {
     $('.page-number').val(pageNum);
     $('#current-page').text(pageNum);
 
-    $.ajax({
-        url: "set-current-page",
-        type: "POST",
-        data: {page: pageNum,
-               book: $("#book-id").text(),
-               csrfmiddlewaretoken: getCookie("csrftoken")},
+    if (!anonymousUser) {
+        $.ajax({
+            url: "set-current-page",
+            type: "POST",
+            data: {page: pageNum,
+                   book: $("#book-id").text(),
+                   csrfmiddlewaretoken: getCookie("csrftoken")},
 
-        success: function result(json) {},
+            success: function result(json) {},
 
-        error: function(jqXHR, errorThrown) {
-            if (jqXHR.status == 0) {
-                var curDate = new Date();
+            error: function(jqXHR, errorThrown) {
+                if (jqXHR.status === 0) {
+                    var curDate = new Date();
 
-                if (LAST_TOAST_SHOWN - curDate < TOAST_UPDATE_FREQ) {
-                    LAST_TOAST_SHOWN = curDate;
-                    $('#error-toast').fadeIn(400).delay(1000).fadeOut(400);
+                    if (LAST_TOAST_SHOWN - curDate < TOAST_UPDATE_FREQ) {
+                        LAST_TOAST_SHOWN = curDate;
+                        showToast("#error-toast", 1000);
+                    }
                 }
             }
-        }
-    });
+        });
+    }
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -331,7 +333,24 @@ $(document).ready(function() {
     loadDisplay();
     loadPages();
     navigatePanel();
+
+    if (anonymousUser) {
+        showToast("#anonymous-user-toast", 5000);
+    }
 });
+
+// ---------------------------------------------------------------------------------------------------------------------
+/**
+ * Shows toast with desired message.
+ *
+ * @param {string} attr  Element CSS selector to show.
+ * @param {number} delay The milliseconds delay to show toast.
+ */
+function showToast(attr, delay) {
+    var toastElement = $(attr);
+    toastElement.fadeIn(400).delay(delay).fadeOut(400);
+}
+
 
 // ---------------------------------------------------------------------------------------------------------------------
 /**

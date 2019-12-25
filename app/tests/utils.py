@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from django.utils.html import escape
+
 
 # ----------------------------------------------------------------------------------------------------------------------
 class Utils:
@@ -12,8 +14,8 @@ class Utils:
     def generate_sort_dict(book):
         return {
             'id': book.id,
-            'name': book.book_name,
-            'author': book.id_author.author_name,
+            'name': escape(book.book_name),
+            'author': escape(book.id_author.author_name),
             'url': book.photo.url if book.photo else '',
             'upload_date': book.upload_date.strftime('%d-%m-%Y')
         }

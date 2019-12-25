@@ -20,8 +20,9 @@ def open_book(request, book_id):
     """
     Returns a page for reading book.
     """
+    book = get_object_or_404(Book, id=book_id)
+
     if request.user.is_authenticated():
-        book = get_object_or_404(Book, id=book_id)
         user = TheUser.objects.get(id_user=request.user)
 
         try:
@@ -30,15 +31,14 @@ def open_book(request, book_id):
             added_book.save()
 
             logger.info("User '{}' opened book with id: '{}'.".format(user, book.id))
-
             context = {'book': book, 'book_page': added_book.last_page}
             return render(request, 'read_book.html', context)
 
         except ObjectDoesNotExist:
             return redirect(selected_book, book_id=book_id)
-
     else:
-        return redirect('index')
+        context = {'book': book, 'book_page': 1}
+        return render(request, 'read_book.html', context)
 
 
 # ----------------------------------------------------------------------------------------------------------------------

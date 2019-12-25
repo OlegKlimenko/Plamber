@@ -5,7 +5,6 @@ from django.conf import settings
 from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
-from django.utils.html import escape
 
 from ..forms import SortForm, SearchBookForm, BookPagingForm
 from ..models import Category, Book, Author
@@ -94,10 +93,6 @@ def sort(request):
             else:
                 books = criterion_dict[sort_form.cleaned_data['criterion']](request.user, category)
 
-            for book in books:
-                book['name'] = escape(book['name'])
-                book['author'] = escape(book['author'])
-
             paginator = Paginator(books, settings.BOOKS_PER_PAGE)
             page = paginator.page(sort_form.cleaned_data['page'])
 
@@ -132,13 +127,8 @@ def find_books(request):
             paginator = Paginator(filtered_books, settings.BOOKS_PER_PAGE)
             page = paginator.page(search_book_form.cleaned_data['page'])
 
-            books = Book.generate_books(page.object_list)
-            for book in books:
-                book['name'] = escape(book['name'])
-                book['author'] = escape(book['author'])
-
             response = {
-                'books': books,
+                'books': Book.generate_books(page.object_list),
                 'has_next': page.has_next(),
                 'next_page': page.next_page_number() if page.has_next() else paginator.num_pages
             }
@@ -165,14 +155,9 @@ def load_books(request, category_id):
             paginator = Paginator(filtered_books, settings.BOOKS_PER_PAGE)
             page = paginator.page(form.cleaned_data['page'])
 
-            books = Book.generate_books(page.object_list)
-            for book in books:
-                book['name'] = escape(book['name'])
-                book['author'] = escape(book['author'])
-
             response = {
                 'category_id': category_id,
-                'books': books,
+                'books': Book.generate_books(page.object_list),
                 'has_next': page.has_next(),
                 'next_page': page.next_page_number() if page.has_next() else paginator.num_pages
             }

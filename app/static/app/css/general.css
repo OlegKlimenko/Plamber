@@ -4,7 +4,15 @@
     font: 12pt 'Lucida Grande', Arial, sans-serif;
     outline: none;
 }
-
+.header-animation:hover {
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    -webkit-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    transform: scale(1.1);
+}
 .input-colors:focus {
     border: 2px solid #31a445;
 }
@@ -48,7 +56,7 @@
 
 #left-ref-panel {
     position: fixed;
-    top: 30%;
+    top: 20%;
     z-index: 9999;
 }
 
@@ -123,6 +131,10 @@
 .reminder-button:hover {
     background-color: #2e3438;
     border: solid 2px #2e3438;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
 
 .button-go {

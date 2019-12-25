@@ -35,6 +35,7 @@ class AddBookViewsTest(TestCase):
         cls.author1 = Author.objects.create(author_name='New Author Name')
         cls.author2 = Author.objects.create(author_name='A best one')
         cls.author3 = Author.objects.create(author_name='The new author')
+        cls.author4 = Author.objects.create(author_name='<AuthorSpecialSymbols>&"')
 
         cls.anonymous_client = Client()
         cls.logged_client = Client()
@@ -140,8 +141,11 @@ class AddBookViewsTest(TestCase):
         self.assertEqual(response.resolver_match.func, generate_authors)
         self.assertEqual(response.status_code, 200)
         self.assertTrue(isinstance(response_content, list))
-        self.assertEqual(len(response_content), 3)
-        self.assertEqual(response_content, ['New Author Name', 'A best one', 'The new author'])
+        self.assertEqual(len(response_content), 4)
+        self.assertEqual(
+            response_content,
+            ['New Author Name', 'A best one', 'The new author', '&lt;AuthorSpecialSymbols&gt;&amp;&quot;']
+        )
 
     # ------------------------------------------------------------------------------------------------------------------
     def test_generate_authors_success_full_name(self):
@@ -174,8 +178,10 @@ class AddBookViewsTest(TestCase):
         self.assertEqual(response.resolver_match.func, generate_authors)
         self.assertEqual(response.status_code, 200)
         self.assertTrue(isinstance(response_content, list))
-        self.assertEqual(len(response_content), 2)
-        self.assertEqual(response_content, ['New Author Name', 'The new author'])
+        self.assertEqual(len(response_content), 3)
+        self.assertEqual(
+            response_content, ['New Author Name', 'The new author', '&lt;AuthorSpecialSymbols&gt;&amp;&quot;']
+        )
 
         response = self.logged_client.get(reverse('generate_authors'), {'part': 'author'},
                                           HTTP_X_REQUESTED_WITH=self.xhr)
@@ -184,8 +190,10 @@ class AddBookViewsTest(TestCase):
         self.assertEqual(response.resolver_match.func, generate_authors)
         self.assertEqual(response.status_code, 200)
         self.assertTrue(isinstance(response_content, list))
-        self.assertEqual(len(response_content), 2)
-        self.assertEqual(response_content, ['New Author Name', 'The new author'])
+        self.assertEqual(len(response_content), 3)
+        self.assertEqual(
+            response_content, ['New Author Name', 'The new author', '&lt;AuthorSpecialSymbols&gt;&amp;&quot;']
+        )
 
         response = self.logged_client.get(reverse('generate_authors'), {'part': 'aUthOR'},
                                           HTTP_X_REQUESTED_WITH=self.xhr)
@@ -194,8 +202,10 @@ class AddBookViewsTest(TestCase):
         self.assertEqual(response.resolver_match.func, generate_authors)
         self.assertEqual(response.status_code, 200)
         self.assertTrue(isinstance(response_content, list))
-        self.assertEqual(len(response_content), 2)
-        self.assertEqual(response_content, ['New Author Name', 'The new author'])
+        self.assertEqual(len(response_content), 3)
+        self.assertEqual(
+            response_content, ['New Author Name', 'The new author', '&lt;AuthorSpecialSymbols&gt;&amp;&quot;']
+        )
 
     # ------------------------------------------------------------------------------------------------------------------
     def test_generate_books_not_ajax(self):

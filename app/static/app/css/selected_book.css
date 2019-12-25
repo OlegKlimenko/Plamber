@@ -70,6 +70,10 @@
 
 .estimate:hover {
     background-color: #31a445;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
 
 .estimate-selected {
@@ -95,6 +99,10 @@
     background-color: Transparent;
     border: solid 2px #9aa6ad;
     color: #9aa6ad;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
 
 #read-book {
@@ -109,19 +117,27 @@
     background-color: Transparent;
     border: solid 2px #ff8f0c;
     color: #ff8f0c;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
 
-#add-book {
+#read-book-app {
     background-color: #31a445;
     border: solid 2px #31a445;
     color: #fff;
     width: 100%;
 }
 
-#add-book:hover {
+#read-book-app:hover {
     background-color: Transparent;
     border: solid 2px #31a445;
     color: #31a445;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
 
 #add-book-blocked {
@@ -135,6 +151,10 @@
     background-color: Transparent;
     border: solid 2px red;
     color: red;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
 
 .add-book-text {
@@ -182,7 +202,9 @@ td {
 }
 
 .thumbnail img{
+    max-height: 100%;
     max-width: 100%;
+    min-width: 100%;
 }
 
 .img-wrapper{
@@ -191,32 +213,42 @@ td {
 	position: relative;
 }
 
-.img-wrapper img{
+.img-wrapper img {
 	position: absolute;
 	top: 0;
 	bottom: 0;
 	left: 0;
 	right: 0;
 	min-height: 99%;
+    max-height: 100%;
 }
 
 .book-info {
     bottom: 0;
-    color: #31a445;
+    color: #fff;
     display: none;
     font-family: 'Lucida Grande', Arial, sans-serif;
     left: 0;
     position: absolute;
+    padding: 5px;
     right: 0;
     top: 0;
 }
 
-.thumbnail:hover img {
-    display: none;
+.thumbnail:hover {
+    -webkit-transform: scale(1.2);
+    -ms-transform: scale(1.2);
+    transform: scale(1.2);
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
 
 .thumbnail:hover .book-info {
     display: block;
+    background: #2e3438;
+    opacity: 0.9;
 }
 
 #new-comment-header {
@@ -242,6 +274,10 @@ td {
 #comment-button:hover {
     background-color: Transparent;
     color: #2e3438;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
 
 #comments-header {
@@ -278,6 +314,10 @@ td {
     background-color: Transparent;
     border: solid 2px #31a445;
     color: #31a445;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
 
 #report-icon {
@@ -323,7 +363,10 @@ td {
 #report-back:hover {
     background-color: #2e3438;
     border: 2px solid #2e3438;
-    color: #fff;
+    color: #fff;-webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
 
 #report-do {
@@ -336,6 +379,10 @@ td {
     background-color: #2e3438;
     border: 2px solid #2e3438;
     color: #fff;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
 
 #report-text {

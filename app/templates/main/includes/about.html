@@ -1,0 +1,162 @@
+{% load staticfiles %}
+
+<!-- Toast with message -->
+<div id="error-toast">Нет соединения с сервером...</div>
+
+<!-- About project area -->
+<div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 align-center">
+        <h1>О проекте <span class="feature-head"><strong>Plamber</strong></span></h1>
+
+        <div class="paragraph">
+            <h3>
+                <strong class="heading">Plamber</strong>
+                объединяет возможности онлайн библиотеки
+                и системы для чтения книг в различных форматах.
+            </h3>
+
+            <h3>
+                Задача <strong class="heading">Plamber</strong>
+                - обеспечить синхронизацию ваших данных
+                на различных устройствах и позволить удобно отображать
+                ваши книги на дисплеях любого типа и любого размера.
+            </h3>
+        </div>
+    </div>
+</div>
+
+<!--System features-->
+<div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 align-center">
+        <hr class="hr-style">
+        <h2>Возможности системы</h2>
+        <hr class="hr-style">
+
+        <div class="col-sm-12 col-md-6 col-lg-6">
+            <div class="col-sm-4 col-md-4 col-lg-4">
+                <img class="img-responsive" src="{% static 'app/images/features/responsive.png' %}"
+                     alt="Адаптивный дизайн">
+            </div>
+            <div class="col-sm-8 col-md-8 col-lg-8 align-left">
+                <h3 class="feature-head">Адаптивный дизайн</h3>
+                <p class="paragraph">Удобное отображение интерфейса и книг на любых типах устройств</p>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-6">
+            <div class="col-sm-4 col-md-4 col-lg-4">
+                <img class="img-responsive" src="{% static 'app/images/features/sync.png' %}"
+                     alt="Синхронизация">
+            </div>
+            <div class="col-sm-8 col-md-8 col-lg-8 align-left">
+                <h3 class="feature-head">Синхронизация</h3>
+                <p class="paragraph">Полная синхронизация данных между всеми вашими устройствами</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 align-center">
+        <div class="col-sm-12 col-md-6 col-lg-6">
+            <div class="col-sm-4 col-md-4 col-lg-4">
+                <img class="img-responsive" src="{% static 'app/images/features/page_saving.png' %}"
+                     alt="Сохранение страниц">
+            </div>
+            <div class="col-sm-8 col-md-8 col-lg-8 align-left">
+                <h3 class="feature-head">Сохранение страниц</h3>
+                <p class="paragraph">Система сохраняет последнюю прочитанную страницу на всех ваших книгах</p>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-6">
+            <div class="col-sm-4 col-md-4 col-lg-4">
+                <img class="img-responsive" src="{% static 'app/images/features/pdf.png' %}"
+                     alt="Формат PDF">
+            </div>
+            <div class="col-sm-8 col-md-8 col-lg-8 align-left">
+                <h3 class="feature-head">Формат PDF</h3>
+                <p class="paragraph">Полная поддержка документов в формате PDF</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 align-center">
+        <div class="col-sm-12 col-md-6 col-lg-6">
+            <div class="col-sm-4 col-md-4 col-lg-4">
+                <img class="img-responsive" src="{% static 'app/images/features/add_book.png' %}"
+                     alt="Добавление книг">
+            </div>
+            <div class="col-sm-8 col-md-8 col-lg-8 align-left">
+                <h3 class="feature-head">Добавление книг</h3>
+                <p class="paragraph">Добавление своих любимых книг разнообразной тематики</p>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-6">
+            <div class="col-sm-4 col-md-4 col-lg-4">
+                <img class="img-responsive" src="{% static 'app/images/features/comment.png' %}"
+                     alt="Комментарии и оценки">
+            </div>
+            <div class="col-sm-8 col-md-8 col-lg-8 align-left">
+                <h3 class="feature-head">Комментарии и оценки</h3>
+                <p class="paragraph">Возможность комментировать и оставлять оценки на любые книги</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 align-center">
+        <div class="col-sm-12 col-md-6 col-lg-6">
+            <div class="col-sm-4 col-md-4 col-lg-4">
+                <img class="img-responsive" src="{% static 'app/images/features/storage.png' %}"
+                     alt="Хранилище книг">
+            </div>
+            <div class="col-sm-8 col-md-8 col-lg-8 align-left">
+                <h3 class="feature-head">Хранилище книг</h3>
+                <p class="paragraph">Большое хранилище книг с удобными функциями поиска и сортировки
+                (<strong>{{ books_count }} книг</strong>)</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Contact us area-->
+<div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 align-center">
+        <hr class="hr-style">
+        <h2>Обратная связь</h2>
+        <hr class="hr-style">
+        <div class="align-left">
+            <ul>
+                <li>Если вы обнаружили ошибки или неправильно работающие участки системы</li>
+                <li>Если у вас есть предложения о том, как можно улучшить работу системы</li>
+                <li>Если у вас есть жалобы</li>
+            </ul>
+
+            <div class="col-sm-6 col-md-6 col-lg-4">
+                <p>Напишите нам:</p>
+                <div><input id="user-email" class="input input-colors" type="email" name="email" placeholder="Ваш email..."></div>
+                <div><textarea id="message-text" class="input input-colors" placeholder="Текст..."></textarea></div>
+                <button id="send-button" class="btn" onclick="sendMessage()">Отправить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Authors area-->
+<div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 align-center">
+        <hr class="hr-style">
+        <h3>Для авторов и правообладателей</h3>
+        <hr class="hr-style">
+        <div class="align-left">
+            Книги и документы в нашу систему загружаются пользователями, в связи с этим,
+            если Вы считаете что размещенные у нас книги и документы нарушают Ваши авторские права,
+            пожалуйста свяжитесь с нами по форме выше.
+        </div>
+    </div>
+</div>

@@ -13,20 +13,43 @@
 
 {% block css %}
     <link rel="stylesheet" href="{% static 'app/css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'app/css/about.css' %}">
 
     <style>
-        body {
-            background: url({% static 'app/images/background.jpg' %}) no-repeat center center fixed;
+        .books-background {
+            position: relative;
+        }
+
+        .books-background:after {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            content: '';
+            background-image: url({% static 'app/images/background.jpg' %});
+            background-size: cover;
             -webkit-background-size: cover;
             -moz-background-size: cover;
             -o-background-size: cover;
-            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+        }
+
+        #about-subpage {
+            padding-top: 30px;
+            padding-bottom: 40px;
+            background: rgba(255, 255, 255, 0.8);
+            top: 0;
+            left: 0;
+            position: relative;
         }
     </style>
 {% endblock %}
 
 {% block js %}
     <script src="{% static 'app/js/index.js' %}"></script>
+    <script src="{% static 'app/js/about.js' %}"></script>
 
     {% if invalid_authentication %}
         <script>
@@ -41,11 +64,13 @@
 {% endblock %}
 
 {% block header_special %}
-    <li><a href="{% url 'categories' %}">Библиотека</a></li>
-    <li><a href="{% url 'about' %}">О проекте</a></li>
+    <li><a href="{% url 'categories' %}" class="header-animation">Библиотека</a></li>
+    <li><a href="{% url 'about' %}" class="header-animation">О проекте</a></li>
 {% endblock %}
 
 {% block content %}
+    <div class="books-background"></div>
+
     <!--Main info area-->
     <div id="main" class="container container-margin footer-margin">
         <div class="row">
@@ -66,6 +91,7 @@
             <div class="col-sm-6 col-md-5 col-lg-5 margin">
                 <button class="btn enter-button margin" onclick="logInPageShow()">Войти</button>
                 <button class="btn register-button margin" onclick="registerPageShow()">Зарегистрироваться</button>
+                <a class="btn" id="read-book" href="https://play.google.com/store/apps/details?id=com.ua.plamber_android" target="_blank">Читать с телефона</a>
             </div>
         </div>
     </div>
@@ -174,4 +200,11 @@
             </div>
         </div>
     </div>
+
+    <div id="about-subpage">
+        <div class="container">
+            {% include "main/includes/about.html" %}
+        </div>
+    </div>
+
 {% endblock %}

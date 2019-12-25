@@ -10,7 +10,6 @@ from django.core.paginator import Paginator
 from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import redirect, render, get_object_or_404
-from django.utils.html import escape
 
 from ..constants import Queues
 from ..forms import UploadAvatarForm, ChangePasswordForm, BookPagingForm
@@ -33,7 +32,7 @@ def profile(request, profile_id):
             user = get_object_or_404(User, id=profile_id)
             profile_user = get_object_or_404(TheUser, id_user=user)
 
-            added_books = AddedBook.objects.filter(id_user=profile_user)
+            added_books = AddedBook.objects.filter(id_user=profile_user).order_by('-id')
             uploaded_books = Book.objects.filter(who_added=profile_user).order_by('-id')
 
             paginator = Paginator(uploaded_books, settings.BOOKS_PER_PAGE)
@@ -75,9 +74,6 @@ def load_uploaded_books(request, profile_id):
             page = paginator.page(form.cleaned_data['page'])
 
             books = Book.generate_books(page.object_list)
-            for book in books:
-                book['name'] = escape(book['name'])
-                book['author'] = escape(book['author'])
 
             response = {
                 'profile_id': profile_id,
