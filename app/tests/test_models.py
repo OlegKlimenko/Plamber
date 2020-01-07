@@ -7,7 +7,7 @@ from django.contrib import auth
 from django.contrib.auth.models import User
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db.models import QuerySet
-from django.test import TestCase, Client
+from django.test import TestCase, Client, mock
 from django.urls import reverse
 
 from ..forms import AddBookForm
@@ -202,6 +202,7 @@ class ModelTest(TestCase):
 
     # ------------------------------------------------------------------------------------------------------------------
     @classmethod
+    @mock.patch('app.signals.email_dispatch.apply_async', new=mock.Mock())
     def setup_post_messages(cls):
         Post.objects.create(user=cls.the_user1, heading='post 1', text='Posted test text 1')
         Post.objects.create(user=cls.the_user1, heading='post 2', text='Posted test text 2')

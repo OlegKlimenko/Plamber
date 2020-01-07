@@ -7,7 +7,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.shortcuts import reverse
-from django.test import TestCase, Client, override_settings
+from django.test import TestCase, Client, override_settings, mock
 
 from ...models import Book, TheUser, Category, Language, Author, AddedBook
 from ...views.profile_views import profile, upload_avatar, change_password, load_uploaded_books
@@ -310,6 +310,7 @@ class ProfileViewsTest(TestCase):
         self.assertEqual(response_data, 'Старый пароль не совпадает. Проверьте на наличие ошибок.')
 
     # ------------------------------------------------------------------------------------------------------------------
+    @mock.patch('app.views.profile_views.changed_password.apply_async', new=mock.Mock())
     def test_change_password_success(self):
         self.assertTrue(self.user1.check_password('Dummy'))
 
