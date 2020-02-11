@@ -1,6 +1,6 @@
 celery==4.0.2
 coverage==4.5.1
-Django==1.11.23
+Django==1.11.28
 djangorestframework==3.9.1
 kombu==4.0.2
 mysql-connector-python==8.0.18
