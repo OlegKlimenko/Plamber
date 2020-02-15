@@ -37,6 +37,11 @@ def open_book(request, book_id):
         except ObjectDoesNotExist:
             return redirect(selected_book, book_id=book_id)
     else:
+        if book.blocked_book:
+            return redirect(selected_book, book_id=book_id)
+        if book.private_book:
+            return HttpResponse(status=404)
+
         context = {'book': book, 'book_page': 1}
         return render(request, 'read_book.html', context)
 

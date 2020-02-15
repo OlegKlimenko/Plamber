@@ -68,11 +68,36 @@ class ReadBookViewsTest(TestCase):
                 os.remove(book.photo.path)
 
     # ------------------------------------------------------------------------------------------------------------------
-    def test_open_book_not_logged_user(self):
+    def test_open_book_anonymous_success(self):
         response = self.anonymous_client.get(reverse('read_book', kwargs={'book_id': self.book.id}))
 
         self.assertEqual(response.resolver_match.func, open_book)
         self.assertEqual(response.status_code, 200)
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_open_book_anonymous_private_book(self):
+        self.book.private_book = True
+        self.book.save()
+
+        response = self.anonymous_client.get(reverse('read_book', kwargs={'book_id': self.book.id}))
+        self.assertEqual(response.resolver_match.func, open_book)
+        self.assertEqual(response.status_code, 404)
+
+        self.book.private_book = False
+        self.book.save()
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_open_book_anonymous_blocked_book(self):
+        self.book.blocked_book = True
+        self.book.save()
+
+        response = self.anonymous_client.get(reverse('read_book', kwargs={'book_id': self.book.id}))
+        self.assertEqual(response.resolver_match.func, open_book)
+        self.assertRedirects(response, reverse('book', kwargs={'book_id': self.book.id}),
+                             status_code=302, target_status_code=200)
+
+        self.book.blocked_book = False
+        self.book.save()
 
     # ------------------------------------------------------------------------------------------------------------------
     def test_open_book_book_not_exist(self):
@@ -88,6 +113,32 @@ class ReadBookViewsTest(TestCase):
         self.assertEqual(response.resolver_match.func, open_book)
         self.assertRedirects(response, reverse('book', kwargs={'book_id': self.not_added_book.id}),
                              status_code=302, target_status_code=200)
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_open_book_not_added_to_reading_private_book(self):
+        self.not_added_book.private_book = True
+        self.not_added_book.save()
+
+        response = self.logged_client.get(reverse('read_book', kwargs={'book_id': self.not_added_book.id}))
+        self.assertEqual(response.resolver_match.func, open_book)
+        self.assertRedirects(response, reverse('book', kwargs={'book_id': self.not_added_book.id}),
+                             status_code=302, target_status_code=200)
+
+        self.not_added_book.private_book = False
+        self.not_added_book.save()
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_open_book_not_added_to_reading_blocked_book(self):
+        self.not_added_book.blocked_book = True
+        self.not_added_book.save()
+
+        response = self.logged_client.get(reverse('read_book', kwargs={'book_id': self.not_added_book.id}))
+        self.assertEqual(response.resolver_match.func, open_book)
+        self.assertRedirects(response, reverse('book', kwargs={'book_id': self.not_added_book.id}),
+                             status_code=302, target_status_code=200)
+
+        self.not_added_book.blocked_book = False
+        self.not_added_book.save()
 
     # ------------------------------------------------------------------------------------------------------------------
     def test_open_book_last_read_date_change(self):
@@ -114,6 +165,36 @@ class ReadBookViewsTest(TestCase):
         self.assertTemplateUsed(response, 'read_book.html')
         self.assertEqual(response.context['book'], self.book)
         self.assertEqual(response.context['book_page'], self.added_book.last_page)
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_open_book_success_private_book(self):
+        self.book.private_book = True
+        self.book.save()
+
+        response = self.logged_client.get(reverse('read_book', kwargs={'book_id': self.book.id}))
+        self.assertEqual(response.resolver_match.func, open_book)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'read_book.html')
+        self.assertEqual(response.context['book'], self.book)
+        self.assertEqual(response.context['book_page'], self.added_book.last_page)
+
+        self.book.private_book = False
+        self.book.save()
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_open_book_success_blocked_book(self):
+        self.book.blocked_book = True
+        self.book.save()
+
+        response = self.logged_client.get(reverse('read_book', kwargs={'book_id': self.book.id}))
+        self.assertEqual(response.resolver_match.func, open_book)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'read_book.html')
+        self.assertEqual(response.context['book'], self.book)
+        self.assertEqual(response.context['book_page'], self.added_book.last_page)
+
+        self.book.blocked_book = False
+        self.book.save()
 
     # ------------------------------------------------------------------------------------------------------------------
     def test_set_current_page_not_ajax(self):
