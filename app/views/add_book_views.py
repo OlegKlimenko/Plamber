@@ -13,7 +13,7 @@ from ..forms import GenerateAuthorsForm, AddBookForm, GenerateBooksForm
 from ..models import AddedBook, Author, Book, Category, Language
 from ..tasks import compress_pdf_task
 
-READ_PRIVILEGES = int('644', base=8)
+READ_PRIVILEGES = 0o644
 
 logger = logging.getLogger('changes')
 
@@ -96,7 +96,7 @@ def add_book_successful(request):
 
                 logger.info("User '{}' uploaded book with id: '{}' and name: '{}' on category: '{}'."
                             .format(rel_objects['user'], book.id, book.book_name, rel_objects['category']))
-                
+
                 os.chmod(book.book_file.path, READ_PRIVILEGES)
                 compress_pdf_task.apply_async(args=(book.book_file.path, book.id), queue=Queues.default)
 
