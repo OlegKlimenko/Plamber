@@ -61,6 +61,10 @@ def login_response(request, username, password):
         logger.info("User '{}' logged in.".format(user.username))
 
         return redirect('index')
+
+    logger.warning("User '{}' tried to login with '{}' password IP: {}".format(
+        username, password, request.META.get('REMOTE_ADDR')
+    ))
     return render(request, 'index.html', {'invalid_authentication': True})
 
 
@@ -148,6 +152,10 @@ def sign_in(request):
                     successful_registration.apply_async(args=(user.username, user.email), queue=Queues.default)
 
             return redirect('/')
+
+        logger.error("Failed creating new user. username: '{}' email: '{}'".format(
+            request.POST.get('username'), request.POST.get('email')
+        ))
         return HttpResponse(status=400)
     return HttpResponse(status=404)
 
