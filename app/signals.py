@@ -2,6 +2,7 @@
 
 import os
 import uuid
+import random
 
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save, post_delete
@@ -19,9 +20,13 @@ def create_additional_data(sender, instance=None, created=False, **kwargs):
     Creates '.models.TheUser' instance and auth_token for this instance after creating User instance.
     """
     if created:
-        the_user = TheUser.objects.create(id_user=instance,
-                                          auth_token=uuid.uuid5(uuid.NAMESPACE_DNS,
-                                                                instance.username + str(instance.date_joined)))
+        the_user = TheUser.objects.create(
+            id_user=instance,
+            auth_token=uuid.uuid5(
+                uuid.NAMESPACE_DNS,
+                '{}{}{}'.format(instance.username, str(instance.date_joined), random.randint(0, 10000000000))
+            )
+        )
         the_user.save()
 
 
