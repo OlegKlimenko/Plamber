@@ -12,6 +12,7 @@
     -webkit-transform: scale(1.1);
     -ms-transform: scale(1.1);
     transform: scale(1.1);
+    z-index: 9999;
 }
 .input-colors:focus {
     border: 2px solid #31a445;
@@ -150,4 +151,17 @@
 .button-skip {
     background-color: #9aa6ad;
     border: solid 2px #9aa6ad;
+}
+
+#donate-text {
+    float: left;
+    margin-right: 10px;
+}
+
+#donate-button {
+    background-color: Transparent;
+    color: #ff8f0c;
+    padding-top: 15px;
+    padding-bottom: 0;
+    width: 280px;
 }

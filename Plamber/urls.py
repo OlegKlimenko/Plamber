@@ -70,6 +70,7 @@ urlpatterns = [
     url(r'unsubscribe/(?P<token>[0-9a-zA-Z_-]+)/', additional_views.unsubscribe, name='unsubscribe'),
     url(r'(?P<file>[%&+ \w]+.txt)', additional_views.share_txt, name='share_txt'),
     url(r'(?P<file>[%&+ \w]+.xml)', additional_views.share_xml, name='share_xml'),
-    url(r'^update-reminder', reminder_views.update_reminder, name='update_reminder')
+    url(r'^update-reminder', reminder_views.update_reminder, name='update_reminder'),
+    url(r'^payment-success', additional_views.payment_success, name='payment_success_app')
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

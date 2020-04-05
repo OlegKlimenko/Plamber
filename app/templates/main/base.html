@@ -63,6 +63,17 @@
                         <li><a href="{% url 'profile' request.user.id %}" class="header-animation">Профиль</a></li>
                         <li><a href="{% url 'about' %}" class="header-animation">О проекте</a></li>
                     {% endif %}
+                        <li>
+                            <a id="donate-button">
+                                <div id="donate-text"><b>Поддержать проект</b></div>
+                                <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                                    <input type="hidden" name="cmd" value="_s-xclick" />
+                                    <input type="hidden" name="hosted_button_id" value="B7K4CK8X2HPLW" />
+                                    <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+                                    <img alt="" border="0" src="https://www.paypal.com/en_UA/i/scr/pixel.gif" width="1" height="1" />
+                                </form>
+                            </a>
+                        </li>
                 </ul>
             </div>
         </div>
