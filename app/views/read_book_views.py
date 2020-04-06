@@ -42,7 +42,12 @@ def open_book(request, book_id):
         if book.private_book:
             return HttpResponse(status=404)
 
-        context = {'book': book, 'book_page': 1}
+        try:
+            book_page = int(request.COOKIES.get('plamber_book_{}'.format(book_id), 1))
+        except ValueError:
+            book_page = 1
+
+        context = {'book': book, 'book_page': book_page}
         return render(request, 'read_book.html', context)
 
 

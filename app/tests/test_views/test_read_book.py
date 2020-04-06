@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+from http.cookies import SimpleCookie
 
 from django.contrib.auth.models import User
 from django.core.files.uploadedfile import SimpleUploadedFile
@@ -68,11 +69,44 @@ class ReadBookViewsTest(TestCase):
                 os.remove(book.photo.path)
 
     # ------------------------------------------------------------------------------------------------------------------
-    def test_open_book_anonymous_success(self):
+    def test_open_book_anonymous_success_no_cookies(self):
+        self.anonymous_client.cookies.pop('plamber_book_{}'.format(self.book.id), None)
         response = self.anonymous_client.get(reverse('read_book', kwargs={'book_id': self.book.id}))
 
         self.assertEqual(response.resolver_match.func, open_book)
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context['book_page'], 1)
+        self.assertEqual(response.context['book'], self.book)
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_open_book_anonymous_success_with_cookie(self):
+        self.anonymous_client.cookies = SimpleCookie({'plamber_book_{}'.format(self.book.id): 666})
+        response = self.anonymous_client.get(reverse('read_book', kwargs={'book_id': self.book.id}))
+
+        self.assertEqual(response.resolver_match.func, open_book)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context['book_page'], 666)
+        self.assertEqual(response.context['book'], self.book)
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_open_book_anonymous_success_not_valid_cookie_type(self):
+        self.anonymous_client.cookies = SimpleCookie({'plamber_book_{}'.format(self.book.id): 'string'})
+        response = self.anonymous_client.get(reverse('read_book', kwargs={'book_id': self.book.id}))
+
+        self.assertEqual(response.resolver_match.func, open_book)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context['book_page'], 1)
+        self.assertEqual(response.context['book'], self.book)
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_open_book_anonymous_success_other_book_cookie(self):
+        self.anonymous_client.cookies = SimpleCookie({'plamber_book_10000': '60'})
+        response = self.anonymous_client.get(reverse('read_book', kwargs={'book_id': self.book.id}))
+
+        self.assertEqual(response.resolver_match.func, open_book)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context['book_page'], 1)
+        self.assertEqual(response.context['book'], self.book)
 
     # ------------------------------------------------------------------------------------------------------------------
     def test_open_book_anonymous_private_book(self):
