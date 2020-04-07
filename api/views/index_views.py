@@ -36,14 +36,14 @@ def login_response(request, username):
 
     if user:
         user_token = TheUser.objects.get(id_user=user).auth_token
-
         login(request, user)
-        logger.info("User '{}' logged in.".format(user.username))
 
+        logger.info("User '{}' logged in.".format(user.username))
         return Response({'detail': 'successful',
                          'data': {'token': user_token}},
                         status=status.HTTP_200_OK)
 
+    logger.warning("User '{}' tried to login with '{}' password.".format(username, request.data.get('password')))
     return Response({'detail': 'not authenticated',
                      'data': {'token': None}},
                     status=status.HTTP_404_NOT_FOUND)
@@ -187,4 +187,7 @@ def sign_in(request):
                              'data': {'token': user_token}},
                             status=status.HTTP_200_OK)
     else:
+        logger.error("Failed creating new user. username: '{}' email: '{}'".format(
+            request.data.get('username'), request.data.get('email')
+        ))
         return invalid_data_response(request_serializer)

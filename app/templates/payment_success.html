@@ -1,0 +1,30 @@
+{% extends 'main/base.html' %}
+{% load staticfiles %}
+
+{% block title %}Спасибо, Вам!{% endblock %}
+
+{% block description %}
+    <meta name="description" content="Спасибо, Вам!">
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'app/css/error_page.css' %}">
+{% endblock %}
+
+{% block content %}
+    <!--Main info area-->
+    <div class="container container-margin">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12" align="center">
+                <div class="col-xs-2 col-sm-4 col-md-2 col-lg-2"></div>
+                <div class="col-xs-8 col-sm-4 col-md-8 col-lg-8">
+                        <img class="img-responsive test" src="{% static 'app/images/paypal_android.png' %}" alt="Payment Success">
+                        <h2><strong>Оплата успешна</strong></h2>
+                    <h5>Спасибо, что поддержали наш проект! <br>
+                    Без вашей поддержки мы бы не смогли существовать.</h5>
+                </div>
+                <div class="col-xs-2 col-sm-4 col-md-2 col-lg-2"></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

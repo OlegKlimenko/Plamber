@@ -37,7 +37,17 @@ def open_book(request, book_id):
         except ObjectDoesNotExist:
             return redirect(selected_book, book_id=book_id)
     else:
-        context = {'book': book, 'book_page': 1}
+        if book.blocked_book:
+            return redirect(selected_book, book_id=book_id)
+        if book.private_book:
+            return HttpResponse(status=404)
+
+        try:
+            book_page = int(request.COOKIES.get('plamber_book_{}'.format(book_id), 1))
+        except ValueError:
+            book_page = 1
+
+        context = {'book': book, 'book_page': book_page}
         return render(request, 'read_book.html', context)
 
 

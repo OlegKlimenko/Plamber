@@ -69,3 +69,11 @@ def unsubscribe(request, token):
     user.save()
 
     return render(request, 'additional/unsubscribe.html', context={'user': user})
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+def payment_success(request):
+    """
+    Renders status page after donation passed successfully."
+    """
+    return render(request, 'payment_success.html')

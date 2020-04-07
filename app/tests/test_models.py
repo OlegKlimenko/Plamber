@@ -7,7 +7,7 @@ from django.contrib import auth
 from django.contrib.auth.models import User
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db.models import QuerySet
-from django.test import TestCase, Client
+from django.test import TestCase, Client, mock
 from django.urls import reverse
 
 from ..forms import AddBookForm
@@ -202,6 +202,7 @@ class ModelTest(TestCase):
 
     # ------------------------------------------------------------------------------------------------------------------
     @classmethod
+    @mock.patch('app.signals.email_dispatch.apply_async', new=mock.Mock())
     def setup_post_messages(cls):
         Post.objects.create(user=cls.the_user1, heading='post 1', text='Posted test text 1')
         Post.objects.create(user=cls.the_user1, heading='post 2', text='Posted test text 2')
@@ -477,6 +478,26 @@ class ModelTest(TestCase):
                          AddedBook.objects.get(id_book=sixth_book, id_user=self.the_user1))
 
     # ------------------------------------------------------------------------------------------------------------------
+    def test_get_related_objects_selected_book_with_user_key(self):
+        """
+        Tests returning data for related objects for selected book with 'user_key' attribute, meaning that
+        user is anonymous (i.e. not logged) but with using user key. Done for API requests access.
+        """
+        third_book = Book.objects.get(book_name='Third Book')
+        related_third_book = Book.get_related_objects_selected_book(
+            self.anonymous_user, third_book.id, self.the_user1.auth_token
+        )
+
+        self.assertEqual(related_third_book['book'], third_book)
+        self.assertEqual(related_third_book['avg_book_rating'], {'rating__avg': 6.0})
+        self.assertEqual(related_third_book['book_rating_count'], 3)
+        self.assertEqual(related_third_book['added_book'],
+                         AddedBook.objects.get(id_book=third_book, id_user=self.the_user1))
+        self.assertEqual(related_third_book['comments'].count(), 1)
+        self.assertEqual(related_third_book['comments'][0],
+                         BookComment.objects.filter(id_book=third_book).order_by('-id')[0])
+
+    # ------------------------------------------------------------------------------------------------------------------
     def test_sort_by_book_name_category1(self):
         """
         Must generate correct dictionaries for anonymous users, users with private books and without.
@@ -609,19 +630,24 @@ class ModelTest(TestCase):
         Must generate correct data by most readable books for anonymous users and users with private books.
         Testing count of sorted books with and without selected categories.
         """
-        # @TODO finish this tests
-        self.assertTrue(isinstance(Book.sort_by_readable(self.anonymous_user, self.category1), list))
-        self.assertTrue(isinstance(Book.sort_by_readable(self.anonymous_user, self.category1)[0], dict))
+        sorted_structure = Book.sort_by_readable(self.anonymous_user, self.category1)
+        self.assertTrue(isinstance(sorted_structure, list))
+        self.assertTrue(isinstance(sorted_structure[0], dict))
+        self.assertEqual(set(sorted_structure[0].keys()), {'id', 'name', 'author', 'url'})
 
         self.assertEqual(len(Book.sort_by_readable(user=self.anonymous_user, category=self.category1)), 3)
         self.assertEqual(len(Book.sort_by_readable(user=self.anonymous_user, category=self.category1, count=2)), 2)
         self.assertEqual(len(Book.sort_by_readable(user=self.the_user1.id_user, category=self.category1)), 3)
         self.assertEqual(len(Book.sort_by_readable(user=self.the_user1.id_user, category=self.category1, count=2)), 2)
+        self.assertEqual(len(Book.sort_by_readable(user=self.the_user2.id_user, category=self.category1)), 3)
+        self.assertEqual(len(Book.sort_by_readable(user=self.the_user2.id_user, category=self.category1, count=2)), 2)
 
         self.assertEqual(len(Book.sort_by_readable(user=self.anonymous_user)), 4)
         self.assertEqual(len(Book.sort_by_readable(user=self.anonymous_user, count=2)), 2)
         self.assertEqual(len(Book.sort_by_readable(user=self.the_user1.id_user)), 4)
         self.assertEqual(len(Book.sort_by_readable(user=self.the_user1.id_user, count=3)), 3)
+        self.assertEqual(len(Book.sort_by_readable(user=self.the_user2.id_user)), 4)
+        self.assertEqual(len(Book.sort_by_readable(user=self.the_user2.id_user, count=2)), 2)
 
     # ------------------------------------------------------------------------------------------------------------------
     def test_generate_books(self):

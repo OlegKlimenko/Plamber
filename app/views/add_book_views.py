@@ -2,6 +2,7 @@
 
 import json
 import logging
+import os
 
 from django.db import transaction
 from django.http import HttpResponse
@@ -11,6 +12,8 @@ from ..constants import Queues
 from ..forms import GenerateAuthorsForm, AddBookForm, GenerateBooksForm
 from ..models import AddedBook, Author, Book, Category, Language
 from ..tasks import compress_pdf_task
+
+READ_PRIVILEGES = 0o644
 
 logger = logging.getLogger('changes')
 
@@ -79,21 +82,22 @@ def add_book_successful(request):
             with transaction.atomic():
                 rel_objects = Book.get_related_objects_for_create(request.user.id, book_form)
 
-                book = Book.objects.create(book_name=book_form.cleaned_data['bookname'],
-                                           id_author=rel_objects['author'],
-                                           id_category=rel_objects['category'],
-                                           description=book_form.cleaned_data['about'],
-                                           language=rel_objects['lang'],
-                                           book_file=book_form.cleaned_data['bookfile'],
-                                           who_added=rel_objects['user'],
-                                           private_book=book_form.cleaned_data['private'])
-
-                AddedBook.objects.create(id_user=rel_objects['user'],
-                                         id_book=book)
+                book = Book.objects.create(
+                    book_name=book_form.cleaned_data['bookname'],
+                    id_author=rel_objects['author'],
+                    id_category=rel_objects['category'],
+                    description=book_form.cleaned_data['about'],
+                    language=rel_objects['lang'],
+                    book_file=book_form.cleaned_data['bookfile'],
+                    who_added=rel_objects['user'],
+                    private_book=book_form.cleaned_data['private']
+                )
+                AddedBook.objects.create(id_user=rel_objects['user'], id_book=book)
 
                 logger.info("User '{}' uploaded book with id: '{}' and name: '{}' on category: '{}'."
                             .format(rel_objects['user'], book.id, book.book_name, rel_objects['category']))
 
+                os.chmod(book.book_file.path, READ_PRIVILEGES)
                 compress_pdf_task.apply_async(args=(book.book_file.path, book.id), queue=Queues.default)
 
                 return HttpResponse(reverse('book', kwargs={'book_id': book.id}), status=200)

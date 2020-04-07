@@ -8,8 +8,12 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.shortcuts import reverse
 from django.test import TestCase, Client, override_settings
 
-from ...models import Author, Book, AddedBook, Category, Language, TheUser, BookRating
+from ...forms import ReportForm
+from ...models import Author, Book, AddedBook, Category, Language, TheUser, BookRating, BookComment
 from ...views.library_views import all_categories, selected_category, selected_author, sort, find_books, load_books
+from ...views.selected_book_views import (
+    selected_book, add_book_to_home, remove_book_from_home, change_rating, add_comment, load_comments, report_book
+)
 from ..utils import Utils
 
 TEST_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -28,11 +32,15 @@ class LibraryViewsTestCase(TestCase):
 
         cls.xhr = 'XMLHttpRequest'
         cls.user = User.objects.create_user(username='libusername', email='lib@user.com', password='password')
+        cls.user2 = User.objects.create_user(username='libusername2', email='lib2@user.com', password='password')
         cls.the_user = TheUser.objects.get(id_user=cls.user)
+        cls.the_user2 = TheUser.objects.get(id_user=cls.user2)
 
         cls.anonymous_client = Client()
         cls.logged_client = Client()
         cls.logged_client.login(username='libusername', password='password')
+        cls.logged_client2 = Client()
+        cls.logged_client2.login(username='libusername2', password='password')
 
         cls.category = Category.objects.create(category_name='CustomCategoryName')
         cls.language = Language.objects.create(language='French')
@@ -62,6 +70,24 @@ class LibraryViewsTestCase(TestCase):
             language=cls.language,
             book_file=SimpleUploadedFile('test_book.pdf', open(test_book_path, 'rb').read()),
             who_added=cls.the_user
+        )
+        cls.book4 = Book.objects.create(
+            book_name='category_book_test4<>&"',
+            id_author=cls.author2,
+            id_category=cls.category,
+            language=cls.language,
+            book_file=SimpleUploadedFile('test_book.pdf', open(test_book_path, 'rb').read()),
+            who_added=cls.the_user,
+            private_book=True
+        )
+        cls.book5 = Book.objects.create(
+            book_name='category_book_test5<>&"',
+            id_author=cls.author2,
+            id_category=cls.category,
+            language=cls.language,
+            book_file=SimpleUploadedFile('test_book.pdf', open(test_book_path, 'rb').read()),
+            who_added=cls.the_user,
+            blocked_book=True
         )
 
         AddedBook.objects.create(id_user=cls.the_user, id_book=cls.book1)
@@ -128,7 +154,7 @@ class LibraryViewsTestCase(TestCase):
         self.assertIn('has_next', response.context)
         self.assertEqual(response.context['category'].category_name, 'CustomCategoryName')
         self.assertEqual(len(response.context['books']), 2)
-        self.assertEqual(response.context['total_books_count'], 3)
+        self.assertEqual(response.context['total_books_count'], 5)
         self.assertEqual(response.context['has_next'], True)
 
     # ------------------------------------------------------------------------------------------------------------------
@@ -283,6 +309,13 @@ class LibraryViewsTestCase(TestCase):
                     'author': self.book1.id_author.author_name,
                     'url': '',
                     'rating': 5.0
+                },
+                {
+                    'id': self.book5.id,
+                    'name': 'category_book_test5&lt;&gt;&amp;&quot;',
+                    'author': 'SomeOtherCategoryNameAuthor&lt;&gt;&amp;&quot;',
+                    'url': '',
+                    'rating': None
                 }
             ],
             'has_next': False,
@@ -394,7 +427,8 @@ class LibraryViewsTestCase(TestCase):
 
         expected_response = {
             'books': [
-                Utils.generate_sort_dict(self.book3)
+                Utils.generate_sort_dict(self.book3),
+                Utils.generate_sort_dict(self.book5)
             ],
             'has_next': False,
             'next_page': 2
@@ -443,7 +477,8 @@ class LibraryViewsTestCase(TestCase):
         response_data = json.loads(response.content.decode('utf-8'))
 
         expected_books = [
-            Utils.generate_sort_dict(self.book3)
+            Utils.generate_sort_dict(self.book3),
+            Utils.generate_sort_dict(self.book5)
         ]
 
         self.assertEqual(response.resolver_match.func, load_books)
@@ -456,3 +491,339 @@ class LibraryViewsTestCase(TestCase):
         self.assertEqual(list(response_data['books']), expected_books)
         self.assertEqual(response_data['has_next'], False)
         self.assertEqual(response_data['next_page'], 2)
+
+    # ------------------------------------------------------------------------------------------------------------------
+    # Selected Book test cases.
+    # Done here due to issues with Django / MySQL closed connection...
+
+    def test_selected_book_not_existing_book(self):
+        response = self.logged_client.get(
+            reverse('book', kwargs={'book_id': 50000})
+        )
+        self.assertEqual(response.resolver_match.func, selected_book)
+        self.assertEqual(response.status_code, 404)
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_selected_book_is_private_for_anonymous_user(self):
+        response = self.anonymous_client.get(
+            reverse('book', kwargs={'book_id': self.book4.id})
+        )
+        self.assertEqual(response.resolver_match.func, selected_book)
+        self.assertEqual(response.status_code, 404)
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_selected_book_is_private_for_logged_not_added_user(self):
+        response = self.logged_client2.get(
+            reverse('book', kwargs={'book_id': self.book4.id})
+        )
+        self.assertEqual(response.resolver_match.func, selected_book)
+        self.assertEqual(response.status_code, 404)
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_selected_book_is_private_for_logged_who_added_user(self):
+        response = self.logged_client.get(
+            reverse('book', kwargs={'book_id': self.book4.id})
+        )
+        self.assertEqual(response.resolver_match.func, selected_book)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context['book'], self.book4)
+        self.assertIsNone(response.context['added_book'])
+        self.assertEqual(response.context['added_book_count'], 0)
+        self.assertEqual(len(response.context['comments']), 0)
+        self.assertEqual(response.context['comments_page'], 1)
+        self.assertFalse(response.context['comments_has_next_page'])
+        self.assertEqual(response.context['book_rating'], '-')
+        self.assertEqual(response.context['book_rating_count'], '')
+        self.assertEqual(response.context['estimation_count'], range(1, 11))
+        self.assertEqual(response.context['user'], self.the_user)
+        self.assertEqual(len(response.context['recommend_books']), 0)
+        self.assertIsNone(response.context['user_rated'])
+        self.assertTrue(isinstance(response.context['report_form'], ReportForm))
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_store_image(self):
+        pass  # TODO add tests for storing images.
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_add_book_to_home_not_ajax(self):
+        response = self.logged_client.post(reverse('add_book_home_app'), {})
+        self.assertEqual(response.resolver_match.func, add_book_to_home)
+        self.assertEqual(response.status_code, 404)
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_add_book_to_home_invalid_form_params(self):
+        response = self.logged_client.post(
+            reverse('add_book_home_app'), {'book': 'abc'}, HTTP_X_REQUESTED_WITH=self.xhr
+        )
+        self.assertEqual(response.resolver_match.func, add_book_to_home)
+        self.assertEqual(response.status_code, 400)
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_add_book_to_home_private_book_not_wdo_added_user(self):
+        response = self.logged_client2.post(
+            reverse('add_book_home_app'), {'book': self.book4.id}, HTTP_X_REQUESTED_WITH=self.xhr
+        )
+        self.assertEqual(response.resolver_match.func, add_book_to_home)
+        self.assertEqual(response.status_code, 404)
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_add_book_to_home_blocked_book(self):
+        response = self.logged_client.post(
+            reverse('add_book_home_app'), {'book': self.book5.id}, HTTP_X_REQUESTED_WITH=self.xhr
+        )
+        self.assertEqual(response.resolver_match.func, add_book_to_home)
+        self.assertEqual(response.status_code, 400)
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_add_book_to_home_already_added_book(self):
+        response = self.logged_client.post(
+            reverse('add_book_home_app'), {'book': self.book1.id}, HTTP_X_REQUESTED_WITH=self.xhr
+        )
+        self.assertEqual(response.resolver_match.func, add_book_to_home)
+        self.assertEqual(response.status_code, 404)
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_book_remove_from_home_not_ajax(self):
+        response = self.logged_client.post(reverse('remove_book_home_app'), {})
+        self.assertEqual(response.resolver_match.func, remove_book_from_home)
+        self.assertEqual(response.status_code, 404)
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_remove_book_from_home_invalid_form_params(self):
+        response = self.logged_client.post(
+            reverse('remove_book_home_app'), {'book': 'abc'}, HTTP_X_REQUESTED_WITH=self.xhr
+        )
+        self.assertEqual(response.resolver_match.func, remove_book_from_home)
+        self.assertEqual(response.status_code, 400)
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_remove_book_from_home_not_existing_book(self):
+        response = self.logged_client.post(
+            reverse('remove_book_home_app'), {'book': 10000}, HTTP_X_REQUESTED_WITH=self.xhr
+        )
+        self.assertEqual(response.resolver_match.func, remove_book_from_home)
+        self.assertEqual(response.status_code, 404)
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_remove_book_from_home_not_existing_added_book(self):
+        response = self.logged_client2.post(
+            reverse('remove_book_home_app'), {'book': 10000}, HTTP_X_REQUESTED_WITH=self.xhr
+        )
+        self.assertEqual(response.resolver_match.func, remove_book_from_home)
+        self.assertEqual(response.status_code, 404)
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_add_and_remove_book_from_home_success(self):
+        response = self.logged_client.post(
+            reverse('add_book_home_app'), {'book': self.book4.id}, HTTP_X_REQUESTED_WITH=self.xhr
+        )
+        self.assertEqual(response.resolver_match.func, add_book_to_home)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(json.loads(response.content.decode('utf-8')), {'book_id': self.book4.id})
+
+        # Public book.
+        response = self.logged_client.post(
+            reverse('remove_book_home_app'), {'book': self.book4.id}, HTTP_X_REQUESTED_WITH=self.xhr
+        )
+        self.assertEqual(response.resolver_match.func, remove_book_from_home)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(json.loads(response.content.decode('utf-8')), True)
+
+        # Blocked book.
+        added_book = AddedBook.objects.create(id_book=self.book4, id_user=self.the_user)
+        added_book.save()
+        self.book4.blocked_book = True
+        self.book4.save()
+
+        response = self.logged_client.post(
+            reverse('remove_book_home_app'), {'book': self.book4.id}, HTTP_X_REQUESTED_WITH=self.xhr
+        )
+        self.assertEqual(response.resolver_match.func, remove_book_from_home)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(json.loads(response.content.decode('utf-8')), False)
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_change_rating_not_ajax(self):
+        response = self.logged_client.post(reverse('change_rating_app'), {'book': self.book4.id, 'rating': 9})
+        self.assertEqual(response.resolver_match.func, change_rating)
+        self.assertEqual(response.status_code, 404)
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_change_rating_invalid_params(self):
+        response = self.logged_client.post(
+            reverse('change_rating_app'), {'book': 'abc', 'rating': 'abc'}, HTTP_X_REQUESTED_WITH=self.xhr
+        )
+        self.assertEqual(response.resolver_match.func, change_rating)
+        self.assertEqual(response.status_code, 400)
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_change_rating_invalid_rating_value(self):
+        response = self.logged_client.post(
+            reverse('change_rating_app'), {'book': self.book4.id, 'rating': -1}, HTTP_X_REQUESTED_WITH=self.xhr
+        )
+        self.assertEqual(response.resolver_match.func, change_rating)
+        self.assertEqual(response.status_code, 400)
+
+        response = self.logged_client.post(
+            reverse('change_rating_app'), {'book': self.book4.id, 'rating': 11}, HTTP_X_REQUESTED_WITH=self.xhr
+        )
+        self.assertEqual(response.resolver_match.func, change_rating)
+        self.assertEqual(response.status_code, 400)
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_change_rating_success(self):
+        # Not existing rating
+        response = self.logged_client.post(
+            reverse('change_rating_app'), {'book': self.book4.id, 'rating': 7}, HTTP_X_REQUESTED_WITH=self.xhr
+        )
+        self.assertEqual(response.resolver_match.func, change_rating)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(json.loads(response.content.decode('utf-8')), {'avg_rating': 7, 'rating_count': '(1)'})
+
+        # Existing rating
+        response = self.logged_client.post(
+            reverse('change_rating_app'), {'book': self.book4.id, 'rating': 9}, HTTP_X_REQUESTED_WITH=self.xhr
+        )
+        self.assertEqual(response.resolver_match.func, change_rating)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(json.loads(response.content.decode('utf-8')), {'avg_rating': 9, 'rating_count': '(1)'})
+
+        # Second user changed rating
+        response = self.logged_client2.post(
+            reverse('change_rating_app'), {'book': self.book4.id, 'rating': 4}, HTTP_X_REQUESTED_WITH=self.xhr
+        )
+        self.assertEqual(response.resolver_match.func, change_rating)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(json.loads(response.content.decode('utf-8')), {'avg_rating': 6.5, 'rating_count': '(2)'})
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_add_comment_not_ajax(self):
+        response = self.logged_client.post(reverse('add_comment_app'), {})
+        self.assertEqual(response.resolver_match.func, add_comment)
+        self.assertEqual(response.status_code, 404)
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_add_comment_invalid_field_datatypes(self):
+        response = self.logged_client.post(
+            reverse('add_comment_app'), {'book': 'abc', 'comment': 'test'}, HTTP_X_REQUESTED_WITH=self.xhr
+        )
+        self.assertEqual(response.resolver_match.func, add_comment)
+        self.assertEqual(response.status_code, 400)
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_add_comment_too_long_message(self):
+        response = self.logged_client.post(
+            reverse('add_comment_app'), {'book': self.book4.id, 'comment': 'test' * 200}, HTTP_X_REQUESTED_WITH=self.xhr
+        )
+        self.assertEqual(response.resolver_match.func, add_comment)
+        self.assertEqual(response.status_code, 400)
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_add_comment_success(self):
+        response = self.logged_client.post(
+            reverse('add_comment_app'), {'book': self.book4.id, 'comment': 'test text'},
+            HTTP_X_REQUESTED_WITH=self.xhr
+        )
+        comment = BookComment.objects.get(id_user=self.the_user, id_book=self.book4)
+        self.assertEqual(response.resolver_match.func, add_comment)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            json.loads(response.content.decode('utf-8')),
+            {
+                'username': 'libusername',
+                'user_photo': '',
+                'posted_date': comment.posted_date.strftime('%d-%m-%Y'),
+                'text': 'test text'
+            }
+        )
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_load_comments_not_ajax(self):
+        response = self.logged_client.post(reverse('load_comments_app'), {})
+        self.assertEqual(response.resolver_match.func, load_comments)
+        self.assertEqual(response.status_code, 404)
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_load_comments_invalid_form_parameters(self):
+        response = self.logged_client.post(
+            reverse('load_comments_app'), {'page': 'abc', 'book_id': 'abc'}, HTTP_X_REQUESTED_WITH=self.xhr
+        )
+        self.assertEqual(response.resolver_match.func, load_comments)
+        self.assertEqual(response.status_code, 400)
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_load_comments_success(self):
+        # Create some test comments.
+        for i in range(50):
+            response = self.logged_client.post(
+                reverse('add_comment_app'),
+                {'book': self.book1.id, 'comment': 'test{}'.format(i)},
+                HTTP_X_REQUESTED_WITH=self.xhr
+            )
+            self.assertEqual(response.status_code, 200)
+
+        # Testing first page (i.e. second, because first already loaded).
+        response = self.logged_client.post(
+            reverse('load_comments_app'), {'page': 1, 'book_id': self.book1.id}, HTTP_X_REQUESTED_WITH=self.xhr
+        )
+        response_data = json.loads(response.content.decode('utf-8'))
+
+        self.assertEqual(response.resolver_match.func, load_comments)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response_data['current_page'], 2)
+        self.assertEqual(response_data['has_next_page'], True)
+        self.assertEqual(response_data['book_id'], self.book1.id)
+        self.assertEqual(len(response_data['comments']), 20)
+
+        self.assertEqual(response_data['comments'][0]['username'], self.user.username)
+        self.assertEqual(response_data['comments'][0]['user_photo'], '')
+        self.assertIn('posted_date', response_data['comments'][0])
+        self.assertEqual(response_data['comments'][0]['text'], 'test29')
+        self.assertEqual(response_data['comments'][19]['username'], self.user.username)
+        self.assertEqual(response_data['comments'][19]['user_photo'], '')
+        self.assertIn('posted_date', response_data['comments'][19])
+        self.assertEqual(response_data['comments'][19]['text'], 'test10')
+
+        # Testing second page.
+        response = self.logged_client.post(
+            reverse('load_comments_app'), {'page': 2, 'book_id': self.book1.id}, HTTP_X_REQUESTED_WITH=self.xhr
+        )
+        response_data = json.loads(response.content.decode('utf-8'))
+
+        self.assertEqual(response.resolver_match.func, load_comments)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response_data['current_page'], 3)
+        self.assertEqual(response_data['has_next_page'], False)
+        self.assertEqual(response_data['book_id'], self.book1.id)
+        self.assertEqual(len(response_data['comments']), 10)
+
+        self.assertEqual(response_data['comments'][0]['username'], self.user.username)
+        self.assertEqual(response_data['comments'][0]['user_photo'], '')
+        self.assertIn('posted_date', response_data['comments'][0])
+        self.assertEqual(response_data['comments'][0]['text'], 'test9')
+        self.assertEqual(response_data['comments'][9]['username'], self.user.username)
+        self.assertEqual(response_data['comments'][9]['user_photo'], '')
+        self.assertIn('posted_date', response_data['comments'][9])
+        self.assertEqual(response_data['comments'][9]['text'], 'test0')
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_report_book_not_post_request(self):
+        response = self.logged_client.get(reverse('report-book'), {}, HTTP_X_REQUESTED_WITH=self.xhr)
+        self.assertEqual(response.resolver_match.func, report_book)
+        self.assertEqual(response.status_code, 400)
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_report_book_too_long_message(self):
+        response = self.logged_client.post(
+            reverse('report-book'), {'text': 'test text' * 1000}, HTTP_X_REQUESTED_WITH=self.xhr
+        )
+        self.assertEqual(response.resolver_match.func, report_book)
+        self.assertEqual(response.status_code, 400)
+
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_report_book_success(self):
+        response = self.logged_client.post(
+            reverse('report-book'), {'text': 'test text success'}, HTTP_X_REQUESTED_WITH=self.xhr
+        )
+        self.assertEqual(response.resolver_match.func, report_book)
+        self.assertEqual(response.status_code, 200)

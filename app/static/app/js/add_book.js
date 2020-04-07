@@ -108,7 +108,7 @@ $(document).ready(function() {
         $('#upload-caption').text(txt);
     });
 
-    $('form').on('submit', function(event) {
+    $("#add-book-form").on('submit', function(event) {
         event.preventDefault();
 
         var upload_book = $("#upload-book");
@@ -125,7 +125,7 @@ $(document).ready(function() {
             formData.set('bookfile', file, Date.now() + '.pdf');
 
             $.ajax({
-                url: $('form').attr('action'),
+                url: $("#add-book-form").attr('action'),
                 type: 'POST',
                 data: formData,
                 async: true,

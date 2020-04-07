@@ -127,6 +127,9 @@ def add_book_to_home(request):
                         .format(request.user, book_form.cleaned_data['book']))
 
             return HttpResponse(json.dumps({'book_id': book.id}), content_type='application/json')
+
+        else:
+            return HttpResponse(status=400)
     else:
         return HttpResponse(status=404)
 
@@ -140,9 +143,9 @@ def remove_book_from_home(request):
         book_form = BookHomeForm(request.POST)
 
         if book_form.is_valid():
-            book = Book.objects.get(id=book_form.cleaned_data['book'])
+            book = get_object_or_404(Book, id=book_form.cleaned_data['book'])
 
-            AddedBook.objects.get(id_user=TheUser.objects.get(id_user=request.user), id_book=book).delete()
+            get_object_or_404(AddedBook, id_user=TheUser.objects.get(id_user=request.user), id_book=book).delete()
             logger.info("User '{}' removed book with id: '{}' from his own library."
                         .format(request.user, book_form.cleaned_data['book']))
 
@@ -150,6 +153,8 @@ def remove_book_from_home(request):
                 return HttpResponse(json.dumps(False), content_type='application/json')
 
             return HttpResponse(json.dumps(True), content_type='application/json')
+        else:
+            return HttpResponse(status=400)
     else:
         return HttpResponse(status=404)
 
@@ -169,6 +174,8 @@ def change_rating(request):
                         'rating_count': '({})'.format(book_rating.count())}
 
                 return HttpResponse(json.dumps(data), content_type='application/json')
+        else:
+            return HttpResponse(status=400)
     else:
         return HttpResponse(status=404)
 
@@ -204,7 +211,7 @@ def add_comment(request):
                                                  id_book=Book.objects.get(id=comment_form.cleaned_data['book']),
                                                  text=comment_form.cleaned_data['comment'])
 
-            user = TheUser.objects.get(id_user=request.user)
+            user = get_object_or_404(TheUser, id_user=request.user)
             user_photo = user.user_photo.url if user.user_photo else ''
 
             logger.info("User '{}' left comment with id: '{}' on book with id: '{}'."
@@ -217,6 +224,8 @@ def add_comment(request):
                 'text': escape(comment.text)
             }
             return HttpResponse(json.dumps(response_data), content_type='application/json')
+        else:
+            return HttpResponse(status=400)
     else:
         return HttpResponse(status=404)
 
@@ -249,6 +258,8 @@ def load_comments(request):
             }
 
             return HttpResponse(json.dumps(response_data), content_type='application/json')
+        else:
+            return HttpResponse(status=400)
     else:
         return HttpResponse(status=404)
 
@@ -270,3 +281,5 @@ def report_book(request):
 
         else:
             return HttpResponse(status=400)
+    else:
+        return HttpResponse(status=400)

@@ -41,10 +41,10 @@ urlpatterns = [
     url(r'book/(?P<book_id>\d+)/$', selected_book_views.selected_book, name='book'),
     url(r'store-book-image', selected_book_views.store_image, name='store_image'),
     url(r'home-add-book', selected_book_views.add_book_to_home, name='add_book_home_app'),
-    url(r'home-remove-book', selected_book_views.remove_book_from_home),
-    url(r'change-rating', selected_book_views.change_rating),
-    url(r'comment-add', selected_book_views.add_comment),
-    url(r'load-comments', selected_book_views.load_comments),
+    url(r'home-remove-book', selected_book_views.remove_book_from_home, name='remove_book_home_app'),
+    url(r'change-rating', selected_book_views.change_rating, name='change_rating_app'),
+    url(r'comment-add', selected_book_views.add_comment, name='add_comment_app'),
+    url(r'load-comments', selected_book_views.load_comments, name='load_comments_app'),
     url(r'report-book', selected_book_views.report_book, name='report-book'),
 
     # Library urls.
@@ -70,6 +70,7 @@ urlpatterns = [
     url(r'unsubscribe/(?P<token>[0-9a-zA-Z_-]+)/', additional_views.unsubscribe, name='unsubscribe'),
     url(r'(?P<file>[%&+ \w]+.txt)', additional_views.share_txt, name='share_txt'),
     url(r'(?P<file>[%&+ \w]+.xml)', additional_views.share_xml, name='share_xml'),
-    url(r'^update-reminder', reminder_views.update_reminder, name='update_reminder')
+    url(r'^update-reminder', reminder_views.update_reminder, name='update_reminder'),
+    url(r'^payment-success', additional_views.payment_success, name='payment_success_app')
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

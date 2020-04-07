@@ -116,14 +116,14 @@ LOGGING = {
     'disable_existing_loggers': False,
     'formatters': {
         'simple': {
-            'format': '[%(asctime)s]: %(message)s'
+            'format': '[%(levelname)s][%(asctime)s]: %(message)s'
         }
     },
     'handlers': {
         'default': {
             'level': 'INFO',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(BASE_DIR, 'changes.log'),
+            'filename': os.path.join(BASE_DIR, 'test_changes.log' if DEBUG else 'changes.log'),
             'formatter': 'simple'
         }
     },

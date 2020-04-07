@@ -2,9 +2,8 @@
 
 import os
 
+from django.test import TestCase, mock
 from PIL import Image
-
-from django.test import TestCase
 
 from .. import utils
 
@@ -13,9 +12,16 @@ TEST_DATA_DIR = os.path.join(TEST_DIR, 'fixtures')
 
 
 # ----------------------------------------------------------------------------------------------------------------------
+class JsonMock:
+    def __init__(self, value):
+        self.value = value
+
+    def json(self):
+        return {'success': self.value}
+
+
+# ----------------------------------------------------------------------------------------------------------------------
 class UtilsTest(TestCase):
-    # @TODO NOT FINISHED TESTS
-    # @TODO NOT FINISHED TESTS
 
     # ------------------------------------------------------------------------------------------------------------------
     def test_generate_password(self):
@@ -43,6 +49,14 @@ class UtilsTest(TestCase):
         img = Image.open(img_path)
         self.assertEqual((img.width, img.height), default_size)
 
+    # ------------------------------------------------------------------------------------------------------------------
+    @mock.patch('app.utils.requests.post', new=mock.Mock(return_value=JsonMock(True)))
+    def test_validate_captcha_success(self):
+        result = utils.validate_captcha('some_key')
+        self.assertTrue(result)
 
-
-
+    # ------------------------------------------------------------------------------------------------------------------
+    @mock.patch('app.utils.requests.post', new=mock.Mock(return_value=JsonMock(False)))
+    def test_validate_captcha_fail(self):
+        result = utils.validate_captcha('some_key')
+        self.assertFalse(result)

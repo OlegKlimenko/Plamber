@@ -99,13 +99,14 @@ function renderPages(pageNum) {
 function setCurrentPage(pageNum) {
     $('.page-number').val(pageNum);
     $('#current-page').text(pageNum);
+    var bookId = $("#book-id").text();
 
     if (!anonymousUser) {
         $.ajax({
             url: "set-current-page",
             type: "POST",
             data: {page: pageNum,
-                   book: $("#book-id").text(),
+                   book: bookId,
                    csrfmiddlewaretoken: getCookie("csrftoken")},
 
             success: function result(json) {},
@@ -121,6 +122,9 @@ function setCurrentPage(pageNum) {
                 }
             }
         });
+    }
+    else {
+        document.cookie = "plamber_book_" + bookId + "=" + pageNum;
     }
 }
 

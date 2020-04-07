@@ -435,6 +435,7 @@ class IndexViewsTestCase(TestCase):
 
     # ------------------------------------------------------------------------------------------------------------------
     @patch('app.views.index_views.validate_captcha', Mock(return_value=True))
+    @patch('app.views.index_views.successful_registration.apply_async', new=Mock())
     def test_sign_in_successful(self):
         response = self.anonymous_client.get(reverse('index'))
         self.assertEqual(response.resolver_match.func, index)
