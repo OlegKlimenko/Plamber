@@ -80,22 +80,22 @@ def add_book_successful(request):
 
         if book_form.is_valid():
             with transaction.atomic():
-                rel_objects = Book.get_related_objects_for_create(request.user.id, book_form)
+                related_data = Book.get_related_objects_for_create(request.user.id, book_form)
 
                 book = Book.objects.create(
                     book_name=book_form.cleaned_data['bookname'],
-                    id_author=rel_objects['author'],
-                    id_category=rel_objects['category'],
+                    id_author=related_data.author,
+                    id_category=related_data.category,
                     description=book_form.cleaned_data['about'],
-                    language=rel_objects['lang'],
+                    language=related_data.lang,
                     book_file=book_form.cleaned_data['bookfile'],
-                    who_added=rel_objects['user'],
+                    who_added=related_data.user,
                     private_book=book_form.cleaned_data['private']
                 )
-                AddedBook.objects.create(id_user=rel_objects['user'], id_book=book)
+                AddedBook.objects.create(id_user=related_data.user, id_book=book)
 
                 logger.info("User '{}' uploaded book with id: '{}' and name: '{}' on category: '{}'."
-                            .format(rel_objects['user'], book.id, book.book_name, rel_objects['category']))
+                            .format(related_data.user, book.id, book.book_name, related_data.category))
 
                 os.chmod(book.book_file.path, READ_PRIVILEGES)
                 compress_pdf_task.apply_async(args=(book.book_file.path, book.id), queue=Queues.default)

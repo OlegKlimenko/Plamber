@@ -12,7 +12,7 @@ from django.urls import reverse
 
 from ..forms import AddBookForm
 from ..models import (TheUser, Category, Author, Language, Book,
-                      AddedBook, BookRating, BookComment, Post, SupportMessage)
+                      AddedBook, BookRating, BookComment, Post, SupportMessage, BookRelatedData)
 
 from .utils import Utils
 
@@ -388,16 +388,16 @@ class ModelTest(TestCase):
 
         related_data = Book.get_related_objects_for_create(self.user1.id, form)
 
-        self.assertTrue(isinstance(related_data, dict))
+        self.assertTrue(isinstance(related_data, BookRelatedData))
         self.assertEqual(len(related_data), 4)
-        self.assertEqual(related_data['author'], Author.objects.get(author_name='trueAuthorNew'))
+        self.assertEqual(related_data.author, Author.objects.get(author_name='trueAuthorNew'))
         self.assertEqual(Author.objects.all().count(), 5)
 
         related_data_new_author = Book.get_related_objects_for_create(self.user1.id, form_with_new_author)
 
-        self.assertTrue(isinstance(related_data, dict))
+        self.assertTrue(isinstance(related_data, BookRelatedData))
         self.assertEqual(len(related_data_new_author), 4)
-        self.assertEqual(related_data_new_author['author'], Author.objects.get(author_name='super new author'))
+        self.assertEqual(related_data_new_author.author, Author.objects.get(author_name='super new author'))
         self.assertEqual(Author.objects.all().count(), 6)
 
     # ------------------------------------------------------------------------------------------------------------------
@@ -409,14 +409,16 @@ class ModelTest(TestCase):
         test_data = {'author': 'trueAuthorNew', 'category': 'category2', 'language': 'Russian'}
         test_data_new_author = {'author': 'NEW AUTHOR', 'category': 'category1', 'language': 'English'}
 
-        self.assertEqual(Book.get_related_objects_create_api(self.the_user1, test_data),
-                         {'author': self.author2, 'category': self.category2, 'lang': self.language_ru})
+        self.assertEqual(
+            Book.get_related_objects_create_api(self.the_user1, test_data),
+            BookRelatedData(self.author2, self.category2, self.language_ru, None)
+        )
         self.assertEqual(Author.objects.all().count(), 5)
 
-        self.assertEqual(Book.get_related_objects_create_api(self.the_user1, test_data_new_author),
-                         {'author': Author.objects.get(author_name='NEW AUTHOR'),
-                          'category': self.category1,
-                          'lang': self.language_en})
+        self.assertEqual(
+            Book.get_related_objects_create_api(self.the_user1, test_data_new_author),
+            BookRelatedData(Author.objects.get(author_name='NEW AUTHOR'), self.category1, self.language_en, None)
+        )
         self.assertEqual(Author.objects.all().count(), 6)
 
     # ------------------------------------------------------------------------------------------------------------------

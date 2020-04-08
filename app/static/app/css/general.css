@@ -153,15 +153,22 @@
     border: solid 2px #9aa6ad;
 }
 
-#donate-text {
-    float: left;
+#partner-text-header {
+    color: #ff8f0c;
+    display: inline;
+    margin-left: 15px;
     margin-right: 10px;
+    text-decoration: none;
 }
 
-#donate-button {
+#partner-block-header {
     background-color: Transparent;
     color: #ff8f0c;
-    padding-top: 15px;
+    padding-top: 10px;
     padding-bottom: 0;
     width: 280px;
+}
+
+.partner-text {
+    color: #ff8f0c;
 }

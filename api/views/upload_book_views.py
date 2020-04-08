@@ -38,22 +38,23 @@ def upload_book(request):
     if request_serializer.is_valid():
         with transaction.atomic():
             user = get_object_or_404(TheUser, auth_token=request.data.get('user_token'))
-            rel_objects = Book.get_related_objects_create_api(user, request.data)
+            related_data = Book.get_related_objects_create_api(user, request.data)
 
-            book = Book.objects.create(book_name=request.data.get('book_name'),
-                                       id_author=rel_objects['author'],
-                                       id_category=rel_objects['category'],
-                                       description=request.data.get('about'),
-                                       language=rel_objects['lang'],
-                                       photo=request.data['photo'],
-                                       book_file=request.data['book_file'],
-                                       who_added=user,
-                                       private_book=json.loads(request.data.get('private_book')))
-
+            book = Book.objects.create(
+                book_name=request.data.get('book_name'),
+                id_author=related_data.author,
+                id_category=related_data.category,
+                description=request.data.get('about'),
+                language=related_data.lang,
+                photo=request.data['photo'],
+                book_file=request.data['book_file'],
+                who_added=user,
+                private_book=json.loads(request.data.get('private_book'))
+            )
             AddedBook.objects.create(id_user=user, id_book=book)
 
             logger.info("User '{}' uploaded book with id: '{}' and name: '{}' on category: '{}'."
-                        .format(user, book.id, book.book_name, rel_objects['category']))
+                        .format(user, book.id, book.book_name, related_data.category))
 
             compress_pdf_task.apply_async(args=(book.book_file.path, book.id), queue=Queues.default)
 

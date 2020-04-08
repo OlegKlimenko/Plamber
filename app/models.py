@@ -2,6 +2,7 @@
 
 import json
 import logging
+from collections import namedtuple
 
 from django.db import models
 from django.db.models import Avg, Count, Q
@@ -14,6 +15,9 @@ from django.utils.html import escape
 from .storage import OverwriteStorage
 
 logger = logging.getLogger('changes')
+
+
+BookRelatedData = namedtuple('BookRelatedData', ['author', 'category', 'lang', 'user'])
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -176,11 +180,12 @@ class Book(models.Model):
             logger.info("Created new author with name: '{}' and id: '{}'."
                         .format(author.author_name, author.id))
 
-        category = Category.objects.get(category_name=book_form.cleaned_data['category'])
-        lang = Language.objects.get(language=book_form.cleaned_data['language'])
-        user = TheUser.objects.get(id_user=user_id)
-
-        return {'author': author, 'category': category, 'lang': lang, 'user': user}
+        return BookRelatedData(
+            author,
+            Category.objects.get(category_name=book_form.cleaned_data['category']),
+            Language.objects.get(language=book_form.cleaned_data['language']),
+            TheUser.objects.get(id_user=user_id)
+        )
 
     # ------------------------------------------------------------------------------------------------------------------
     @staticmethod
@@ -196,10 +201,12 @@ class Book(models.Model):
             logger.info("Created new author with name: '{}' and id: '{}'."
                         .format(author.author_name, author.id))
 
-        category = Category.objects.get(category_name=data.get('category'))
-        lang = Language.objects.get(language=data.get('language'))
-
-        return {'author': author, 'category': category, 'lang': lang}
+        return BookRelatedData(
+            author,
+            Category.objects.get(category_name=data.get('category')),
+            Language.objects.get(language=data.get('language')),
+            None
+        )
 
     # ------------------------------------------------------------------------------------------------------------------
     @staticmethod
