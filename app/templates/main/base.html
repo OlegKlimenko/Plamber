@@ -63,6 +63,17 @@
                         <li><a href="{% url 'profile' request.user.id %}" class="header-animation">Профиль</a></li>
                         <li><a href="{% url 'about' %}" class="header-animation">О проекте</a></li>
                     {% endif %}
+
+                    {% if not book_page %}
+                        <li class="float-right">
+                            <div id="partner-block-header">
+                                <b><a id="partner-text-header">Наш партнер</a></b>
+                                <a style="display: inline;" href="https://hostiq.ua/clients/aff.php?aff=1362&bid=63" rel="nofollow">
+                                    <img src="https://hostiq.ua/images/aff-banners/88x31_1.gif" width="88" height="31" alt="Хороший хостинговый провайдер HOSTiQ.ua" title="Хостинговая компания HOSTiQ.ua" border="0"/>
+                                </a>
+                            </div>
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>
