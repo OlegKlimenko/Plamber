@@ -161,6 +161,15 @@
     text-decoration: none;
 }
 
+#partner-banner-outline {
+    border: 2px solid #ff8f0c;
+    border-radius: 2px;
+    padding: 5px;
+    width: fit-content;
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
+}
+
 #partner-block-header {
     background-color: Transparent;
     color: #ff8f0c;
