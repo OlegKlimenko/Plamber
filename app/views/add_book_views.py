@@ -8,10 +8,8 @@ from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import redirect, render, reverse
 
-from ..constants import Queues
 from ..forms import GenerateAuthorsForm, AddBookForm, GenerateBooksForm
 from ..models import AddedBook, Author, Book, Category, Language
-from ..tasks import compress_pdf_task
 
 READ_PRIVILEGES = 0o644
 
@@ -98,7 +96,6 @@ def add_book_successful(request):
                             .format(related_data.user, book.id, book.book_name, related_data.category))
 
                 os.chmod(book.book_file.path, READ_PRIVILEGES)
-                compress_pdf_task.apply_async(args=(book.book_file.path, book.id), queue=Queues.default)
 
                 return HttpResponse(reverse('book', kwargs={'book_id': book.id}), status=200)
         else:

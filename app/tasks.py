@@ -10,7 +10,6 @@ from django.template.loader import render_to_string
 from django.urls.exceptions import NoReverseMatch
 from django.utils.html import strip_tags
 
-from .utils import compress_pdf
 from .models import TheUser
 
 logger = logging.getLogger('changes')
@@ -84,22 +83,6 @@ def changed_password(username, recipient):
     email.send()
 
     logger.info("Sent changed password message to '{}'.".format(recipient))
-
-
-# ----------------------------------------------------------------------------------------------------------------------
-@shared_task
-def compress_pdf_task(filename, book_id):
-    """
-    Celery task for compressing the PDF file.
-
-    :param str filename: The file name of document which will be compressed.
-    :param int book_id:  The unique identifier of the book stored in DB.
-    """
-    logger.info("Started compressing book with name: {}".format(filename))
-
-    compress_pdf(filename)
-
-    logger.info("Book with id: '{}' compressed successfully!".format(book_id))
 
 
 # ----------------------------------------------------------------------------------------------------------------------
