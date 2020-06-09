@@ -6,35 +6,27 @@ from django.shortcuts import render
 
 from ..forms import SendMessageForm
 from ..models import Post, SupportMessage, Book
+from ..views import process_method, process_ajax, process_form
 
 
 # ----------------------------------------------------------------------------------------------------------------------
+@process_method('GET', 404)
 def about(request):
     """
     Returns the about project main page.
     """
-    if request.method == 'GET':
-        return render(request, 'about.html', {'posts': Post.objects.all().order_by('-id'),
-                                              'books_count': Book.objects.all().count()})
-
-    else:
-        return HttpResponse(status=404)
+    return render(request, 'about.html', {'posts': Post.objects.all().order_by('-id'),
+                                          'books_count': Book.objects.all().count()})
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-def send_message(request):
+@process_ajax(404)
+@process_form('POST', SendMessageForm, 400)
+def send_message(request, form):
     """
     Sends the message to system (moderators of resource).
     """
-    if request.is_ajax():
-        send_message_form = SendMessageForm(request.POST)
+    SupportMessage.objects.create(email=form.cleaned_data['email'],
+                                  text=form.cleaned_data['text'])
 
-        if send_message_form.is_valid():
-            SupportMessage.objects.create(email=send_message_form.cleaned_data['email'],
-                                          text=send_message_form.cleaned_data['text'])
-
-            return HttpResponse(json.dumps(True), content_type='application/json')
-        else:
-            return HttpResponse(status=400)
-    else:
-        return HttpResponse(status=404)
+    return HttpResponse(json.dumps(True), content_type='application/json')

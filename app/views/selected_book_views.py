@@ -17,6 +17,7 @@ from ..forms import BookHomeForm, AddCommentForm, ChangeRatingForm, StoreBookIma
 from ..models import AddedBook, Book, BookRating, BookComment, TheUser, SupportMessage
 from ..recommend import get_recommend
 from ..utils import resize_image
+from ..views import process_method, process_ajax, process_form
 
 BOOK_COVER_HEIGHT = 350
 COMMENTS_PER_PAGE = 20
@@ -75,109 +76,86 @@ def selected_book(request, book_id):
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-def store_image(request):
+@process_ajax(404)
+@process_form('POST', StoreBookImageForm, 400)
+def store_image(request, form):
     """
     Stores the book image to database.
     """
-    if request.is_ajax():
-        image_form = StoreBookImageForm(request.POST)
+    with transaction.atomic():
+        book = Book.objects.get(id=form.cleaned_data['id'])
 
-        if image_form.is_valid():
-            with transaction.atomic():
-                book = Book.objects.get(id=image_form.cleaned_data['id'])
+        data = form.cleaned_data['image'].split(',')[1]
+        bin_data = a2b_base64(data)
+        book.photo.save('book_{}.png'.format(form.cleaned_data['id']), ContentFile(bin_data))
 
-                data = image_form.cleaned_data['image'].split(',')[1]
-                bin_data = a2b_base64(data)
-                book.photo.save('book_{}.png'.format(image_form.cleaned_data['id']), ContentFile(bin_data))
+        logger.info("The image was stored for book with id: '{}'.".format(book.id))
 
-                logger.info("The image was stored for book with id: '{}'.".format(book.id))
+        resize_image(book.photo.path, BOOK_COVER_HEIGHT)
+        logger.info("Image '{}' successfully resized!".format(book.photo.path))
 
-                resize_image(book.photo.path, BOOK_COVER_HEIGHT)
-                logger.info("Image '{}' successfully resized!".format(book.photo.path))
-
-                return HttpResponse(json.dumps(True), content_type='application/json')
-    else:
-        return HttpResponse(status=404)
+        return HttpResponse(json.dumps(True), content_type='application/json')
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-def add_book_to_home(request):
+@process_ajax(404)
+@process_form('POST', BookHomeForm, 400)
+def add_book_to_home(request, form):
     """
     Adds book to list of user's added books.
     """
-    if request.is_ajax():
-        book_form = BookHomeForm(request.POST)
+    user = TheUser.objects.get(id_user=request.user)
+    book = Book.objects.get(id=form.cleaned_data['book'])
 
-        if book_form.is_valid():
-            user = TheUser.objects.get(id_user=request.user)
-            book = Book.objects.get(id=book_form.cleaned_data['book'])
-
-            if book.private_book and book.who_added != user:
-                return HttpResponse(status=404)
-
-            if book.blocked_book:
-                return HttpResponse(status=400)
-
-            if AddedBook.objects.filter(id_user=user, id_book=book).exists():
-                return HttpResponse(status=404)
-
-            AddedBook.objects.create(id_user=user, id_book=book)
-
-            logger.info("User '{}' added book with id: '{}' to his own library."
-                        .format(request.user, book_form.cleaned_data['book']))
-
-            return HttpResponse(json.dumps({'book_id': book.id}), content_type='application/json')
-
-        else:
-            return HttpResponse(status=400)
-    else:
+    if book.private_book and book.who_added != user:
         return HttpResponse(status=404)
+
+    if book.blocked_book:
+        return HttpResponse(status=400)
+
+    if AddedBook.objects.filter(id_user=user, id_book=book).exists():
+        return HttpResponse(status=404)
+
+    AddedBook.objects.create(id_user=user, id_book=book)
+
+    logger.info("User '{}' added book with id: '{}' to his own library."
+                .format(request.user, form.cleaned_data['book']))
+
+    return HttpResponse(json.dumps({'book_id': book.id}), content_type='application/json')
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-def remove_book_from_home(request):
+@process_ajax(404)
+@process_form('POST', BookHomeForm, 400)
+def remove_book_from_home(request, form):
     """
     Removes book from list of user's added books.
     """
-    if request.is_ajax():
-        book_form = BookHomeForm(request.POST)
+    book = get_object_or_404(Book, id=form.cleaned_data['book'])
 
-        if book_form.is_valid():
-            book = get_object_or_404(Book, id=book_form.cleaned_data['book'])
+    get_object_or_404(AddedBook, id_user=TheUser.objects.get(id_user=request.user), id_book=book).delete()
+    logger.info("User '{}' removed book with id: '{}' from his own library."
+                .format(request.user, form.cleaned_data['book']))
 
-            get_object_or_404(AddedBook, id_user=TheUser.objects.get(id_user=request.user), id_book=book).delete()
-            logger.info("User '{}' removed book with id: '{}' from his own library."
-                        .format(request.user, book_form.cleaned_data['book']))
+    if book.blocked_book:
+        return HttpResponse(json.dumps(False), content_type='application/json')
 
-            if book.blocked_book:
-                return HttpResponse(json.dumps(False), content_type='application/json')
-
-            return HttpResponse(json.dumps(True), content_type='application/json')
-        else:
-            return HttpResponse(status=400)
-    else:
-        return HttpResponse(status=404)
+    return HttpResponse(json.dumps(True), content_type='application/json')
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-def change_rating(request):
-    if request.is_ajax():
-        rating_form = ChangeRatingForm(request.POST)
+@process_ajax(404)
+@process_form('POST', ChangeRatingForm, 400)
+def change_rating(request, form):
+    with transaction.atomic():
+        set_rating(request, form)
 
-        if rating_form.is_valid():
-            with transaction.atomic():
-                set_rating(request, rating_form)
+        book_rating = BookRating.objects.filter(id_book=Book.objects.get(id=form.cleaned_data['book']))
 
-                book_rating = BookRating.objects.filter(id_book=Book.objects.get(id=rating_form.cleaned_data['book']))
+        data = {'avg_rating': round(book_rating.aggregate(Avg('rating'))['rating__avg'], 1),
+                'rating_count': '({})'.format(book_rating.count())}
 
-                data = {'avg_rating': round(book_rating.aggregate(Avg('rating'))['rating__avg'], 1),
-                        'rating_count': '({})'.format(book_rating.count())}
-
-                return HttpResponse(json.dumps(data), content_type='application/json')
-        else:
-            return HttpResponse(status=400)
-    else:
-        return HttpResponse(status=404)
+        return HttpResponse(json.dumps(data), content_type='application/json')
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -202,84 +180,65 @@ def set_rating(request, rating_form):
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-def add_comment(request):
-    if request.is_ajax():
-        comment_form = AddCommentForm(request.POST)
+@process_ajax(404)
+@process_form('POST', AddCommentForm, 400)
+def add_comment(request, form):
+    comment = BookComment.objects.create(id_user=TheUser.objects.get(id_user=request.user),
+                                         id_book=Book.objects.get(id=form.cleaned_data['book']),
+                                         text=form.cleaned_data['comment'])
 
-        if comment_form.is_valid():
-            comment = BookComment.objects.create(id_user=TheUser.objects.get(id_user=request.user),
-                                                 id_book=Book.objects.get(id=comment_form.cleaned_data['book']),
-                                                 text=comment_form.cleaned_data['comment'])
+    user = get_object_or_404(TheUser, id_user=request.user)
+    user_photo = user.user_photo.url if user.user_photo else ''
 
-            user = get_object_or_404(TheUser, id_user=request.user)
-            user_photo = user.user_photo.url if user.user_photo else ''
+    logger.info("User '{}' left comment with id: '{}' on book with id: '{}'."
+                .format(user, comment.id, comment.id_book.id))
 
-            logger.info("User '{}' left comment with id: '{}' on book with id: '{}'."
-                        .format(user, comment.id, comment.id_book.id))
-
-            response_data = {
-                'username': escape(request.user.username),
-                'user_photo': user_photo,
-                'posted_date': comment.posted_date.strftime('%d-%m-%Y'),
-                'text': escape(comment.text)
-            }
-            return HttpResponse(json.dumps(response_data), content_type='application/json')
-        else:
-            return HttpResponse(status=400)
-    else:
-        return HttpResponse(status=404)
+    response_data = {
+        'username': escape(request.user.username),
+        'user_photo': user_photo,
+        'posted_date': comment.posted_date.strftime('%d-%m-%Y'),
+        'text': escape(comment.text)
+    }
+    return HttpResponse(json.dumps(response_data), content_type='application/json')
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-def load_comments(request):
-    if request.is_ajax():
-        form = LoadCommentsForm(request.POST)
+@process_ajax(404)
+@process_form('POST', LoadCommentsForm, 400)
+def load_comments(request, form):
+    book = Book.objects.get(id=form.cleaned_data['book_id'])
+    comments = BookComment.objects.filter(id_book=book).order_by('-id')
+    next_page_num = form.cleaned_data['page'] + 1
 
-        if form.is_valid():
-            book = Book.objects.get(id=form.cleaned_data['book_id'])
-            comments = BookComment.objects.filter(id_book=book).order_by('-id')
-            next_page_num = form.cleaned_data['page'] + 1
+    comments_paginator = Paginator(comments, COMMENTS_PER_PAGE)
+    page = comments_paginator.page(next_page_num)
 
-            comments_paginator = Paginator(comments, COMMENTS_PER_PAGE)
-            page = comments_paginator.page(next_page_num)
+    json_comments = [{
+        'username': escape(comment.id_user.id_user.username),
+        'user_photo': comment.id_user.user_photo.url if comment.id_user.user_photo else '',
+        'posted_date': comment.posted_date.strftime('%d-%m-%Y'),
+        'text': escape(comment.text)
+    } for comment in page.object_list]
 
-            json_comments = [{
-                'username': escape(comment.id_user.id_user.username),
-                'user_photo': comment.id_user.user_photo.url if comment.id_user.user_photo else '',
-                'posted_date': comment.posted_date.strftime('%d-%m-%Y'),
-                'text': escape(comment.text)
-            } for comment in page.object_list]
+    response_data = {
+        'comments': json_comments,
+        'current_page': next_page_num,
+        'has_next_page': page.has_next(),
+        'book_id': book.id
+    }
 
-            response_data = {
-                'comments': json_comments,
-                'current_page': next_page_num,
-                'has_next_page': page.has_next(),
-                'book_id': book.id
-            }
-
-            return HttpResponse(json.dumps(response_data), content_type='application/json')
-        else:
-            return HttpResponse(status=400)
-    else:
-        return HttpResponse(status=404)
+    return HttpResponse(json.dumps(response_data), content_type='application/json')
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-def report_book(request):
+@process_method('POST', 400)
+@process_form('POST', ReportForm, 400)
+def report_book(request, form):
     """
     Creates a report of incorrect entered data.
     """
-    if request.method == 'POST':
-        form = ReportForm(request.POST)
-
-        if form.is_valid():
-            SupportMessage.objects.create(
-                email=request.user.email,
-                text=form.cleaned_data['text']
-            )
-            return HttpResponse(status=200)
-
-        else:
-            return HttpResponse(status=400)
-    else:
-        return HttpResponse(status=400)
+    SupportMessage.objects.create(
+        email=request.user.email,
+        text=form.cleaned_data['text']
+    )
+    return HttpResponse(status=200)
