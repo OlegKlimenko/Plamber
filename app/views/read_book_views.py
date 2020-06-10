@@ -11,6 +11,7 @@ from django.shortcuts import redirect, render, get_object_or_404
 from .selected_book_views import selected_book
 from ..forms import SetCurrentPageForm
 from ..models import Book, AddedBook, TheUser
+from ..views import process_ajax, process_form
 
 logger = logging.getLogger('changes')
 
@@ -52,26 +53,21 @@ def open_book(request, book_id):
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-def set_current_page(request):
+@process_ajax(404)
+@process_form('POST', SetCurrentPageForm, 404)
+def set_current_page(request, form):
     """
     Changes current readed page for book of user.
     """
-    if request.is_ajax():
-        pages_form = SetCurrentPageForm(request.POST)
+    with transaction.atomic():
+        book = Book.objects.get(id=form.cleaned_data['book'])
+        user = TheUser.objects.get(id_user=request.user)
 
-        if pages_form.is_valid():
-            with transaction.atomic():
-                book = Book.objects.get(id=pages_form.cleaned_data['book'])
-                user = TheUser.objects.get(id_user=request.user)
+        added_book = AddedBook.objects.get(id_book=book, id_user=user)
+        added_book.last_page = form.cleaned_data['page']
+        added_book.save()
 
-                added_book = AddedBook.objects.get(id_book=book, id_user=user)
-                added_book.last_page = pages_form.cleaned_data['page']
-                added_book.save()
+        logger.info("User '{}' on book with id: '{}' changed page to: '{}'."
+                    .format(user, book.id, form.cleaned_data['page']))
 
-                logger.info("User '{}' on book with id: '{}' changed page to: '{}'."
-                            .format(user, book.id, pages_form.cleaned_data['page']))
-
-                return HttpResponse(json.dumps(True), content_type='application/json')
-        return HttpResponse(status=404)
-    else:
-        return HttpResponse(status=404)
+        return HttpResponse(json.dumps(True), content_type='application/json')

@@ -4,6 +4,7 @@
     font: 12pt 'Lucida Grande', Arial, sans-serif;
     outline: none;
 }
+
 .header-animation:hover {
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
@@ -14,6 +15,22 @@
     transform: scale(1.1);
     z-index: 9999;
 }
+
+.header-dropdown {
+    background-color: #2e3438;
+    color: #fff;
+}
+
+.header-dropdown > li {
+    background-color: #2e3438;
+    color: #fff;
+}
+
+.header-dropdown > li > a {
+    background-color: #2e3438;
+    color: #fff;
+}
+
 .input-colors:focus {
     border: 2px solid #31a445;
 }

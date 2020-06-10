@@ -65,7 +65,18 @@
                     {% endif %}
 
                     {% if not book_page %}
-                        <li><a href="https://ua.jooble.org/" class="header-animation" target="_blank">Вакансии</a></li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Вакансии<span class="caret"></span></a>
+                            <ul class="header-dropdown dropdown-menu header-animation">
+                                <li>
+                                    <a href="https://ua.jooble.org/" target="_blank">ua.jooble.org</a>
+                                </li>
+                                <li>
+                                    <a href="https://ru.jobsora.com" target="_blank">ru.jobsora.com</a>
+                                </li>
+                            </ul>
+                        </li>
+
                         <li class="float-right">
                             <div id="partner-block-header">
                                 <b><a id="partner-text-header">Наш партнер</a></b>

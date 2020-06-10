@@ -10,23 +10,20 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, get_object_or_404, render
 
 from ..models import TheUser
+from ..views import process_method
 
 logger = logging.getLogger('changes')
 
 
 # ----------------------------------------------------------------------------------------------------------------------
+@process_method('POST', 404)
 def user_logout(request):
     """
     Closes session, returns index page.
     """
-    if request.method == 'POST':
-        logger.info("User '{}' logged out.".format(request.user))
-
-        logout(request)
-        return redirect('index')
-
-    else:
-        return HttpResponse(status=404)
+    logger.info("User '{}' logged out.".format(request.user))
+    logout(request)
+    return redirect('index')
 
 
 # ----------------------------------------------------------------------------------------------------------------------
