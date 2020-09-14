@@ -231,29 +231,31 @@ class LibraryViewsTestCase(TestCase):
         )
         response_data = json.loads(response.content.decode('utf-8'))
 
-        expected_response = {
-            'category': self.category.id,
-            'criterion': 'most_readable',
-            'books': [
-                {
-                    'id': self.book1.id,
-                    'name': self.book1.book_name,
-                    'author': self.book1.id_author.author_name,
-                    'url': ''
-                },
-                {
-                    'id': self.book2.id,
-                    'name': 'category_book_test2&lt;&gt;&amp;&quot;',
-                    'author': 'SomeOtherCategoryNameAuthor&lt;&gt;&amp;&quot;',
-                    'url': ''
-                }
-            ],
-            'has_next': False,
-            'next_page': 1
-        }
         self.assertEqual(response.resolver_match.func, sort)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response_data, expected_response)
+        self.assertEqual(response_data['category'], self.category.id)
+        self.assertEqual(response_data['criterion'], 'most_readable')
+        self.assertEqual(len(response_data['books']), 2)
+        self.assertIn(
+            {
+                'id': self.book1.id,
+                'name': self.book1.book_name,
+                'author': self.book1.id_author.author_name,
+                'url': ''
+            },
+            response_data['books']
+        )
+        self.assertIn(
+            {
+                'id': self.book2.id,
+                'name': 'category_book_test2&lt;&gt;&amp;&quot;',
+                'author': 'SomeOtherCategoryNameAuthor&lt;&gt;&amp;&quot;',
+                'url': ''
+            },
+            response_data['books']
+        )
+        self.assertFalse(response_data['has_next'])
+        self.assertEqual(response_data['next_page'], 1)
 
     # ------------------------------------------------------------------------------------------------------------------
     def test_sort_by_rating_first_page(self):

@@ -17,6 +17,7 @@ from ..models import AddedBook, Book
 from ..recommend import get_recommend
 from ..tasks import restore_account, successful_registration
 from ..utils import generate_password, validate_captcha
+from ..views import process_method, process_ajax, process_form
 
 RANDOM_BOOKS_COUNT = 6
 
@@ -89,99 +90,83 @@ def user_login(request):
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-def is_user_exists(request):
+@process_ajax(404)
+@process_form('GET', IsUserExistsForm, 404)
+def is_user_exists(request, form):
     """
     Checks if user is exists. If exists return True, else False.
     """
-    if request.is_ajax():
-        is_user_exists_form = IsUserExistsForm(request.GET)
+    try:
+        User.objects.get(username=form.cleaned_data['username'])
+        return HttpResponse(json.dumps(True), content_type='application/json')
 
-        if is_user_exists_form.is_valid():
-            try:
-                User.objects.get(username=is_user_exists_form.cleaned_data['username'])
-                return HttpResponse(json.dumps(True), content_type='application/json')
-
-            except ObjectDoesNotExist:
-                return HttpResponse(json.dumps(False), content_type='application/json')
-
-        return HttpResponse(status=404)
-    return HttpResponse(status=404)
+    except ObjectDoesNotExist:
+        return HttpResponse(json.dumps(False), content_type='application/json')
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-def is_mail_exists(request):
+@process_ajax(404)
+@process_form('GET', IsMailExistsForm, 404)
+def is_mail_exists(request, form):
     """
     Checks if mail is exists. If exists return True, else False.
     """
-    if request.is_ajax():
-        is_mail_exists_form = IsMailExistsForm(request.GET)
+    try:
+        User.objects.get(email=form.cleaned_data['email'])
+        return HttpResponse(json.dumps(True), content_type='application/json')
 
-        if is_mail_exists_form.is_valid():
-            try:
-                User.objects.get(email=is_mail_exists_form.cleaned_data['email'])
-                return HttpResponse(json.dumps(True), content_type='application/json')
-
-            except ObjectDoesNotExist:
-                return HttpResponse(json.dumps(False), content_type='application/json')
-
-        return HttpResponse(status=404)
-    return HttpResponse(status=404)
+    except ObjectDoesNotExist:
+        return HttpResponse(json.dumps(False), content_type='application/json')
 
 
 # ----------------------------------------------------------------------------------------------------------------------
+@process_method('POST', 404)
 def sign_in(request):
     """
     Creates a new user and returns page with registration status.
     """
-    if request.method == 'POST':
-        sign_in_form = SignInForm(request.POST)
+    sign_in_form = SignInForm(request.POST)
 
-        if sign_in_form.is_valid():
-            re_captcha_response = request.POST.get('g-recaptcha-response', '')
+    if sign_in_form.is_valid():
+        re_captcha_response = request.POST.get('g-recaptcha-response', '')
 
-            if validate_captcha(re_captcha_response):
-                with transaction.atomic():
-                    user = User.objects.create_user(username=sign_in_form.cleaned_data['username'],
-                                                    email=sign_in_form.cleaned_data['email'],
-                                                    password=sign_in_form.cleaned_data['passw1'])
+        if validate_captcha(re_captcha_response):
+            with transaction.atomic():
+                user = User.objects.create_user(username=sign_in_form.cleaned_data['username'],
+                                                email=sign_in_form.cleaned_data['email'],
+                                                password=sign_in_form.cleaned_data['passw1'])
 
-                    logger.info("Created user with name: '{}' mail: '{}' and id: '{}'"
-                                .format(user.username, user.email, user.id))
-                    login(request, user)
+                logger.info("Created user with name: '{}' mail: '{}' and id: '{}'"
+                            .format(user.username, user.email, user.id))
+                login(request, user)
 
-                    successful_registration.apply_async(args=(user.username, user.email), queue=Queues.default)
+                successful_registration.apply_async(args=(user.username, user.email), queue=Queues.default)
 
-            return redirect('/')
+        return redirect('/')
 
-        logger.error("Failed creating new user. username: '{}' email: '{}'".format(
-            request.POST.get('username'), request.POST.get('email')
-        ))
-        return HttpResponse(status=400)
-    return HttpResponse(status=404)
+    logger.error("Failed creating new user. username: '{}' email: '{}'".format(
+        request.POST.get('username'), request.POST.get('email')
+    ))
+    return HttpResponse(status=400)
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-def restore_data(request):
+@process_method('POST', 404)
+@process_form('POST', ForgotPasswordForm, 400)
+def restore_data(request, form):
     """
     Restores the password for user.
     """
-    if request.method == 'POST':
-        forgot_form = ForgotPasswordForm(request.POST)
+    with transaction.atomic():
+        temp_password = generate_password()
 
-        if forgot_form.is_valid():
-            with transaction.atomic():
-                temp_password = generate_password()
+        user = get_object_or_404(User, email=form.cleaned_data['email'])
+        user.set_password(temp_password)
+        user.save()
 
-                user = get_object_or_404(User, email=forgot_form.cleaned_data['email'])
-                user.set_password(temp_password)
-                user.save()
+        restore_account.apply_async(
+            args=(user.username, temp_password, form.cleaned_data['email']), queue=Queues.high_priority
+        )
+        logger.info("The password for user: '{}' restored successfully.".format(user))
 
-                restore_account.apply_async(
-                    args=(user.username, temp_password, forgot_form.cleaned_data['email']), queue=Queues.high_priority
-                )
-                logger.info("The password for user: '{}' restored successfully.".format(user))
-
-                return HttpResponse(json.dumps(True), content_type='application/json')
-
-        return HttpResponse(status=400)
-    return HttpResponse(status=404)
+        return HttpResponse(json.dumps(True), content_type='application/json')

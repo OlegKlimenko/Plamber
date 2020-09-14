@@ -380,7 +380,6 @@ class AddBookViewsTest(TestCase):
         self.assertEqual(response.status_code, 404)
 
     # ------------------------------------------------------------------------------------------------------------------
-    @mock.patch('app.views.add_book_views.compress_pdf_task.apply_async', new=mock.Mock())
     def test_add_book_successful_with_creating_new_author(self):
         test_book_path = os.path.join(TEST_DATA_DIR, 'test_book.pdf')
 
@@ -413,7 +412,6 @@ class AddBookViewsTest(TestCase):
         self.assertEqual(Book.objects.filter(book_name='book_with_new_author').count(), 1)
 
     # ------------------------------------------------------------------------------------------------------------------
-    @mock.patch('app.views.add_book_views.compress_pdf_task.apply_async', new=mock.Mock())
     def test_add_book_successful_existing_author(self):
         test_book_path = os.path.join(TEST_DATA_DIR, 'test_book.pdf')
 
