@@ -1,4 +1,4 @@
-# Plamber
+# Plamber (__THE PROJECT IS NO MORE UNDER SUPPORT!__)
 
 Plamber is the multiplatform web-oriented system for reading and storing books online.
 
