@@ -9,7 +9,7 @@ djangorestframework==3.9.1
 gunicorn==20.0.4
 idna==2.7
 kombu==4.0.2
-mysql-connector-python==8.0.5
+mysql-connector-python==8.0.14
 Pillow==6.2.2
 protobuf==3.11.2
 PyPDF2==1.26.0
